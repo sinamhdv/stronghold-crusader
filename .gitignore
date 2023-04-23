@@ -1,0 +1,5 @@
+.vscode/
+stronghold/.vscode/
+.idea/
+stronghold/.idea/
+stronghold/target/
