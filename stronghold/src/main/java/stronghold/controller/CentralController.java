@@ -2,6 +2,7 @@ package stronghold.controller;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 
@@ -24,5 +25,9 @@ public class CentralController {
 	public static boolean checkUserName(String userName) {
 		Matcher matcher = Pattern.compile("[A-Za-z_]+").matcher(userName);
 		return matcher.matches();
+	}
+
+	public static String hashPassword(String password) {
+		return DigestUtils.sha256Hex(password);
 	}
 }
