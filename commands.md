@@ -42,8 +42,8 @@ It must be explicitly ensured in the controller that these numeric arguments are
 
 ## Map Menu
 - show map [-x,x] [-y,y]
-- map [-u,up=1]? [-d,down=1]? [-r,right=1]? [-l,left=1]?
-- show details [-x,x] [-y,y]
+- move map [-u,up=1]? [-d,down=1]? [-r,right=1]? [-l,left=1]?
+- show tile details [-x,x] [-y,y]
 
 ## Game Menu
 - show popularity factors
@@ -57,3 +57,34 @@ It must be explicitly ensured in the controller that these numeric arguments are
 - drop building [-x,x] [-y,y] [-t,type]
 - select building [-x,x] [-y,y]
 - create unit [-t,type] [-c,count]
+- repair
+- select unit [-x,x] [-y,y]
+- move unit to [-x,x] [-y,y]
+- patrol unit [-x1,x1] [-y1,y1] [-x2,x2] [-y2,y2]
+- set stance [-s,stanceType]
+- melee attack [-x,x] [-y,y]
+- ranged attack [-x,x] [-y,y]
+- pour oil [-d,direction]
+- dig tunnel [-x,x] [-y,y]
+- build siege equipment [-q,equipment]
+- disband
+
+## Map Design Menu
+- set texture [-x,x] [-y,y] [-t,type]
+- rectangle set texture [-x1,x1] [-y1,y1] [-x2,x2] [-y2,y2] [-t,type]
+- clear [-x,x] [-y,y]
+- drop rock [-x,x] [-y,y] [-d,direction]
+- drop tree [-x,x] [-y,y] [-t,type]
+- drop building [-x,x] [-y,y] [-t,type]
+- drop unit [-x,x] [-y,y] [-t,type] [-c,count]
+
+## Trade Menu
+- trade [-t,resourceType] [-a,amount] [-p,price] [-m,message]
+- trade list
+- trade accept [-i,id] [-m,message]
+- trade history
+
+## Shop Menu
+- show price list
+- buy [-i,itemName] [-a,amount]
+- sell [-i,itemName] [-a,amount]
