@@ -1,6 +1,9 @@
 package stronghold.view;
 
+import java.util.HashMap;
 import java.util.Scanner;
+
+import stronghold.view.parser.CommandParser;
 
 public class SignupMenu {
 	public static boolean randomPasswordLoop(String randomPassword)
@@ -18,13 +21,13 @@ public class SignupMenu {
 	}
 	public static String[] securityQuestionLoop()
 	{
-		Scanner scanner = new Scanner(System.in);
-		String command = "";
 		while(true)
 		{
-			System.out.println("Pick your security question: 1. What is my father’s name? " +
-			"2. Whatwas my first pet’s name? "+"3. What is my mother’s last name?");
-			command = scanner.nextLine();
+			System.out.println("Pick your security question: 1. What is my father's name? " +
+			"2. Whatwas my first pet's name? "+"3. What is my mother's last name?");
+			String line = MainMenu.getScanner().nextLine();
+			String[] inputTokens = CommandParser.splitTokens(line);
+			HashMap<String, String> matcher;
 			//TODO: if(parserinterface)
 			/*if(answerConfirmation.equals(answer)&& (number == 1 || number == 2 || number == 3))
 			{

@@ -6,10 +6,11 @@ import stronghold.model.User;
 import stronghold.view.SignupMenu;
 
 public class SignupMenuController {
-	public SignupAndProfileMenuMessage signup(String username, String nickName, String password,
+	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
 			String passwordConfirmation, String email, String slogan) {
-		if (username == null || password == null || email == null || nickName == null || slogan.equals("")
-				|| username.equals("") || password.equals("") || nickName.equals("") || email.equals(""))
+		if (username == null || password == null || email == null || nickName == null || slogan.equals("") 
+		|| passwordConfirmation == null || username.equals("") || password.equals("") || 
+		nickName.equals("") || email.equals("") || passwordConfirmation.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!CentralController.checkUserName(username))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;
@@ -17,8 +18,10 @@ public class SignupMenuController {
 			return SignupAndProfileMenuMessage.USERNAME_EXIST;
 		else if (CentralController.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
 			return CentralController.checkPasswordStrength(password);
-		else if (!password.equals(passwordConfirmation))
+		else if (!password.equals("random") && !password.equals(passwordConfirmation))
 			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
+		else if(password.equals("random") && passwordConfirmation != null)
+			return SignupAndProfileMenuMessage.RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION;
 		else if (StrongHold.getUserByName(email.toLowerCase()) != null)
 			return SignupAndProfileMenuMessage.EMAIL_EXIST;
 		else if (!email.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+"))
@@ -33,13 +36,13 @@ public class SignupMenuController {
 			String[] securityQuestion = SignupMenu.securityQuestionLoop();
 			User newUser = new User(username, password, nickName, slogan, email, 0,
 					Integer.parseInt(securityQuestion[0]), securityQuestion[1]);
-			StrongHold.getUsers().add(newUser);
+			StrongHold.addUser(newUser);
 			return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
 		}
 
 	}
 
-	private String generateRandomPassword() {
+	private static String generateRandomPassword() {
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789"
 				+ "abcdefghijklmnopqrstuvxyz";

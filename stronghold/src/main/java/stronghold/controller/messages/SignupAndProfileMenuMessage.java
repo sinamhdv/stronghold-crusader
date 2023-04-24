@@ -7,6 +7,7 @@ public enum SignupAndProfileMenuMessage {
 	PASSWORD_DOSNET_HAVE_NUMBER("password is week : password doesn't contain numbers"),
 	PASSWORD_DOSENT_HAVE_OTHER_CHAR("password is week : password doesn't contain other characters"),
 	PASSWORD_IS_STRONG("password is strong"),
+	RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION("Random password dose'nt have passwordconfirmation"),
 	EMPTY_FIELD("Empy fild"),
 	INVALID_USERNAME("Invalid format for username"),
 	USERNAME_EXIST("Username already exist"),
