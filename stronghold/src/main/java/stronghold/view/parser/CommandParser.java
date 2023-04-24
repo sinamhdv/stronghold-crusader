@@ -61,11 +61,7 @@ public class CommandParser {
 			i += forwardSteps;
 		}
 		assert(i == tokens.length);	// TODO: remove this line
-
-		// check for unspecified required options
-		for (String key : commandTokensMap.keySet())
-			if (!commandTokensMap.get(key).isOptional())
-				return null;
+		// it is possible to check for unspecified required options here
 		return result;
 	}
 
