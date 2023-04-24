@@ -1,4 +1,4 @@
-package stronghold.View;
+package stronghold.view;
 
 import java.util.Scanner;
 
