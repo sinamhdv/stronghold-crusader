@@ -1,8 +1,14 @@
 package stronghold;
 
+import stronghold.view.LoginMenu;
+import stronghold.view.MainMenu;
+
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
-		TestParser.run();
+		System.out.println("Main => LoginMenu");
+		LoginMenu.run();
 	}
 }
+
+// signup -u username123 -p password123 -c password123 –e email@mail.com -n nickname123 -s slogan
+// signup -u username123 -p password123 -c password123 -e email@mail.com -n nickname123 -s slogan

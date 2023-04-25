@@ -23,9 +23,14 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.CHANGE_NICKNAME_SUCCESSFUL;
 		}
 	}
-	public static SignupAndProfileMenuMessage changePassword(String newPassword)
+	public static SignupAndProfileMenuMessage changePassword(String newPassword, String oldPassword)
 	{
-		if(newPassword == null || newPassword.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		if(newPassword == null || newPassword.equals("") || oldPassword == null || oldPassword.equals(""))
+			return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		else if(!StrongHold.getCurrentUser().getPassword().equals(oldPassword))
+			return SignupAndProfileMenuMessage.OLD_PASSWORD_WRONG;
+		else if(StrongHold.getCurrentUser().getPassword().equals(newPassword))
+			return SignupAndProfileMenuMessage.OLD_AND_NEW_PASSWORD_ARE_EQUAL;
 		else if(CentralController.checkPasswordStrength(newPassword).equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
 		{
 			StrongHold.getCurrentUser().setPassword(newPassword);
@@ -44,5 +49,10 @@ public class ProfileMenuController {
 		if(slogan == null || slogan.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		StrongHold.getCurrentUser().setSlogan(slogan);
 		return SignupAndProfileMenuMessage.CHANGE_SLOGAN_SUCCESSFUL;
+	}
+	public static SignupAndProfileMenuMessage removeSlogan()
+	{
+		StrongHold.getCurrentUser().setSlogan(null);
+		return SignupAndProfileMenuMessage.REMOVE_SLOGAN_SUCCESSFUL;
 	}
 }

@@ -25,9 +25,9 @@ public class StrongHold {
 		}
 		return null;
 	}
-	public static void setCurentUser(User user)
+	public static void setCurentUser(String username)
 	{
-		currentUser = user;
+		currentUser = getUserByName(username);
 	}
 	public static User getCurrentUser() {
 		return currentUser;
@@ -41,6 +41,7 @@ public class StrongHold {
 				highScores.add(user.getHighScore());
 		}
 		Collections.sort(highScores);
+		Collections.reverse(highScores);
 		return highScores.indexOf(aUser.getHighScore())+1;
 	}
 	public static ArrayList<User> getUsers() {
