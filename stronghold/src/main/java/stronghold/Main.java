@@ -1,7 +1,6 @@
 package stronghold;
 
 import stronghold.view.LoginMenu;
-import stronghold.view.MainMenu;
 
 public class Main {
 	public static void main(String[] args) {

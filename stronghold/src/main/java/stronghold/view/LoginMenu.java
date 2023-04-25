@@ -21,7 +21,7 @@ public class LoginMenu {
                 System.out.println(LoginMenuController.login(matcher.get("username"), matcher.get("password"), matcher.get("-")));
             } else if ((matcher = CommandParser.getMatcher(inputTokens, Command.FORGOT_PASSWORD)) != null) {
                 System.out.println("FORGOT => Username: " + matcher.get("username"));
-                System.out.println(LoginMenuController.forgotPassword(matcher.get("username")));
+                // System.out.println(LoginMenuController.forgotPassword(matcher.get("username")));
             } else if ((CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
                 System.out.println("EXIT!");
                 break;

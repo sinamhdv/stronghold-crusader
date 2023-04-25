@@ -1,9 +1,10 @@
 package stronghold.controller;
 
+import static java.lang.Thread.sleep;
+
 import stronghold.controller.messages.LoginMenuControllerMessage;
 import stronghold.model.StrongHold;
-
-import static java.lang.Thread.*;
+import stronghold.model.User;
 
 public class LoginMenuController {
     //TODO: 5 second punishments need to be implemented.
@@ -28,13 +29,13 @@ public class LoginMenuController {
         }
     }
 
-    public static LoginMenuControllerMessage forgotPassword(String username) {
-        if (StrongHold.getUserByName(username) == null) {
-            System.out.println(LoginMenuControllerMessage.USERNAME_NOT_FOUND);
-        } else {
-            User user = StrongHold.getUserByName(username);
+    // public static LoginMenuControllerMessage forgotPassword(String username) {
+    //     if (StrongHold.getUserByName(username) == null) {
+    //         System.out.println(LoginMenuControllerMessage.USERNAME_NOT_FOUND);
+    //     } else {
+    //         User user = StrongHold.getUserByName(username);
 
 
-        }
-    }
+    //     }
+    // }
 }

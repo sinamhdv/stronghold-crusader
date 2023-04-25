@@ -14,7 +14,7 @@ import stronghold.model.User;
 
 public class DatabaseManager {
 	
-	private static final String USERS_DATABASE_FILENAME = "";
+	private static final String USERS_DATABASE_FILENAME = "stronghold/src/main/database";
 
 	public static void loadUsers() {
 		File file = new File(USERS_DATABASE_FILENAME);
