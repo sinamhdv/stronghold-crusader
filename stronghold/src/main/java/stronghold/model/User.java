@@ -1,5 +1,7 @@
 package stronghold.model;
 
+import stronghold.controller.DatabaseManager;
+
 public class User {
 	private String userName;
 	private String password;
@@ -23,27 +25,35 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		DatabaseManager.updateUser(this);
 	}
 	public void setHighScore(int highScore) {
 		this.highScore = highScore;
+		DatabaseManager.updateUser(this);
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+		DatabaseManager.updateUser(this);
 	}
 	public void setPassword(String password) {
 		this.password = password;
+		DatabaseManager.updateUser(this);
 	}
 	public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
 		this.securityQuestionAnswer = securityQuestionAnswer;
+		DatabaseManager.updateUser(this);
 	}
 	public void setSecurityQuestionNumber(int securityQuestionNumber) {
 		this.securityQuestionNumber = securityQuestionNumber;
+		DatabaseManager.updateUser(this);
 	}
 	public void setSlogan(String slogan) {
 		this.slogan = slogan;
+		DatabaseManager.updateUser(this);
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+		DatabaseManager.updateUser(this);
 	}
 	public String getUserName() {
 		return userName;
@@ -69,6 +79,4 @@ public class User {
 	public String getSlogan() {
 		return slogan;
 	}
-
-
 }
