@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.model.map.MapTile;
 
 public class DatabaseManager {
 	
@@ -47,5 +48,13 @@ public class DatabaseManager {
 		catch (Exception e) {
 			System.out.println("Error while saving the database");
 		}
+	}
+
+	public static void saveMap(MapTile[][] map) {
+
+	}
+
+	public static MapTile[][] loadMap(String mapName) {
+		
 	}
 }
