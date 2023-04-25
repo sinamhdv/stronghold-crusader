@@ -8,10 +8,12 @@ import stronghold.controller.DatabaseManager;
 public class StrongHold {
 	private static ArrayList<User> users ;
 	private static User currentUser;
-	//TODO: private static CurrentGame
+	private static Game currentGame;
+
 	static{
 		users = new ArrayList<User>();
 	}
+
 	public static User getUserByName(String userName)
 	{
 		for(User user : users)
@@ -33,6 +35,12 @@ public class StrongHold {
 	}
 	public static User getCurrentUser() {
 		return currentUser;
+	}
+	public static Game getCurrentGame() {
+		return currentGame;
+	}
+	public static void setCurrentGame(Game currentGame) {
+		StrongHold.currentGame = currentGame;
 	}
 	//TODO: getCurrentGame & setCurrentGame
 	public static int getRank(User aUser)
