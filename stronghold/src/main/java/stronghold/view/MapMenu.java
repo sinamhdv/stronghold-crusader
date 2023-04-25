@@ -43,13 +43,7 @@ public class MapMenu {
 	}
 
 	public static void runMoveMap(HashMap<String, String> matcher) {
-		for (String key : matcher.keySet()) {
-			if (!FormatValidation.isNumber(matcher.get(key))) {
-				System.out.println("Error: invalid numeric argument entered.");
-				return;
-			}
-		}
-		MapMenuController.moveMap(matcher.get("up"), matcher.get("down"), matcher.get("left"), matcher.get("right"));
+		System.out.println(MapMenuController.moveMap(matcher.get("up"), matcher.get("down"), matcher.get("left"), matcher.get("right")).getErrorString());
 	}
 
 	public static void runShowTileDetails(HashMap<String, String> matcher) {
