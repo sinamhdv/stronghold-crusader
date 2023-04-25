@@ -25,9 +25,9 @@ public class StrongHold {
 		}
 		return null;
 	}
-	public static void setCurentUser(User user)
+	public static void setCurentUser(String username)
 	{
-		currentUser = user;
+		currentUser = getUserByName(username);
 	}
 	public static User getCurrentUser() {
 		return currentUser;
@@ -50,5 +50,7 @@ public class StrongHold {
 	public static void addUser(User newUser){
 		users.add(newUser);
 	}
-
+	public static void setUsers(ArrayList<User> users) {
+		StrongHold.users = users;
+	}
 }

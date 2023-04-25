@@ -19,7 +19,7 @@ public class SignupMenu {
 						matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
 						matcher.get("slogan")).eror);
 			else	
-				System.out.println("inalid command");
+				System.out.println("invalid command");
 		}
 	}
 	public static boolean randomPasswordLoop(String randomPassword) {
@@ -35,12 +35,12 @@ public class SignupMenu {
 	public static String[] securityQuestionLoop() {
 		while (true) {
 			System.out.println("Pick your security question: 1. What is my father's name? " +
-					"2. Whatwas my first pet's name? " + "3. What is my mother's last name?");
+					"2. What was my first pet's name? " + "3. What is my mother's last name?");
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
 			if ((matcher = CommandParser.getMatcher(inputTokens, Command.QUESTION_PICK)) != null) {
-				if (matcher.get("answerConfirm").equals(matcher.get("anser"))
+				if (matcher.get("answerConfirm").equals(matcher.get("answer"))
 						&& (Integer.parseInt(matcher.get("questionNumber")) == 1
 								|| Integer.parseInt(matcher.get("questionNumber")) == 2
 								|| Integer.parseInt(matcher.get("questionNumber")) == 3)) {
