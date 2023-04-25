@@ -58,4 +58,20 @@ public class Government {
 	public ArrayList<Person> getPeople() {
 		return people;
 	}
+
+	public void updatePopularity() {
+		popularity += fearFactor + foodRate + taxRate + religionRate;
+	}
+
+	public int getResourceCount(ResourceType resourceType) {
+		// TODO: to be implemented
+	}
+
+	public void increaseResource(ResourceType resourceType, int count) {
+		// TODO: to be implemented
+	}
+
+	public void decreaseResource(ResourceType resourceType, int count) {
+		// TODO: to be implemented
+	}
 }
