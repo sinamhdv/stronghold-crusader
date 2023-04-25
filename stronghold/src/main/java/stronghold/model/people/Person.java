@@ -52,4 +52,12 @@ public abstract class Person {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public void move(int targetX, int targetY) {
+		// TODO: run BFS on the map
+	}
+
+	public void disband() {
+		// TODO
+	}
 }
