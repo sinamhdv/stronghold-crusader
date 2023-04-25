@@ -18,12 +18,13 @@ public class LoginMenuController {
     }
 
     public static LoginMenuControllerMessage login(String username, String password, String s) {
-        if (StrongHold.getUserByName(username) == null) {
-            return LoginMenuControllerMessage.USERNAME_ERROR; //i need help here.
-        } else if (StrongHold.getUserByName(username) != null /*&& password.equals(StrongHold.getUserByName(username).getPassword())*/) {
+        User user = StrongHold.getUserByName(username);
+        if (user == null) {
+            return LoginMenuControllerMessage.USERNAME_ERROR;
+        } else if (!password.equals(user.getPassword())) {
             return LoginMenuControllerMessage.PASSWORD_ERROR;
         } else {
-            StrongHold.setCurentUser(username);
+            StrongHold.setCurentUser(user);
             return LoginMenuControllerMessage.SUCCESSFUL;
 //            MainMenu.run();
         }
