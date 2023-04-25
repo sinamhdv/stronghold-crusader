@@ -52,6 +52,6 @@ public class MapMenu {
 
 	public static void showMap(int x, int y) {
 		MapTile[][] map = StrongHold.getCurrentGame().getMap();
-		// TODO
+		// TODO: set currentX and currentY of MapMenuController and print the map
 	}
 }
