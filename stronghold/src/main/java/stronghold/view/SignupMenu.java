@@ -52,4 +52,7 @@ public class SignupMenu {
 			}
 		}
 	}
+	public static void showRandomSlogan(String randomSlogan) {
+		System.out.println("you're random slogan is : "+randomSlogan);
+	}
 }
