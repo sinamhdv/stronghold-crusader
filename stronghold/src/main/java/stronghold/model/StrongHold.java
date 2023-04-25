@@ -25,9 +25,9 @@ public class StrongHold {
 		}
 		return null;
 	}
-	public static void setCurentUser(String username)
+	public static void setCurentUser(User user)
 	{
-		currentUser = getUserByName(username);
+		currentUser = user;
 	}
 	public static User getCurrentUser() {
 		return currentUser;
