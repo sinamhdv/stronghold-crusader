@@ -3,6 +3,8 @@ package stronghold.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import stronghold.controller.DatabaseManager;
+
 public class StrongHold {
 	private static ArrayList<User> users ;
 	private static User currentUser;
@@ -49,6 +51,7 @@ public class StrongHold {
 	}
 	public static void addUser(User newUser){
 		users.add(newUser);
+		DatabaseManager.updateUser(newUser);
 	}
 	public static void setUsers(ArrayList<User> users) {
 		StrongHold.users = users;
