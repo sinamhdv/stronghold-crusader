@@ -2,14 +2,12 @@ package stronghold.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StrongHold {
 	private static ArrayList<User> users ;
 	private static User currentUser;
 	//TODO: private static CurrentGame
-	{
+	static{
 		users = new ArrayList<User>();
 	}
 	public static User getUserByName(String userName)
@@ -43,11 +41,14 @@ public class StrongHold {
 				highScores.add(user.getHighScore());
 		}
 		Collections.sort(highScores);
+		Collections.reverse(highScores);
 		return highScores.indexOf(aUser.getHighScore())+1;
 	}
 	public static ArrayList<User> getUsers() {
 		return users;
 	}
-	
+	public static void addUser(User newUser){
+		users.add(newUser);
+	}
 
 }

@@ -7,6 +7,7 @@ public enum SignupAndProfileMenuMessage {
 	PASSWORD_DOSNET_HAVE_NUMBER("password is week : password doesn't contain numbers"),
 	PASSWORD_DOSENT_HAVE_OTHER_CHAR("password is week : password doesn't contain other characters"),
 	PASSWORD_IS_STRONG("password is strong"),
+	RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION("Random password dose'nt have passwordconfirmation"),
 	EMPTY_FIELD("Empy fild"),
 	INVALID_USERNAME("Invalid format for username"),
 	USERNAME_EXIST("Username already exist"),
@@ -18,8 +19,11 @@ public enum SignupAndProfileMenuMessage {
 	CHANGE_NICKNAME_SUCCESSFUL("Change nickname is successful"),
 	CHANGE_EMAIL_SUCCESSFUL("Change email is successful"),
 	CHANGE_SLOGAN_SUCCESSFUL("Change slogan is successful"),
+	OLD_PASSWORD_WRONG("Current password is incorrect!"),
+	OLD_AND_NEW_PASSWORD_ARE_EQUAL("Please enter a new password!"),
+	REMOVE_SLOGAN_SUCCESSFUL("Slogan remove successfuly"),
 	;
-	String eror;
+	public String eror;
 
 	private SignupAndProfileMenuMessage(String eror) {
 		this.eror = eror;
