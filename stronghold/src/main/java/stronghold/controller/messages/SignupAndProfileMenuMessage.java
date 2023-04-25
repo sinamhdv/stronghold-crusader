@@ -19,8 +19,11 @@ public enum SignupAndProfileMenuMessage {
 	CHANGE_NICKNAME_SUCCESSFUL("Change nickname is successful"),
 	CHANGE_EMAIL_SUCCESSFUL("Change email is successful"),
 	CHANGE_SLOGAN_SUCCESSFUL("Change slogan is successful"),
+	OLD_PASSWORD_WRONG("Current password is incorrect!"),
+	OLD_AND_NEW_PASSWORD_ARE_EQUAL("Please enter a new password!"),
+	REMOVE_SLOGAN_SUCCESSFUL("Slogan remove successfuly"),
 	;
-	String eror;
+	public String eror;
 
 	private SignupAndProfileMenuMessage(String eror) {
 		this.eror = eror;

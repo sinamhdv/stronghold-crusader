@@ -41,6 +41,7 @@ public class StrongHold {
 				highScores.add(user.getHighScore());
 		}
 		Collections.sort(highScores);
+		Collections.reverse(highScores);
 		return highScores.indexOf(aUser.getHighScore())+1;
 	}
 	public static ArrayList<User> getUsers() {
