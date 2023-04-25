@@ -6,13 +6,16 @@ public enum Command {
 	// Signup Menu
 	SIGNUP("signup [-u,username] [-p,password] [-c,passwordConfirm]? [-e,email] [-n,nickname] [-s,slogan]?"),
 	QUESTION_PICK("question pick [-q,questionNumber] [-a,answer] [-c,answerConfirm]"),
+	LOGIN_MENU("login menu"),
 	
 	// Login Menu
 	LOGIN("login [-u,username] [-p,password] [--stay-logged-in,-]?"),
 	FORGOT_PASSWORD("forgot my password [-u,username]"),
+	SIGNUP_MENU("signup menu"),
 
 	// Main Menu
 	LOGOUT("logout"),
+	PROFILE_MENU("profile menu"),
 
 	// Profile Menu
 	CHANGE_USERNAME("profile change username [-u,username]"),
@@ -25,6 +28,7 @@ public enum Command {
 	DISPLAY_RANK("profile display rank"),
 	DISPLAY_SLOGAN("profile display slogan"),
 	PROFILE_DISPLAY("profile display"),
+	BACK("back"),
 
 	// Map Menu
 	SHOW_MAP("show map [-x,x] [-y,y]"),
