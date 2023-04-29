@@ -1,6 +1,8 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MapMenuMessage;
+import stronghold.model.StrongHold;
+import stronghold.model.map.MapTile;
 
 public class MapMenuController {
 	private static final int SHOW_MAP_WIDTH = 10;
@@ -24,5 +26,18 @@ public class MapMenuController {
 
 	public static MapMenuMessage moveMap(String up, String down, String left, String right) {
 		// TODO
+	}
+
+	public static MapMenuMessage checkCoordinateErrors(String xString, String yString) {
+		if (xString == null || yString == null) {
+			return MapMenuMessage.SPECIFY_XY;
+		}
+		int x = Integer.parseInt(xString);
+		int y = Integer.parseInt(yString);
+		MapTile[][] map = StrongHold.getCurrentGame().getMap();
+		if (x < 0 || y < 0 || x >= map.length || y >= map[0].length) {
+			return MapMenuMessage.INVALID_COORDINATES;
+		}
+		return MapMenuMessage.SUCCESS;
 	}
 }

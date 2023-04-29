@@ -3,9 +3,10 @@ package stronghold.view;
 import java.util.HashMap;
 
 import stronghold.controller.MapMenuController;
+import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.map.MapTile;
-import stronghold.utils.FormatValidation;
+import stronghold.utils.Miscellaneous;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -29,17 +30,7 @@ public class MapMenu {
 	}
 
 	public static void runShowMap(HashMap<String, String> matcher) {
-		String xString = matcher.get("x");
-		String yString = matcher.get("y");
-		if (xString == null || yString == null) {
-			System.out.println("Error: please specify both x and y");
-			return;
-		}
-		if (!FormatValidation.isNumber(xString) || !FormatValidation.isNumber(yString)) {
-			System.out.println("Error: invalid numeric argument entered.");
-			return;
-		}
-		showMap(Integer.parseInt(xString), Integer.parseInt(yString));
+		showMap(matcher.get("x"), matcher.get("y"));
 	}
 
 	public static void runMoveMap(HashMap<String, String> matcher) {
@@ -47,11 +38,36 @@ public class MapMenu {
 	}
 
 	public static void runShowTileDetails(HashMap<String, String> matcher) {
-		// TODO
+		showTileDetails(matcher.get("x"), matcher.get("y"));
 	}
 
-	public static void showMap(int x, int y) {
-		MapTile[][] map = StrongHold.getCurrentGame().getMap();
-		// TODO: set currentX and currentY of MapMenuController and print the map
+	private static void showMap(String xString, String yString) {
+		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
+		if (errorCheck != MapMenuMessage.SUCCESS) {
+			System.out.println(errorCheck.getErrorString());
+			return;
+		}
+		int x = Integer.parseInt(xString);
+		int y = Integer.parseInt(yString);
+		MapMenuController.setCurrentX(x);
+		MapMenuController.setCurrentY(y);
+	}
+
+	private static void showTileDetails(String xString, String yString) {
+		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
+		if (errorCheck != MapMenuMessage.SUCCESS) {
+			System.out.println(errorCheck.getErrorString());
+			return;
+		}
+		int x = Integer.parseInt(xString);
+		int y = Integer.parseInt(yString);
+		MapTile tile = StrongHold.getCurrentGame().getMap()[x][y];
+		System.out.println("Ground Type: " + tile.getGroundType().getName());
+		if (tile.getBuilding() != null)
+			System.out.println("Building: " + tile.getBuilding().getName());
+		HashMap<String, Integer> peopleCount = Miscellaneous.countPeopleFromArray(tile.getPeople());
+		System.out.println("List of People:");
+		for (String personName : peopleCount.keySet())
+			System.out.println(personName + ": " + peopleCount.get(personName));
 	}
 }
