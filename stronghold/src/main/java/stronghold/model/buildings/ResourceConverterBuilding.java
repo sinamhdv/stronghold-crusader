@@ -12,6 +12,7 @@ public class ResourceConverterBuilding extends Building {
 	private int productionRate;
 	private int productionNumber;
 	private int usageRate;
+
 	public ResourceConverterBuilding(int maxHp, int x, int y, Government owner, String name, int neededWorkers,
 			int terunOfBuild, ResourceType inputType, ResourceType outpuType, GroundType groundType, int productionRate,
 			int productionNumber, int usageRate) {
@@ -23,47 +24,55 @@ public class ResourceConverterBuilding extends Building {
 		this.productionNumber = productionNumber;
 		this.usageRate = usageRate;
 	}
+
 	public ResourceType getInputType() {
 		return inputType;
 	}
+
 	public ResourceType getOutpuType() {
 		return outpuType;
 	}
+
 	public GroundType getGroundType() {
 		return groundType;
 	}
+
 	public int getProductionRate() {
 		return productionRate;
 	}
+
 	public int getProductionNumber() {
 		return productionNumber;
 	}
+
 	public void setInputType(ResourceType inputType) {
 		this.inputType = inputType;
 	}
+
 	public void setOutpuType(ResourceType outpuType) {
 		this.outpuType = outpuType;
 	}
+
 	public void setGroundType(GroundType groundType) {
 		this.groundType = groundType;
 	}
+
 	public void setProductionRate(int productionRate) {
 		this.productionRate = productionRate;
 	}
+
 	public void setProductionNumber(int productionNumber) {
 		this.productionNumber = productionNumber;
 	}
-	public void performConversion(){
-		if((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % productionRate != 0) return;
-		else if(outpuType == ResourceType.NULL) {
-			getOwner().decreaseResource(inputType, usageRate);
+
+	public void performConversion() {
+		if ((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % productionRate != 0)
 			return;
-		}
-		else if(inputType == ResourceType.NULL) {
+		if (outpuType != ResourceType.NULL && getOwner().getResourceCount(inputType) >= usageRate) {
 			getOwner().increaseResource(outpuType, productionNumber);
-			return;
+		} 
+		if (inputType != ResourceType.NULL) {
+			getOwner().decreaseResource(inputType, usageRate);
 		}
-		getOwner().decreaseResource(inputType, usageRate);
-		getOwner().increaseResource(outpuType, productionNumber);
 	}
 }
