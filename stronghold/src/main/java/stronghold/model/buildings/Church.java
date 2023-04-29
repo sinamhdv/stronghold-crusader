@@ -23,5 +23,4 @@ public class Church extends Building {
 	public void setCanTrainMonks(boolean canTrainMonks) {
 		this.canTrainMonks = canTrainMonks;
 	}
-	
 }
