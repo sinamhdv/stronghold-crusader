@@ -30,27 +30,27 @@ public class MapMenu {
 	}
 
 	public static void runShowMap(HashMap<String, String> matcher) {
-		showMap(matcher.get("x"), matcher.get("y"));
+		MapMenuMessage message = MapMenuController.checkShowMap(matcher.get("x"), matcher.get("y"));
+		if (message == MapMenuMessage.SUCCESS)
+			displayMap();
+		else
+			System.out.println(message.getErrorString());
 	}
 
 	public static void runMoveMap(HashMap<String, String> matcher) {
-		System.out.println(MapMenuController.moveMap(matcher.get("up"), matcher.get("down"), matcher.get("left"), matcher.get("right")).getErrorString());
+		MapMenuMessage message = MapMenuController.moveMap(matcher.get("up"), matcher.get("down"), matcher.get("left"), matcher.get("right"));
+		if (message == MapMenuMessage.SUCCESS)
+			displayMap();
+		else
+			System.out.println(message.getErrorString());
 	}
 
 	public static void runShowTileDetails(HashMap<String, String> matcher) {
 		showTileDetails(matcher.get("x"), matcher.get("y"));
 	}
 
-	private static void showMap(String xString, String yString) {
-		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
-		if (errorCheck != MapMenuMessage.SUCCESS) {
-			System.out.println(errorCheck.getErrorString());
-			return;
-		}
-		int x = Integer.parseInt(xString);
-		int y = Integer.parseInt(yString);
-		MapMenuController.setCurrentX(x);
-		MapMenuController.setCurrentY(y);
+	public static void displayMap() {
+		
 	}
 
 	private static void showTileDetails(String xString, String yString) {

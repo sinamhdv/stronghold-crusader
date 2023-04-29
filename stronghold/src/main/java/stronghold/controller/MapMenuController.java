@@ -25,7 +25,26 @@ public class MapMenuController {
 	}
 
 	public static MapMenuMessage moveMap(String up, String down, String left, String right) {
-		// TODO
+		int deltaX = (up == null ? 0 : Integer.parseInt(up)) - (down == null ? 0 : Integer.parseInt(down));
+		int deltaY = (right == null ? 0 : Integer.parseInt(right)) - (left == null ? 0 : Integer.parseInt(left));
+		MapTile[][] map = StrongHold.getCurrentGame().getMap();
+		if (currentX + deltaX < 0 || currentX + deltaX >= map.length
+		|| currentY + deltaY < 0 || currentY + deltaY >= map[0].length) {
+			return MapMenuMessage.INVALID_COORDINATES;
+		}
+		setCurrentX(currentX + deltaX);
+		setCurrentY(currentY + deltaY);
+		return MapMenuMessage.SUCCESS;
+	}
+
+	public static MapMenuMessage checkShowMap(String xString, String yString) {
+		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
+		if (errorCheck != MapMenuMessage.SUCCESS) return errorCheck;
+		int x = Integer.parseInt(xString);
+		int y = Integer.parseInt(yString);
+		setCurrentX(x);
+		setCurrentY(y);
+		return MapMenuMessage.SUCCESS;
 	}
 
 	public static MapMenuMessage checkCoordinateErrors(String xString, String yString) {
