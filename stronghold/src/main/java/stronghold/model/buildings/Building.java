@@ -10,8 +10,9 @@ public abstract class Building {
 	private final Government owner;
 	private final String name;
 	private final int neededWorkers;
+	private final int turnOfBuild;
 
-	public Building(int maxHp, int x, int y, Government owner, String name, int neededWorkers) {
+	public Building(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int terunOfBuild) {
 		this.maxHp = maxHp;
 		this.hp = maxHp;
 		this.x = x;
@@ -19,6 +20,7 @@ public abstract class Building {
 		this.owner = owner;
 		this.name = name;
 		this.neededWorkers = neededWorkers;
+		this.turnOfBuild = terunOfBuild;
 	}
 
 	public int getMaxHp() {
@@ -51,4 +53,11 @@ public abstract class Building {
 	public int getNeededWorkers() {
 		return neededWorkers;
 	}
+
+	public int getTurnOfBuild() {
+		return turnOfBuild;
+	}
+
+	
+	
 }
