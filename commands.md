@@ -3,6 +3,7 @@
 This is a description of the commands used in the CLI of the project.
 The notations used for describing each argument:
 
+- \<-x,x> => numeric argument
 - [-u,username] => required argument
 - [-s,slogan]? => optional argument
 - [-d,down=1]? => optional numeric argument with default value of 1

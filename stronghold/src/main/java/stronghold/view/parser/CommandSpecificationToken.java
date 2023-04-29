@@ -7,6 +7,7 @@ public class CommandSpecificationToken {
 	private String defaultValue;
 	private boolean isOptional;
 	private boolean hasArgument = true;
+	private boolean isNumeric;
 
 	public CommandSpecificationToken(String tokenString) {
 		this.tokenString = tokenString;
@@ -14,6 +15,7 @@ public class CommandSpecificationToken {
 	}
 
 	private void parseToken() {
+		isNumeric = (tokenString.charAt(0) == '<');
 		isOptional = (tokenString.charAt(tokenString.length() - 1) == '?');
 		String[] parts = tokenString.substring(1, tokenString.length() - 1 - (isOptional ? 1 : 0)).split(",");
 		switchName = parts[0];
@@ -48,5 +50,8 @@ public class CommandSpecificationToken {
 	}
 	public boolean hasArgument() {
 		return hasArgument;
+	}
+	public boolean isNumeric() {
+		return isNumeric;
 	}
 }
