@@ -9,14 +9,16 @@ public abstract class Person {
 	private final Government owner;
 	private int x;
 	private int y;
+	private final String name;
 	
-	public Person(int speed, int hp, int damage, Government owner, int x, int y) {
+	public Person(int speed, int hp, int damage, Government owner, int x, int y, String name) {
 		this.speed = speed;
 		this.hp = hp;
 		this.damage = damage;
 		this.owner = owner;
 		this.x = x;
 		this.y = y;
+		this.name = name;
 	}
 
 	public int getSpeed() {
@@ -51,6 +53,9 @@ public abstract class Person {
 	}
 	public void setY(int y) {
 		this.y = y;
+	}
+	public String getName() {
+		return name;
 	}
 
 	public void move(int targetX, int targetY) {
