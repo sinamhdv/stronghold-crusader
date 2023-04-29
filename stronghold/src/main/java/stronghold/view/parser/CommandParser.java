@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.AbstractMap.SimpleEntry;
 
+import stronghold.utils.FormatValidation;
+
 public class CommandParser {
 	public static String[] splitTokens(String line) {
 		ArrayList<String> tokens = new ArrayList<>();
@@ -67,7 +69,7 @@ public class CommandParser {
 
 	private static int checkMainCommand(String[] tokens, String[] commandTokens) {
 		int i = 0;
-		for (; i < commandTokens.length && commandTokens[i].charAt(0) != '['; i++)
+		for (; i < commandTokens.length && "[<".indexOf(commandTokens[i].charAt(0)) == -1; i++)
 			if (i >= tokens.length || !commandTokens[i].equals(tokens[i]))
 				return -1;
 		return i;
@@ -97,6 +99,7 @@ public class CommandParser {
 			return 1;
 		}
 		if (i + 1 >= tokens.length) return -1;
+		if (token.isNumeric() && !FormatValidation.isNumber(tokens[i + 1])) return -1;
 		result.put(token.getGroupName(), tokens[i + 1]);
 		return 2;
 	}
