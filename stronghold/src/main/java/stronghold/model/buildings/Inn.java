@@ -36,6 +36,8 @@ public class Inn extends Stockpile {
 		if ((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % wineUsegeRate == 0) {
 			resources.put(ResourceType.WINE, resources.get(ResourceType.WINE) - 1);
 			getOwner().setPopularity(getOwner().getPopularity() + popularityBost);
+			return;
 		}
+		return;
 	}
 }
