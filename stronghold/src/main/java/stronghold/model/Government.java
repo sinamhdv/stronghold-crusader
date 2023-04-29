@@ -74,4 +74,6 @@ public class Government {
 	public void decreaseResource(ResourceType resourceType, int count) {
 		// TODO: to be implemented
 	}
+
+	public void setResourceCount ()
 }
