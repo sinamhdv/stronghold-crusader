@@ -31,6 +31,17 @@ public class LoginMenuController {
 		return LoginMenuMessage.LOGIN_SUCCESS;
 	}
 
+	public static LoginMenuMessage checkAutoLogin() {
+		String username = DatabaseManager.getAutoLoginUsername();
+		if (username == null || username.equals(""))
+			return LoginMenuMessage.AUTO_LOGIN_FAILED;
+		User user = StrongHold.getUserByName(username);
+		if (user == null)
+			return LoginMenuMessage.AUTO_LOGIN_FAILED;
+		StrongHold.setCurrentUser(user);
+		return LoginMenuMessage.AUTO_LOGIN_SUCCESS;
+	}
+
 	public static LoginMenuMessage forgotPassword(String username) {
 		if (StrongHold.getUserByName(username) == null) {
 			System.out.println(LoginMenuMessage.USERNAME_NOT_FOUND);
