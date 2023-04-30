@@ -9,29 +9,36 @@ import java.util.Scanner;
 
 public class LoginMenu {
 
-    public static void run() {
-        System.out.println("[LoginMenu]");
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String line = scanner.nextLine();
-            String[] inputTokens = CommandParser.splitTokens(line);
-            HashMap<String, String> matcher;
-            if ((matcher = CommandParser.getMatcher(inputTokens, Command.LOGIN)) != null) {
-                System.out.println("LOGIN => Username: " + matcher.get("username") + " | Password: " + matcher.get("password") + " | --stay-logged-in: " + matcher.get("-"));
-                System.out.println(LoginMenuController.login(matcher.get("username"), matcher.get("password"), matcher.get("-")));
-            } else if ((matcher = CommandParser.getMatcher(inputTokens, Command.FORGOT_PASSWORD)) != null) {
-                System.out.println("FORGOT => Username: " + matcher.get("username"));
-                // System.out.println(LoginMenuController.forgotPassword(matcher.get("username")));
-            } else if ((CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
-                System.out.println("EXIT!");
-                break;
-            } else {
-                System.out.println("Error: Invalid command");
-            }
-        }
-        scanner.close();
-    }
-}
-// signup -u username123 -p password123 -c password123 –e email@mail.com -n nickname123 -s slogan
-// login -u username123 -p password123
+	public static void run() {
+		System.out.println("[LoginMenu]");
 
+		while (true) {
+			String line = MainMenu.getScanner().nextLine();
+			String[] inputTokens = CommandParser.splitTokens(line);
+			HashMap<String, String> matcher;
+
+			if ((matcher = CommandParser.getMatcher(inputTokens, Command.LOGIN)) != null)
+				runLogin(matcher);
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.FORGOT_PASSWORD)) != null)
+				runForgotPassword(matcher);
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP_MENU)) != null)
+				SignupMenu.run();
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
+				System.out.println("EXIT!");
+				break;
+			}
+			else
+				System.out.println("Error: Invalid command");
+		}
+	}
+
+	public static void runLogin(HashMap<String, String> matcher) {
+		System.out.println(LoginMenuController.login(matcher.get("username"),
+				matcher.get("password"),
+				matcher.get("--stay-logged-in")).getErrorString());
+	}
+
+	public static void runForgotPassword(HashMap<String, String> matcher) {
+		System.out.println(LoginMenuController.forgotPassword(matcher.get("username")).getErrorString());
+	}
+}
