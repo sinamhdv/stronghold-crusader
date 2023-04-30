@@ -26,8 +26,9 @@ public class LoginMenuController {
 		StrongHold.setCurrentUser(user);
 		failedLoginsCount = 0;
 		lastFailedAttemptTime = 0;
+		if (stayLoggedIn != null)
+			DatabaseManager.saveStayLoggedIn(user);
 		return LoginMenuMessage.LOGIN_SUCCESS;
-		// TODO: handle stay-logged-in
 	}
 
 	public static LoginMenuMessage forgotPassword(String username) {

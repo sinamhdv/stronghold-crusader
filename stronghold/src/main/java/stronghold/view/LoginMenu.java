@@ -1,11 +1,11 @@
 package stronghold.view;
 
+import java.util.HashMap;
+
 import stronghold.controller.LoginMenuController;
+import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
-
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class LoginMenu {
 
@@ -33,9 +33,11 @@ public class LoginMenu {
 	}
 
 	public static void runLogin(HashMap<String, String> matcher) {
-		System.out.println(LoginMenuController.login(matcher.get("username"),
+		LoginMenuMessage message = LoginMenuController.login(matcher.get("username"),
 				matcher.get("password"),
-				matcher.get("--stay-logged-in")).getErrorString());
+				matcher.get("--stay-logged-in"));
+		if (message == LoginMenuMessage.LOGIN_SUCCESS)
+			MainMenu.run();
 	}
 
 	public static void runForgotPassword(HashMap<String, String> matcher) {
