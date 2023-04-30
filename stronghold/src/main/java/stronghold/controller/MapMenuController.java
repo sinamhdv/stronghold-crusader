@@ -2,7 +2,10 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
+import stronghold.model.environment.Rock;
+import stronghold.model.environment.Tree;
 import stronghold.model.map.MapTile;
+import stronghold.view.TerminalColor;
 
 public class MapMenuController {
 	private static final int SHOW_MAP_WIDTH = 10;
@@ -58,5 +61,33 @@ public class MapMenuController {
 			return MapMenuMessage.INVALID_COORDINATES;
 		}
 		return MapMenuMessage.SUCCESS;
+	}
+
+	private static String[] paintTileString(String[] tileString, TerminalColor backgroundColor, TerminalColor foregroundColor) {
+		for (int i = 0; i < tileString.length; i++)
+			tileString[i] = backgroundColor.getBackgroundColorCode() + foregroundColor.getForegroundColorCode() +
+							tileString[i] + TerminalColor.RESET.getBackgroundColorCode();
+		return tileString;
+	}
+
+	public static String[] getTileRepresentation(int x, int y) {
+		MapTile[][] map = StrongHold.getCurrentGame().getMap();
+		if (x < 0 || y < 0 || x >= map.length || y >= map[0].length)
+			return paintTileString(new String[] {"  ", "  "}, TerminalColor.RESET, TerminalColor.RESET);
+		MapTile tile = map[x][y];
+		String result = "";
+		if (tile.getBuilding() != null) {
+			result += "B";
+			// TODO: represent towers, gates, and walls with W
+		}
+		if (!tile.getPeople().isEmpty()) result += "S";
+		if (tile.getEnvironmentItem() instanceof Tree) result += "T";
+		else if (tile.getEnvironmentItem() instanceof Rock) result += "R";
+		while (result.length() < 4) result += "#";
+		return paintTileString(new String[] {
+			result.substring(0, 2),
+			result.substring(2, 4)
+		},
+		tile.getGroundType().getBackgroundColor(), tile.getGroundType().getForegroundColor());
 	}
 }
