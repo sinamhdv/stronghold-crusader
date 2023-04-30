@@ -1,42 +1,42 @@
 package stronghold.controller;
 
-import static java.lang.Thread.sleep;
+import java.time.Instant;
 
-import stronghold.controller.messages.LoginMenuControllerMessage;
+import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 
 public class LoginMenuController {
-    //TODO: 5 second punishments need to be implemented.
-    static int timer = 1;
+	private static int failedLoginsCount = 0;
+	private static long lastFailedAttemptTime = 0;
 
-    public static void LoginPunishment() throws InterruptedException {
-        timer++;
-        System.out.println("You have to wait for " + timer * 5 + " seconds before you can login again!");
-        sleep(5000L * timer);
-        System.out.println("You're free!");
-    }
+	public static LoginMenuMessage login(String username, String password, String stayLoggedIn) {
+		if (username == null || password == null)
+			return LoginMenuMessage.SPECIFY_REQUIRED_FIELDS;
+		if (Instant.now().getEpochSecond() - lastFailedAttemptTime < 5 * failedLoginsCount)
+			return LoginMenuMessage.TRY_AFTER_DELAY;
+		User user = StrongHold.getUserByName(username);
+		if (user == null)
+			return LoginMenuMessage.USERNAME_NOT_FOUND;
+		else if (!CentralController.checkPassword(username, password)) {
+			failedLoginsCount++;
+			lastFailedAttemptTime = Instant.now().getEpochSecond();
+			return LoginMenuMessage.INCORRECT_PASSWORD;
+		}
+		StrongHold.setCurrentUser(user);
+		failedLoginsCount = 0;
+		lastFailedAttemptTime = 0;
+		return LoginMenuMessage.LOGIN_SUCCESS;
+		// TODO: handle stay-logged-in
+	}
 
-    public static LoginMenuControllerMessage login(String username, String password, String s) {
-        User user = StrongHold.getUserByName(username);
-        if (user == null) {
-            return LoginMenuControllerMessage.USERNAME_ERROR;
-        } else if (!password.equals(user.getPassword())) {
-            return LoginMenuControllerMessage.PASSWORD_ERROR;
-        } else {
-            StrongHold.setCurentUser(user);
-            return LoginMenuControllerMessage.SUCCESSFUL;
-//            MainMenu.run();
-        }
-    }
-
-    // public static LoginMenuControllerMessage forgotPassword(String username) {
-    //     if (StrongHold.getUserByName(username) == null) {
-    //         System.out.println(LoginMenuControllerMessage.USERNAME_NOT_FOUND);
-    //     } else {
-    //         User user = StrongHold.getUserByName(username);
+	public static LoginMenuMessage forgotPassword(String username) {
+		if (StrongHold.getUserByName(username) == null) {
+			System.out.println(LoginMenuMessage.USERNAME_NOT_FOUND);
+		} else {
+			User user = StrongHold.getUserByName(username);
 
 
-    //     }
-    // }
+		}
+	}
 }
