@@ -18,14 +18,17 @@ public class RunTests {
 	public static void testTerminal2DPrinter() {
 		Terminal2DPrinter printer = new Terminal2DPrinter();
 		int width = 10;
-		printer.addNewLine();
-		printer.addOutput(new String[] {"-".repeat(3 * width + 1)});
-		printer.addNewLine();
-		for (int i = 0; i < width; i++) {
-			printer.addOutput(new String[] {"##", "##"});
+		int height = 5;
+		for (int i = 0; i < height; i++) {
+			printer.addOutput(new String[] {"-".repeat(3 * width + 1)});
+			printer.addNewLine();
 			printer.addOutput(new String[] {"|", "|"});
+			for (int j = 0; j < width; j++) {
+				printer.addOutput(new String[] {"##", "##"});
+				printer.addOutput(new String[] {"|", "|"});
+			}
+			printer.addNewLine();
 		}
-		printer.addNewLine();
 		printer.addOutput(new String[] {"-".repeat(3 * width + 1)});
 		printer.printOutput();
 	}
