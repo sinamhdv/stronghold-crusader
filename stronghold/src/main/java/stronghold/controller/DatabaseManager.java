@@ -57,7 +57,13 @@ public class DatabaseManager {
 	}
 
 	public static void saveStayLoggedIn(User user) {
-
+		writeToFile(STAY_LOGGED_IN_FILENAME, user.getUserName());
+	}
+	public static void clearStayLoggedIn(User user) {
+		writeToFile(STAY_LOGGED_IN_FILENAME, "");
+	}
+	public static String getAutoLoginUsername() {
+		return readAllFromFile(STAY_LOGGED_IN_FILENAME);
 	}
 
 	public static void saveMap(MapTile[][] map) {
