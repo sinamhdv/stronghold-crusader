@@ -53,4 +53,12 @@ public class LoginMenu {
 		if (message == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
 			MainMenu.run();
 	}
+
+	public static String askSecurityQuestion(String question) {
+		// TODO: ask the security question and return the entered answer
+	}
+
+	public static String[] getNewPassword() {
+		// TODO: return new password and its confirmation
+	}
 }

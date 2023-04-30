@@ -13,8 +13,11 @@ public enum LoginMenuMessage {
 	AUTO_LOGIN_SUCCESS("Auto-login successful"),
 	AUTO_LOGIN_FAILED("Auto-login failed"),
 
-	FORGOT_PASSWORD_SUCCESSFUL("Password recovered successsfully!"),
-	FORGOT_PASSWORD_NOT_SUCCESSFUL("Password couldn't be recovered!"),
+	// forgot password
+	USERNAME_DOESNT_EXIST("Error: This username doesn't exist"),
+	INCORRECT_ANSWER("Error: Incorrect answer for the security question"),
+	PASSWORD_CONFIRM_WRONG("Error: password confirmation must match the entered password"),
+	PASSWORD_RESET_SUCCESS("Your password has been successfully reset"),
 	;
 
 	private String errorString;

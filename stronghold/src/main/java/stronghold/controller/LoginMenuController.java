@@ -5,6 +5,7 @@ import java.time.Instant;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.view.LoginMenu;
 
 public class LoginMenuController {
 	private static int failedLoginsCount = 0;
@@ -43,12 +44,17 @@ public class LoginMenuController {
 	}
 
 	public static LoginMenuMessage forgotPassword(String username) {
-		if (StrongHold.getUserByName(username) == null) {
-			System.out.println(LoginMenuMessage.USERNAME_NOT_FOUND);
-		} else {
-			User user = StrongHold.getUserByName(username);
-
-
-		}
+		User user = StrongHold.getUserByName(username);
+		if (user == null)
+			return LoginMenuMessage.USERNAME_DOESNT_EXIST;
+		String securityQuestion = CentralController.SECURITY_QUESTIONS[user.getSecurityQuestionNumber() - 1];
+		String answer = LoginMenu.askSecurityQuestion(securityQuestion);
+		if (!answer.equals(user.getSecurityQuestionAnswer()))
+			return LoginMenuMessage.INCORRECT_ANSWER;
+		String[] newPassword = LoginMenu.getNewPassword();
+		if (!newPassword[0].equals(newPassword[1]))
+			return LoginMenuMessage.PASSWORD_CONFIRM_WRONG;
+		// TODO: validate the format of the new password and reset the password
+		return LoginMenuMessage.PASSWORD_RESET_SUCCESS;
 	}
 }
