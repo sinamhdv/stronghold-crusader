@@ -4,11 +4,11 @@ import stronghold.model.Government;
 
 public class Archer extends Troop {
 	private int firingRange;
-	private int fireRate;
+	private final int fireRate;
 
-	public Archer(int speed, int hp, int damage, int x, int y, Government owner, StanceType stance,
-			boolean canClimbLadder, boolean canDigMoats) {
-		super(speed, hp, damage, x, y, owner, stance, canClimbLadder, canDigMoats);
+	public Archer(int speed, int hp, int damage, int x, int y, Government owner, String name,
+			boolean canClimbLadder, boolean canDigMoats, int firingRange, int fireRate) {
+		super(speed, hp, damage, x, y, owner, name, canClimbLadder, canDigMoats);
 		this.fireRate = fireRate;
 		this.firingRange = firingRange;
 	}
@@ -16,9 +16,10 @@ public class Archer extends Troop {
 	public int getFiringRange() {
 		return firingRange;
 	}
-
 	public int getFireRate() {
 		return fireRate;
 	}
-	
+	public void setFiringRange(int firingRange) {
+		this.firingRange = firingRange;
+	}
 }
