@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.StrongHold;
+import stronghold.model.User;
 
 public class CentralController {
 	public static SignupAndProfileMenuMessage checkPasswordStrength(String passwoed) {
@@ -29,5 +31,10 @@ public class CentralController {
 
 	public static String hashPassword(String password) {
 		return DigestUtils.sha256Hex(password);
+	}
+
+	public static boolean checkPassword(String username, String password) {
+		User user = StrongHold.getUserByName(username);
+		return hashPassword(password).equals(user.getPassword());
 	}
 }
