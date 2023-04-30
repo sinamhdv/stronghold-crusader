@@ -9,21 +9,29 @@ public enum TerminalColor {
 	PURPLE("\033[35m", "\033[45m"),
 	BROWN("\033[33m", "\033[43m"),
 	GRAY("\033[37m", "\033[47m"),
+	RESET("\033[0m", "\033[0m"),
 	;
 
-	private final String forgroundColorCode;
+	private final String foregroundColorCode;
 	private final String backgroundColorCode;
 
 	private TerminalColor(String forgroundColorCode, String backgroundColorCode) {
-		this.forgroundColorCode = forgroundColorCode;
+		this.foregroundColorCode = forgroundColorCode;
 		this.backgroundColorCode = backgroundColorCode;
 	}
 
 	public static void setColor(TerminalColor background, TerminalColor forground) {
-		System.out.print(background.backgroundColorCode + forground.forgroundColorCode);
+		System.out.print(background.backgroundColorCode + forground.foregroundColorCode);
 	}
 
 	public static void resetColor() {
 		System.out.print("\033[0m");
+	}
+
+	public String getBackgroundColorCode() {
+		return backgroundColorCode;
+	}
+	public String getForegroundColorCode() {
+		return foregroundColorCode;
 	}
 }
