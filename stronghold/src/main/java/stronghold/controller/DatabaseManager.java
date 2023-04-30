@@ -54,7 +54,8 @@ public class DatabaseManager {
 		// TODO: implement this
 	}
 
-	public static MapTile[][] loadMap(String mapName) {
+	public static MapTile[][] loadMapByName(String mapName) {
 		// TODO: implement this
+		return null;
 	}
 }

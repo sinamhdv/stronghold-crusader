@@ -7,10 +7,10 @@ public class Troop extends Person {
 	private boolean canClimbLadder;
 	private boolean canDigMoats;
 
-	public Troop(int speed, int hp, int damage, int x, int y, Government owner, StanceType stance,
+	public Troop(int speed, int hp, int damage, int x, int y, Government owner, String name,
 			boolean canClimbLadder, boolean canDigMoats) {
-		super(speed, hp, damage, owner, x, y);
-		this.stance = stance;
+		super(speed, hp, damage, owner, x, y, name);
+		this.stance = StanceType.NORMAL;
 		this.canClimbLadder = canClimbLadder;
 		this.canDigMoats = canDigMoats;
 	}

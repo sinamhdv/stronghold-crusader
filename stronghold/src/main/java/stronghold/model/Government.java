@@ -65,6 +65,7 @@ public class Government {
 
 	public int getResourceCount(ResourceType resourceType) {
 		// TODO: to be implemented
+		return -1;
 	}
 
 	public void increaseResource(ResourceType resourceType, int count) {
