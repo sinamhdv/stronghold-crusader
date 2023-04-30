@@ -50,7 +50,22 @@ public class MapMenu {
 	}
 
 	public static void displayMap() {
-		
+		int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
+		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
+		Terminal2DPrinter printer = new Terminal2DPrinter();
+		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
+			printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
+			printer.addNewLine();
+			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
+				String[] tileString = MapMenuController.getTileRepresentation(i, j);
+				printer.addOutput(new String[] {"|", "|"});
+				printer.addOutput(tileString);
+			}
+			printer.addOutput(new String[] {"|", "|"});
+			printer.addNewLine();
+		}
+		printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
+		printer.printOutput();
 	}
 
 	private static void showTileDetails(String xString, String yString) {

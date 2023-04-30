@@ -8,8 +8,8 @@ import stronghold.model.map.MapTile;
 import stronghold.view.TerminalColor;
 
 public class MapMenuController {
-	private static final int SHOW_MAP_WIDTH = 10;
-	private static final int SHOW_MAP_HEIGHT = 5;
+	public static final int SHOW_MAP_WIDTH = 11;
+	public static final int SHOW_MAP_HEIGHT = 5;
 
 	private static int currentX;
 	private static int currentY;
