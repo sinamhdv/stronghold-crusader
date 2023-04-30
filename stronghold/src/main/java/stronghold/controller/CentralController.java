@@ -9,6 +9,12 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 
 public class CentralController {
+	public static final String[] SECURITY_QUESTIONS = new String[] {
+		"What is your father's name?",
+		"What was your first pet's name?",
+		"What is your mother's last name?",
+	};
+
 	public static SignupAndProfileMenuMessage checkPasswordStrength(String passwoed) {
 		if (passwoed.length() < 6)
 			return SignupAndProfileMenuMessage.PASSWORD_IS_SHORT;
