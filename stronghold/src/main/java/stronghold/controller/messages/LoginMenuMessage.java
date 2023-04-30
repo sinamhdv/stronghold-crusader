@@ -1,6 +1,6 @@
 package stronghold.controller.messages;
 
-public enum LoginMenuControllerMessage {
+public enum LoginMenuMessage {
 	SUCCESSFUL("user logged in successfully!"),
 	USERNAME_ERROR("Username and password didn’t match!"),
 	PASSWORD_ERROR("Username and password didn’t match!"),
@@ -8,9 +8,14 @@ public enum LoginMenuControllerMessage {
 	FORGOT_PASSWORD_SUCCESSFUL("Password recovered successsfully!"),
 	FORGOT_PASSWORD_NOT_SUCCESSFUL("Password couldn't be recovered!"),
 	;
-	String eror;
+	
+	String errorString;
 
-	private LoginMenuControllerMessage(String eror) {
-		this.eror = eror;
+	private LoginMenuMessage(String errorString) {
+		this.errorString = errorString;
+	}
+
+	public String getErrorString() {
+		return errorString;
 	}
 }

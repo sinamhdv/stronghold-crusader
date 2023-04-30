@@ -12,7 +12,7 @@ import stronghold.view.parser.CommandParser;
 
 public class RunTests {
 	public static void run() {
-		testTerminal2DPrinter();
+		
 	}
 
 	public static void testTerminal2DPrinter() {

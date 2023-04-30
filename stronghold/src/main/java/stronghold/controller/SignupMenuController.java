@@ -46,7 +46,7 @@ public class SignupMenuController {
 			StrongHold.addUser(newUser);
 			return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
 		}
-
+		// TODO: suggestion of random usernames
 	}
 
 	private static String generateRandomPassword() {
