@@ -3,26 +3,31 @@ package stronghold.model.map;
 import stronghold.view.TerminalColor;
 
 public enum GroundType {
-	NORMAL(true, TerminalColor.BROWN, "normal"),
+	NORMAL(true, TerminalColor.BROWN, TerminalColor.GRAY, "normal"),
 	;
 
 	private final boolean isPassable;
-	private final TerminalColor color;
+	private final TerminalColor backgroundColor;
+	private final TerminalColor foregroundColor;
 	private final String name;
 
-	private GroundType(boolean isPassable, TerminalColor color, String name) {
+	private GroundType(boolean isPassable, TerminalColor backgroundColor, TerminalColor foregroundColor, String name) {
 		this.isPassable = isPassable;
-		this.color = color;
+		this.backgroundColor = backgroundColor;
+		this.foregroundColor = foregroundColor;
 		this.name = name;
 	}
 
-	public TerminalColor getColor() {
-		return color;
-	}
 	public boolean isPassable() {
 		return isPassable;
 	}
 	public String getName() {
 		return name;
+	}
+	public TerminalColor getBackgroundColor() {
+		return backgroundColor;
+	}
+	public TerminalColor getForegroundColor() {
+		return foregroundColor;
 	}
 }
