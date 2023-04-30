@@ -70,10 +70,12 @@ public class Government {
 
 	public int increaseResource(ResourceType resourceType, int count) {
 		// TODO: to be implemented
+		return -1;
 	}
 
 	public int decreaseResource(ResourceType resourceType, int count) {
 		// TODO: to be implemented
+		return -1;
 	}
 
 	
