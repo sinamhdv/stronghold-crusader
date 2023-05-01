@@ -63,7 +63,10 @@ public class CommandParser {
 			i += forwardSteps;
 		}
 		assert(i == tokens.length);	// TODO: remove this line
-		// it is possible to check for unspecified required options here
+		if (!checkRequiredArguments(commandTokensMap)) {
+			System.out.println("Parser Error: Please specify all required fields");
+			return null;
+		}
 		return result;
 	}
 
@@ -94,7 +97,7 @@ public class CommandParser {
 			return 1;
 		}
 		else if (token.getDefaultValue() != null &&
-		(i + 1 >= tokens.length || !tokens[i + 1].matches("\\-?\\d+"))) {
+		(i + 1 >= tokens.length || !FormatValidation.isNumber(tokens[i + 1]))) {
 			result.put(token.getGroupName(), token.getDefaultValue());
 			return 1;
 		}
@@ -102,5 +105,12 @@ public class CommandParser {
 		if (token.isNumeric() && !FormatValidation.isNumber(tokens[i + 1])) return -1;
 		result.put(token.getGroupName(), tokens[i + 1]);
 		return 2;
+	}
+
+	private static boolean checkRequiredArguments(HashMap<String, CommandSpecificationToken> commandTokensMap) {
+		for (String key : commandTokensMap.keySet())
+			if (!commandTokensMap.get(key).isOptional())
+				return false;
+		return true;
 	}
 }
