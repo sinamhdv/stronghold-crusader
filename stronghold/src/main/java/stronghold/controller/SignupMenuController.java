@@ -11,25 +11,9 @@ import stronghold.view.SignupMenu;
 public class SignupMenuController {
 	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
 			String passwordConfirmation, String email, String slogan) {
-		if ((slogan != null && slogan.equals("")) ||
-			(passwordConfirmation != null && passwordConfirmation.equals("")) ||
-			username.equals("") || password.equals("") ||
-			nickName.equals("") || email.equals(""))
-			return SignupAndProfileMenuMessage.EMPTY_FIELD;
-		else if (!FormatValidation.checkUserName(username))
-			return SignupAndProfileMenuMessage.INVALID_USERNAME;
-		else if (StrongHold.getUserByName(username) != null)
-			return SignupAndProfileMenuMessage.USERNAME_EXIST;
-		else if (FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
-			return FormatValidation.checkPasswordStrength(password);
-		else if (!password.equals("random") && !password.equals(passwordConfirmation))
-			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
-		else if (password.equals("random") && passwordConfirmation != null)
-			return SignupAndProfileMenuMessage.RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION;
-		else if (StrongHold.getUserByEmail(email.toLowerCase()) != null)
-			return SignupAndProfileMenuMessage.EMAIL_EXIST;
-		else if (!email.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+"))
-			return SignupAndProfileMenuMessage.INVALID_EMAIL;
+		SignupAndProfileMenuMessage errors = SignUpFactorsError(username, nickName, password, passwordConfirmation, email, slogan);
+		if(errors != null)
+			return errors;
 		else {
 			if (slogan.equals("random")) {
 				String randomSlogan = generateRandomSlogan();
@@ -50,6 +34,30 @@ public class SignupMenuController {
 		}
 		// TODO: suggestion of random usernames
 		// TODO: what if the password is not "random" and passwordConfirmation == null?
+	}
+
+	public static SignupAndProfileMenuMessage SignUpFactorsError (String username, String nickName, String password,
+	String passwordConfirmation, String email, String slogan) {
+		if ((slogan != null && slogan.equals("")) ||
+				(passwordConfirmation != null && passwordConfirmation.equals("")) ||
+				username.equals("") || password.equals("") ||
+				nickName.equals("") || email.equals(""))
+			return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		else if (!FormatValidation.checkUserName(username))
+			return SignupAndProfileMenuMessage.INVALID_USERNAME;
+		else if (StrongHold.getUserByName(username) != null)
+			return SignupAndProfileMenuMessage.USERNAME_EXIST;
+		else if (FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
+			return FormatValidation.checkPasswordStrength(password);
+		else if (!password.equals("random") && !password.equals(passwordConfirmation))
+			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
+		else if (password.equals("random") && passwordConfirmation != null)
+			return SignupAndProfileMenuMessage.RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION;
+		else if (StrongHold.getUserByEmail(email.toLowerCase()) != null)
+			return SignupAndProfileMenuMessage.EMAIL_EXIST;
+		else if (!email.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+"))
+			return SignupAndProfileMenuMessage.INVALID_EMAIL;
+		else return null;
 	}
 
 	private static String generateRandomPassword() {
