@@ -8,7 +8,7 @@ public enum Command {
 	SIGNUP_MENU("signup menu"),
 	PROFILE_MENU("profile menu"),
 	MAP_MENU("map menu"),
-	MAP_DESIGN_MENU("map design"),
+	MAP_MANAGEMENT_MENU("map management"),
 
 	// Signup Menu
 	SIGNUP("signup [-u,username] [-p,password] [-c,passwordConfirm]? [-e,email] [-n,nickname] [-s,slogan]?"),
@@ -32,6 +32,11 @@ public enum Command {
 	DISPLAY_RANK("profile display rank"),
 	DISPLAY_SLOGAN("profile display slogan"),
 	PROFILE_DISPLAY("profile display"),
+
+	// Map Management Menu
+	NEW_MAP("new map [-n,name] <-g,governmentsCount> <-w,width> <-h,height>"),
+	EDIT_MAP("edit map [-n,name]"),
+	DELETE_MAP("delete map [-n,name]"),
 
 	// Map Menu
 	SHOW_MAP("show map <-x,x> <-y,y>"),
@@ -62,7 +67,7 @@ public enum Command {
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-q,equipment]"),
 	DISBAND("disband"),
 
-	// Map Design Menu
+	// Map Editor Menu
 	SET_TEXTURE("set texture <-x,x> <-y,y> [-t,type]"),
 	RECTANGLE_SET_TEXTURE("rectangle set texture <-x1,x1> <-y1,y1> <-x2,x2> <-y2,y2> [-t,type]"),
 	CLEAR("clear <-x,x> <-y,y>"),
