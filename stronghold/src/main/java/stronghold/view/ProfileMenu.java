@@ -16,18 +16,18 @@ public class ProfileMenu {
 			if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null)
 				return;
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_USERNAME)) != null)
-				System.out.println(ProfileMenuController.changeUserName(matcher.get("username")).eror);
+				System.out.println(ProfileMenuController.changeUserName(matcher.get("username")).getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_NICKNAME)) != null)
-				System.out.println(ProfileMenuController.changeNickName(matcher.get("nickname")).eror);
+				System.out.println(ProfileMenuController.changeNickName(matcher.get("nickname")).getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_PASSWORD)) != null)
 				System.out.println(
-						ProfileMenuController.changePassword(matcher.get("newPassword"), matcher.get("oldPassword")).eror);
+						ProfileMenuController.changePassword(matcher.get("newPassword"), matcher.get("oldPassword")).getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_EMAIL)) != null)
-				System.out.println(ProfileMenuController.changeEmail(matcher.get("email")).eror);
+				System.out.println(ProfileMenuController.changeEmail(matcher.get("email")).getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_SLOGAN)) != null)
-				System.out.println(ProfileMenuController.changeSlogan(matcher.get("slogan")).eror);
+				System.out.println(ProfileMenuController.changeSlogan(matcher.get("slogan")).getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.REMOVE_SLOGAN)) != null)
-				System.out.println(ProfileMenuController.removeSlogan().eror);
+				System.out.println(ProfileMenuController.removeSlogan().getErrorString());
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.DISPLAY_HIGHSCORE)) != null)
 				displayHighscore();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.DISPLAY_RANK)) != null)

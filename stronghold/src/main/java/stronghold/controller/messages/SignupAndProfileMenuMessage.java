@@ -23,9 +23,14 @@ public enum SignupAndProfileMenuMessage {
 	OLD_AND_NEW_PASSWORD_ARE_EQUAL("Please enter a new password!"),
 	REMOVE_SLOGAN_SUCCESSFUL("Slogan remove successfuly"),
 	;
-	public String eror;
 
-	private SignupAndProfileMenuMessage(String eror) {
-		this.eror = eror;
+	private final String errorString;
+
+	private SignupAndProfileMenuMessage(String errorString) {
+		this.errorString = errorString;
+	}
+
+	public String getErrorString() {
+		return errorString;
 	}
 }

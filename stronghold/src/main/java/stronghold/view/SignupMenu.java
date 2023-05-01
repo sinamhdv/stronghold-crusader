@@ -17,7 +17,7 @@ public class SignupMenu {
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
 				System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
 						matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
-						matcher.get("slogan")).eror);
+						matcher.get("slogan")).getErrorString());
 			else	
 				System.out.println("invalid command");
 		}
