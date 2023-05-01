@@ -7,7 +7,7 @@ import stronghold.utils.FormatValidation;
 public class ProfileMenuController {
 	public static SignupAndProfileMenuMessage changeUserName(String newUsername)
 	{
-		if (newUsername == null || newUsername.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		if (newUsername.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if(FormatValidation.checkUserName(newUsername))
 		{
 			StrongHold.getCurrentUser().setUserName(newUsername);
@@ -17,7 +17,7 @@ public class ProfileMenuController {
 	}
 	public static SignupAndProfileMenuMessage changeNickName(String newNickName)
 	{
-		if(newNickName == null || newNickName.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		if(newNickName.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else 
 		{
 			StrongHold.getCurrentUser().setNickName(newNickName);
@@ -26,7 +26,7 @@ public class ProfileMenuController {
 	}
 	public static SignupAndProfileMenuMessage changePassword(String newPassword, String oldPassword)
 	{
-		if(newPassword == null || newPassword.equals("") || oldPassword == null || oldPassword.equals(""))
+		if(newPassword.equals("") || oldPassword.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if(!StrongHold.getCurrentUser().getPassword().equals(oldPassword))
 			return SignupAndProfileMenuMessage.OLD_PASSWORD_WRONG;
@@ -40,14 +40,14 @@ public class ProfileMenuController {
 	}
 	public static SignupAndProfileMenuMessage changeEmail(String newEmail)
 	{
-		if(newEmail == null || newEmail.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		if(newEmail.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!newEmail.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+")) return SignupAndProfileMenuMessage.INVALID_EMAIL;
 		StrongHold.getCurrentUser().setEmail(newEmail);
 		return SignupAndProfileMenuMessage.CHANGE_EMAIL_SUCCESSFUL;
 	}
 	public static SignupAndProfileMenuMessage changeSlogan(String slogan)
 	{
-		if(slogan == null || slogan.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		if(slogan.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		StrongHold.getCurrentUser().setSlogan(slogan);
 		return SignupAndProfileMenuMessage.CHANGE_SLOGAN_SUCCESSFUL;
 	}

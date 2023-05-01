@@ -11,9 +11,10 @@ import stronghold.view.SignupMenu;
 public class SignupMenuController {
 	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
 			String passwordConfirmation, String email, String slogan) {
-		if (username == null || password == null || email == null || nickName == null || slogan.equals("")
-				|| passwordConfirmation == null || username.equals("") || password.equals("") ||
-				nickName.equals("") || email.equals("") || passwordConfirmation.equals(""))
+		if ((slogan != null && slogan.equals("")) ||
+			(passwordConfirmation != null && passwordConfirmation.equals("")) ||
+			username.equals("") || password.equals("") ||
+			nickName.equals("") || email.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!FormatValidation.checkUserName(username))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;
@@ -25,7 +26,7 @@ public class SignupMenuController {
 			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
 		else if (password.equals("random") && passwordConfirmation != null)
 			return SignupAndProfileMenuMessage.RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION;
-		else if (StrongHold.getUserByName(email.toLowerCase()) != null)
+		else if (StrongHold.getUserByEmail(email.toLowerCase()) != null)
 			return SignupAndProfileMenuMessage.EMAIL_EXIST;
 		else if (!email.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+"))
 			return SignupAndProfileMenuMessage.INVALID_EMAIL;
@@ -48,6 +49,7 @@ public class SignupMenuController {
 			return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
 		}
 		// TODO: suggestion of random usernames
+		// TODO: what if the password is not "random" and passwordConfirmation == null?
 	}
 
 	private static String generateRandomPassword() {
