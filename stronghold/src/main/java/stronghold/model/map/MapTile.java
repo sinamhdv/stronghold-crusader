@@ -7,10 +7,10 @@ import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.people.Person;
 
 public class MapTile {
-	private GroundType groundType;
+	private GroundType groundType = GroundType.NORMAL;
 	private final ArrayList<Person> people = new ArrayList<>();
 	private Building building = null;
-	private EnvironmentItem environmentItem;
+	private EnvironmentItem environmentItem = null;
 
 	public MapTile(GroundType groundType) {
 		this.groundType = groundType;

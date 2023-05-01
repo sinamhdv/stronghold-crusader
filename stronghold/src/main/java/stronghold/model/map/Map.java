@@ -1,22 +1,22 @@
 package stronghold.model.map;
 
 public class Map {
-	private final String mapName;
+	private final String name;
 	private final int governmentsCount;
 	private final int width;
 	private final int height;
 	private final MapTile[][] grid;
 	
-	public Map(String mapName, int governmentsCount, int width, int height) {
-		this.mapName = mapName;
+	public Map(String name, int governmentsCount, int width, int height) {
+		this.name = name;
 		this.governmentsCount = governmentsCount;
 		this.width = width;
 		this.height = height;
 		this.grid = new MapTile[height][width];
 	}
 
-	public String getMapName() {
-		return mapName;
+	public String getName() {
+		return name;
 	}
 	public int getGovernmentsCount() {
 		return governmentsCount;
