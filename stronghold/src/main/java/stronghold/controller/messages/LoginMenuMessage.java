@@ -17,6 +17,7 @@ public enum LoginMenuMessage {
 	USERNAME_DOESNT_EXIST("Error: This username doesn't exist"),
 	INCORRECT_ANSWER("Error: Incorrect answer for the security question"),
 	PASSWORD_CONFIRM_WRONG("Error: password confirmation must match the entered password"),
+	PASSWORD_WEAK("Error: the entered password is weak"),
 	PASSWORD_RESET_SUCCESS("Your password has been successfully reset"),
 	;
 

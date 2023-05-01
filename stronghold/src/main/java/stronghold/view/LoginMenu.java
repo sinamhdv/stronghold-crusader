@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
+import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -67,5 +68,9 @@ public class LoginMenu {
 		System.out.print("Enter the password again: ");
 		password[1] = MainMenu.getScanner().nextLine();
 		return password;
+	}
+
+	public static void alertWeakPassword(SignupAndProfileMenuMessage message) {
+		System.out.println(message.getErrorString());
 	}
 }

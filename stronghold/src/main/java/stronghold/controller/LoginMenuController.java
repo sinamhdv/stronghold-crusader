@@ -3,8 +3,10 @@ package stronghold.controller;
 import java.time.Instant;
 
 import stronghold.controller.messages.LoginMenuMessage;
+import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.FormatValidation;
 import stronghold.view.LoginMenu;
 
 public class LoginMenuController {
@@ -44,6 +46,8 @@ public class LoginMenuController {
 	}
 
 	public static LoginMenuMessage forgotPassword(String username) {
+		if (username == null || username.equals(""))
+			return LoginMenuMessage.SPECIFY_REQUIRED_FIELDS;
 		User user = StrongHold.getUserByName(username);
 		if (user == null)
 			return LoginMenuMessage.USERNAME_DOESNT_EXIST;
@@ -54,7 +58,12 @@ public class LoginMenuController {
 		String[] newPassword = LoginMenu.getNewPassword();
 		if (!newPassword[0].equals(newPassword[1]))
 			return LoginMenuMessage.PASSWORD_CONFIRM_WRONG;
-		// TODO: validate the format of the new password and reset the password
+		SignupAndProfileMenuMessage passwordStrengthStatus = FormatValidation.checkPasswordStrength(newPassword[0]);
+		if (passwordStrengthStatus != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG) {
+			LoginMenu.alertWeakPassword(passwordStrengthStatus);
+			return LoginMenuMessage.PASSWORD_WEAK;
+		}
+		user.setPassword(newPassword[0]);
 		return LoginMenuMessage.PASSWORD_RESET_SUCCESS;
 	}
 }
