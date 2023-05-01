@@ -8,7 +8,7 @@ import stronghold.model.people.Person;
 public class Government {
 	private final User user;
 	private final ArrayList<Building> buildings = new ArrayList<>();
-	private int popularity = 50;	// TODO: save all initial values in files
+	private int popularity = 50;
 	private int fearFactor = 0;
 	private int foodRate = 0;
 	private int taxRate = 0;

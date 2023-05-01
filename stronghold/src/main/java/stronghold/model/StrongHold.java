@@ -41,7 +41,6 @@ public class StrongHold {
 	public static void setCurrentGame(Game currentGame) {
 		StrongHold.currentGame = currentGame;
 	}
-	//TODO: getCurrentGame & setCurrentGame
 	public static int getRank(User aUser)
 	{
 		ArrayList<Integer> highScores = new ArrayList<>();

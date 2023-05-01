@@ -28,6 +28,6 @@ public class Troop extends Person {
 	}
 
 	public void fight(Person other) {
-		//TODO
+		//TODO: to be implemented
 	}
 }
