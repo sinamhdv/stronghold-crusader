@@ -2,6 +2,7 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
@@ -14,13 +15,13 @@ public class SignupMenu {
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
-			if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null)
+			if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
 				return;
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
 				System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
 						matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
 						matcher.get("slogan")).getErrorString());
-			else	
+			else
 				System.out.println("invalid command");
 		}
 	}
@@ -32,29 +33,41 @@ public class SignupMenu {
 			enterPassword = MainMenu.getScanner().nextLine();
 			if (enterPassword.equals(randomPassword))
 				return true;
+			else
+				System.out.println("Incorrect password, try again :(");
 		}
 	}
 	public static String[] securityQuestionLoop() {
 		while (true) {
-			System.out.println("Pick your security question: 1. What is my father's name? " +
-					"2. What was my first pet's name? " + "3. What is my mother's last name?");
+			System.out.println("Pick your security question:");
+			for (int i = 0; i < CentralController.SECURITY_QUESTIONS.length; i++)
+				System.out.println((i + 1) + ". " + CentralController.SECURITY_QUESTIONS[i]);
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
 			if ((matcher = CommandParser.getMatcher(inputTokens, Command.QUESTION_PICK)) != null) {
-				if (matcher.get("answerConfirm").equals(matcher.get("answer"))
-						&& (Integer.parseInt(matcher.get("questionNumber")) == 1
-								|| Integer.parseInt(matcher.get("questionNumber")) == 2
-								|| Integer.parseInt(matcher.get("questionNumber")) == 3)) {
-					String[] result = new String[3];
+				if (!matcher.get("answerConfirm").equals(matcher.get("answer")))
+					System.out.println("Error: answer confirm must match answer");
+				else if (Integer.parseInt(matcher.get("questionNumber")) < 1 ||
+					Integer.parseInt(matcher.get("questionNumber")) > CentralController.SECURITY_QUESTIONS.length)
+					System.out.println("Error: Incorrect question number");
+				else {
+					String[] result = new String[2];
 					result[0] = matcher.get("questionNumber");
 					result[1] = matcher.get("answer");
 					return result;
 				}
 			}
+			else {
+				System.out.println("Invalid command: please pick a security question");
+			}
 		}
 	}
 	public static void showRandomSlogan(String randomSlogan) {
 		System.out.println("you're random slogan is : "+randomSlogan);
+	}
+
+	public static boolean continueWithRandomUsername(String newUsername) {
+		// TODO: ask the user if they want to choose the suggested username
 	}
 }

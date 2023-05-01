@@ -34,11 +34,15 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.OLD_PASSWORD_WRONG;
 		else if (oldPassword.equals(newPassword))
 			return SignupAndProfileMenuMessage.OLD_AND_NEW_PASSWORD_ARE_EQUAL;
-		else if (FormatValidation.checkPasswordStrength(newPassword)
-				.equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)) {
-			StrongHold.getCurrentUser().setPassword(newPassword);
-		}
-		return FormatValidation.checkPasswordStrength(newPassword);
+		else if (!FormatValidation.checkPasswordStrength(newPassword)
+				.equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
+					return FormatValidation.checkPasswordStrength(newPassword);
+
+		// TODO: call Captcha
+		// TODO: ask the user to enter the new password again
+
+		StrongHold.getCurrentUser().setPassword(newPassword);
+		return SignupAndProfileMenuMessage.CHANGE_PASSWORD_SUCCESS;
 	}
 
 	public static SignupAndProfileMenuMessage changeEmail(String newEmail) {

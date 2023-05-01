@@ -16,7 +16,7 @@ public class User {
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
 			int securityQuestionNumber, String securityQuestionAnswer) {
 		this.userName = userName;
-		this.password = password;
+		this.password = Cryptography.hashPassword(password);
 		this.nickName = nickName;
 		this.slogan = slogan;
 		this.email = email.toLowerCase();

@@ -22,6 +22,7 @@ public enum SignupAndProfileMenuMessage {
 	OLD_PASSWORD_WRONG("Current password is incorrect!"),
 	OLD_AND_NEW_PASSWORD_ARE_EQUAL("Please enter a new password!"),
 	REMOVE_SLOGAN_SUCCESSFUL("Slogan remove successfuly"),
+	CHANGE_PASSWORD_SUCCESS("Password changed successfully"),
 	;
 
 	private final String errorString;

@@ -18,38 +18,44 @@ public class SignupMenuController {
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!FormatValidation.checkUserName(username))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;
-		else if (StrongHold.getUserByName(username) != null)
-			return SignupAndProfileMenuMessage.USERNAME_EXIST;
-		else if (FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
+		else if (StrongHold.getUserByName(username) != null) {
+			String newUsername = generateRandomUsername(username);
+			if (!SignupMenu.continueWithRandomUsername(newUsername))
+				return SignupAndProfileMenuMessage.USERNAME_EXIST;
+			else
+				username = newUsername;
+		}
+		else if (!password.equals("random") &&
+			FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
 			return FormatValidation.checkPasswordStrength(password);
-		else if (!password.equals("random") && !password.equals(passwordConfirmation))
+		else if (!password.equals("random") &&
+			(passwordConfirmation == null || !password.equals(passwordConfirmation)))
 			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
 		else if (password.equals("random") && passwordConfirmation != null)
 			return SignupAndProfileMenuMessage.RANDOM_PASSWORD_DESNT_HAVE_PASSWORDCONFIRMATION;
 		else if (StrongHold.getUserByEmail(email.toLowerCase()) != null)
 			return SignupAndProfileMenuMessage.EMAIL_EXIST;
-		else if (!email.matches("[\\w\\.]+@[\\w\\.]+//.[\\w\\.]+"))
+		else if (!FormatValidation.checkEmailFormat(email))
 			return SignupAndProfileMenuMessage.INVALID_EMAIL;
-		else {
-			if (slogan.equals("random")) {
-				String randomSlogan = generateRandomSlogan();
-				slogan = randomSlogan;
-				SignupMenu.showRandomSlogan(randomSlogan);
-			}
-			if (password.equals("random")) {
-				String randomPassword = generateRandomPassword();
-				if (SignupMenu.randomPasswordLoop(randomPassword)) {
-					password = randomPassword;
-				}
-			}
-			String[] securityQuestion = SignupMenu.securityQuestionLoop();
-			User newUser = new User(username, password, nickName, slogan, email, 0,
-					Integer.parseInt(securityQuestion[0]), securityQuestion[1]);
-			StrongHold.addUser(newUser);
-			return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
+		
+		if (slogan.equals("random")) {
+			String randomSlogan = generateRandomSlogan();
+			slogan = randomSlogan;
+			SignupMenu.showRandomSlogan(randomSlogan);
 		}
-		// TODO: suggestion of random usernames
-		// TODO: what if the password is not "random" and passwordConfirmation == null?
+		if (password.equals("random")) {
+			String randomPassword = generateRandomPassword();
+			if (SignupMenu.randomPasswordLoop(randomPassword)) {
+				password = randomPassword;
+			}
+		}
+		String[] securityQuestion = SignupMenu.securityQuestionLoop();
+		User newUser = new User(username, password, nickName, slogan, email, 0,
+				Integer.parseInt(securityQuestion[0]), securityQuestion[1]);
+		StrongHold.addUser(newUser);
+		return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
+
+		// TODO: split this function into smaller blocks
 	}
 
 	private static String generateRandomPassword() {
@@ -69,5 +75,10 @@ public class SignupMenuController {
 				"nahayt havafaza sakht moshak ba kaghaza", "randaton mikonm" };
 		Random random = new Random();
 		return randomSlogans[random.nextInt(randomSlogans.length)];
+	}
+
+	private static String generateRandomUsername(String baseUsername) {
+		// TODO: suggest a random username based on the input string
+		// TODO: also check that the suggested string doesn't already exist
 	}
 }
