@@ -14,8 +14,6 @@ public class LoginMenuController {
 	private static long lastFailedAttemptTime = 0;
 
 	public static LoginMenuMessage login(String username, String password, String stayLoggedIn) {
-		if (username == null || password == null)
-			return LoginMenuMessage.SPECIFY_REQUIRED_FIELDS;
 		if (Instant.now().getEpochSecond() - lastFailedAttemptTime < 5 * failedLoginsCount)
 			return LoginMenuMessage.TRY_AFTER_DELAY;
 		User user = StrongHold.getUserByName(username);
@@ -46,8 +44,6 @@ public class LoginMenuController {
 	}
 
 	public static LoginMenuMessage forgotPassword(String username) {
-		if (username == null || username.equals(""))
-			return LoginMenuMessage.SPECIFY_REQUIRED_FIELDS;
 		User user = StrongHold.getUserByName(username);
 		if (user == null)
 			return LoginMenuMessage.USERNAME_DOESNT_EXIST;

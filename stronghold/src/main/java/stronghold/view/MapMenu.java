@@ -28,12 +28,15 @@ public class MapMenu {
 			else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null)
 				return;
 			else
-				System.out.println("invalid command");
+				System.out.println("Invalid command");
 		}
 	}
 
 	public static void runShowMap(HashMap<String, String> matcher) {
-		MapMenuMessage message = MapMenuController.checkShowMap(matcher.get("x"), matcher.get("y"));
+		MapMenuMessage message = MapMenuController.startShowMap(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		);
 		if (message == MapMenuMessage.SUCCESS)
 			displayMap();
 		else
@@ -41,7 +44,12 @@ public class MapMenu {
 	}
 
 	public static void runMoveMap(HashMap<String, String> matcher) {
-		MapMenuMessage message = MapMenuController.moveMap(matcher.get("up"), matcher.get("down"), matcher.get("left"), matcher.get("right"));
+		MapMenuMessage message = MapMenuController.moveMap(
+			matcher.get("up"),
+			matcher.get("down"),
+			matcher.get("left"),
+			matcher.get("right")
+		);
 		if (message == MapMenuMessage.SUCCESS)
 			displayMap();
 		else
@@ -49,7 +57,10 @@ public class MapMenu {
 	}
 
 	public static void runShowTileDetails(HashMap<String, String> matcher) {
-		showTileDetails(matcher.get("x"), matcher.get("y"));
+		showTileDetails(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		);
 	}
 
 	public static void displayMap() {
@@ -71,14 +82,12 @@ public class MapMenu {
 		printer.printOutput();
 	}
 
-	private static void showTileDetails(String xString, String yString) {
-		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
+	private static void showTileDetails(int x, int y) {
+		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(x, y);
 		if (errorCheck != MapMenuMessage.SUCCESS) {
 			System.out.println(errorCheck.getErrorString());
 			return;
 		}
-		int x = Integer.parseInt(xString);
-		int y = Integer.parseInt(yString);
 		MapTile tile = MapMenuController.getCurrentMap().getGrid()[x][y];
 		System.out.println("Ground Type: " + tile.getGroundType().getName());
 		if (tile.getBuilding() != null)

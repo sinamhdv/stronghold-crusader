@@ -35,16 +35,20 @@ public class LoginMenu {
 	}
 
 	public static void runLogin(HashMap<String, String> matcher) {
-		LoginMenuMessage message = LoginMenuController.login(matcher.get("username"),
-				matcher.get("password"),
-				matcher.get("--stay-logged-in"));
+		LoginMenuMessage message = LoginMenuController.login(
+			matcher.get("username"),
+			matcher.get("password"),
+			matcher.get("--stay-logged-in")
+		);
 		System.out.println(message.getErrorString());
 		if (message == LoginMenuMessage.LOGIN_SUCCESS)
 			MainMenu.run();
 	}
 
 	public static void runForgotPassword(HashMap<String, String> matcher) {
-		System.out.println(LoginMenuController.forgotPassword(matcher.get("username")).getErrorString());
+		System.out.println(LoginMenuController.forgotPassword(
+			matcher.get("username")
+		).getErrorString());
 	}
 
 	public static void runCheckAutoLogin() {

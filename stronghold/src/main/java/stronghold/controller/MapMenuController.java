@@ -48,22 +48,15 @@ public class MapMenuController {
 		return MapMenuMessage.SUCCESS;
 	}
 
-	public static MapMenuMessage checkShowMap(String xString, String yString) {
-		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(xString, yString);
+	public static MapMenuMessage startShowMap(int x, int y) {
+		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(x, y);
 		if (errorCheck != MapMenuMessage.SUCCESS) return errorCheck;
-		int x = Integer.parseInt(xString);
-		int y = Integer.parseInt(yString);
 		setCurrentX(x);
 		setCurrentY(y);
 		return MapMenuMessage.SUCCESS;
 	}
 
-	public static MapMenuMessage checkCoordinateErrors(String xString, String yString) {
-		if (xString == null || yString == null) {
-			return MapMenuMessage.SPECIFY_XY;
-		}
-		int x = Integer.parseInt(xString);
-		int y = Integer.parseInt(yString);
+	public static MapMenuMessage checkCoordinateErrors(int x, int y) {
 		MapTile[][] map = getCurrentMap().getGrid();
 		if (x < 0 || y < 0 || x >= map.length || y >= map[0].length) {
 			return MapMenuMessage.INVALID_COORDINATES;
