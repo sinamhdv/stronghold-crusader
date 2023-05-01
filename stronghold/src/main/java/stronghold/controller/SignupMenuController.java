@@ -5,6 +5,7 @@ import java.util.Random;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.FormatValidation;
 import stronghold.view.SignupMenu;
 
 public class SignupMenuController {
@@ -14,12 +15,12 @@ public class SignupMenuController {
 				|| passwordConfirmation == null || username.equals("") || password.equals("") ||
 				nickName.equals("") || email.equals("") || passwordConfirmation.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
-		else if (!CentralController.checkUserName(username))
+		else if (!FormatValidation.checkUserName(username))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;
 		else if (StrongHold.getUserByName(username) != null)
 			return SignupAndProfileMenuMessage.USERNAME_EXIST;
-		else if (CentralController.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
-			return CentralController.checkPasswordStrength(password);
+		else if (FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
+			return FormatValidation.checkPasswordStrength(password);
 		else if (!password.equals("random") && !password.equals(passwordConfirmation))
 			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
 		else if (password.equals("random") && passwordConfirmation != null)

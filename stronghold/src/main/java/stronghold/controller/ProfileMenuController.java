@@ -2,12 +2,13 @@ package stronghold.controller;
 
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
+import stronghold.utils.FormatValidation;
 
 public class ProfileMenuController {
 	public static SignupAndProfileMenuMessage changeUserName(String newUsername)
 	{
 		if (newUsername == null || newUsername.equals("")) return SignupAndProfileMenuMessage.EMPTY_FIELD;
-		else if(CentralController.checkUserName(newUsername))
+		else if(FormatValidation.checkUserName(newUsername))
 		{
 			StrongHold.getCurrentUser().setUserName(newUsername);
 			return SignupAndProfileMenuMessage.CHANGE_USERNAME_SUCCESSFUL;
@@ -31,11 +32,11 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.OLD_PASSWORD_WRONG;
 		else if(StrongHold.getCurrentUser().getPassword().equals(newPassword))
 			return SignupAndProfileMenuMessage.OLD_AND_NEW_PASSWORD_ARE_EQUAL;
-		else if(CentralController.checkPasswordStrength(newPassword).equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
+		else if(FormatValidation.checkPasswordStrength(newPassword).equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
 		{
 			StrongHold.getCurrentUser().setPassword(newPassword);
 		}
-		return CentralController.checkPasswordStrength(newPassword);	
+		return FormatValidation.checkPasswordStrength(newPassword);	
 	}
 	public static SignupAndProfileMenuMessage changeEmail(String newEmail)
 	{
