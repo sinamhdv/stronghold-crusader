@@ -8,6 +8,8 @@ import stronghold.view.parser.CommandParser;
 
 public class SignupMenu {
 	public static void run() {
+		System.out.println("======[Signup Menu]======");
+		
 		while (true) {
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);

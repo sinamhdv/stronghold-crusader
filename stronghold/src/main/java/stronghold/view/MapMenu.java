@@ -12,6 +12,8 @@ import stronghold.view.parser.CommandParser;
 
 public class MapMenu {
 	public static void run() {
+		System.out.println("======[Map Menu]======");
+
 		while (true) {
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;

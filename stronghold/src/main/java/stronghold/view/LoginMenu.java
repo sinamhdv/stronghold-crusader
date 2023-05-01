@@ -11,7 +11,7 @@ import stronghold.view.parser.CommandParser;
 public class LoginMenu {
 
 	public static void run() {
-		System.out.println("[LoginMenu]");
+		System.out.println("======[Login Menu]======");
 		runCheckAutoLogin();
 
 		while (true) {
