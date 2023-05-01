@@ -55,10 +55,17 @@ public class LoginMenu {
 	}
 
 	public static String askSecurityQuestion(String question) {
-		// TODO: ask the security question and return the entered answer
+		System.out.println("Please answer this security question:");
+		System.out.println(question);
+		return MainMenu.getScanner().nextLine();
 	}
 
 	public static String[] getNewPassword() {
-		// TODO: return new password and its confirmation
+		String[] password = new String[2];
+		System.out.print("Enter your new password: ");
+		password[0] = MainMenu.getScanner().nextLine();
+		System.out.print("Enter the password again: ");
+		password[1] = MainMenu.getScanner().nextLine();
+		return password;
 	}
 }
