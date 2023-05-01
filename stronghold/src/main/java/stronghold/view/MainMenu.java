@@ -22,6 +22,8 @@ public class MainMenu {
 
 			if ((matcher = CommandParser.getMatcher(input, Command.PROFILE_MENU)) != null)
 				ProfileMenu.run();
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_DESIGN_MENU)) != null)
+				MapDesignMenu.run();
 			else if ((matcher = CommandParser.getMatcher(input, Command.LOGOUT)) != null) {
 				MainMenuController.logout();
 				System.out.println("logged out");

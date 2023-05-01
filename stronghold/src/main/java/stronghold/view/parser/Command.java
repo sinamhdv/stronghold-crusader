@@ -8,6 +8,7 @@ public enum Command {
 	SIGNUP_MENU("signup menu"),
 	PROFILE_MENU("profile menu"),
 	MAP_MENU("map menu"),
+	MAP_DESIGN_MENU("map design"),
 
 	// Signup Menu
 	SIGNUP("signup [-u,username] [-p,password] [-c,passwordConfirm]? [-e,email] [-n,nickname] [-s,slogan]?"),

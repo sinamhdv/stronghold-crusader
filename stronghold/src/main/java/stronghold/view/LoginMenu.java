@@ -26,7 +26,7 @@ public class LoginMenu {
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP_MENU)) != null)
 				SignupMenu.run();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
-				System.out.println("EXIT!");
+				System.out.println("Exitting...");
 				break;
 			}
 			else
