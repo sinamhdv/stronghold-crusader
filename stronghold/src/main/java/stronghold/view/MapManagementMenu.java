@@ -29,9 +29,9 @@ public class MapManagementMenu {
 	private static void runNewMap(HashMap<String, String> matcher) {
 		System.out.println(MapManagementMenuController.createNewMap(
 			matcher.get("name"),
-			matcher.get("governmentsCount"),
-			matcher.get("width"),
-			matcher.get("height")
+			Integer.parseInt(matcher.get("governmentsCount")),
+			Integer.parseInt(matcher.get("width")),
+			Integer.parseInt(matcher.get("height"))
 		).getErrorString());
 	}
 
