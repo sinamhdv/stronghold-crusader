@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import stronghold.controller.MapMenuController;
 import stronghold.controller.messages.MapMenuMessage;
-import stronghold.model.StrongHold;
 import stronghold.model.map.MapTile;
 import stronghold.utils.Miscellaneous;
 import stronghold.view.parser.Command;
@@ -17,6 +16,8 @@ public class MapMenu {
 		while (true) {
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;
+
+			MapMenuController.updateCurrentMap();
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_MAP)) != null)
 				runShowMap(matcher);
@@ -78,7 +79,7 @@ public class MapMenu {
 		}
 		int x = Integer.parseInt(xString);
 		int y = Integer.parseInt(yString);
-		MapTile tile = StrongHold.getCurrentGame().getMap()[x][y];
+		MapTile tile = MapMenuController.getCurrentMap().getGrid()[x][y];
 		System.out.println("Ground Type: " + tile.getGroundType().getName());
 		if (tile.getBuilding() != null)
 			System.out.println("Building: " + tile.getBuilding().getName());

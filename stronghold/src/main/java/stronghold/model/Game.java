@@ -2,25 +2,24 @@ package stronghold.model;
 
 import java.util.ArrayList;
 
-import stronghold.controller.DatabaseManager;
 import stronghold.model.buildings.Building;
-import stronghold.model.map.MapTile;
+import stronghold.model.map.Map;
 import stronghold.model.people.Person;
 
 public class Game {
-	private final MapTile[][] map;
+	private final Map map;
 	private final Government[] governments;
 	private int currentPlayerIndex = 0;
 	private int passedTurns = 0;
 	private final ArrayList<Person> selectedUnits = new ArrayList<>();
 	private Building selectedBuilding = null;
 
-	public Game(String mapName, Government[] governments) {
+	public Game(Map map, Government[] governments) {
 		this.governments = governments;
-		this.map = DatabaseManager.loadMapByName(mapName);
+		this.map = map;
 	}
 
-	public MapTile[][] getMap() {
+	public Map getMap() {
 		return map;
 	}
 	public Government[] getGovernments() {
