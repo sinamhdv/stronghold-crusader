@@ -15,7 +15,7 @@ public class ProfileMenu {
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
-			if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null)
+			if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
 				return;
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_USERNAME)) != null)
 				System.out.println(ProfileMenuController.changeUserName(matcher.get("username")).getErrorString());

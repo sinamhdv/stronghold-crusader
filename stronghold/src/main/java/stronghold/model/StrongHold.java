@@ -23,9 +23,8 @@ public class StrongHold {
 		return null;
 	}
 	public static User getUserByEmail(String email) {
-		for(User user : users)
-		{
-			if(user.getEmail().toLowerCase().equals(email)) return user;
+		for(User user : users) {
+			if(user.getEmail().toLowerCase().equals(email.toLowerCase())) return user;
 		}
 		return null;
 	}

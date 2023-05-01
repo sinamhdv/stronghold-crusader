@@ -25,4 +25,8 @@ public class FormatValidation {
 	public static boolean checkUserName(String userName) {
 		return userName.matches("\\w+");
 	}
+
+	public static boolean checkEmailFormat(String email) {
+		return email.matches("[\\w\\.]+@[\\w\\.]+\\.[\\w\\.]+");
+	}
 }

@@ -1,6 +1,7 @@
 package stronghold.model;
 
 import stronghold.controller.DatabaseManager;
+import stronghold.utils.Cryptography;
 
 public class User {
 	private String userName;
@@ -18,13 +19,13 @@ public class User {
 		this.password = password;
 		this.nickName = nickName;
 		this.slogan = slogan;
-		this.email = email;
+		this.email = email.toLowerCase();
 		this.highScore = highScore;
 		this.securityQuestionNumber = securityQuestionNumber;
 		this.securityQuestionAnswer = securityQuestionAnswer;
 	}
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 		DatabaseManager.updateUser(this);
 	}
 	public void setHighScore(int highScore) {
@@ -36,7 +37,7 @@ public class User {
 		DatabaseManager.updateUser(this);
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Cryptography.hashPassword(password);
 		DatabaseManager.updateUser(this);
 	}
 	public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
