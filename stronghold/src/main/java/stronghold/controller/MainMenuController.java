@@ -6,4 +6,7 @@ public class MainMenuController {
 	public static void logout() {
 		DatabaseManager.clearStayLoggedIn(StrongHold.getCurrentUser());
 	}
+	public static void exit() {
+		System.exit(0);
+	}
 }

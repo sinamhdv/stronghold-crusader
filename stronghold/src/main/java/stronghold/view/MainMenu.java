@@ -27,6 +27,10 @@ public class MainMenu {
 				System.out.println("logged out");
 				return;
 			}
+			else if ((matcher = CommandParser.getMatcher(input, Command.EXIT)) != null) {
+				System.out.println("Exitting...");
+				MainMenuController.exit();
+			}
 			else
 				System.out.println("Invalid command");
 		}
