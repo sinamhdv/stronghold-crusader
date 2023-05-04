@@ -68,6 +68,10 @@ public class SignupMenu {
 	}
 
 	public static boolean continueWithRandomUsername(String newUsername) {
-		// TODO: ask the user if they want to choose the suggested username
+		System.out.println("The entered username already exists");
+		System.out.println("Do you want to continue with this suggested username?: " + newUsername);
+		System.out.println("Enter your choice (y/N): ");
+		String answer = MainMenu.getScanner().nextLine().toLowerCase();
+		return answer.equals("y");
 	}
 }
