@@ -1,2 +1,16 @@
-help
+signup menu
+signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname"
+signup -u sina -p Password#1 -e example@ce.sharif.edu -n "sina's \" nickname" -c aaaa
+signup -u sina -p abcdE4fgh -e example@ce.sharif.edu -n "sina's \" nickname"
+signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c
+signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c ""
+signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c abcd
+signup -u sina -p Password#1 -e example@ce.sharif.edu -n "sina's \" nickname" -c Password#1
+question pick -q abcd -a test -c test
+question pick -q 123 -a test -c test
+question pick -q 2 -a test -c none
+question pick -q 2 -a test -c test
 exit
+
+###########################################
+signup

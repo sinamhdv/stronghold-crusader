@@ -22,7 +22,7 @@ public class SignupMenuController {
 		else if (message != null)
 			return message;
 		
-		if (slogan.equals("random")) {
+		if (slogan != null && slogan.equals("random")) {
 			String randomSlogan = generateRandomSlogan();
 			slogan = randomSlogan;
 			SignupMenu.showRandomSlogan(randomSlogan);

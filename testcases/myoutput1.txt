@@ -1,5 +1,31 @@
 ======[Login Menu]======
 Checking for auto-login...
 Auto-login failed
-Error: Invalid command
-Exitting...
+======[Signup Menu]======
+The entered username already exists
+Do you want to continue with this suggested username?: sina8220
+Enter your choice (y/N): 
+Username already exist
+The entered username already exists
+Do you want to continue with this suggested username?: sina5151
+Enter your choice (y/N): 
+Username already exist
+Empty field
+The entered username already exists
+Do you want to continue with this suggested username?: sina719
+Enter your choice (y/N): 
+Username already exist
+invalid command
+invalid command
+invalid command
+invalid command
+invalid command
+invalid command
+invalid command
+Parser Error: Please specify all required fields
+invalid command
+Exception in thread "main" java.util.NoSuchElementException: No line found
+	at java.base/java.util.Scanner.nextLine(Scanner.java:1656)
+	at stronghold.view.SignupMenu.run(SignupMenu.java:15)
+	at stronghold.view.LoginMenu.run(LoginMenu.java:27)
+	at stronghold.Main.main(Main.java:10)
