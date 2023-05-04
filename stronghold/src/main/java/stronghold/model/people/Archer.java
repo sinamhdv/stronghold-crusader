@@ -22,4 +22,7 @@ public class Archer extends Troop {
 	public void setFiringRange(int firingRange) {
 		this.firingRange = firingRange;
 	}
+	public void fight (Person other) {
+		//TODO 
+	}
 }
