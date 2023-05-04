@@ -59,7 +59,6 @@ public class SignupMenuController {
 			return SignupAndProfileMenuMessage.INVALID_EMAIL;
 		else return null;
 	}
-
 	private static String generateRandomPassword() {
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789"
@@ -77,5 +76,15 @@ public class SignupMenuController {
 				"nahayt havafaza sakht moshak ba kaghaza", "randaton mikonm" };
 		Random random = new Random();
 		return randomSlogans[random.nextInt(randomSlogans.length)];
+	}
+	private static String suggestUserName (String RepetitiousUserName) {
+		Random random = new Random();
+		int upperBound = 10000;
+		// TODO : add constant upperbound to jason
+		while (true) {
+			String suggestUserName = RepetitiousUserName + random.nextInt(upperBound);
+			if (StrongHold.getUserByName(suggestUserName) != null) return suggestUserName; 
+		}
+		System.out.println("you can use this username");
 	}
 }
