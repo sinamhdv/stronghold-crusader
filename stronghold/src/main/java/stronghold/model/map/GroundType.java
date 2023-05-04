@@ -3,7 +3,7 @@ package stronghold.model.map;
 import stronghold.view.TerminalColor;
 
 public enum GroundType {
-	NORMAL(true, TerminalColor.BROWN, TerminalColor.GRAY, "normal"),
+	NORMAL(true, TerminalColor.YELLOW, TerminalColor.GRAY, "normal"),
 	;
 
 	private final boolean isPassable;
