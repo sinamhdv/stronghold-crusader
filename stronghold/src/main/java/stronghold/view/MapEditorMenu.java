@@ -2,12 +2,16 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import stronghold.controller.MapEditorMenuController;
+import stronghold.controller.MapManagementMenuController;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapEditorMenu {
 	public static void run() {
 		System.out.println("======[Map Editor]======");
+
+		MapEditorMenuController.setMap(MapManagementMenuController.getLoadedMap());
 
 		HashMap<String, String> matcher;
 		while (true) {
@@ -36,15 +40,30 @@ public class MapEditorMenu {
 	}
 
 	private static void runSetTexture(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.setTexture(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type")
+		).getErrorString());
 	}
 
 	private static void runRectangleSetTexture(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.rectangleSetTexture(
+			Integer.parseInt(matcher.get("x1")),
+			Integer.parseInt(matcher.get("y1")),
+			Integer.parseInt(matcher.get("x2")),
+			Integer.parseInt(matcher.get("y2")),
+			matcher.get("type")
+		).getErrorString());
 	}
 
 	private static void runClear(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.clear(
+			Integer.parseInt(matcher.get("x1")),
+			Integer.parseInt(matcher.get("y1")),
+			Integer.parseInt(matcher.get("x2")),
+			Integer.parseInt(matcher.get("y2"))
+		).getErrorString());
 	}
 
 	private static void runDropRock(HashMap<String, String> matcher) {
