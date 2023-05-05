@@ -6,6 +6,7 @@ public enum MapManagementMenuMessage {
 	MAP_ALREADY_EXISTS("Error: This map already exists"),
 	INVALID_GOVERNMENTS_COUNT("Error: Invalid governments count: must be between 1 and 8"),
 	INVALID_DIMENTIONS("Error: Invalid dimentions"),	// TODO: add dimentions limit to error message
+	INVALID_MAP_NAME_FORMAT("Error: Invalid map name format"),
 
 	// edit map
 	LOAD_SUCCESS("Successfully loaded the map"),

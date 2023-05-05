@@ -67,6 +67,7 @@ public class SignupMenuController {
 	}
 
 	private static String generateRandomPassword() {
+		// TODO: come up with a better random password generation algorithm
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789"
 				+ "abcdefghijklmnopqrstuvxyz";

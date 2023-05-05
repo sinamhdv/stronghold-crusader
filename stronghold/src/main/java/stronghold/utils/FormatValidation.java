@@ -29,4 +29,8 @@ public class FormatValidation {
 	public static boolean checkEmailFormat(String email) {
 		return email.matches("[\\w\\.]+@[\\w\\.]+\\.[\\w\\.]+");
 	}
+
+	public static boolean checkMapNameFormat(String mapName) {
+		return mapName.matches("\\w+");
+	}
 }
