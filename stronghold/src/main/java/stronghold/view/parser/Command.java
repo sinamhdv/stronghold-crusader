@@ -37,6 +37,7 @@ public enum Command {
 	NEW_MAP("new map [-n,name] <-g,governmentsCount> <-w,width> <-h,height>"),
 	EDIT_MAP("edit map [-n,name]"),
 	DELETE_MAP("delete map [-n,name]"),
+	LIST_MAPS("list maps"),
 
 	// Map Menu
 	SHOW_MAP("show map <-x,x> <-y,y>"),

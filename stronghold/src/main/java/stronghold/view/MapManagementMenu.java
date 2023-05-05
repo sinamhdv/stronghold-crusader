@@ -2,6 +2,7 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import stronghold.controller.DatabaseManager;
 import stronghold.controller.MapManagementMenuController;
 import stronghold.controller.messages.MapManagementMenuMessage;
 import stronghold.view.parser.Command;
@@ -21,6 +22,8 @@ public class MapManagementMenu {
 				runEditMap(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DELETE_MAP)) != null)
 				runDeleteMap(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.LIST_MAPS)) != null)
+				listMaps();
 			else
 				System.out.println("Invalid command");
 		}
@@ -49,5 +52,11 @@ public class MapManagementMenu {
 		System.out.println(MapManagementMenuController.deleteMap(
 			matcher.get("name")
 		).getErrorString());
+	}
+
+	private static void listMaps() {
+		String[] names = DatabaseManager.getAllMapNames();
+		for (String name : names)
+			System.out.println(name);
 	}
 }
