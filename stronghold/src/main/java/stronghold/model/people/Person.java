@@ -1,8 +1,10 @@
 package stronghold.model.people;
 
+import java.io.Serializable;
+
 import stronghold.model.Government;
 
-public abstract class Person {
+public abstract class Person implements Serializable {
 	private int speed;
 	private int hp;
 	private int damage;

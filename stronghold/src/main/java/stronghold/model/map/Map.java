@@ -1,6 +1,8 @@
 package stronghold.model.map;
 
-public class Map {
+import java.io.Serializable;
+
+public class Map implements Serializable {
 	private final String name;
 	private final int governmentsCount;
 	private final int width;

@@ -1,8 +1,10 @@
 package stronghold.model.buildings;
 
+import java.io.Serializable;
+
 import stronghold.model.Government;
 
-public abstract class Building {
+public abstract class Building implements Serializable {
 	private final int maxHp;
 	private int hp;
 	private int x;
