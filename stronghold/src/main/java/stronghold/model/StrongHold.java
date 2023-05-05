@@ -6,13 +6,9 @@ import java.util.Collections;
 import stronghold.controller.DatabaseManager;
 
 public class StrongHold {
-	private static ArrayList<User> users ;
+	private static ArrayList<User> users = new ArrayList<>();
 	private static User currentUser;
 	private static Game currentGame;
-
-	static{
-		users = new ArrayList<User>();
-	}
 
 	public static User getUserByName(String userName)
 	{
@@ -43,10 +39,8 @@ public class StrongHold {
 	public static int getRank(User aUser)
 	{
 		ArrayList<Integer> highScores = new ArrayList<>();
-		for (User user: users) {
-			if(!highScores.contains(user.getHighScore()))
+		for (User user: users)
 				highScores.add(user.getHighScore());
-		}
 		Collections.sort(highScores);
 		Collections.reverse(highScores);
 		return highScores.indexOf(aUser.getHighScore())+1;
