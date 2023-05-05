@@ -39,6 +39,11 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage clear(int x1, int y1, int x2, int y2) {
-		
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		for (int i = x1; i <= x2; i++)
+			for (int j = y1; j <= y2; j++)
+				map.getGrid()[i][j] = new MapTile();
+		return MapEditorMenuMessage.SUCCESS;
 	}
 }
