@@ -28,8 +28,8 @@ public class MapEditorMenuController {
 		for (int i = x1; i <= x2; i++) {
 			for (int j = y1; j <= y2; j++) {
 				MapTile tile = map.getGrid()[i][j];
-				if (!tile.getPeople().isEmpty() || tile.getBuilding() != null || tile.getEnvironmentItem() != null)
-					return MapEditorMenuMessage.OBJECT_FOUND;
+				if (tile.hasObstacle() || tile.hasPeople())
+					return MapEditorMenuMessage.FULL_CELL;
 			}
 		}
 		for (int i = x1; i <= x2; i++)
@@ -45,5 +45,27 @@ public class MapEditorMenuController {
 			for (int j = y1; j <= y2; j++)
 				map.getGrid()[i][j] = new MapTile();
 		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	public static MapEditorMenuMessage dropRock(int x, int y, String directionString) {
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		MapTile tile = map.getGrid()[x][y];
+//		if (!directionString.equals("random")
+//		if (directionString.equals("random"))
+//			directionString = "news".charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(4));
+		return null;
+	}
+
+	public static MapEditorMenuMessage dropTree(int x, int y, String type) {
+		return null;
+	}
+
+	public static MapEditorMenuMessage dropUnit(int x, int y, String type, int count) {
+		return null;
+	}
+
+	public static MapEditorMenuMessage dropBuilding(int x, int y, String type) {
+		return null;
 	}
 }

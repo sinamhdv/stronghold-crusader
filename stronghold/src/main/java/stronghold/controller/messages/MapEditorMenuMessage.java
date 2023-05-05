@@ -6,8 +6,10 @@ public enum MapEditorMenuMessage {
 
 	// set texture
 	INVALID_GROUND_TYPE("Error: invalid ground type"),
-	OBJECT_FOUND("Error: cannot change ground type under a building/person/environment item"),
+	FULL_CELL("Error: This cell is full. cannot place the requested object there"),
 
+	// drop *
+	
 	;
 
 	private String errorString;

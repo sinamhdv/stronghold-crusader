@@ -2,12 +2,15 @@ package stronghold.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.people.Person;
 
 public class Miscellaneous {
+	public static final Random RANDOM_GENERATOR = new Random();
+
 	public static HashMap<String, Integer> countPeopleFromArray(ArrayList<Person> people) {
 		HashMap<String, Integer> result = new HashMap<>();
 		for (Person person : people) {

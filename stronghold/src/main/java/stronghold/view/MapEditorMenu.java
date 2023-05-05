@@ -67,18 +67,35 @@ public class MapEditorMenu {
 	}
 
 	private static void runDropRock(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.dropRock(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("direction")
+		).getErrorString());
 	}
 
 	private static void runDropTree(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.dropTree(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type")
+		).getErrorString());
 	}
 
 	private static void runDropUnit(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.dropUnit(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type"),
+			Integer.parseInt(matcher.get("count"))
+		).getErrorString());
 	}
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
-
+		System.out.println(MapEditorMenuController.dropRock(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type")
+		).getErrorString());
 	}
 }
