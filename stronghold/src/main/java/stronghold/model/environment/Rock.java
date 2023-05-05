@@ -4,7 +4,7 @@ public class Rock extends EnvironmentItem {
 	private final char direction;
 
 	public Rock(char direction) {
-		super(null);
+		super(-1);
 		this.direction = direction;
 	}
 

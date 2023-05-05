@@ -1,13 +1,11 @@
 package stronghold.model.buildings;
 
-import stronghold.model.Government;
-
 public class PitchDitch extends Building{
 	private int fireDamage;
 
-	public PitchDitch(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int terunOfBuild,
+	public PitchDitch(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int terunOfBuild,
 			int fireDamage) {
-		super(maxHp, x, y, owner, name, neededWorkers, terunOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
 		this.fireDamage = fireDamage;
 	}
 

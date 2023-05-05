@@ -3,15 +3,19 @@ package stronghold.model.environment;
 import java.io.Serializable;
 
 import stronghold.model.Government;
+import stronghold.model.StrongHold;
 
 public abstract class EnvironmentItem implements Serializable {
-	private final Government owner;
+	private final int ownerIndex;
 
-	public EnvironmentItem(Government owner) {
-		this.owner = owner;
+	public EnvironmentItem(int ownerIndex) {
+		this.ownerIndex = ownerIndex;
 	}
 
 	public Government getOwner() {
-		return owner;
+		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+	}
+	public int getOwnerIndex() {
+		return ownerIndex;
 	}
 }

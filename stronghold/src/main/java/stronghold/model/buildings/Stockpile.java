@@ -2,16 +2,15 @@ package stronghold.model.buildings;
 
 import java.util.HashMap;
 
-import stronghold.model.Government;
 import stronghold.model.ResourceType;
 
 public class Stockpile extends Building {
 	HashMap<ResourceType, Integer> resources;
 	int capacity;
 
-	public Stockpile(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int capacity,
+	public Stockpile(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int capacity,
 			HashMap<ResourceType, Integer> resources, int terunOfBuild) {
-		super(maxHp, x, y, owner, name, neededWorkers, terunOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
 		this.resources = resources;
 		this.capacity = capacity;
 	}

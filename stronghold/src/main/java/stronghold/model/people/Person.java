@@ -3,21 +3,22 @@ package stronghold.model.people;
 import java.io.Serializable;
 
 import stronghold.model.Government;
+import stronghold.model.StrongHold;
 
 public abstract class Person implements Serializable {
 	private int speed;
 	private int hp;
 	private int damage;
-	private final Government owner;
+	private final int ownerIndex;
 	private int x;
 	private int y;
 	private final String name;
 	
-	public Person(int speed, int hp, int damage, Government owner, int x, int y, String name) {
+	public Person(int speed, int hp, int damage, int ownerIndex, int x, int y, String name) {
 		this.speed = speed;
 		this.hp = hp;
 		this.damage = damage;
-		this.owner = owner;
+		this.ownerIndex = ownerIndex;
 		this.x = x;
 		this.y = y;
 		this.name = name;
@@ -42,7 +43,10 @@ public abstract class Person implements Serializable {
 		this.damage = damage;
 	}
 	public Government getOwner() {
-		return owner;
+		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+	}
+	public int getOwnerIndex() {
+		return ownerIndex;
 	}
 	public int getX() {
 		return x;

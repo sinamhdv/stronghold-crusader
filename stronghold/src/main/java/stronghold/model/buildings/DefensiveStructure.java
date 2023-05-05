@@ -1,15 +1,13 @@
 package stronghold.model.buildings;
 
-import stronghold.model.Government;
-
 public class DefensiveStructure extends Building {
 	private int fireRate;
 	private int defendRate;
 	private DefensiveStructure type;
 	private boolean isCaptured;
-	public DefensiveStructure(int maxHp, int x, int y, Government owner, String name, int neededWorkers,
+	public DefensiveStructure(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers,
 			int terunOfBuild, int fireRate, int defendRate, DefensiveStructure type, boolean isCaptured) {
-		super(maxHp, x, y, owner, name, neededWorkers, terunOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
 		this.fireRate = fireRate;
 		this.defendRate = defendRate;
 		this.type = type;
