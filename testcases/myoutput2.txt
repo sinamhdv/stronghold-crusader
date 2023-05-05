@@ -1,0 +1,18 @@
+======[Login Menu]======
+Checking for auto-login...
+Auto-login successful
+======[Main Menu]======
+======[Map Management Menu]======
+map1
+Successfully deleted the map
+Error: The requested map was not found
+Error: Invalid map name format
+Error: Invalid governments count: must be between 1 and 8
+Error: Invalid dimentions
+Error: Invalid dimentions
+New map created successfully
+Error: This map already exists
+Successfully loaded the map
+map1
+======[Main Menu]======
+Exitting...

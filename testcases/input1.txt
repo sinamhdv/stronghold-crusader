@@ -10,6 +10,8 @@ question pick -q abcd -a test -c test
 question pick -q 123 -a test -c test
 question pick -q 2 -a test -c none
 question pick -q 2 -a test -c test
+back
+login -u sina -p Password#1 --stay-logged-in
 exit
 
 ###########################################

@@ -3,4 +3,4 @@ stronghold/.vscode/
 .idea/
 stronghold/.idea/
 stronghold/target/
-stronghold/src/main/database/users.json
+stronghold/src/main/database/

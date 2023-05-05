@@ -19,6 +19,7 @@ public class DatabaseManager {
 	private static final String USERS_DATABASE_FILENAME = "stronghold/src/main/database/users.json";
 	private static final String STAY_LOGGED_IN_FILENAME = "stronghold/src/main/database/stay-logged-in.txt";
 	private static final String MAP_FILES_PATH = "stronghold/src/main/database/maps/";
+	private static final String CAPTCHA_ASCII_ART_FILENAME = "stronghold/src/main/config/captcha-ascii-art.json";
 
 	// File Operations
 	private static void writeToFile(String filename, String content) {
@@ -73,6 +74,9 @@ public class DatabaseManager {
 	private static String getMapFilename(String mapName) {
 		return MAP_FILES_PATH + mapName + ".json";
 	}
+	private static String convertFilenameToMapName(String filename) {
+		return filename.substring(0, filename.length() - 5);
+	}
 	public static void saveMap(Map map) {
 		Gson gson = new Gson();
 		String jsonData = gson.toJson(map);
@@ -90,5 +94,19 @@ public class DatabaseManager {
 	public static void deleteMap(String mapName) {
 		File file = new File(getMapFilename(mapName));
 		file.delete();
+	}
+	public static String[] getAllMapNames() {
+		File mapsDirectory = new File(MAP_FILES_PATH);
+		File[] files = mapsDirectory.listFiles();
+		String[] result = new String[files.length];
+		for (int i = 0; i < files.length; i++)
+			result[i] = convertFilenameToMapName(files[i].getName());
+		return result;
+	}
+
+	public static String[][] loadCaptchaAsciiArt() {
+		Gson gson = new Gson();
+		String jsonData = readAllFromFile(CAPTCHA_ASCII_ART_FILENAME);
+		return gson.fromJson(jsonData, String[][].class);
 	}
 }

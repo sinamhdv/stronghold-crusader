@@ -37,6 +37,7 @@ public enum Command {
 	NEW_MAP("new map [-n,name] <-g,governmentsCount> <-w,width> <-h,height>"),
 	EDIT_MAP("edit map [-n,name]"),
 	DELETE_MAP("delete map [-n,name]"),
+	LIST_MAPS("list maps"),
 
 	// Map Menu
 	SHOW_MAP("show map <-x,x> <-y,y>"),
@@ -70,7 +71,7 @@ public enum Command {
 	// Map Editor Menu
 	SET_TEXTURE("set texture <-x,x> <-y,y> [-t,type]"),
 	RECTANGLE_SET_TEXTURE("rectangle set texture <-x1,x1> <-y1,y1> <-x2,x2> <-y2,y2> [-t,type]"),
-	CLEAR("clear <-x,x> <-y,y>"),
+	CLEAR("clear <-x1,x1> <-y1,y1> <-x2,x2> <-y2,y2>"),
 	DROP_ROCK("drop rock <-x,x> <-y,y> [-d,direction]"),
 	DROP_TREE("drop tree <-x,x> <-y,y> [-t,type]"),
 	DROP_UNIT("drop unit <-x,x> <-y,y> [-t,type] <-c,count>"),

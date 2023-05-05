@@ -2,6 +2,7 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MapManagementMenuMessage;
 import stronghold.model.map.Map;
+import stronghold.utils.FormatValidation;
 
 public class MapManagementMenuController {
 	private static final int MIN_DIMENTIONS = 200;
@@ -15,6 +16,8 @@ public class MapManagementMenuController {
 	public static MapManagementMenuMessage createNewMap(String mapName, int governmentsCount, int width, int height) {
 		if (DatabaseManager.mapExists(mapName))
 			return MapManagementMenuMessage.MAP_ALREADY_EXISTS;
+		if (!FormatValidation.checkMapNameFormat(mapName))
+			return MapManagementMenuMessage.INVALID_MAP_NAME_FORMAT;
 		if (governmentsCount < 1 || governmentsCount > 8)
 			return MapManagementMenuMessage.INVALID_GOVERNMENTS_COUNT;
 		if (width < MIN_DIMENTIONS || width > MAX_DIMENTIONS || height < MIN_DIMENTIONS || height > MAX_DIMENTIONS)

@@ -2,30 +2,32 @@
 Checking for auto-login...
 Auto-login failed
 ======[Signup Menu]======
-The entered username already exists
-Do you want to continue with this suggested username?: sina8220
-Enter your choice (y/N): 
-Username already exist
-The entered username already exists
-Do you want to continue with this suggested username?: sina5151
-Enter your choice (y/N): 
-Username already exist
+password is weak : password length is less than 6 characters
+Password confirmation is not true
+password is weak : password must contain at least one of !@#$%^&*-_=+
+invalid command
 Empty field
-The entered username already exists
-Do you want to continue with this suggested username?: sina719
-Enter your choice (y/N): 
-Username already exist
-invalid command
-invalid command
-invalid command
-invalid command
-invalid command
-invalid command
-invalid command
-Parser Error: Please specify all required fields
-invalid command
-Exception in thread "main" java.util.NoSuchElementException: No line found
-	at java.base/java.util.Scanner.nextLine(Scanner.java:1656)
-	at stronghold.view.SignupMenu.run(SignupMenu.java:15)
-	at stronghold.view.LoginMenu.run(LoginMenu.java:27)
-	at stronghold.Main.main(Main.java:10)
+password is weak : password length is less than 6 characters
+Pick your security question:
+1. What is your father's name?
+2. What was your first pet's name?
+3. What is your mother's last name?
+Invalid command: please pick a security question
+Pick your security question:
+1. What is your father's name?
+2. What was your first pet's name?
+3. What is your mother's last name?
+Error: Incorrect question number
+Pick your security question:
+1. What is your father's name?
+2. What was your first pet's name?
+3. What is your mother's last name?
+Error: answer confirm must match answer
+Pick your security question:
+1. What is your father's name?
+2. What was your first pet's name?
+3. What is your mother's last name?
+Signup is successful
+User logged in successfully!
+======[Main Menu]======
+Exitting...
