@@ -46,7 +46,9 @@ public class SignupMenu {
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
 			if ((matcher = CommandParser.getMatcher(inputTokens, Command.QUESTION_PICK)) != null) {
-				if (!matcher.get("answerConfirm").equals(matcher.get("answer")))
+				if (matcher.get("answer").equals("") || matcher.get("answerConfirm").equals(""))
+					System.out.println("Error: Empty field");
+				else if (!matcher.get("answerConfirm").equals(matcher.get("answer")))
 					System.out.println("Error: answer confirm must match answer");
 				else if (Integer.parseInt(matcher.get("questionNumber")) < 1 ||
 					Integer.parseInt(matcher.get("questionNumber")) > CentralController.SECURITY_QUESTIONS.length)
