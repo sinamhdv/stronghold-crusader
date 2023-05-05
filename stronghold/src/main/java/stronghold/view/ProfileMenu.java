@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import stronghold.controller.ProfileMenuController;
 import stronghold.model.StrongHold;
+import stronghold.model.User;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -59,9 +60,13 @@ public class ProfileMenu {
 	}
 
 	private static void displayInfo() {
-		System.out.print("you're highscore is: " + StrongHold.getCurrentUser().getHighScore() + "\n" +
-				"you're rank is: " + StrongHold.getRank(StrongHold.getCurrentUser()) + "\n");
-		displaySlogan();
+		User user = StrongHold.getCurrentUser();
+		System.out.println("Username: " + user.getUserName());
+		System.out.println("Nickname: " + user.getNickName());
+		System.out.println("Email: " + user.getEmail());
+		System.out.println("Highscore: " + user.getHighScore());
+		System.out.println("Rank: " + StrongHold.getRank(user));
+		System.out.println((user.getSlogan() == null ? "No slogan" : "Slogan: " + user.getSlogan()));
 	}
 
 	public static String askNewPasswordConfirmation() {
