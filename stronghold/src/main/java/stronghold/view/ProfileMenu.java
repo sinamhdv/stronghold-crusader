@@ -38,6 +38,8 @@ public class ProfileMenu {
 				displaySlogan();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.PROFILE_DISPLAY)) != null)
 				displayInfo();
+			else
+				System.out.println("Error: Invalid command");
 		}
 	}
 
@@ -52,12 +54,18 @@ public class ProfileMenu {
 	private static void displaySlogan() {
 		if (StrongHold.getCurrentUser().getSlogan() == null)
 			System.out.println("you dont have any slogans");
-		System.out.println("you're slogan is: " + StrongHold.getCurrentUser().getSlogan());
+		else
+			System.out.println("you're slogan is: " + StrongHold.getCurrentUser().getSlogan());
 	}
 
 	private static void displayInfo() {
 		System.out.print("you're highscore is: " + StrongHold.getCurrentUser().getHighScore() + "\n" +
 				"you're rank is: " + StrongHold.getRank(StrongHold.getCurrentUser()) + "\n");
 		displaySlogan();
+	}
+
+	public static String askNewPasswordConfirmation() {
+		System.out.print("Please enter the new password again: ");
+		return MainMenu.getScanner().nextLine();
 	}
 }
