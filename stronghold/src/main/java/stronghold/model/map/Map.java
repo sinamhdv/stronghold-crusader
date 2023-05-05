@@ -13,6 +13,9 @@ public class Map {
 		this.width = width;
 		this.height = height;
 		this.grid = new MapTile[height][width];
+		for (int i = 0; i < height; i++)
+			for (int j = 0; j < width; j++)
+				this.grid[i][j] = new MapTile();
 	}
 
 	public String getName() {

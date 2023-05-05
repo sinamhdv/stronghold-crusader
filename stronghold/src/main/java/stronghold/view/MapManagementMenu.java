@@ -24,6 +24,10 @@ public class MapManagementMenu {
 				runDeleteMap(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.LIST_MAPS)) != null)
 				listMaps();
+			else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null) {
+				System.out.println("======[Main Menu]======");
+				return;
+			}
 			else
 				System.out.println("Invalid command");
 		}

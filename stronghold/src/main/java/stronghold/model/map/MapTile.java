@@ -15,6 +15,9 @@ public class MapTile {
 	public MapTile(GroundType groundType) {
 		this.groundType = groundType;
 	}
+	public MapTile() {
+		
+	}
 
 	public GroundType getGroundType() {
 		return groundType;
