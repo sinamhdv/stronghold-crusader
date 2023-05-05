@@ -4,6 +4,8 @@ import stronghold.view.TerminalColor;
 
 public enum GroundType {
 	NORMAL(true, TerminalColor.YELLOW, TerminalColor.GRAY, "normal"),
+	GRIT(true, TerminalColor.YELLOW, TerminalColor.GRAY, "grit"),
+
 	;
 
 	private final boolean isPassable;
@@ -29,5 +31,12 @@ public enum GroundType {
 	}
 	public TerminalColor getForegroundColor() {
 		return foregroundColor;
+	}
+
+	public static GroundType getGroundTypeByName(String name) {
+		for (GroundType groundType : GroundType.values())
+			if (groundType.getName().equals(name))
+				return groundType;
+		return null;
 	}
 }

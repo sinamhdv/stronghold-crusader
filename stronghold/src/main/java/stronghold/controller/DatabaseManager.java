@@ -77,7 +77,7 @@ public class DatabaseManager {
 	private static String convertFilenameToMapName(String filename) {
 		return filename.substring(0, filename.length() - 5);
 	}
-	public static void saveMap(Map map) {
+	public static void saveMap(Map map) {	// TODO: change the map loading method to default serialization?
 		Gson gson = new Gson();
 		String jsonData = gson.toJson(map);
 		writeToFile(getMapFilename(map.getName()), jsonData);

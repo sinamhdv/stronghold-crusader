@@ -20,7 +20,7 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage rectangleSetTexture(int x1, int y1, int x2, int y2, String type) {
-		GroundType groundType = Miscellaneous.getGroundTypeByName(type);
+		GroundType groundType = GroundType.getGroundTypeByName(type);
 		if (groundType == null)
 			return MapEditorMenuMessage.INVALID_GROUND_TYPE;
 		else if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
@@ -51,10 +51,19 @@ public class MapEditorMenuController {
 		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		MapTile tile = map.getGrid()[x][y];
-//		if (!directionString.equals("random")
-//		if (directionString.equals("random"))
-//			directionString = "news".charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(4));
-		return null;
+		char direction;
+		if (!directionString.equals("random")) {
+			if (directionString.length() != 1 || !"news".contains(directionString))
+				return MapEditorMenuMessage.INVALID_DIRECTION;
+			direction = directionString.charAt(0);
+		}
+		else
+			direction = "news".charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(4));
+		if (tile.hasObstacle() || tile.hasPeople())
+			return MapEditorMenuMessage.FULL_CELL;
+		// TODO: check ground type under the rock
+		// TODO: insert rock
+		return MapEditorMenuMessage.SUCCESS;
 	}
 
 	public static MapEditorMenuMessage dropTree(int x, int y, String type) {
