@@ -48,7 +48,7 @@ public class MapManagementMenu {
 		);
 		System.out.println(message.getErrorString());
 		if (message == MapManagementMenuMessage.LOAD_SUCCESS) {
-			// TODO: run MapEditorMenu
+			MapEditorMenu.run();
 		}
 	}
 

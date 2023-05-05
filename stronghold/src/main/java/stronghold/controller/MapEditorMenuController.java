@@ -70,6 +70,10 @@ public class MapEditorMenuController {
 		return null;
 	}
 
+	private MapEditorMenuMessage checkDropEnvironmentItemErrors(int x, int y) {
+
+	}
+
 	public static MapEditorMenuMessage dropUnit(int x, int y, String type, int count) {
 		return null;
 	}

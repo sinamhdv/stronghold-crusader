@@ -6,10 +6,10 @@ public enum MapEditorMenuMessage {
 
 	// set texture
 	INVALID_GROUND_TYPE("Error: invalid ground type"),
-	FULL_CELL("Error: This cell is full. cannot place the requested object there"),
+	FULL_CELL("Error: This cell is full. cannot perform this action here"),
 
 	// drop *
-	
+	INVALID_DIRECTION("Error: rock direction must be n/e/w/s or random"),
 	;
 
 	private String errorString;
