@@ -5,10 +5,14 @@ import java.util.Random;
 import stronghold.controller.DatabaseManager;
 
 public class AsciiArtGenerator {
+
+	private static int curentcaptcha = 0;
+
 	private static String[] getAsciiArtOfRandomNumber() {
 		String[][] digitAsciiArt = DatabaseManager.loadCaptchaAsciiArt();
 		Random random = new Random();
 		int number = random.nextInt(9);
+		curentcaptcha = curentcaptcha*10 + number;
 		return digitAsciiArt[number];
 	}
 
@@ -25,4 +29,7 @@ public class AsciiArtGenerator {
 		return captcha;
 	}
 
+	public static int getCurentcaptcha() {
+		return curentcaptcha;
+	}
 }
