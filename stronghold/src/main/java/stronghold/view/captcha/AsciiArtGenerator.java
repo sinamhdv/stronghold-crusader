@@ -12,7 +12,7 @@ public class AsciiArtGenerator {
 		String[][] digitAsciiArt = DatabaseManager.loadCaptchaAsciiArt();
 		Random random = new Random();
 		int number = random.nextInt(9);
-		curentcaptcha = curentcaptcha*10 + number;
+		curentcaptcha = curentcaptcha * 10 + number;
 		return digitAsciiArt[number];
 	}
 
@@ -25,6 +25,15 @@ public class AsciiArtGenerator {
 		for (int i = 0; i < 5; i++) {
 			captcha[i] += oneDigitOfCaptcha[0][i] + oneDigitOfCaptcha[1][i] + oneDigitOfCaptcha[2][i]
 					+ oneDigitOfCaptcha[3][i];
+		}
+		return captcha;
+	}
+
+	public static String[] makingNoise(String[] captcha) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 4; j < 40; j += 4) {
+				captcha[i].replace(captcha[i].charAt(j), '*');
+			}
 		}
 		return captcha;
 	}
