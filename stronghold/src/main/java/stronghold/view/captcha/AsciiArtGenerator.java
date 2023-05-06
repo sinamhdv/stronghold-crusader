@@ -18,7 +18,7 @@ public class AsciiArtGenerator {
 		for (int i = 0; i < 4; i++) {
 			oneDigitOfCaptcha[i] = getAsciiArtOfRandomNumber();
 		}
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			captcha[i] += oneDigitOfCaptcha[0][i] + oneDigitOfCaptcha[1][i] + oneDigitOfCaptcha[2][i]
 					+ oneDigitOfCaptcha[3][i];
 		}
