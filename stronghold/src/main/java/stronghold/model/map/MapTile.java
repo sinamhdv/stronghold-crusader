@@ -1,12 +1,13 @@
 package stronghold.model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
 import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.people.Person;
 
-public class MapTile {
+public class MapTile implements Serializable {
 	private GroundType groundType = GroundType.NORMAL;
 	private final ArrayList<Person> people = new ArrayList<>();
 	private Building building = null;
@@ -39,5 +40,12 @@ public class MapTile {
 	}
 	public void setEnvironmentItem(EnvironmentItem environmentItem) {
 		this.environmentItem = environmentItem;
+	}
+
+	public boolean hasPeople() {
+		return !people.isEmpty();
+	}
+	public boolean hasObstacle() {
+		return (building != null || environmentItem != null);
 	}
 }

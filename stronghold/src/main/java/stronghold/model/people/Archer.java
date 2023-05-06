@@ -1,16 +1,14 @@
 package stronghold.model.people;
 
-import stronghold.model.Government;
-
 public class Archer extends Troop {
 	private int firingRange;
 	private final int fireRate;
 
-	public Archer(int speed, int hp, int damage, int x, int y, Government owner, String name,
-			boolean canClimbLadder, boolean canDigMoats, int firingRange, int fireRate) {
-		super(speed, hp, damage, x, y, owner, name, canClimbLadder, canDigMoats);
-		this.fireRate = fireRate;
+	public Archer(int speed, int hp, int damage, int ownerIndex, int x, int y, String name, boolean canClimbLadder,
+			boolean canDigMoats, int firingRange, int fireRate) {
+		super(speed, hp, damage, ownerIndex, x, y, name, canClimbLadder, canDigMoats);
 		this.firingRange = firingRange;
+		this.fireRate = fireRate;
 	}
 
 	public int getFiringRange() {

@@ -1,13 +1,11 @@
 package stronghold.model.buildings;
 
-import stronghold.model.Government;
-
 public class Church extends Building {
 	private int popularityBost;
 	private boolean canTrainMonks;
-	public Church(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int terunOfBuild,
+	public Church(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int terunOfBuild,
 			int popularityBost, boolean canTrainMonks) {
-		super(maxHp, x, y, owner, name, neededWorkers, terunOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
 		this.popularityBost = popularityBost;
 		this.canTrainMonks = canTrainMonks;
 	}

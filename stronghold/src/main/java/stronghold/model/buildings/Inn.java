@@ -2,16 +2,15 @@ package stronghold.model.buildings;
 
 import java.util.HashMap;
 
-import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 
 public class Inn extends Stockpile {
 	int popularityBost;
 	int wineUsegeRate;
-	public Inn(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int capacity,
+	public Inn(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int capacity,
 			HashMap<ResourceType, Integer> resources, int popularityBost, int wineUsegeRate, int turnOfBuild) {
-		super(maxHp, x, y, owner, name, neededWorkers, capacity, resources, turnOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, capacity, resources, turnOfBuild);
 		this.popularityBost = popularityBost;
 		this.wineUsegeRate = wineUsegeRate;
 	}

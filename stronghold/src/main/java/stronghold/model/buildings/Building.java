@@ -1,23 +1,26 @@
 package stronghold.model.buildings;
 
-import stronghold.model.Government;
+import java.io.Serializable;
 
-public abstract class Building {
+import stronghold.model.Government;
+import stronghold.model.StrongHold;
+
+public abstract class Building implements Serializable {
 	private final int maxHp;
 	private int hp;
 	private int x;
 	private int y;
-	private final Government owner;
+	private final int ownerIndex;
 	private final String name;
 	private final int neededWorkers;
 	private final int turnOfBuild;
 
-	public Building(int maxHp, int x, int y, Government owner, String name, int neededWorkers, int terunOfBuild) {
+	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int terunOfBuild) {
 		this.maxHp = maxHp;
 		this.hp = maxHp;
 		this.x = x;
 		this.y = y;
-		this.owner = owner;
+		this.ownerIndex = ownerIndex;
 		this.name = name;
 		this.neededWorkers = neededWorkers;
 		this.turnOfBuild = terunOfBuild;
@@ -44,8 +47,11 @@ public abstract class Building {
 	public void setY(int y) {
 		this.y = y;
 	}
+	public int getOwnerIndex() {
+		return ownerIndex;
+	}
 	public Government getOwner() {
-		return owner;
+		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
 	}
 	public String getName() {
 		return name;

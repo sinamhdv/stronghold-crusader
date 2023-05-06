@@ -20,7 +20,7 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage rectangleSetTexture(int x1, int y1, int x2, int y2, String type) {
-		GroundType groundType = Miscellaneous.getGroundTypeByName(type);
+		GroundType groundType = GroundType.getGroundTypeByName(type);
 		if (groundType == null)
 			return MapEditorMenuMessage.INVALID_GROUND_TYPE;
 		else if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
@@ -28,8 +28,8 @@ public class MapEditorMenuController {
 		for (int i = x1; i <= x2; i++) {
 			for (int j = y1; j <= y2; j++) {
 				MapTile tile = map.getGrid()[i][j];
-				if (!tile.getPeople().isEmpty() || tile.getBuilding() != null || tile.getEnvironmentItem() != null)
-					return MapEditorMenuMessage.OBJECT_FOUND;
+				if (tile.hasObstacle() || tile.hasPeople())
+					return MapEditorMenuMessage.FULL_CELL;
 			}
 		}
 		for (int i = x1; i <= x2; i++)
@@ -45,5 +45,40 @@ public class MapEditorMenuController {
 			for (int j = y1; j <= y2; j++)
 				map.getGrid()[i][j] = new MapTile();
 		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	public static MapEditorMenuMessage dropRock(int x, int y, String directionString) {
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		MapTile tile = map.getGrid()[x][y];
+		char direction;
+		if (!directionString.equals("random")) {
+			if (directionString.length() != 1 || !"news".contains(directionString))
+				return MapEditorMenuMessage.INVALID_DIRECTION;
+			direction = directionString.charAt(0);
+		}
+		else
+			direction = "news".charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(4));
+		if (tile.hasObstacle() || tile.hasPeople())
+			return MapEditorMenuMessage.FULL_CELL;
+		// TODO: check ground type under the rock
+		// TODO: insert rock
+		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	public static MapEditorMenuMessage dropTree(int x, int y, String type) {
+		return null;
+	}
+
+	private MapEditorMenuMessage checkDropEnvironmentItemErrors(int x, int y) {
+
+	}
+
+	public static MapEditorMenuMessage dropUnit(int x, int y, String type, int count) {
+		return null;
+	}
+
+	public static MapEditorMenuMessage dropBuilding(int x, int y, String type) {
+		return null;
 	}
 }

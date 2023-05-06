@@ -1,6 +1,5 @@
 package stronghold.model.buildings;
 
-import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.map.GroundType;
@@ -13,10 +12,10 @@ public class ResourceConverterBuilding extends Building {
 	private int productionNumber;
 	private int usageRate;
 
-	public ResourceConverterBuilding(int maxHp, int x, int y, Government owner, String name, int neededWorkers,
+	public ResourceConverterBuilding(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers,
 			int terunOfBuild, ResourceType inputType, ResourceType outpuType, GroundType groundType, int productionRate,
 			int productionNumber, int usageRate) {
-		super(maxHp, x, y, owner, name, neededWorkers, terunOfBuild);
+		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
 		this.inputType = inputType;
 		this.outpuType = outpuType;
 		this.groundType = groundType;
