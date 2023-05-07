@@ -18,7 +18,7 @@ public enum ResourceType {
 	SWORDS(40, 30, "Swords"),
 	LEATHER_ARMOR(30, 25, "Leather Armor"),
 	METAL_ARMOR(35, 27, "Metal Armor"),
-	IRON(15, 10, 'Iron'),
+	IRON(15, 10, "Iron"),
 	OIL(15, 10, "Oil");
 	private int buyPrice;
 	private int sellprice;
@@ -33,8 +33,5 @@ public enum ResourceType {
 	}
 	public int getSellprice() {
 		return sellprice;
-	}
-	public static ResourceType getResorceTypeByName(String name) {
-		
 	}
 }

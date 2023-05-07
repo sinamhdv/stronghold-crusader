@@ -30,4 +30,12 @@ public class Stockpile extends Building {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+
+	public int getSumOfResource() {
+		int sumOfResource = 0;
+		for(ResourceType resource : resources.keySet()) {
+				sumOfResource += resources.get(resource);
+		}
+		return sumOfResource;
+	}
 }
