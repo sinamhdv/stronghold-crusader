@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ConvertCaptchaToPng {
-	public static void co0nverter(String[] asciiart) throws IOException {
+	public static void converter(String[] asciiart) throws IOException {
 		BufferedImage bufferedImage = ImageIO
 				.read(new File("C:\\Users\\Asus\\Desktop\\project-workspace\\Phase1\\captcha.png"));
 		Image image = bufferedImage.getScaledInstance(40, 6, Image.SCALE_DEFAULT);

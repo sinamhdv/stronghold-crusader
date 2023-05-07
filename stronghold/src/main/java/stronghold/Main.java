@@ -1,10 +1,12 @@
 package stronghold;
 
+import java.io.IOException;
+
 import stronghold.controller.DatabaseManager;
 import stronghold.view.LoginMenu;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		DatabaseManager.loadUsers();
 		RunTests.run();
 		LoginMenu.run();

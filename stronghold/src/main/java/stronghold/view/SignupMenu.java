@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import stronghold.controller.CentralController;
@@ -8,7 +9,7 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class SignupMenu {
-	public static void run() {
+	public static void run() throws IOException {
 		System.out.println("======[Signup Menu]======");
 		
 		while (true) {
@@ -19,8 +20,8 @@ public class SignupMenu {
 				return;
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
 				System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
-						matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
-						matcher.get("slogan")).getErrorString());
+				matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
+				matcher.get("slogan")).getErrorString());
 			else
 				System.out.println("invalid command");
 		}

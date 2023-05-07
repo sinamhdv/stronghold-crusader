@@ -1,5 +1,6 @@
 package stronghold.controller;
 
+import java.io.IOException;
 import java.util.Random;
 
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
@@ -7,10 +8,11 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.FormatValidation;
 import stronghold.view.SignupMenu;
+import stronghold.view.captcha.CaptchaLoop;
 
 public class SignupMenuController {
 	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
-			String passwordConfirmation, String email, String slogan) {
+			String passwordConfirmation, String email, String slogan) throws IOException {
 		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, passwordConfirmation, email, slogan);
 		if (message == SignupAndProfileMenuMessage.USERNAME_EXIST) {
 			String newUsername = suggestUsername(username);
@@ -34,6 +36,7 @@ public class SignupMenuController {
 			}
 		}
 		String[] securityQuestion = SignupMenu.securityQuestionLoop();
+		CaptchaLoop.captchaManager();
 		User newUser = new User(username, password, nickName, slogan, email, 0,
 				Integer.parseInt(securityQuestion[0]), securityQuestion[1]);
 		StrongHold.addUser(newUser);
