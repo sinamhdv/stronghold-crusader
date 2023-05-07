@@ -91,12 +91,22 @@ public class Government {
 		return -1;
 	}
 
+	public boolean isThereStockpileToResource(ResourceType resourceType) {
+		for(Building building : buildings) {
+			if(building instanceof Stockpile) {
+				if(((Stockpile)building).getResources().containsKey(resourceType))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	public int getCapacityOfResourceType(ResourceType resourceType) {
-		int capacity = 0; 
+		int capacity = 0;
 		for (Building building : buildings) {
-			if(building instanceof Stockpile ) {
-				Stockpile stockpile = (Stockpile)building;
-				if(stockpile.getResources().containsKey(resourceType)) {
+			if (building instanceof Stockpile) {
+				Stockpile stockpile = (Stockpile) building;
+				if (stockpile.getResources().containsKey(resourceType)) {
 					capacity += (stockpile.getCapacity() - stockpile.getSumOfResource());
 				}
 			}

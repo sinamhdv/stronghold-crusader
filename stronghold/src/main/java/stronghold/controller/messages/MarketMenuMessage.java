@@ -1,5 +1,5 @@
 package stronghold.controller.messages;
 
-public enum MrketMenuMessage {
+public enum MarketMenuMessage {
 	
 }
