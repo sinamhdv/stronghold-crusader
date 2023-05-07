@@ -34,4 +34,15 @@ public enum ResourceType {
 	public int getSellprice() {
 		return sellprice;
 	}
+	public String getName() {
+		return name;
+	}
+	public ResourceType getresourceByName(String name) {
+		for(ResourceType resourceType : ResourceType.values()) {
+			if(resourceType.getName().equals(name))
+				return resourceType;
+		}
+		return null;
+	}
+
 }

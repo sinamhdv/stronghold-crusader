@@ -10,6 +10,6 @@ public class MarketMenuController {
 		return null;
 	}
 	public static MarketMenuMessage getBuyItemErrores(String itemName, int amoint) {
-		
+		if
 	}
 }
