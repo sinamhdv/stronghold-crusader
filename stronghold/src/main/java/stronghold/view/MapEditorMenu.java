@@ -34,6 +34,8 @@ public class MapEditorMenu {
 				runDropUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_GOVERNMENT)) != null)
+				runSelectGovernment(matcher);
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -96,6 +98,12 @@ public class MapEditorMenu {
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y")),
 			matcher.get("type")
+		).getErrorString());
+	}
+
+	private static void runSelectGovernment(HashMap<String, String> matcher) {
+		System.out.println(MapEditorMenuController.selectGovernment(
+			Integer.parseInt(matcher.get("government"))
 		).getErrorString());
 	}
 }

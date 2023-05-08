@@ -12,11 +12,19 @@ import stronghold.utils.Miscellaneous;
 
 public class MapEditorMenuController {
 	private static Map map;
+	private static int selectedGovernment
+	;
 	public static Map getMap() {
 		return map;
 	}
 	public static void setMap(Map map) {
 		MapEditorMenuController.map = map;
+	}
+	public static int getSelectedGovernment() {
+		return selectedGovernment;
+	}
+	public static void setSelectedGovernment(int selectedGovernment) {
+		MapEditorMenuController.selectedGovernment = selectedGovernment;
 	}
 
 	public static MapEditorMenuMessage setTexture(int x, int y, String type) {
@@ -95,10 +103,10 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isPassable())
 			return MapEditorMenuMessage.BAD_GROUND;
-		if (newPersonByName(type) == null)
+		if (newPersonByName(type, x, y, getSelectedGovernment()) == null)
 			return MapEditorMenuMessage.INVALID_UNIT_TYPE;
 		for (int i = 0; i < count; i++)
-			tile.addPerson(newPersonByName(type));
+			tile.addPerson(newPersonByName(type, x, y, getSelectedGovernment()));
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
@@ -110,10 +118,17 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isBuildable())
 			return MapEditorMenuMessage.BAD_GROUND;
-		Building building = newBuildingByName(type);
+		Building building = newBuildingByName(type, x, y, getSelectedGovernment());
 		if (building == null)
 			return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
 		tile.setBuilding(building);
+		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	public static MapEditorMenuMessage selectGovernment(int index) {
+		if (index <= 0 || index > map.getGovernmentsCount())
+			return MapEditorMenuMessage.INVALID_GOVERNMENT_INDEX;
+		setSelectedGovernment(index);
 		return MapEditorMenuMessage.SUCCESS;
 	}
 }
