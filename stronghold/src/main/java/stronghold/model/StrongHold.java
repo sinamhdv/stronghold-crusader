@@ -55,4 +55,5 @@ public class StrongHold {
 	public static void setUsers(ArrayList<User> users) {
 		StrongHold.users = users;
 	}
+
 }

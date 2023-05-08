@@ -46,4 +46,7 @@ public class Game {
 	public void setSelectedBuilding(Building selectedBuilding) {
 		this.selectedBuilding = selectedBuilding;
 	}
+	public Government getCurrentPlayer() {
+		return governments[currentPlayerIndex];
+	}
 }
