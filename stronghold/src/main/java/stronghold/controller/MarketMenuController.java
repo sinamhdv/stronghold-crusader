@@ -11,7 +11,11 @@ public class MarketMenuController {
 		MarketMenuMessage errors = getBuyItemErrores(itemName, amount);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		ResourceType resource = ResourceType.getresourceByName(itemName);
-		if( errors != null)
+		if (ResourceType.getresourceByName(itemName) == null )
+			return MarketMenuMessage.WRONG_ITEM;
+		else if (amount <= 0)
+			return MarketMenuMessage.INVALID_AMOUNT;
+		else if( errors != null)
 			return errors;
 		else 
 		{
@@ -28,15 +32,17 @@ public class MarketMenuController {
 	private static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getresourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (ResourceType.getresourceByName(itemName) == null )
-			return MarketMenuMessage.WRONG_ITEM;
-		else if (amount <= 0)
-			return MarketMenuMessage.INVALID_AMOUNT;
-		else if (currentPlayer.getGold()< ((resource).getBuyPrice()*amount))
+		 if (currentPlayer.getGold()< ((resource).getBuyPrice()*amount))
 			return MarketMenuMessage.NOT_HAVING_ENOUGH_MONEY;
 		else if (currentPlayer.getCapacityOfResourceType(resource) < amount)
 			return MarketMenuMessage.NOT_HAVING_ENOUGH_CAPACITY;
 		else 
 			return null;
+	}
+
+	private static MainMenuController getSellItemErrores(String itemName, int amount) {
+		ResourceType resource = ResourceType.getresourceByName(itemName);
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+
 	}
 }
