@@ -1,11 +1,13 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MapEditorMenuMessage;
+import stronghold.model.buildings.Building;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
+import stronghold.model.people.Person;
 import stronghold.utils.Miscellaneous;
 
 public class MapEditorMenuController {
@@ -84,10 +86,34 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage dropUnit(int x, int y, String type, int count) {
-		return null;
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		MapTile tile = map.getGrid()[x][y];
+		if (count <= 0)
+			return MapEditorMenuMessage.INVALID_COUNT;
+		if (tile.hasObstacle())
+			return MapEditorMenuMessage.FULL_CELL;
+		if (!tile.getGroundType().isPassable())
+			return MapEditorMenuMessage.BAD_GROUND;
+		if (newPersonByName(type) == null)
+			return MapEditorMenuMessage.INVALID_UNIT_TYPE;
+		for (int i = 0; i < count; i++)
+			tile.addPerson(newPersonByName(type));
+		return MapEditorMenuMessage.SUCCESS;
 	}
 
 	public static MapEditorMenuMessage dropBuilding(int x, int y, String type) {
-		return null;
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		MapTile tile = map.getGrid()[x][y];
+		if (tile.hasObstacle() || tile.hasPeople())
+			return MapEditorMenuMessage.FULL_CELL;
+		if (!tile.getGroundType().isBuildable())
+			return MapEditorMenuMessage.BAD_GROUND;
+		Building building = newBuildingByName(type);
+		if (building == null)
+			return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
+		tile.setBuilding(building);
+		return MapEditorMenuMessage.SUCCESS;
 	}
 }

@@ -41,6 +41,9 @@ public class MapTile implements Serializable {
 	public void setEnvironmentItem(EnvironmentItem environmentItem) {
 		this.environmentItem = environmentItem;
 	}
+	public void addPerson(Person person) {
+		people.add(person);
+	}
 
 	public boolean hasPeople() {
 		return !people.isEmpty();
