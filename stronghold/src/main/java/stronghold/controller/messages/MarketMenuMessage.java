@@ -6,6 +6,7 @@ public enum MarketMenuMessage {
 	NOT_HAVING_ENOUGH_MONEY("you don't have enough money"),
 	NOT_HAVING_ENOUGH_CAPACITY("you don't have enough capacity to by this item"),
 	SUCCESSFUL_BUY("your purchase was successful"),
+	NOT_HAVING_ENOUGH_RESOURCE_TO_SELL("you don't have enough resource to sell"),
 	private String errors;
 
 	private MarketMenuMessage(String errors) {

@@ -46,6 +46,9 @@ public class MarketMenuController {
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;
-		else if ()
+		else if (currentPlayer.getSumOfSpecificResource(resource) < amount) 
+			return MarketMenuMessage.NOT_HAVING_ENOUGH_RESOURCE_TO_SELL;
+		else 
+			return null;
 	}
 }
