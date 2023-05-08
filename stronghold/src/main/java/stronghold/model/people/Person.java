@@ -43,7 +43,7 @@ public abstract class Person implements Serializable {
 		this.damage = damage;
 	}
 	public Government getOwner() {
-		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+		return (ownerIndex == -1 ? null : StrongHold.getCurrentGame().getGovernments()[ownerIndex]);
 	}
 	public int getOwnerIndex() {
 		return ownerIndex;

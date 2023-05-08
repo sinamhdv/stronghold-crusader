@@ -51,7 +51,7 @@ public abstract class Building implements Serializable {
 		return ownerIndex;
 	}
 	public Government getOwner() {
-		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+		return (ownerIndex == -1 ? null : StrongHold.getCurrentGame().getGovernments()[ownerIndex]);
 	}
 	public String getName() {
 		return name;
