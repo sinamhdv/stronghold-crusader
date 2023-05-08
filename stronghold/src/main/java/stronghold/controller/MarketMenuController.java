@@ -11,17 +11,12 @@ public class MarketMenuController {
 		MarketMenuMessage errors = getBuyItemErrores(itemName, amount);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		ResourceType resource = ResourceType.getresourceByName(itemName);
-		if (ResourceType.getresourceByName(itemName) == null )
-			return MarketMenuMessage.WRONG_ITEM;
-		else if (amount <= 0)
-			return MarketMenuMessage.INVALID_AMOUNT;
-		else if( errors != null)
+		if (errors != null)
 			return errors;
-		else 
-		{
+		else {
 			currentPlayer.increaseResource(resource, amount);
-			currentPlayer.setGold(currentPlayer.getGold() - (amount*resource.getBuyPrice()));
-			return MarketMenuMessage.SUCCESSFUL_BUY;	
+			currentPlayer.setGold(currentPlayer.getGold() - (amount * resource.getBuyPrice()));
+			return MarketMenuMessage.SUCCESSFUL_BUY;
 		}
 	}
 
@@ -32,17 +27,25 @@ public class MarketMenuController {
 	private static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getresourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		 if (currentPlayer.getGold()< ((resource).getBuyPrice()*amount))
+		if (ResourceType.getresourceByName(itemName) == null)
+			return MarketMenuMessage.WRONG_ITEM;
+		else if (amount <= 0)
+			return MarketMenuMessage.INVALID_AMOUNT;
+		else if (currentPlayer.getGold() < ((resource).getBuyPrice() * amount))
 			return MarketMenuMessage.NOT_HAVING_ENOUGH_MONEY;
 		else if (currentPlayer.getCapacityOfResourceType(resource) < amount)
 			return MarketMenuMessage.NOT_HAVING_ENOUGH_CAPACITY;
-		else 
+		else
 			return null;
 	}
 
-	private static MainMenuController getSellItemErrores(String itemName, int amount) {
+	private static MarketMenuMessage getSellItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getresourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-
+		if (ResourceType.getresourceByName(itemName) == null )
+			return MarketMenuMessage.WRONG_ITEM;
+		else if (amount <= 0)
+			return MarketMenuMessage.INVALID_AMOUNT;
+		else if ()
 	}
 }

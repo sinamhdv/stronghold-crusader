@@ -84,7 +84,7 @@ public class Government {
 	public void setGold(int gold) {
 		this.gold = gold;
 	}
-	
+
 	public int getResourceCount(ResourceType resourceType) {
 		// TODO: to be implemented
 		return -1;
@@ -101,9 +101,9 @@ public class Government {
 	}
 
 	public boolean isThereStockpileToResource(ResourceType resourceType) {
-		for(Building building : buildings) {
-			if(building instanceof Stockpile) {
-				if(((Stockpile)building).getResources().containsKey(resourceType))
+		for (Building building : buildings) {
+			if (building instanceof Stockpile) {
+				if (((Stockpile) building).getResources().containsKey(resourceType))
 					return true;
 			}
 		}
@@ -121,5 +121,16 @@ public class Government {
 			}
 		}
 		return capacity;
+	}
+
+	public int getSumOfSpecificResource(ResourceType resourceType) {
+		int sum = 0;
+		for (Building building : buildings) {
+			if (building instanceof Stockpile) {
+				Stockpile stockpile = (Stockpile)building;
+				sum += stockpile.getResources().get(resourceType);
+			}
+		}
+		return sum;
 	}
 }
