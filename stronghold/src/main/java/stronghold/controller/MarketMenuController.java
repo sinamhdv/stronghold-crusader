@@ -2,21 +2,31 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MarketMenuMessage;
 import stronghold.model.Game;
+import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 
 public class MarketMenuController {
 	public static MarketMenuMessage buyItem(String itemName, int amount) {
-		return null; 
-	}
-	public static MarketMenuMessage checkBuyItemErrors (String itemName, int amount) {
 		return null;
 	}
+
+	public static MarketMenuMessage checkBuyItemErrors(String itemName, int amount) {
+		return null;
+	}
+
 	public static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
+		ResourceType resource = ResourceType.getresourceByName(itemName);
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if (ResourceType.getresourceByName(itemName) == null )
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;
-		else if (StrongHold.getCurrentGame())
+		else if (currentPlayer.getGold()< ((resource).getBuyPrice()*amount))
+			return MarketMenuMessage.NOT_HAVING_ENOUGH_MONEY;
+		else if (currentPlayer.getCapacityOfResourceType(resource) < amount)
+			return MarketMenuMessage.NOT_HAVING_ENOUGH_CAPACITY;
+		else 
+			return null;
 	}
 }

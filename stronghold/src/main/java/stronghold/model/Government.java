@@ -14,6 +14,7 @@ public class Government {
 	private int foodRate = 0;
 	private int taxRate = 0;
 	private int religionRate = 0;
+	private int gold = 0;
 	private final ArrayList<Person> people = new ArrayList<>();
 
 	public Government(User user) {
@@ -76,6 +77,10 @@ public class Government {
 		popularity += fearFactor + foodRate + taxRate + religionRate;
 	}
 
+	public int getGold() {
+		return gold;
+	}
+	
 	public int getResourceCount(ResourceType resourceType) {
 		// TODO: to be implemented
 		return -1;
