@@ -80,6 +80,10 @@ public class Government {
 	public int getGold() {
 		return gold;
 	}
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
 	
 	public int getResourceCount(ResourceType resourceType) {
 		// TODO: to be implemented

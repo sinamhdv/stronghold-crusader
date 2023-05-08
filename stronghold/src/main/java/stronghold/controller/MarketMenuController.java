@@ -8,14 +8,24 @@ import stronghold.model.StrongHold;
 
 public class MarketMenuController {
 	public static MarketMenuMessage buyItem(String itemName, int amount) {
-		return null;
+		MarketMenuMessage errors = getBuyItemErrores(itemName, amount);
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		ResourceType resource = ResourceType.getresourceByName(itemName);
+		if( errors != null)
+			return errors;
+		else 
+		{
+			currentPlayer.increaseResource(resource, amount);
+			currentPlayer.setGold(currentPlayer.getGold() - (amount*resource.getBuyPrice()));
+			return MarketMenuMessage.SUCCESSFUL_BUY;	
+		}
 	}
 
 	public static MarketMenuMessage checkBuyItemErrors(String itemName, int amount) {
 		return null;
 	}
 
-	public static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
+	private static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getresourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if (ResourceType.getresourceByName(itemName) == null )
