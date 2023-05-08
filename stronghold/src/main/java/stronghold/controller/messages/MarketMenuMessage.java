@@ -13,5 +13,9 @@ public enum MarketMenuMessage {
 	private MarketMenuMessage(String errors) {
 		this.errors = errors;
 	}
+
+	public String getErrorString() {
+		return errors;
+	}
 	
 }
