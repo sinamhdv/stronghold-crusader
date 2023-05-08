@@ -1,6 +1,8 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MapEditorMenuMessage;
+import stronghold.model.environment.Rock;
+import stronghold.model.environment.Tree;
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
@@ -22,7 +24,7 @@ public class MapEditorMenuController {
 	public static MapEditorMenuMessage rectangleSetTexture(int x1, int y1, int x2, int y2, String type) {
 		GroundType groundType = GroundType.getGroundTypeByName(type);
 		if (groundType == null)
-			return MapEditorMenuMessage.INVALID_GROUND_TYPE;
+			return MapEditorMenuMessage.INVALID_GROUND_TYPE_NAME;
 		else if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		for (int i = x1; i <= x2; i++) {
@@ -61,17 +63,24 @@ public class MapEditorMenuController {
 			direction = "news".charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(4));
 		if (tile.hasObstacle() || tile.hasPeople())
 			return MapEditorMenuMessage.FULL_CELL;
-		// TODO: check ground type under the rock
-		// TODO: insert rock
+		if (!tile.getGroundType().isBuildable())
+			return MapEditorMenuMessage.BAD_GROUND;
+		tile.setEnvironmentItem(new Rock(direction));
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
 	public static MapEditorMenuMessage dropTree(int x, int y, String type) {
-		return null;
-	}
-
-	private MapEditorMenuMessage checkDropEnvironmentItemErrors(int x, int y) {
-
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		MapTile tile = map.getGrid()[x][y];
+		if (!Tree.TREE_NAMES.contains(type))
+			return MapEditorMenuMessage.INVALID_TREE_NAME;
+		if (tile.hasObstacle() || tile.hasPeople())
+			return MapEditorMenuMessage.FULL_CELL;
+		if (!tile.getGroundType().isBuildable())
+			return MapEditorMenuMessage.BAD_GROUND;
+		tile.setEnvironmentItem(new Tree(type));
+		return MapEditorMenuMessage.SUCCESS;
 	}
 
 	public static MapEditorMenuMessage dropUnit(int x, int y, String type, int count) {
