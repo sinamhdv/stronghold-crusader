@@ -6,19 +6,20 @@ import stronghold.model.StrongHold;
 import stronghold.model.Trades;
 
 public class TradeMenuController {
-	public TradeMenuMessage tradeRequest(Government owner, String resourceName, int amount, int price, String message,
+	public static TradeMenuMessage tradeRequest(Government owner, String resourceName, int amount, int price, String message,
 			String id) {
 		Government ownerToRequest = StrongHold.getCurrentGame().getCurrentPlayer();
-		TradeMenuMessage errors = tradeRequestError(ownerToRequest, resourceName, amount, price, message, id)
+		TradeMenuMessage errors = tradeRequestError(ownerToRequest, resourceName, amount, price, message, id);
 		if(errors != null)
 			return errors;
 		else {
 			Trades trade = new Trades(ownerToRequest, resourceName, amount, price, message, id);
-			StrongHold.addTrade(trade);
+			StrongHold.getCurrentGame().addTrade(trade);
+			return TradeMenuMessage.SUCCESSFUL_REQUEST;
 		}
 	}
 
-	private TradeMenuMessage tradeRequestError(Government owner, String resourceName, int amount, int price,
+	private static TradeMenuMessage tradeRequestError(Government owner, String resourceName, int amount, int price,
 			String message, String id) {
 		if (resourceName.equals("") || message.equals("") || id.equals(id))
 			return TradeMenuMessage.EMPTY_FIELD;
@@ -31,15 +32,32 @@ public class TradeMenuController {
 		else return null;
 	}
 
-	public TradeMenuMessage tradeAccept(String id, String message) {
-
+	public static TradeMenuMessage tradeAccept(String id, String message) {
+		TradeMenuMessage errors = tradeAcceptErrors(id, message);
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		if (errors != null) 
+		return errors;
+		else {
+			Trades trade = StrongHold.getCurrentGame().getTradeById(id);
+			Government ownerOfRequest = trade.getOwner();
+			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
+			currentPlayer.setGold(trade.getPrice() * trade.getAmount());
+			ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
+			//To
+			StrongHold.getCurrentGame().removeTrade(trade);
+			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
+		}
 	}
 
-	private TradeMenuMessage tardeAcceptErrors(String id , String message) {
+	private static TradeMenuMessage tradeAcceptErrors(String id , String message) {
+		Trades trade = StrongHold.getCurrentGame().getTradeById(id);
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if(id.equals("") || message.equals("")) 
 			return TradeMenuMessage.EMPTY_FIELD;
-		else if (StrongHold.getTradeById(id) == null)
+		else if (StrongHold.getCurrentGame().getTradeById(id) == null)
 			return TradeMenuMessage.THERE_IS_NO_TRADE_WITH_THIS_ID;
+		else if (currentPlayer.getSumOfSpecificResource(trade.getResource()) < trade.getAmount())
+			return TradeMenuMessage.NOT_HAVING_ENOUGH_RESOURCE;
 		else 
 			return null;
 	}
