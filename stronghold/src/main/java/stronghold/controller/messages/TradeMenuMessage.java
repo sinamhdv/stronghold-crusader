@@ -5,6 +5,7 @@ public enum TradeMenuMessage {
 	INVALID_AMOUNT("invalid amount"),
 	INVALID_PRICE("invalid price"),
 	NOT_HAVING_ENOUGH_MONEY("you don't have enough money"),
+	THERE_IS_NO_TRADE_WITH_THIS_ID("there is no trade with this id"),
 	;
 	private String errorMessage;
 

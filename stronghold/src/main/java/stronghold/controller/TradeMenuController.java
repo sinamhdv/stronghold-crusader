@@ -30,4 +30,19 @@ public class TradeMenuController {
 			return TradeMenuMessage.NOT_HAVING_ENOUGH_MONEY;
 		else return null;
 	}
+
+	public TradeMenuMessage tradeAccept(String id, String message) {
+
+	}
+
+	private TradeMenuMessage tardeAcceptErrors(String id , String message) {
+		if(id.equals("") || message.equals("")) 
+			return TradeMenuMessage.EMPTY_FIELD;
+		else if (StrongHold.getTradeById(id) == null)
+			return TradeMenuMessage.THERE_IS_NO_TRADE_WITH_THIS_ID;
+		else 
+			return null;
+	}
+
+
 }
