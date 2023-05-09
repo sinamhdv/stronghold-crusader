@@ -9,6 +9,7 @@ public class StrongHold {
 	private static ArrayList<User> users = new ArrayList<>();
 	private static User currentUser;
 	private static Game currentGame;
+	private static ArrayList<Trades> allTrads = new ArrayList<>(); 
 
 	public static User getUserByName(String userName)
 	{
@@ -54,6 +55,18 @@ public class StrongHold {
 	}
 	public static void setUsers(ArrayList<User> users) {
 		StrongHold.users = users;
+	}
+
+	public static ArrayList<Trades> getAllTrads() {
+		return allTrads;
+	}
+
+	public static Trades getTradeById(String id) {
+		for(Trades trade : allTrads) {
+			if(trade.getId().equals(id))
+				return trade;
+		}
+		return null;
 	}
 
 }

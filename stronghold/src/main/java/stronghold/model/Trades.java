@@ -1,12 +1,13 @@
 package stronghold.model;
 
-public class Trads {
+public class Trades {
 	private String resourceName;
 	private int amount;
 	private int price;
 	private String message;
+	private String id;
 
-	public Trads(String resourceName, int amount, int price, String message) {
+	public Trades(String resourceName, int amount, int price, String message, String id) {
 		this.resourceName = resourceName;
 		this.amount = amount;
 		this.price = price;
@@ -29,4 +30,7 @@ public class Trads {
 		return ResourceType.getresourceByName(resourceName);
 	}
 	
+	public String getId() {
+		return id;
+	}
 }
