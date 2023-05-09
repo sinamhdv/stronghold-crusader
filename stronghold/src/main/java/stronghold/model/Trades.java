@@ -6,8 +6,9 @@ public class Trades {
 	private int price;
 	private String message;
 	private String id;
+	private Government owner;
 
-	public Trades(String resourceName, int amount, int price, String message, String id) {
+	public Trades(Government owner, String resourceName, int amount, int price, String message, String id) {
 		this.resourceName = resourceName;
 		this.amount = amount;
 		this.price = price;
@@ -32,5 +33,9 @@ public class Trades {
 	
 	public String getId() {
 		return id;
+	}
+	
+	public Government getOwner() {
+		return owner;
 	}
 }

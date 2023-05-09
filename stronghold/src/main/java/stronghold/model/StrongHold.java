@@ -69,4 +69,7 @@ public class StrongHold {
 		return null;
 	}
 
+	public static void addTrade(Trades trade) {
+		allTrads.add(trade);
+	}
 }
