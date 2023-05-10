@@ -1,7 +1,5 @@
 package stronghold.model;
 
-import java.net.CacheRequest;
-import java.security.DrbgParameters.Capability;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;

@@ -23,6 +23,8 @@ public class GameMenu {
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
 				showPopularity();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
+				showPopularityFactors();
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -30,5 +32,10 @@ public class GameMenu {
 
 	private static void showPopularity() {
 		System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
+	}
+
+	private static void showPopularityFactors() {
+		System.out.println("Popularity factors:");
+		System.out.println("Food rate: ");
 	}
 }
