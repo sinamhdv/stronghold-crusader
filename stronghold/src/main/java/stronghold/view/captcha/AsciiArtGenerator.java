@@ -1,6 +1,5 @@
 package stronghold.view.captcha;
 
-import java.io.IOException;
 import java.util.Random;
 
 import stronghold.utils.ConfigManager;
@@ -46,7 +45,7 @@ public class AsciiArtGenerator {
 		return curentcaptcha;
 	}
 
-	public static String[] genarateCaptcha() throws IOException {
+	public static String[] genarateCaptcha() {
 		String[] captcha = makingNoise(createCaptchaAsciiArt());
 		ConvertCaptchaToPng.converter(captcha);
 		return captcha;

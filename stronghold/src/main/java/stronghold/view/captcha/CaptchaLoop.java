@@ -1,12 +1,10 @@
 package stronghold.view.captcha;
 
-import java.io.IOException;
-
 import stronghold.utils.FormatValidation;
 import stronghold.view.MainMenu;
 
 public class CaptchaLoop {
-	public static boolean captchaManager() throws IOException {
+	public static boolean captchaManager() {
 		while (true) {
 			String[] captcha = AsciiArtGenerator.genarateCaptcha();
 			for (int i = 0; i < captcha.length; i++) {
