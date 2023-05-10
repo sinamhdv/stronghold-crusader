@@ -45,7 +45,7 @@ public class MainMenu {
 		MainMenuMessage message = MainMenuController.startGame(matcher.get("map"));
 		System.out.println(message.getErrorString());
 		if (message == MainMenuMessage.SUCCESS) {
-			// TODO: run GameMenu
+			GameMenu.run();
 		}
 	}
 
