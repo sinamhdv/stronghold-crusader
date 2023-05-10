@@ -9,11 +9,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ConvertCaptchaToPng {
+	private static final String CAPTCHA_IMAGE_FILENAME = "stronghold/src/main/config/captcha.png";
+
 	public static void converter(String[] asciiart) {
 		BufferedImage bufferedImage = null;
 		try {
 			bufferedImage = ImageIO
-				.read(new File("C:\\Users\\Asus\\Desktop\\project-workspace\\Phase1\\captcha.png"));
+				.read(new File(CAPTCHA_IMAGE_FILENAME));
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();

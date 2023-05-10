@@ -16,8 +16,10 @@ public class CaptchaLoop {
 				continue;
 			}
 			int number = Integer.parseInt(input);
-			if (number == AsciiArtGenerator.getCurentcaptcha())
+			if (number == AsciiArtGenerator.getCurrentCaptcha())
 				return true;
+			else
+				System.out.println("Error: The Entered number was not correct");
 		}
 	}
 }
