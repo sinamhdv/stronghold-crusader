@@ -1,6 +1,5 @@
 package stronghold.view;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import stronghold.controller.LoginMenuController;
@@ -11,7 +10,7 @@ import stronghold.view.parser.CommandParser;
 
 public class LoginMenu {
 
-	public static void run() throws IOException {
+	public static void run() {
 		System.out.println("======[Login Menu]======");
 		runCheckAutoLogin();
 
@@ -35,7 +34,7 @@ public class LoginMenu {
 		}
 	}
 
-	public static void runLogin(HashMap<String, String> matcher) throws IOException {
+	public static void runLogin(HashMap<String, String> matcher) {
 		LoginMenuMessage message = LoginMenuController.login(
 			matcher.get("username"),
 			matcher.get("password"),

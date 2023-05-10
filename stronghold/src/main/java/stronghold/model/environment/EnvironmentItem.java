@@ -13,7 +13,7 @@ public abstract class EnvironmentItem implements Serializable {
 	}
 
 	public Government getOwner() {
-		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+		return (ownerIndex == -1 ? null : StrongHold.getCurrentGame().getGovernments()[ownerIndex]);
 	}
 	public int getOwnerIndex() {
 		return ownerIndex;

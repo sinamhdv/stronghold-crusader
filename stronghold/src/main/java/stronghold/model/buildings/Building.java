@@ -15,7 +15,7 @@ public abstract class Building implements Serializable {
 	private final int neededWorkers;
 	private final int turnOfBuild;
 
-	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int terunOfBuild) {
+	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int turnOfBuild) {
 		this.maxHp = maxHp;
 		this.hp = maxHp;
 		this.x = x;
@@ -23,7 +23,7 @@ public abstract class Building implements Serializable {
 		this.ownerIndex = ownerIndex;
 		this.name = name;
 		this.neededWorkers = neededWorkers;
-		this.turnOfBuild = terunOfBuild;
+		this.turnOfBuild = turnOfBuild;
 	}
 
 	public int getMaxHp() {
@@ -51,7 +51,7 @@ public abstract class Building implements Serializable {
 		return ownerIndex;
 	}
 	public Government getOwner() {
-		return StrongHold.getCurrentGame().getGovernments()[ownerIndex];
+		return (ownerIndex == -1 ? null : StrongHold.getCurrentGame().getGovernments()[ownerIndex]);
 	}
 	public String getName() {
 		return name;

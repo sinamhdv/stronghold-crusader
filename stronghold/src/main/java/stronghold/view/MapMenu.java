@@ -4,20 +4,23 @@ import java.util.HashMap;
 
 import stronghold.controller.MapMenuController;
 import stronghold.controller.messages.MapMenuMessage;
+import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.utils.Miscellaneous;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapMenu {
-	public static void run() {
+	public static void run(Map map) {
 		System.out.println("======[Map Menu]======");
+		
+		MapMenuController.setCurrentMap(map);
 
 		while (true) {
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;
 
-			MapMenuController.updateCurrentMap();
+			if (map == null) MapMenuController.updateCurrentMap();
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_MAP)) != null)
 				runShowMap(matcher);

@@ -1,6 +1,5 @@
 package stronghold.view;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import stronghold.controller.CentralController;
@@ -9,7 +8,7 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class SignupMenu {
-	public static void run() throws IOException {
+	public static void run() {
 		System.out.println("======[Signup Menu]======");
 		
 		while (true) {

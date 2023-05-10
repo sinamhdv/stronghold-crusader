@@ -17,7 +17,7 @@ public enum GroundType {
 	RIVER(false, TerminalColor.BLUE, TerminalColor.GRAY, "river"),
 	SMALL_POND(false, TerminalColor.BLUE, TerminalColor.GRAY, "small pond"),
 	LARGE_POND(false, TerminalColor.BLUE, TerminalColor.GRAY, "large pond"),	// TODO: handle large pond differently?
-	COAST(false, TerminalColor.YELLOW, TerminalColor.BLACK, "coast"),
+	COAST(true, TerminalColor.YELLOW, TerminalColor.BLACK, "coast"),
 	SEA(false, TerminalColor.BLUE, TerminalColor.GRAY, "sea"),
 	;
 
@@ -44,6 +44,9 @@ public enum GroundType {
 	}
 	public TerminalColor getForegroundColor() {
 		return foregroundColor;
+	}
+	public boolean isBuildable() {
+		return (isPassable && this != GroundType.SHALLOW_WATER);
 	}
 
 	public static GroundType getGroundTypeByName(String name) {

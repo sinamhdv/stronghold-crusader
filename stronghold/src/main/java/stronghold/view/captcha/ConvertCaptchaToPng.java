@@ -9,9 +9,19 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ConvertCaptchaToPng {
-	public static void converter(String[] asciiart) throws IOException {
-		BufferedImage bufferedImage = ImageIO
-				.read(new File("C:\\Users\\Asus\\Desktop\\project-workspace\\Phase1\\captcha.png"));
+	private static final String CAPTCHA_IMAGE_FILENAME = "stronghold/src/main/config/captcha.png";
+
+	public static void converter(String[] asciiart) {
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO
+				.read(new File(CAPTCHA_IMAGE_FILENAME));
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			System.err.println("FATAL: IOException while converting captcha to png");
+			System.exit(1);
+		}
 		Image image = bufferedImage.getScaledInstance(40, 6, Image.SCALE_DEFAULT);
 		WritableRaster raster = ((BufferedImage) image).getRaster();
 		int[] rgb = new int[3];

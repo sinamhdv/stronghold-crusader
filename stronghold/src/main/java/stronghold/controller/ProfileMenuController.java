@@ -5,6 +5,7 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.FormatValidation;
 import stronghold.view.ProfileMenu;
+import stronghold.view.captcha.CaptchaLoop;
 
 public class ProfileMenuController {
 	public static SignupAndProfileMenuMessage changeUserName(String newUsername) {
@@ -39,7 +40,7 @@ public class ProfileMenuController {
 				.equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
 					return FormatValidation.checkPasswordStrength(newPassword);
 
-		// TODO: call Captcha
+		CaptchaLoop.captchaManager();
 		
 		String confirmation = ProfileMenu.askNewPasswordConfirmation();
 		if (!confirmation.equals(newPassword))

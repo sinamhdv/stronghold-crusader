@@ -12,6 +12,7 @@ public class MapEditorMenu {
 		System.out.println("======[Map Editor]======");
 
 		MapEditorMenuController.setMap(MapManagementMenuController.getLoadedMap());
+		MapEditorMenuController.setSelectedGovernment(0);
 
 		HashMap<String, String> matcher;
 		while (true) {
@@ -34,6 +35,16 @@ public class MapEditorMenu {
 				runDropUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_GOVERNMENT)) != null)
+				runSelectGovernment(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_GOVERNMENT)) != null)
+				showSelectedGovernment();
+			else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null)
+				return;
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
+				MapMenu.run(MapEditorMenuController.getMap());
+				System.out.println("======[Map Editor]======");
+			}
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -92,10 +103,20 @@ public class MapEditorMenu {
 	}
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
-		System.out.println(MapEditorMenuController.dropRock(
+		System.out.println(MapEditorMenuController.dropBuilding(
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y")),
 			matcher.get("type")
 		).getErrorString());
+	}
+
+	private static void runSelectGovernment(HashMap<String, String> matcher) {
+		System.out.println(MapEditorMenuController.selectGovernment(
+			Integer.parseInt(matcher.get("government"))
+		).getErrorString());
+	}
+
+	private static void showSelectedGovernment() {
+		System.out.println("The selected government is: " + MapEditorMenuController.getSelectedGovernment());
 	}
 }

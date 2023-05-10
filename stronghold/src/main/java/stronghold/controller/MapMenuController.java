@@ -31,6 +31,9 @@ public class MapMenuController {
 	public static Map getCurrentMap() {
 		return currentMap;
 	}
+	public static void setCurrentMap(Map currentMap) {
+		MapMenuController.currentMap = currentMap;
+	}
 	public static void updateCurrentMap() {
 		currentMap = StrongHold.getCurrentGame().getMap();
 	}

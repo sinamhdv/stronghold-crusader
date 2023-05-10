@@ -2,10 +2,11 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MapManagementMenuMessage;
 import stronghold.model.map.Map;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
 
 public class MapManagementMenuController {
-	private static final int MIN_DIMENTIONS = 200;
+	private static final int MIN_DIMENTIONS = 100;
 	private static final int MAX_DIMENTIONS = 400;
 	private static Map loadedMap;
 

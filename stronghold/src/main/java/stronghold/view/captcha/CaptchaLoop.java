@@ -1,12 +1,10 @@
 package stronghold.view.captcha;
 
-import java.io.IOException;
-
 import stronghold.utils.FormatValidation;
 import stronghold.view.MainMenu;
 
 public class CaptchaLoop {
-	public static boolean captchaManager() throws IOException {
+	public static boolean captchaManager() {
 		while (true) {
 			String[] captcha = AsciiArtGenerator.genarateCaptcha();
 			for (int i = 0; i < captcha.length; i++) {
@@ -18,8 +16,10 @@ public class CaptchaLoop {
 				continue;
 			}
 			int number = Integer.parseInt(input);
-			if (number == AsciiArtGenerator.getCurentcaptcha())
+			if (number == AsciiArtGenerator.getCurrentCaptcha())
 				return true;
+			else
+				System.out.println("Error: The Entered number was not correct");
 		}
 	}
 }

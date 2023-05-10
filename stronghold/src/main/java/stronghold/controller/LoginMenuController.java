@@ -1,12 +1,12 @@
 package stronghold.controller;
 
-import java.io.IOException;
 import java.time.Instant;
 
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
 import stronghold.view.LoginMenu;
 import stronghold.view.captcha.CaptchaLoop;
@@ -15,7 +15,7 @@ public class LoginMenuController {
 	private static int failedLoginsCount = 0;
 	private static long lastFailedAttemptTime = 0;
 
-	public static LoginMenuMessage login(String username, String password, String stayLoggedIn) throws IOException {
+	public static LoginMenuMessage login(String username, String password, String stayLoggedIn) {
 		if (Instant.now().getEpochSecond() - lastFailedAttemptTime < 5 * failedLoginsCount)
 			return LoginMenuMessage.TRY_AFTER_DELAY;
 		User user = StrongHold.getUserByName(username);

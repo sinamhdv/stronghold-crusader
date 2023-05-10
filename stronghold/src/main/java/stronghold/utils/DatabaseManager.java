@@ -1,7 +1,13 @@
-package stronghold.controller;
+package stronghold.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,10 +25,9 @@ public class DatabaseManager {
 	private static final String USERS_DATABASE_FILENAME = "stronghold/src/main/database/users.json";
 	private static final String STAY_LOGGED_IN_FILENAME = "stronghold/src/main/database/stay-logged-in.txt";
 	private static final String MAP_FILES_PATH = "stronghold/src/main/database/maps/";
-	private static final String CAPTCHA_ASCII_ART_FILENAME = "stronghold/src/main/config/captcha-ascii-art.json";
 
 	// File Operations
-	private static void writeToFile(String filename, String content) {
+	static void writeToFile(String filename, String content) {
 		File file = new File(filename);
 		try {
 			FileUtils.writeStringToFile(file, content, Charset.forName("UTF-8"));
@@ -31,7 +36,7 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
-	private static String readAllFromFile(String filename) {
+	static String readAllFromFile(String filename) {
 		File file = new File(filename);
 		if (!file.exists()) return null;
 		try {
@@ -46,16 +51,14 @@ public class DatabaseManager {
 	// User Management
 	public static void loadUsers() {
 		String jsonData = readAllFromFile(USERS_DATABASE_FILENAME);
-		Gson gson = new Gson();
-		User[] usersArray = (jsonData == null ? new User[0] : gson.fromJson(jsonData, User[].class));
+		User[] usersArray = (jsonData == null ? new User[0] : new Gson().fromJson(jsonData, User[].class));
 		StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
 	}
 	public static void updateUser(User user) {
 		saveUsers();
 	}
 	private static void saveUsers() {
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(StrongHold.getUsers());
+		String jsonData = new Gson().toJson(StrongHold.getUsers());
 		writeToFile(USERS_DATABASE_FILENAME, jsonData);
 	}
 
@@ -72,24 +75,44 @@ public class DatabaseManager {
 
 	// Map Management
 	private static String getMapFilename(String mapName) {
-		return MAP_FILES_PATH + mapName + ".json";
+		return MAP_FILES_PATH + mapName + ".data";
 	}
 	private static String convertFilenameToMapName(String filename) {
 		return filename.substring(0, filename.length() - 5);
 	}
-	public static void saveMap(Map map) {	// TODO: change the map loading method to default serialization?
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(map);
-		writeToFile(getMapFilename(map.getName()), jsonData);
+	public static void saveMap(Map map) {
+		try {
+			OutputStream file = new FileOutputStream(getMapFilename(map.getName()));
+			ObjectOutputStream serializer = new ObjectOutputStream(file);
+			serializer.writeObject(map);
+			serializer.close();
+			file.close();
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while saving map");
+			System.exit(1);
+		}
 	}
 	public static boolean mapExists(String mapName) {
 		File file = new File(getMapFilename(mapName));
 		return file.exists();
 	}
 	public static Map loadMapByName(String mapName) {
-		Gson gson = new Gson();
-		String jsonData = readAllFromFile(getMapFilename(mapName));
-		return gson.fromJson(jsonData, Map.class);
+		try {
+			InputStream file = new FileInputStream(getMapFilename(mapName));
+			ObjectInputStream deserializer = new ObjectInputStream(file);
+			Map map = (Map)deserializer.readObject();
+			deserializer.close();
+			file.close();
+			return map;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while loading map");
+			System.exit(1);
+		}
+		return null;
 	}
 	public static void deleteMap(String mapName) {
 		File file = new File(getMapFilename(mapName));
@@ -102,11 +125,5 @@ public class DatabaseManager {
 		for (int i = 0; i < files.length; i++)
 			result[i] = convertFilenameToMapName(files[i].getName());
 		return result;
-	}
-
-	public static String[][] loadCaptchaAsciiArt() {
-		Gson gson = new Gson();
-		String jsonData = readAllFromFile(CAPTCHA_ASCII_ART_FILENAME);
-		return gson.fromJson(jsonData, String[][].class);
 	}
 }

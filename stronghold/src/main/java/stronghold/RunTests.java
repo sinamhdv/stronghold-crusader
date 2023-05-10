@@ -3,9 +3,9 @@ package stronghold;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import stronghold.controller.DatabaseManager;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.DatabaseManager;
 import stronghold.view.Terminal2DPrinter;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
