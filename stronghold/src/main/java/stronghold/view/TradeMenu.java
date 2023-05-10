@@ -67,7 +67,7 @@ public class TradeMenu {
 			if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_REQUEST)) != null)
 				runTradeRequest(matcher);
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_ACCEPT)) != null)
-				runForgotPassword(matcher);
+				runTradeAccept(matcher);
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_HISTORY)) != null)
 				SignupMenu.run();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_LIST)) != null)
@@ -86,5 +86,10 @@ public class TradeMenu {
 		System.out.println(
 				TradeMenuController.tradeRequest(matcher.get("resourceType"), Integer.parseInt(matcher.get("amount")),
 						Integer.parseInt(matcher.get("price")), matcher.get("message"), id).getErrorMessage());
+	}
+
+	public static void runTradeAccept(HashMap<String, String> matcher) {
+		System.out
+				.println(TradeMenuController.tradeAccept(matcher.get("id"), matcher.get("message")).getErrorMessage());
 	}
 }
