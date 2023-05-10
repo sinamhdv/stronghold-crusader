@@ -7,6 +7,7 @@ import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
 import stronghold.view.LoginMenu;
 import stronghold.view.captcha.CaptchaLoop;

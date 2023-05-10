@@ -2,6 +2,7 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MapManagementMenuMessage;
 import stronghold.model.map.Map;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
 
 public class MapManagementMenuController {

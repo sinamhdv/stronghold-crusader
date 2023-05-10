@@ -3,7 +3,7 @@ package stronghold.view.captcha;
 import java.io.IOException;
 import java.util.Random;
 
-import stronghold.controller.DatabaseManager;
+import stronghold.utils.DatabaseManager;
 
 public class AsciiArtGenerator {
 

@@ -2,7 +2,7 @@ package stronghold;
 
 import java.io.IOException;
 
-import stronghold.controller.DatabaseManager;
+import stronghold.utils.DatabaseManager;
 import stronghold.view.LoginMenu;
 
 public class Main {

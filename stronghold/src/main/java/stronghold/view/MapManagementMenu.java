@@ -2,9 +2,9 @@ package stronghold.view;
 
 import java.util.HashMap;
 
-import stronghold.controller.DatabaseManager;
 import stronghold.controller.MapManagementMenuController;
 import stronghold.controller.messages.MapManagementMenuMessage;
+import stronghold.utils.DatabaseManager;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 

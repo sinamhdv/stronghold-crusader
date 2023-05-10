@@ -1,4 +1,4 @@
-package stronghold.controller;
+package stronghold.utils;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package stronghold.model;
 
-import stronghold.controller.DatabaseManager;
 import stronghold.utils.Cryptography;
+import stronghold.utils.DatabaseManager;
 
 public class User {
 	private String userName;

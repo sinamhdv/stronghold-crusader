@@ -3,7 +3,7 @@ package stronghold.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import stronghold.controller.DatabaseManager;
+import stronghold.utils.DatabaseManager;
 
 public class StrongHold {
 	private static ArrayList<User> users = new ArrayList<>();

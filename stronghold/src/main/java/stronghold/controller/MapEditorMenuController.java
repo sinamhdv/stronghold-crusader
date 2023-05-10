@@ -8,6 +8,7 @@ import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
+import stronghold.model.people.PersonGenerator;
 import stronghold.utils.Miscellaneous;
 
 public class MapEditorMenuController {
@@ -103,10 +104,10 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isPassable())
 			return MapEditorMenuMessage.BAD_GROUND;
-		if (newPersonByName(type, x, y, getSelectedGovernment()) == null)
+		if (PersonGenerator.newPersonByName(type, x, y, getSelectedGovernment()) == null)
 			return MapEditorMenuMessage.INVALID_UNIT_TYPE;
 		for (int i = 0; i < count; i++)
-			tile.addPerson(newPersonByName(type, x, y, getSelectedGovernment()));
+			tile.addPerson(PersonGenerator.newPersonByName(type, x, y, getSelectedGovernment()));
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
