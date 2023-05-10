@@ -5,7 +5,7 @@ import java.io.Serializable;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 
-public abstract class Person implements Serializable {
+public class Person implements Serializable {
 	private final String name;
 	private int speed;
 	private int hp;
@@ -40,6 +40,12 @@ public abstract class Person implements Serializable {
 		this.ownerIndex = ownerIndex;
 		this.x = x;
 		this.y = y;
+	}
+
+	public Person(Person other, int x, int y, int ownerIndex) {
+		this(other.name, other.speed, other.hp, other.damage, other.visibilityRange, other.attackRate,
+			other.attackRange, other.canClimbLadder, other.canClimbWalls, other.canDigMoats, other.hasBurningOil,
+			ownerIndex, x, y);
 	}
 
 	public int getSpeed() {
