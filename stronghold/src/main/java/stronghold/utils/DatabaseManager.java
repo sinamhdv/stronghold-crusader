@@ -1,7 +1,13 @@
 package stronghold.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,22 +75,44 @@ public class DatabaseManager {
 
 	// Map Management
 	private static String getMapFilename(String mapName) {
-		return MAP_FILES_PATH + mapName + ".json";
+		return MAP_FILES_PATH + mapName + ".data";
 	}
 	private static String convertFilenameToMapName(String filename) {
 		return filename.substring(0, filename.length() - 5);
 	}
-	public static void saveMap(Map map) {	// TODO: change the map loading method to default serialization?
-		String jsonData = new Gson().toJson(map);
-		writeToFile(getMapFilename(map.getName()), jsonData);
+	public static void saveMap(Map map) {
+		try {
+			OutputStream file = new FileOutputStream(getMapFilename(map.getName()));
+			ObjectOutputStream serializer = new ObjectOutputStream(file);
+			serializer.writeObject(map);
+			serializer.close();
+			file.close();
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while saving map");
+			System.exit(1);
+		}
 	}
 	public static boolean mapExists(String mapName) {
 		File file = new File(getMapFilename(mapName));
 		return file.exists();
 	}
 	public static Map loadMapByName(String mapName) {
-		String jsonData = readAllFromFile(getMapFilename(mapName));
-		return new Gson().fromJson(jsonData, Map.class);
+		try {
+			InputStream file = new FileInputStream(getMapFilename(mapName));
+			ObjectInputStream deserializer = new ObjectInputStream(file);
+			Map map = (Map)deserializer.readObject();
+			deserializer.close();
+			file.close();
+			return map;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while loading map");
+			System.exit(1);
+		}
+		return null;
 	}
 	public static void deleteMap(String mapName) {
 		File file = new File(getMapFilename(mapName));

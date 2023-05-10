@@ -125,7 +125,7 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage selectGovernment(int index) {
-		if (index <= 0 || index > map.getGovernmentsCount())
+		if (index < 0 || index >= map.getGovernmentsCount())
 			return MapEditorMenuMessage.INVALID_GOVERNMENT_INDEX;
 		setSelectedGovernment(index);
 		return MapEditorMenuMessage.SUCCESS;
