@@ -15,4 +15,6 @@ public class TradeMenu {
 							+ trade.getMessage());
 		}
 	}
+
+	
 }
