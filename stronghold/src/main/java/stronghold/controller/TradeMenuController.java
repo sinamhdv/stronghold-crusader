@@ -6,7 +6,7 @@ import java.util.Random;
 import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
-import stronghold.model.Trades;
+import stronghold.model.TradeRequest;
 
 public class TradeMenuController {
 	public static TradeMenuMessage tradeRequest(Government owner, String resourceName, int amount, int price, String message,
@@ -16,7 +16,7 @@ public class TradeMenuController {
 		if(errors != null)
 			return errors;
 		else {
-			Trades trade = new Trades(ownerToRequest, resourceName, amount, price, message, id);
+			TradeRequest trade = new TradeRequest(ownerToRequest, resourceName, amount, price, message, id);
 			StrongHold.getCurrentGame().addTrade(trade);
 			return TradeMenuMessage.SUCCESSFUL_REQUEST;
 		}
@@ -41,7 +41,7 @@ public class TradeMenuController {
 		if (errors != null) 
 		return errors;
 		else {
-			Trades trade = StrongHold.getCurrentGame().getTradeById(id);
+			TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
 			Government ownerOfRequest = trade.getOwner();
 			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
 			currentPlayer.setGold(trade.getPrice() * trade.getAmount());
@@ -53,7 +53,7 @@ public class TradeMenuController {
 	}
 
 	private static TradeMenuMessage tradeAcceptErrors(String id , String message) {
-		Trades trade = StrongHold.getCurrentGame().getTradeById(id);
+		TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if(id.equals("") || message.equals("")) 
 			return TradeMenuMessage.EMPTY_FIELD;

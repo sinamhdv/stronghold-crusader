@@ -1,6 +1,6 @@
 package stronghold.model;
 
-public class Trades {
+public class TradeRequest {
 	private String resourceName;
 	private int amount;
 	private int price;
@@ -8,7 +8,7 @@ public class Trades {
 	private String id;
 	private Government owner;
 
-	public Trades(Government owner, String resourceName, int amount, int price, String message, String id) {
+	public TradeRequest(Government owner, String resourceName, int amount, int price, String message, String id) {
 		this.resourceName = resourceName;
 		this.amount = amount;
 		this.price = price;
