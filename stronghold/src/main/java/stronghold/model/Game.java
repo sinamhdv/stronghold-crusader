@@ -15,9 +15,13 @@ public class Game {
 	private Building selectedBuilding = null;
 	private static ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
 	private static ArrayList<TradeRequest> allTradeAccepts = new ArrayList<>();
-	public Game(Map map, Government[] governments) {
-		this.governments = governments;
+
+	public Game(Map map, User[] players) {
 		this.map = map;
+		governments = new Government[players.length];
+		for (int i = 0; i < players.length; i++) {
+			governments[i] = new Government(players[i], i, map);
+		}
 	}
 
 	public Map getMap() {

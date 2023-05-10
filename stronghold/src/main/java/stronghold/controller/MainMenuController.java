@@ -33,7 +33,7 @@ public class MainMenuController {
 		}
 		if (!currentUserFound)
 			return MainMenuMessage.CURRENT_USER_NOT_FOUND;
-		Game game = new Game(map, null);	// TODO: fill governments array
+		Game game = new Game(map, users);
 		StrongHold.setCurrentGame(game);
 		return MainMenuMessage.SUCCESS;
 	}
