@@ -7,7 +7,6 @@ import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
-import stronghold.model.TradeAccept;
 import stronghold.model.TradeRequest;
 
 public class TradeMenuController {
@@ -19,7 +18,7 @@ public class TradeMenuController {
 		if (errors != null)
 			return errors;
 		else {
-			TradeRequest trade = new TradeRequest(ownerToRequest, resourceName, amount, price, message, id);
+			TradeRequest trade = new TradeRequest(ownerToRequest, null, resourceName, amount, price, message, id);
 			StrongHold.getCurrentGame().addTrade(trade);
 			return TradeMenuMessage.SUCCESSFUL_REQUEST;
 		}
@@ -47,13 +46,12 @@ public class TradeMenuController {
 			return errors;
 		else {
 			TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
-			Government ownerOfRequest = trade.getOwner();
+			Government ownerOfRequest = trade.getRequestBy();
 			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
-			currentPlayer.setGold(trade.getPrice() * trade.getAmount());
+			currentPlayer.setGold( currentPlayer.getGold() + trade.getPrice() * trade.getAmount());
 			ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
-			TradeAccept tradeAccept = new TradeAccept(ownerOfRequest, currentPlayer, message, id,
-					trade.getResource().getName(), trade.getAmount(), trade.getPrice());
-			currentGame.addTradeAccept(tradeAccept);
+			trade.setAcceptBy(currentPlayer);
+			currentGame.addTradeAccept(trade);
 			currentGame.removeTradeRequest(trade);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
 		}

@@ -3,7 +3,6 @@ package stronghold.view;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
-import stronghold.model.TradeAccept;
 import stronghold.model.TradeRequest;
 
 public class TradeMenu {
@@ -13,15 +12,15 @@ public class TradeMenu {
 		System.out.println("User     Resourcename     Amount     Price     Id     message");
 		for (TradeRequest trade : currentGame.getAllTrads()) {
 			System.out.println(
-					trade.getOwner().getUser().getUserName() + "     " + trade.getResource().getName() + "     "
+					trade.getRequestBy().getUser().getUserName() + "     " + trade.getResource().getName() + "     "
 							+ trade.getAmount() + "     " + trade.getPrice() + "     " + trade.getId() + "     "
 							+ trade.getMessage());
 		}
 		System.out.println("===============================Trade Accept===================================");
 		System.out.println("request by     Accept by     Trade Id     ResourceName     Amount     Price");
-		for (TradeAccept tradeAccept : currentGame.getAllTradeAccepts()) {
+		for (TradeRequest tradeAccept : currentGame.getAllTradeAccepts()) {
 			System.out.println(tradeAccept.getRequestBy().getUser().getNickName() + "     "
-					+ tradeAccept.getAcceptby().getUser().getNickName() + "     " + tradeAccept.getTradeId() + "     "
+					+ tradeAccept.getAcceptBy().getUser().getNickName() + "     " + tradeAccept.getId() + "     "
 					+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
 					+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
 		}
@@ -33,19 +32,19 @@ public class TradeMenu {
 		System.out.println("------------------------------Your Trade Request--------------------------------");
 		System.out.println("User     Resourcename     Amount     Price     Id     message");
 		for (TradeRequest trade : currentGame.getAllTrads()) {
-			if (trade.getOwner() == currentPlayer) {
+			if (trade.getRequestBy() == currentPlayer) {
 				System.out.println(
-						trade.getOwner().getUser().getUserName() + "     " + trade.getResource().getName() + "     "
+						trade.getRequestBy().getUser().getUserName() + "     " + trade.getResource().getName() + "     "
 								+ trade.getAmount() + "     " + trade.getPrice() + "     " + trade.getId() + "     "
 								+ trade.getMessage());
 			}
 		}
 		System.out.println("------------------------------Your Trade Accept--------------------------------");
-		System.out.println("request by     Accept by     Trade Id     message");
-		for (TradeAccept tradeAccept : currentGame.getAllTradeAccepts()) {
-			if (tradeAccept.getAcceptby() == currentPlayer || tradeAccept.getRequestBy() == currentPlayer) {
+		System.out.println("request by     Accept by     Trade Id     message      ResourceName     Amount     Price");
+		for (TradeRequest tradeAccept : currentGame.getAllTradeAccepts()) {
+			if (tradeAccept.getAcceptBy() == currentPlayer || tradeAccept.getRequestBy() == currentPlayer) {
 				System.out.println(tradeAccept.getRequestBy().getUser().getNickName() + "     "
-					+ tradeAccept.getAcceptby().getUser().getNickName() + "     " + tradeAccept.getTradeId() + "     "
+					+ tradeAccept.getAcceptBy().getUser().getNickName() + "     " + tradeAccept.getId() + "     "
 					+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
 					+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
 			}

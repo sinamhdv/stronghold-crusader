@@ -6,13 +6,15 @@ public class TradeRequest {
 	private int price;
 	private String message;
 	private String id;
-	private Government owner;
-
-	public TradeRequest(Government owner, String resourceName, int amount, int price, String message, String id) {
+	private Government requestBy;
+	private Government acceptBy;
+	public TradeRequest(Government requestBy, Government acceptBy, String resourceName, int amount, int price, String message, String id) {
 		this.resourceName = resourceName;
 		this.amount = amount;
 		this.price = price;
 		this.message = message;
+		this.requestBy = requestBy;
+		this.acceptBy = acceptBy;
 	}
 
 	public int getAmount() {
@@ -35,7 +37,19 @@ public class TradeRequest {
 		return id;
 	}
 	
-	public Government getOwner() {
-		return owner;
+	public Government getRequestBy() {
+		return requestBy;
+	}
+
+	public Government getAcceptBy() {
+		return acceptBy;
+	}
+
+	public String getResourceName() {
+		return resourceName;
+	}
+
+	public void setAcceptBy(Government acceptBy) {
+		this.acceptBy = acceptBy;
 	}
 }

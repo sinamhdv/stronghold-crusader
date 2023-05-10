@@ -14,7 +14,7 @@ public class Game {
 	private final ArrayList<Person> selectedUnits = new ArrayList<>();
 	private Building selectedBuilding = null;
 	private static ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
-	private static ArrayList<TradeAccept> allTradeAccepts = new ArrayList<>();
+	private static ArrayList<TradeRequest> allTradeAccepts = new ArrayList<>();
 	public Game(Map map, Government[] governments) {
 		this.governments = governments;
 		this.map = map;
@@ -80,11 +80,11 @@ public class Game {
 		allTradeRequests.remove(trade);
 	}
 
-	public void addTradeAccept (TradeAccept tradeAccept) {
+	public void addTradeAccept (TradeRequest tradeAccept) {
 		allTradeAccepts.add(tradeAccept);
 	}
 
-	public ArrayList<TradeAccept> getAllTradeAccepts() {
+	public ArrayList<TradeRequest> getAllTradeAccepts() {
 		return allTradeAccepts;
 	}
 }
