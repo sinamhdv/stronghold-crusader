@@ -76,7 +76,7 @@ public class Game {
 		allTradeRequests.add(trade);
 	}
 
-	public void removeTrade(TradeRequest trade) {
+	public void removeTradeRequest(TradeRequest trade) {
 		allTradeRequests.remove(trade);
 	}
 

@@ -4,8 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 import stronghold.controller.messages.TradeMenuMessage;
+import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
+import stronghold.model.TradeAccept;
 import stronghold.model.TradeRequest;
 
 public class TradeMenuController {
@@ -38,6 +40,7 @@ public class TradeMenuController {
 	public static TradeMenuMessage tradeAccept(String id, String message) {
 		TradeMenuMessage errors = tradeAcceptErrors(id, message);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		Game currentGame = StrongHold.getCurrentGame();
 		if (errors != null) 
 		return errors;
 		else {
@@ -46,8 +49,9 @@ public class TradeMenuController {
 			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
 			currentPlayer.setGold(trade.getPrice() * trade.getAmount());
 			ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
-			//TODO:handel message
-			StrongHold.getCurrentGame().removeTrade(trade);
+			TradeAccept tradeAccept = new TradeAccept(ownerOfRequest, currentPlayer, message, id);
+			currentGame.addTradeAccept(tradeAccept);
+			currentGame.removeTradeRequest(trade);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
 		}
 	}
