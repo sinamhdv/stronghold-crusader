@@ -69,9 +69,9 @@ public class TradeMenu {
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_ACCEPT)) != null)
 				runTradeAccept(matcher);
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_HISTORY)) != null)
-				SignupMenu.run();
+				showTradeHistory();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_LIST)) != null)
-
+				showTradeList();
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
 				System.out.println("Exitting...");
 				break;
@@ -92,4 +92,5 @@ public class TradeMenu {
 		System.out
 				.println(TradeMenuController.tradeAccept(matcher.get("id"), matcher.get("message")).getErrorMessage());
 	}
+
 }
