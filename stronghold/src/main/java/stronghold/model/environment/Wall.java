@@ -14,4 +14,9 @@ public class Wall extends EnvironmentItem {
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
+
+	@Override
+	public String toString() {
+		return "Wall (owned by #" + getOwnerIndex() + ", hp = " + hp + ")";
+	}
 }

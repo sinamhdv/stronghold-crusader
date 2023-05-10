@@ -22,4 +22,9 @@ public class Tree extends EnvironmentItem {
 	public String getTypeName() {
 		return typeName;
 	}
+
+	@Override
+	public String toString() {
+		return "Tree (type = " + typeName + ")";
+	}
 }
