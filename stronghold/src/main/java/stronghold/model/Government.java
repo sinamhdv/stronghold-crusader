@@ -1,5 +1,6 @@
 package stronghold.model;
 
+import java.net.CacheRequest;
 import java.security.DrbgParameters.Capability;
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class Government {
 	public int getIndex() {
 		return index;
 	}
+
 	public User getUser() {
 		return user;
 	}
@@ -115,8 +117,8 @@ public class Government {
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
-				int resourceCount =  stockpile.getResources().get(resourceType);
-				for(; stockpile.getCapacity()> stockpile.getSumOfResource();) {
+				int resourceCount = stockpile.getResources().get(resourceType);
+				for (; stockpile.getCapacity() > stockpile.getSumOfResource() && canIncrease < count;) {
 					stockpile.getResources().replace(resourceType, resourceCount, resourceCount++);
 					canIncrease++;
 				}
@@ -126,8 +128,18 @@ public class Government {
 	}
 
 	public int decreaseResource(ResourceType resourceType, int count) {
-		// TODO: to be implemented
-		return -1;
+		int canDecrease = 0;
+		for (Building building : this.buildings) {
+			if (building instanceof Stockpile) {
+				Stockpile stockpile = (Stockpile) building;
+				int resourceCount = stockpile.getResources().get(resourceType);
+				for (; resourceCount > 0 && canDecrease < count;) {
+					stockpile.getResources().replace(resourceType, resourceCount, resourceCount--);
+					canDecrease++;
+				}
+			}
+		}
+		return canDecrease;
 	}
 
 	public boolean isThereStockpileToResource(ResourceType resourceType) {
