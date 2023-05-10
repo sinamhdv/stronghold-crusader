@@ -1,5 +1,8 @@
 package stronghold.controller;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
+
 import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
@@ -43,7 +46,7 @@ public class TradeMenuController {
 			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
 			currentPlayer.setGold(trade.getPrice() * trade.getAmount());
 			ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
-			//To
+			//TODO:handel message
 			StrongHold.getCurrentGame().removeTrade(trade);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
 		}
@@ -60,6 +63,14 @@ public class TradeMenuController {
 			return TradeMenuMessage.NOT_HAVING_ENOUGH_RESOURCE;
 		else 
 			return null;
+	}
+
+	public static String getRandomId() {
+		final Random random = new Random();
+		final byte[] array = new byte[5];
+		random.nextBytes(array);
+		final String generated = new String(array, StandardCharsets.UTF_8);
+		return generated;
 	}
 
 
