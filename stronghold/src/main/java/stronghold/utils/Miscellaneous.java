@@ -19,6 +19,14 @@ public class Miscellaneous {
 		return result;
 	}
 
+	public static ArrayList<Person> getPeopleByOwner(ArrayList<Person> people, int ownerIndex) {
+		ArrayList<Person> result = new ArrayList<>();
+		for (Person person : people)
+			if (person.getOwnerIndex() == ownerIndex)
+				result.add(person);
+		return result;
+	}
+
 	public static boolean checkCoordinatesOnMap(Map map, int x, int y) {
 		return (x >= 0 && y >= 0 && x < map.getGrid().length && y < map.getGrid()[0].length);
 	}

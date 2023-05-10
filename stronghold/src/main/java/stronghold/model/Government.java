@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.Stockpile;
+import stronghold.model.map.Map;
+import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
 
 public class Government {
 	private final User user;
 	private final ArrayList<Building> buildings = new ArrayList<>();
+	private final int index;
 	private int popularity = 50;
 	private int fearFactor = 0;
 	private int foodRate = 0;
@@ -18,10 +21,26 @@ public class Government {
 	private int gold = 0;
 	private final ArrayList<Person> people = new ArrayList<>();
 
-	public Government(User user) {
+	public Government(User user, int index, Map map) {
 		this.user = user;
+		this.index = index;
+
+		// fill buildings and people arrays according to the map
+		MapTile[][] grid = map.getGrid();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j].getBuilding() != null && grid[i][j].getBuilding().getOwnerIndex() == index)
+					this.buildings.add(grid[i][j].getBuilding());
+				for (Person person : grid[i][j].getPeople())
+					if (person.getOwnerIndex() == index)
+						this.people.add(person);
+			}
+		}
 	}
 
+	public int getIndex() {
+		return index;
+	}
 	public User getUser() {
 		return user;
 	}

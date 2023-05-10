@@ -4,6 +4,7 @@ import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
+import stronghold.model.environment.Wall;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.view.TerminalColor;
@@ -39,7 +40,7 @@ public class MapMenuController {
 	}
 
 	public static MapMenuMessage moveMap(String up, String down, String left, String right) {
-		int deltaX = (up == null ? 0 : Integer.parseInt(up)) - (down == null ? 0 : Integer.parseInt(down));
+		int deltaX = (down == null ? 0 : Integer.parseInt(down)) - (up == null ? 0 : Integer.parseInt(up));
 		int deltaY = (right == null ? 0 : Integer.parseInt(right)) - (left == null ? 0 : Integer.parseInt(left));
 		MapTile[][] map = getCurrentMap().getGrid();
 		if (currentX + deltaX < 0 || currentX + deltaX >= map.length
@@ -80,13 +81,11 @@ public class MapMenuController {
 			return paintTileString(new String[] {"  ", "  "}, TerminalColor.RESET, TerminalColor.RESET);
 		MapTile tile = map[x][y];
 		String result = "";
-		if (tile.getBuilding() != null) {
-			result += "B";
-			// TODO: represent towers, gates, and walls with W
-		}
+		if (tile.getBuilding() != null) result += "B";
 		if (!tile.getPeople().isEmpty()) result += "S";
 		if (tile.getEnvironmentItem() instanceof Tree) result += "T";
 		else if (tile.getEnvironmentItem() instanceof Rock) result += "R";
+		else if (tile.getEnvironmentItem() instanceof Wall) result += "W";
 		while (result.length() < 4) result += "#";
 		return paintTileString(new String[] {
 			result.substring(0, 2),
