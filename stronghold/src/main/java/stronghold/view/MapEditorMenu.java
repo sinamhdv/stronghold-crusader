@@ -36,6 +36,10 @@ public class MapEditorMenu {
 				runDropBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_GOVERNMENT)) != null)
 				runSelectGovernment(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
+				MapMenu.run(MapEditorMenuController.getMap());
+				System.out.println("======[Map Editor Menu]======");
+			}
 			else
 				System.out.println("Error: Invalid command");
 		}
