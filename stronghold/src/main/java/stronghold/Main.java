@@ -8,6 +8,7 @@ import stronghold.view.LoginMenu;
 public class Main {
 	public static void main(String[] args) throws IOException {
 		DatabaseManager.loadUsers();
+		GenerateConfig.run();
 		RunTests.run();
 		LoginMenu.run();
 	}

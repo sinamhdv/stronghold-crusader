@@ -15,8 +15,12 @@ public class ConfigManager {
 	}
 
 	// People
-	public static Person[] getPeopleConfigs() {
+	public static Person[] getPeopleConfig() {
 		String jsonData = DatabaseManager.readAllFromFile(PEOPLE_CONFIG_FILENAME);
 		return new Gson().fromJson(jsonData, Person[].class);
+	}
+	public static void savePeopleConfig(Person[] people) {
+		String jsonData = new Gson().toJson(people);
+		DatabaseManager.writeToFile(PEOPLE_CONFIG_FILENAME, jsonData);
 	}
 }
