@@ -22,7 +22,8 @@ public class TradeMenu {
 		for (TradeAccept tradeAccept : currentGame.getAllTradeAccepts()) {
 			System.out.println(tradeAccept.getRequestBy().getUser().getNickName() + "     "
 					+ tradeAccept.getAcceptby().getUser().getNickName() + "     " + tradeAccept.getTradeId() + "     "
-					+ tradeAccept.getMessage() + "     " + );
+					+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
+					+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
 		}
 	}
 
@@ -44,9 +45,9 @@ public class TradeMenu {
 		for (TradeAccept tradeAccept : currentGame.getAllTradeAccepts()) {
 			if (tradeAccept.getAcceptby() == currentPlayer || tradeAccept.getRequestBy() == currentPlayer) {
 				System.out.println(tradeAccept.getRequestBy().getUser().getNickName() + "     "
-						+ tradeAccept.getAcceptby().getUser().getNickName() + "     " + tradeAccept.getTradeId()
-						+ "     "
-						+ tradeAccept.getMessage());
+					+ tradeAccept.getAcceptby().getUser().getNickName() + "     " + tradeAccept.getTradeId() + "     "
+					+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
+					+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
 			}
 		}
 	}
