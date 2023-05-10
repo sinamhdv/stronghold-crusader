@@ -84,7 +84,7 @@ public class Game {
 		allTradeAccepts.add(tradeAccept);
 	}
 
-	public static ArrayList<TradeAccept> getAllTradeAccepts() {
+	public ArrayList<TradeAccept> getAllTradeAccepts() {
 		return allTradeAccepts;
 	}
 }
