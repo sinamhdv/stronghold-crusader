@@ -81,7 +81,7 @@ public enum Command {
 	SHOW_SELECTED_GOVERNMENT("show selected government"),
 
 	// Trade Menu
-	TRADE_MENU("trade [-t,resourceType] <-a,amount> <-p,price> [-m,message]"),
+	TRADE_REQUEST("trade [-t,resourceType] <-a,amount> <-p,price> [-m,message]"),
 	TRADE_LIST("trade list"),
 	TRADE_ACCEPT("trade accept [-i,id] [-m,message]"),
 	TRADE_HISTORY("trade history"),
