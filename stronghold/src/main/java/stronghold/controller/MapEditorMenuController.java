@@ -3,6 +3,7 @@ package stronghold.controller;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
+import stronghold.model.environment.Wall;
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
@@ -29,11 +30,8 @@ public class MapEditorMenuController {
 		return rectangleSetTexture(x, y, x, y, type);
 	}
 
-	public static MapEditorMenuMessage rectangleSetTexture(int x1, int y1, int x2, int y2, String type) {
-		GroundType groundType = GroundType.getGroundTypeByName(type);
-		if (groundType == null)
-			return MapEditorMenuMessage.INVALID_GROUND_TYPE_NAME;
-		else if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
+	public static MapEditorMenuMessage checkRectangle(int x1, int y1, int x2, int y2) {
+		if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		for (int i = x1; i <= x2; i++) {
 			for (int j = y1; j <= y2; j++) {
@@ -42,6 +40,15 @@ public class MapEditorMenuController {
 					return MapEditorMenuMessage.FULL_CELL;
 			}
 		}
+		return null;
+	}
+
+	public static MapEditorMenuMessage rectangleSetTexture(int x1, int y1, int x2, int y2, String type) {
+		GroundType groundType = GroundType.getGroundTypeByName(type);
+		if (groundType == null)
+			return MapEditorMenuMessage.INVALID_GROUND_TYPE_NAME;
+		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2);
+		if (rectangleErrors != null) return rectangleErrors;
 		for (int i = x1; i <= x2; i++)
 			for (int j = y1; j <= y2; j++)
 				map.getGrid()[i][j].setGroundType(groundType);
@@ -128,6 +135,19 @@ public class MapEditorMenuController {
 		if (index < 0 || index >= map.getGovernmentsCount())
 			return MapEditorMenuMessage.INVALID_GOVERNMENT_INDEX;
 		setSelectedGovernment(index);
+		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	public static MapEditorMenuMessage dropWall(int x1, int y1, int x2, int y2) {
+		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2);
+		if (rectangleErrors != null) return rectangleErrors;
+		for (int i = x1; i <= x2; i++)
+			for (int j = y1; j <= y2; j++)
+				if (!map.getGrid()[i][j].getGroundType().isBuildable())
+					return MapEditorMenuMessage.BAD_GROUND;
+		for (int i = x1; i <= x2; i++)
+			for (int j = y1; j <= y2; j++)
+				map.getGrid()[i][j].setEnvironmentItem(new Wall(getSelectedGovernment()));
 		return MapEditorMenuMessage.SUCCESS;
 	}
 }
