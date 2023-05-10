@@ -51,4 +51,7 @@ public class TradeMenu {
 		}
 	}
 
+	public static void run() {
+		
+	}
 }

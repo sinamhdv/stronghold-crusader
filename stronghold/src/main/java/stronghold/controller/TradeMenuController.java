@@ -47,13 +47,19 @@ public class TradeMenuController {
 		else {
 			TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
 			Government ownerOfRequest = trade.getRequestBy();
-			currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
-			currentPlayer.setGold( currentPlayer.getGold() + trade.getPrice() * trade.getAmount());
-			ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
+			if(trade.getPrice() != 0) {
+				currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
+				ownerOfRequest.increaseResource(trade.getResource(), trade.getAmount());
+				currentPlayer.setGold( currentPlayer.getGold() + trade.getPrice() * trade.getAmount());
+				ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
+			}
+			currentPlayer.increaseResource(trade.getResource(), trade.getAmount());
+			ownerOfRequest.decreaseResource(trade.getResource(), trade.getAmount());
 			trade.setAcceptBy(currentPlayer);
 			currentGame.addTradeAccept(trade);
 			currentGame.removeTradeRequest(trade);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
+			
 		}
 	}
 
