@@ -6,22 +6,40 @@ import stronghold.model.Government;
 import stronghold.model.StrongHold;
 
 public abstract class Person implements Serializable {
+	private final String name;
 	private int speed;
 	private int hp;
 	private int damage;
-	private final int ownerIndex;
+	private final int visibilityRange;
+	private final int attackRate;
+	private int attackRange;
+	private StanceType stance = StanceType.NORMAL;
+	private final boolean canClimbLadder;
+	private final boolean canClimbWalls;
+	private final boolean canDigMoats;
+	private final boolean hasBurningOil;
+
+	private int ownerIndex;
 	private int x;
 	private int y;
-	private final String name;
-	
-	public Person(int speed, int hp, int damage, int ownerIndex, int x, int y, String name) {
+
+	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
+			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, int ownerIndex,
+			int x, int y) {
+		this.name = name;
 		this.speed = speed;
 		this.hp = hp;
 		this.damage = damage;
+		this.visibilityRange = visibilityRange;
+		this.attackRate = attackRate;
+		this.attackRange = attackRange;
+		this.canClimbLadder = canClimbLadder;
+		this.canClimbWalls = canClimbWalls;
+		this.canDigMoats = canDigMoats;
+		this.hasBurningOil = hasBurningOil;
 		this.ownerIndex = ownerIndex;
 		this.x = x;
 		this.y = y;
-		this.name = name;
 	}
 
 	public int getSpeed() {
@@ -62,6 +80,39 @@ public abstract class Person implements Serializable {
 	}
 	public String getName() {
 		return name;
+	}
+	public int getAttackRange() {
+		return attackRange;
+	}
+	public void setAttackRange(int attackRange) {
+		this.attackRange = attackRange;
+	}
+	public StanceType getStance() {
+		return stance;
+	}
+	public void setStance(StanceType stance) {
+		this.stance = stance;
+	}
+	public int getVisibilityRange() {
+		return visibilityRange;
+	}
+	public int getAttackRate() {
+		return attackRate;
+	}
+	public boolean canClimbLadder() {
+		return canClimbLadder;
+	}
+	public boolean canClimbWalls() {
+		return canClimbWalls;
+	}
+	public boolean canDigMoats() {
+		return canDigMoats;
+	}
+	public void setOwnerIndex(int ownerIndex) {
+		this.ownerIndex = ownerIndex;
+	}
+	public boolean hasBurningOil() {
+		return hasBurningOil;
 	}
 
 	public void move(int targetX, int targetY) {
