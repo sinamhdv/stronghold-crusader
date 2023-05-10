@@ -1,7 +1,5 @@
 package stronghold.model;
 
-import java.net.CacheRequest;
-import java.security.DrbgParameters.Capability;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
@@ -108,8 +106,16 @@ public class Government {
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
-		// TODO: to be implemented
-		return -1;
+		int resourceCount = 0;
+		for(Building building : this.buildings) {
+			if(building instanceof Stockpile) {
+				Stockpile stockpile = (Stockpile) building;
+				if(stockpile.getResources().containsKey(resourceType)) {
+					resourceCount += stockpile.getResources().get(resourceType);
+				}
+			}
+		}
+		return resourceCount;
 	}
 
 	public int increaseResource(ResourceType resourceType, int count) {
@@ -117,10 +123,12 @@ public class Government {
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
-				int resourceCount = stockpile.getResources().get(resourceType);
-				for (; stockpile.getCapacity() > stockpile.getSumOfResource() && canIncrease < count;) {
-					stockpile.getResources().replace(resourceType, resourceCount, resourceCount++);
-					canIncrease++;
+				if(stockpile.getResources().containsKey(resourceType)) {
+					int resourceCount = stockpile.getResources().get(resourceType);
+					for (; stockpile.getCapacity() > stockpile.getSumOfResource() && canIncrease < count;) {
+						stockpile.getResources().replace(resourceType, resourceCount, resourceCount++);
+						canIncrease++;
+					}
 				}
 			}
 		}
@@ -130,12 +138,14 @@ public class Government {
 	public int decreaseResource(ResourceType resourceType, int count) {
 		int canDecrease = 0;
 		for (Building building : this.buildings) {
-			if (building instanceof Stockpile) {
+			if (building instanceof Stockpile ) {
 				Stockpile stockpile = (Stockpile) building;
-				int resourceCount = stockpile.getResources().get(resourceType);
-				for (; resourceCount > 0 && canDecrease < count;) {
-					stockpile.getResources().replace(resourceType, resourceCount, resourceCount--);
-					canDecrease++;
+				if(stockpile.getResources().containsKey(resourceType)) {
+					int resourceCount = stockpile.getResources().get(resourceType);
+					for (; resourceCount > 0 && canDecrease < count;) {
+						stockpile.getResources().replace(resourceType, resourceCount, resourceCount--);
+						canDecrease++;
+					}
 				}
 			}
 		}
