@@ -76,6 +76,7 @@ public enum Command {
 	DROP_TREE("drop tree <-x,x> <-y,y> [-t,type]"),
 	DROP_UNIT("drop unit <-x,x> <-y,y> [-t,type] <-c,count>"),
 	SELECT_GOVERNMENT("select government <-g,government>"),
+	SHOW_SELECTED_GOVERNMENT("show selected government"),
 
 	// Trade Menu
 	TRADE_MENU("trade [-t,resourceType] <-a,amount> <-p,price> [-m,message]"),

@@ -2,6 +2,7 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import stronghold.controller.MapEditorMenuController;
 import stronghold.controller.MapManagementMenuController;
 import stronghold.controller.messages.MapManagementMenuMessage;
 import stronghold.utils.DatabaseManager;
@@ -49,6 +50,7 @@ public class MapManagementMenu {
 		System.out.println(message.getErrorString());
 		if (message == MapManagementMenuMessage.LOAD_SUCCESS) {
 			MapEditorMenu.run();
+			DatabaseManager.saveMap(MapEditorMenuController.getMap());
 		}
 	}
 

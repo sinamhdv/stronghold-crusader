@@ -11,8 +11,7 @@ import stronghold.utils.Miscellaneous;
 
 public class MapEditorMenuController {
 	private static Map map;
-	private static int selectedGovernment
-	;
+	private static int selectedGovernment;
 	public static Map getMap() {
 		return map;
 	}
