@@ -10,11 +10,11 @@ import stronghold.model.StrongHold;
 import stronghold.model.TradeRequest;
 
 public class TradeMenuController {
-	public static TradeMenuMessage tradeRequest(Government owner, String resourceName, int amount, int price,
+	public static TradeMenuMessage tradeRequest(String resourceName, int amount, int price,
 			String message,
 			String id) {
 		Government ownerToRequest = StrongHold.getCurrentGame().getCurrentPlayer();
-		TradeMenuMessage errors = tradeRequestError(ownerToRequest, resourceName, amount, price, message, id);
+		TradeMenuMessage errors = tradeRequestError(resourceName, amount, price, message, id);
 		if (errors != null)
 			return errors;
 		else {
@@ -24,8 +24,9 @@ public class TradeMenuController {
 		}
 	}
 
-	private static TradeMenuMessage tradeRequestError(Government owner, String resourceName, int amount, int price,
+	private static TradeMenuMessage tradeRequestError(String resourceName, int amount, int price,
 			String message, String id) {
+		Government owner = StrongHold.getCurrentGame().getCurrentPlayer();
 		if (resourceName.equals("") || message.equals("") || id.equals(id))
 			return TradeMenuMessage.EMPTY_FIELD;
 		else if (amount <= 0)

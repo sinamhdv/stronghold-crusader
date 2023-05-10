@@ -1,9 +1,14 @@
 package stronghold.view;
 
+import java.util.HashMap;
+
+import stronghold.controller.TradeMenuController;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.model.TradeRequest;
+import stronghold.view.parser.Command;
+import stronghold.view.parser.CommandParser;
 
 public class TradeMenu {
 	public static void showTradeList() {
@@ -44,14 +49,42 @@ public class TradeMenu {
 		for (TradeRequest tradeAccept : currentGame.getAllTradeAccepts()) {
 			if (tradeAccept.getAcceptBy() == currentPlayer || tradeAccept.getRequestBy() == currentPlayer) {
 				System.out.println(tradeAccept.getRequestBy().getUser().getNickName() + "     "
-					+ tradeAccept.getAcceptBy().getUser().getNickName() + "     " + tradeAccept.getId() + "     "
-					+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
-					+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
+						+ tradeAccept.getAcceptBy().getUser().getNickName() + "     " + tradeAccept.getId() + "     "
+						+ tradeAccept.getMessage() + "     " + tradeAccept.getResourceName() + "     "
+						+ tradeAccept.getAmount() + "     " + tradeAccept.getPrice());
 			}
 		}
 	}
 
 	public static void run() {
-		
+		System.out.println("======[Trade Menu]======");
+
+		while (true) {
+			String line = MainMenu.getScanner().nextLine();
+			String[] inputTokens = CommandParser.splitTokens(line);
+			HashMap<String, String> matcher;
+
+			if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_REQUEST)) != null)
+				runTradeRequest(matcher);
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_ACCEPT)) != null)
+				runForgotPassword(matcher);
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_HISTORY)) != null)
+				SignupMenu.run();
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.TRADE_LIST)) != null)
+
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
+				System.out.println("Exitting...");
+				break;
+			}
+			else
+				System.out.println("Error: Invalid command");
+		}
+	}
+
+	public static void runTradeRequest(HashMap<String, String> matcher) {
+		String id = TradeMenuController.getRandomId();
+		System.out.println(
+				TradeMenuController.tradeRequest(matcher.get("resourceType"), Integer.parseInt(matcher.get("amount")),
+						Integer.parseInt(matcher.get("price")), matcher.get("message"), id).getErrorMessage());
 	}
 }
