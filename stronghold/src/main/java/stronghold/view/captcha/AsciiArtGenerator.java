@@ -3,14 +3,14 @@ package stronghold.view.captcha;
 import java.io.IOException;
 import java.util.Random;
 
-import stronghold.utils.DatabaseManager;
+import stronghold.utils.ConfigManager;
 
 public class AsciiArtGenerator {
 
 	private static int curentcaptcha = 0;
 
 	private static String[] getAsciiArtOfRandomNumber() {
-		String[][] digitAsciiArt = DatabaseManager.loadCaptchaAsciiArt();
+		String[][] digitAsciiArt = ConfigManager.loadCaptchaAsciiArt();
 		Random random = new Random();
 		int number = random.nextInt(9);
 		curentcaptcha = curentcaptcha * 10 + number;
