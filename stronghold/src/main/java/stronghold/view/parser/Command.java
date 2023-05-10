@@ -20,6 +20,7 @@ public enum Command {
 
 	// Main Menu
 	LOGOUT("logout"),
+	START_GAME("start game [-m,map]"),
 
 	// Profile Menu
 	CHANGE_USERNAME("profile change username [-u,username]"),

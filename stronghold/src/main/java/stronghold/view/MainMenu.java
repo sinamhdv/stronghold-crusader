@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import stronghold.controller.MainMenuController;
+import stronghold.controller.messages.MainMenuMessage;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -24,6 +25,8 @@ public class MainMenu {
 				ProfileMenu.run();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MANAGEMENT_MENU)) != null)
 				MapManagementMenu.run();
+			else if ((matcher = CommandParser.getMatcher(input, Command.START_GAME)) != null)
+				runStartGame(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.LOGOUT)) != null) {
 				MainMenuController.logout();
 				System.out.println("logged out");
@@ -36,5 +39,23 @@ public class MainMenu {
 			else
 				System.out.println("Invalid command");
 		}
+	}
+
+	private static void runStartGame(HashMap<String, String> matcher) {
+		MainMenuMessage message = MainMenuController.startGame(matcher.get("map"));
+		System.out.println(message.getErrorString());
+		if (message == MainMenuMessage.SUCCESS) {
+			// TODO: run GameMenu
+		}
+	}
+
+	public static String[] askPlayersNames(int count) {
+		String[] usernames = new String[count];
+		System.out.println("The selected map needs " + count + " players");
+		for (int i = 0; i < count; i++) {
+			System.out.print("- Enter the username of player #" + i + ": ");
+			usernames[i] = MainMenu.getScanner().nextLine();
+		}
+		return usernames;
 	}
 }
