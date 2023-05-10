@@ -9,6 +9,7 @@ public class StrongHold {
 	private static ArrayList<User> users = new ArrayList<>();
 	private static User currentUser;
 	private static Game currentGame;
+	
 
 	public static User getUserByName(String userName)
 	{
@@ -55,5 +56,6 @@ public class StrongHold {
 	public static void setUsers(ArrayList<User> users) {
 		StrongHold.users = users;
 	}
+
 
 }

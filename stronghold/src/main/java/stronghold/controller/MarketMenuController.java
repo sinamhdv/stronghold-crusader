@@ -1,7 +1,6 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MarketMenuMessage;
-import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
