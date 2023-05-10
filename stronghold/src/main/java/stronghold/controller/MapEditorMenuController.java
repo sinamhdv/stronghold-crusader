@@ -1,13 +1,11 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MapEditorMenuMessage;
-import stronghold.model.buildings.Building;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
-import stronghold.model.people.Person;
 import stronghold.model.people.PersonGenerator;
 import stronghold.utils.Miscellaneous;
 
@@ -119,10 +117,11 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isBuildable())
 			return MapEditorMenuMessage.BAD_GROUND;
-		Building building = newBuildingByName(type, x, y, getSelectedGovernment());
-		if (building == null)
-			return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
-		tile.setBuilding(building);
+		// TODO: find a way to generate buildings from config efficiently
+		// Building building = newBuildingByName(type, x, y, getSelectedGovernment());
+		// if (building == null)
+		// 	return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
+		// tile.setBuilding(building);
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
