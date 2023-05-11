@@ -94,5 +94,8 @@ public class GameMenu {
 		System.out.println("your tax rate : " + currentPlayer.getTaxRate());
 	}
 
-	
+	public static void fearRateShow() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		System.out.println("your fear rate : " + currentPlayer.getFearFactor());
+	}	
 }
