@@ -3,6 +3,7 @@ package stronghold.controller;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
+import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.environment.Wall;
 import stronghold.view.GameMenu;
@@ -29,6 +30,24 @@ public class GameMenuController {
 	}
 
 	public static GameMenuMessage dropBuilding(int x, int y, String type) {
-		
+		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
+			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
+		MapEditorMenuController.setMap(game.getMap());
+		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
+		MapEditorMenuMessage message = MapEditorMenuController.dropBuilding(x, y, type);
+		if (message != MapEditorMenuMessage.SUCCESS) {
+			GameMenu.showMapEditorError(message);
+			return GameMenuMessage.CONSTRUCTION_FAILED;
+		}
+		decreaseObjectsResources(type, game.getCurrentPlayer());
+		return GameMenuMessage.SUCCESS;
+	}
+
+	private static boolean hasEnoughResourcesForObject(String objectName, Government government) {
+
+	}
+
+	private static boolean decreaseObjectsResources(String objectName, Government government) {
+
 	}
 }
