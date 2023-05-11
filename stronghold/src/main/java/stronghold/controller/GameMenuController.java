@@ -49,18 +49,31 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
-	private static boolean hasEnoughResourcesForObject(String objectName, Government government) {
+	private static boolean hasEnoughResourcesForObject(String objectName, Government government,
+			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
-		for (ResourceType resourceType : requiredResources.keySet())
-			if (government.getResourceCount(resourceType) < requiredResources.get(resourceType))
+		for (ResourceType resourceType : requiredResources.keySet()) {
+			int requiredPart = (repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts;
+			if (government.getResourceCount(resourceType) < requiredPart)
 				return false;
+		}
 		return true;
 	}
 
-	private static void decreaseObjectsResources(String objectName, Government government) {
+	private static boolean hasEnoughResourcesForObject(String objectName, Government government) {
+		return hasEnoughResourcesForObject(objectName, government, 1, 1);
+	}
+
+	private static void decreaseObjectsResources(String objectName, Government government,
+			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
 		for (ResourceType resourceType : requiredResources.keySet())
-			government.decreaseResource(resourceType, requiredResources.get(resourceType));
+			government.decreaseResource(resourceType,
+				(repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts);
+	}
+
+	private static void decreaseObjectsResources(String objectName, Government government) {
+		decreaseObjectsResources(objectName, government, 1, 1);
 	}
 
 	public static int getPopularityInfluencingFood(int foodRate) {
