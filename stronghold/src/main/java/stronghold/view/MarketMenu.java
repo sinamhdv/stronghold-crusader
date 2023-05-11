@@ -36,7 +36,7 @@ public class MarketMenu {
 		System.out.println("ITEM     BUYPRICE     SELLPRICE     YOURASSET");
 		for (ResourceType resourceType : ResourceType.values()) {
 			ResourceType resource = resourceType;
-			int asset = currnetPlayer.getSumOfSpecificResource(resource);
+			int asset = currnetPlayer.getResourceCount(resource);
 			System.out.println(resource.getName() + "     " + resource.getBuyPrice() + "     " + resource.getSellprice()
 					+ "     " + asset);
 		}
