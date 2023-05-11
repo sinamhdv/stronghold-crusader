@@ -33,6 +33,8 @@ public class MapEditorMenuController {
 	public static MapEditorMenuMessage checkRectangle(int x1, int y1, int x2, int y2) {
 		if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
 			return MapEditorMenuMessage.INVALID_COORDINATES;
+		if (x2 < x1 || y2 < y1)
+			return MapEditorMenuMessage.INVALID_COORDINATES;
 		for (int i = x1; i <= x2; i++) {
 			for (int j = y1; j <= y2; j++) {
 				MapTile tile = map.getGrid()[i][j];
@@ -57,6 +59,8 @@ public class MapEditorMenuController {
 
 	public static MapEditorMenuMessage clear(int x1, int y1, int x2, int y2) {
 		if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
+			return MapEditorMenuMessage.INVALID_COORDINATES;
+		if (x2 < x1 || y2 < y1)
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		for (int i = x1; i <= x2; i++)
 			for (int j = y1; j <= y2; j++)
@@ -123,6 +127,7 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isBuildable())
 			return MapEditorMenuMessage.BAD_GROUND;
+		// TODO: check if the building fits in this space considering its dimentions
 		// TODO: find a way to generate buildings from config efficiently
 		// Building building = newBuildingByName(type, x, y, getSelectedGovernment());
 		// if (building == null)
