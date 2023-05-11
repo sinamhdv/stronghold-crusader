@@ -74,14 +74,21 @@ public class GameMenuController {
 
 	public static GameMenuMessage setFoodRate(int foodRate) {
 		Government currentPleyer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if(foodRate < -2 && foodRate > 2) 
+		if(foodRate < -2 || foodRate > 2) 
 			return GameMenuMessage.INVALID_FOOD_RATE;
 		else 
 		{
 			currentPleyer.setFoodRate(foodRate);
 			return GameMenuMessage.SUCCESS;
 		}
+	}
 
+	public static GameMenuMessage setTaxRate(int taxRate) {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		if(taxRate < -3 || taxRate > 8)
+			return GameMenuMessage.INVALID_TAX_RATE;
+		currentPlayer.setTaxRate(taxRate);
+		return GameMenuMessage.SUCCESS;
 	}
 
 }
