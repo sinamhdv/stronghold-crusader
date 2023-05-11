@@ -72,4 +72,16 @@ public class GameMenuController {
 			return 9999;
 	}
 
+	public static GameMenuMessage setFoodRate(int foodRate) {
+		Government currentPleyer = StrongHold.getCurrentGame().getCurrentPlayer();
+		if(foodRate < -2 && foodRate > 2) 
+			return GameMenuMessage.INVALID_FOOD_RATE;
+		else 
+		{
+			currentPleyer.setFoodRate(foodRate);
+			return GameMenuMessage.SUCCESS;
+		}
+
+	}
+
 }

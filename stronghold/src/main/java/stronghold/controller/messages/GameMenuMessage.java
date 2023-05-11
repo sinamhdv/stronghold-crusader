@@ -2,7 +2,7 @@ package stronghold.controller.messages;
 
 public enum GameMenuMessage {
 	SUCCESS("Success!"),
-
+	INVALID_FOOD_RATE("invalid food rate"),
 	NOT_ENOUGH_RESOURCES("Error: you don't have enough resources"),
 	CONSTRUCTION_FAILED("Construction failed"),
 	;
