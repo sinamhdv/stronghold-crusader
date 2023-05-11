@@ -82,4 +82,9 @@ public class GameMenu {
 			System.out.println("your " + food[i].getName() + " property : "+ currentPlayer.getResourceCount(food[i]));
 		}
 	}
+
+	public static void foodRateShow() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		System.out.println("your food rate : " + currentPlayer.getFoodRate());
+	}
 }
