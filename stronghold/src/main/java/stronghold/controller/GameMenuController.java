@@ -1,5 +1,8 @@
 package stronghold.controller;
 
+import java.applet.Applet;
+import java.util.ArrayList;
+
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
@@ -49,5 +52,14 @@ public class GameMenuController {
 
 	private static boolean decreaseObjectsResources(String objectName, Government government) {
 
+	}
+
+	public static int getPopularityInfluencing(int popularityrate) {
+		int foodVariety = 0;
+		ArrayList<ResourceType> food = new ArrayList<>();
+		food.add(ResourceType.APPLE);
+		food.add(Me)
+		ResourceType[] = [ResourceType.APPLE, ResourceType.BREAD, ResourceType.CHEESE, ResourceType.IRON]; 
+		for()
 	}
 }
