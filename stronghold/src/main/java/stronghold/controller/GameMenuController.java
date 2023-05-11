@@ -1,5 +1,6 @@
 package stronghold.controller;
 
+import java.nio.Buffer;
 import java.util.HashMap;
 
 import stronghold.controller.messages.GameMenuMessage;
@@ -8,12 +9,15 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Building;
+import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.environment.Wall;
 import stronghold.utils.ConfigManager;
 import stronghold.view.GameMenu;
 
 public class GameMenuController {
 	private static Game game;
+	static final int repairErrorEnemyRadius = 5; 
 
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
@@ -119,4 +123,19 @@ public class GameMenuController {
 		currentPlayer.setFearFactor(fearRate);
 		return GameMenuMessage.SUCCESS;
 	}
+
+	public static GameMenuMessage Repair() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		Game currentGame = StrongHold.getCurrentGame();
+		Building building = currentGame.getSelectedBuilding();
+		
+		if( building == null)
+			return GameMenuMessage.THERE_IS_NO_SELECTED_BUILDING;
+		else if (building instanceof DefensiveStructure) {
+			for(building.)
+		}
+		else 
+			return GameMenuMessage.CANT_REPAIR;
+	}
+
 }
