@@ -6,6 +6,7 @@ import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
+import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
@@ -71,5 +72,14 @@ public class GameMenu {
 
 	public static void showMapEditorError(MapEditorMenuMessage message) {
 		System.out.println(message.getErrorString());
+	}
+
+	public static void showFoodList() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		ResourceType[] food = new ResourceType[] { ResourceType.APPLE, ResourceType.CHEESE, ResourceType.MEAT,
+			ResourceType.BREAD };
+		for(int i = 0; i < 4; i++) {
+			System.out.println("your " + food[i].getName() + " property : "+ currentPlayer.getResourceCount(food[i]));
+		}
 	}
 }

@@ -1,8 +1,5 @@
 package stronghold.controller;
 
-import java.applet.Applet;
-import java.util.ArrayList;
-
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
