@@ -1,11 +1,14 @@
 package stronghold.controller;
 
+import java.util.HashMap;
+
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.environment.Wall;
+import stronghold.utils.ConfigManager;
 import stronghold.view.GameMenu;
 
 public class GameMenuController {
@@ -44,10 +47,16 @@ public class GameMenuController {
 	}
 
 	private static boolean hasEnoughResourcesForObject(String objectName, Government government) {
-
+		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
+		for (ResourceType resourceType : requiredResources.keySet())
+			if (government.getResourceCount(resourceType) < requiredResources.get(resourceType))
+				return false;
+		return true;
 	}
 
-	private static boolean decreaseObjectsResources(String objectName, Government government) {
-
+	private static void decreaseObjectsResources(String objectName, Government government) {
+		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
+		for (ResourceType resourceType : requiredResources.keySet())
+			government.decreaseResource(resourceType, requiredResources.get(resourceType));
 	}
 }
