@@ -133,10 +133,10 @@ public class Government {
 
 	public int getResourceCount(ResourceType resourceType) {
 		int resourceCount = 0;
-		for(Building building : this.buildings) {
-			if(building instanceof Stockpile) {
+		for (Building building : this.buildings) {
+			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
-				if(stockpile.getResources().containsKey(resourceType)) {
+				if (stockpile.getResources().containsKey(resourceType)) {
 					resourceCount += stockpile.getResources().get(resourceType);
 				}
 			}
@@ -149,7 +149,7 @@ public class Government {
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
-				if(stockpile.getResources().containsKey(resourceType)) {
+				if (stockpile.getResources().containsKey(resourceType)) {
 					int resourceCount = stockpile.getResources().get(resourceType);
 					while (stockpile.getCapacity() > stockpile.getSumOfResources() && canIncrease < count) {
 						stockpile.getResources().put(resourceType, ++resourceCount);
@@ -166,7 +166,7 @@ public class Government {
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
-				if(stockpile.getResources().containsKey(resourceType)) {
+				if (stockpile.getResources().containsKey(resourceType)) {
 					int resourceCount = stockpile.getResources().get(resourceType);
 					while (resourceCount > 0 && canDecrease < count) {
 						stockpile.getResources().put(resourceType, --resourceCount);
@@ -178,7 +178,8 @@ public class Government {
 		return canDecrease;
 	}
 
-	public boolean isThereStockpileToResource(ResourceType resourceType) {	// TODO: this function is not ever used; shall we remove it?
+	public boolean isThereStockpileToResource(ResourceType resourceType) { // TODO: this function is not ever used;
+																			// shall we remove it?
 		for (Building building : buildings) {
 			if (building instanceof Stockpile) {
 				if (((Stockpile) building).getResources().containsKey(resourceType))
@@ -199,5 +200,18 @@ public class Government {
 			}
 		}
 		return capacity;
+	}
+
+	public int getFoodVariety() {
+		ResourceType[] food = new ResourceType[] { ResourceType.APPLE, ResourceType.CHEESE, ResourceType.MEAT,
+				ResourceType.BREAD };
+		int foodVariety = 0;
+		for (int i = 0; i < 4; i++) {
+			if (getResourceCount(food[i]) > 0) {
+				foodVariety++;
+			}
+		}
+		return foodVariety;
+		
 	}
 }
