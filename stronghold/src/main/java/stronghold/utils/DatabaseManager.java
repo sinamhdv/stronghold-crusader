@@ -47,6 +47,36 @@ public class DatabaseManager {
 			return null;
 		}
 	}
+	static void serializeObject(String filename, Object object) {
+		try {
+			OutputStream file = new FileOutputStream(getMapFilename(filename));
+			ObjectOutputStream serializer = new ObjectOutputStream(file);
+			serializer.writeObject(object);
+			serializer.close();
+			file.close();
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while serializing");
+			System.exit(1);
+		}
+	}
+	static Object deserializeObject(String filename) {
+		try {
+			InputStream file = new FileInputStream(filename);
+			ObjectInputStream deserializer = new ObjectInputStream(file);
+			Object object = deserializer.readObject();
+			deserializer.close();
+			file.close();
+			return object;
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("FATAL: Exception while deserializing");
+			System.exit(1);
+		}
+		return null;
+	}
 
 	// User Management
 	public static void loadUsers() {
@@ -81,38 +111,14 @@ public class DatabaseManager {
 		return filename.substring(0, filename.length() - 5);
 	}
 	public static void saveMap(Map map) {
-		try {
-			OutputStream file = new FileOutputStream(getMapFilename(map.getName()));
-			ObjectOutputStream serializer = new ObjectOutputStream(file);
-			serializer.writeObject(map);
-			serializer.close();
-			file.close();
-		}
-		catch (IOException ex) {
-			ex.printStackTrace();
-			System.out.println("FATAL: Exception while saving map");
-			System.exit(1);
-		}
+		serializeObject(getMapFilename(map.getName()), map);
 	}
 	public static boolean mapExists(String mapName) {
 		File file = new File(getMapFilename(mapName));
 		return file.exists();
 	}
 	public static Map loadMapByName(String mapName) {
-		try {
-			InputStream file = new FileInputStream(getMapFilename(mapName));
-			ObjectInputStream deserializer = new ObjectInputStream(file);
-			Map map = (Map)deserializer.readObject();
-			deserializer.close();
-			file.close();
-			return map;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			System.out.println("FATAL: Exception while loading map");
-			System.exit(1);
-		}
-		return null;
+		return (Map)deserializeObject(getMapFilename(mapName));
 	}
 	public static void deleteMap(String mapName) {
 		File file = new File(getMapFilename(mapName));
