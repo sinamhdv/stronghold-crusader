@@ -28,7 +28,8 @@ public class Government {
 		MapTile[][] grid = map.getGrid();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j].getBuilding() != null && grid[i][j].getBuilding().getOwnerIndex() == index)
+				if (grid[i][j].getBuilding() != null && grid[i][j].getBuilding().getOwnerIndex() == index &&
+					!this.buildings.contains(grid[i][j].getBuilding()))
 					this.buildings.add(grid[i][j].getBuilding());
 				for (Person person : grid[i][j].getPeople())
 					if (person.getOwnerIndex() == index)
@@ -103,6 +104,13 @@ public class Government {
 
 	public void setGold(int gold) {
 		this.gold = gold;
+	}
+
+	public void addBuilding(Building building) {
+		buildings.add(building);
+	}
+	public void addPerson(Person person) {
+		people.add(person);
 	}
 
 	public int getResourceCount(ResourceType resourceType) {

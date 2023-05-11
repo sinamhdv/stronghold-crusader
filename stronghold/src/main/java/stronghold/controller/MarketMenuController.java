@@ -9,7 +9,7 @@ public class MarketMenuController {
 	public static MarketMenuMessage buyItem(String itemName, int amount) {
 		MarketMenuMessage errors = getBuyItemErrores(itemName, amount);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		ResourceType resource = ResourceType.getresourceByName(itemName);
+		ResourceType resource = ResourceType.getResourceByName(itemName);
 		if (errors != null)
 			return errors;
 		else {
@@ -22,7 +22,7 @@ public class MarketMenuController {
 	public static MarketMenuMessage sellItem(String itemName, int amount) {
 		MarketMenuMessage errors = getSellItemErrores(itemName, amount);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		ResourceType resource = ResourceType.getresourceByName(itemName);
+		ResourceType resource = ResourceType.getResourceByName(itemName);
 		if(errors != null)
 			return errors;
 		else {
@@ -33,9 +33,9 @@ public class MarketMenuController {
 	}
 
 	private static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
-		ResourceType resource = ResourceType.getresourceByName(itemName);
+		ResourceType resource = ResourceType.getResourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (ResourceType.getresourceByName(itemName) == null)
+		if (ResourceType.getResourceByName(itemName) == null)
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;
@@ -48,9 +48,9 @@ public class MarketMenuController {
 	}
 
 	private static MarketMenuMessage getSellItemErrores(String itemName, int amount) {
-		ResourceType resource = ResourceType.getresourceByName(itemName);
+		ResourceType resource = ResourceType.getResourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (ResourceType.getresourceByName(itemName) == null )
+		if (ResourceType.getResourceByName(itemName) == null )
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;

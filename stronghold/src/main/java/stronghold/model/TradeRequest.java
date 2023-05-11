@@ -30,7 +30,7 @@ public class TradeRequest {
 	}
 
 	public ResourceType getResource() {
-		return ResourceType.getresourceByName(resourceName);
+		return ResourceType.getResourceByName(resourceName);
 	}
 	
 	public String getId() {

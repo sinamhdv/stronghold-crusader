@@ -1,6 +1,8 @@
 package stronghold.controller;
 
 import stronghold.controller.messages.MapEditorMenuMessage;
+import stronghold.model.buildings.Building;
+import stronghold.model.buildings.BuildingGenerator;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
 import stronghold.model.environment.Wall;
@@ -30,7 +32,7 @@ public class MapEditorMenuController {
 		return rectangleSetTexture(x, y, x, y, type);
 	}
 
-	public static MapEditorMenuMessage checkRectangle(int x1, int y1, int x2, int y2) {
+	public static MapEditorMenuMessage checkRectangle(int x1, int y1, int x2, int y2, boolean checkGroundType) {
 		if (!Miscellaneous.checkCoordinatesOnMap(map, x1, y1) || !Miscellaneous.checkCoordinatesOnMap(map, x2, y2))
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		if (x2 < x1 || y2 < y1)
@@ -42,6 +44,11 @@ public class MapEditorMenuController {
 					return MapEditorMenuMessage.FULL_CELL;
 			}
 		}
+		if (checkGroundType)
+			for (int i = x1; i <= x2; i++)
+				for (int j = y1; j <= y2; j++)
+					if (!map.getGrid()[i][j].getGroundType().isBuildable())
+						return MapEditorMenuMessage.BAD_GROUND;
 		return null;
 	}
 
@@ -49,7 +56,7 @@ public class MapEditorMenuController {
 		GroundType groundType = GroundType.getGroundTypeByName(type);
 		if (groundType == null)
 			return MapEditorMenuMessage.INVALID_GROUND_TYPE_NAME;
-		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2);
+		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2, false);
 		if (rectangleErrors != null) return rectangleErrors;
 		for (int i = x1; i <= x2; i++)
 			for (int j = y1; j <= y2; j++)
@@ -120,19 +127,16 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage dropBuilding(int x, int y, String type) {
-		if (!Miscellaneous.checkCoordinatesOnMap(map, x, y))
-			return MapEditorMenuMessage.INVALID_COORDINATES;
-		MapTile tile = map.getGrid()[x][y];
-		if (tile.hasObstacle() || tile.hasPeople())
-			return MapEditorMenuMessage.FULL_CELL;
-		if (!tile.getGroundType().isBuildable())
-			return MapEditorMenuMessage.BAD_GROUND;
-		// TODO: check if the building fits in this space considering its dimentions
-		// TODO: find a way to generate buildings from config efficiently
-		// Building building = newBuildingByName(type, x, y, getSelectedGovernment());
-		// if (building == null)
-		// 	return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
-		// tile.setBuilding(building);
+		Building building = BuildingGenerator.newBuildingByName(type, x, y, getSelectedGovernment());
+		if (building == null)
+			return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
+		int x2 = x + building.getHeight() - 1;
+		int y2 = y + building.getWidth() - 1;
+		MapEditorMenuMessage rectangleErrors = checkRectangle(x, y, x2, y2, true);
+		if (rectangleErrors != null) return rectangleErrors;
+		for (int i = x; i <= x2; i++)
+			for (int j = y; j <= y2; j++)
+				map.getGrid()[i][j].setBuilding(building);
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
@@ -144,12 +148,8 @@ public class MapEditorMenuController {
 	}
 
 	public static MapEditorMenuMessage dropWall(int x1, int y1, int x2, int y2) {
-		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2);
+		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2, true);
 		if (rectangleErrors != null) return rectangleErrors;
-		for (int i = x1; i <= x2; i++)
-			for (int j = y1; j <= y2; j++)
-				if (!map.getGrid()[i][j].getGroundType().isBuildable())
-					return MapEditorMenuMessage.BAD_GROUND;
 		for (int i = x1; i <= x2; i++)
 			for (int j = y1; j <= y2; j++)
 				map.getGrid()[i][j].setEnvironmentItem(new Wall(getSelectedGovernment()));

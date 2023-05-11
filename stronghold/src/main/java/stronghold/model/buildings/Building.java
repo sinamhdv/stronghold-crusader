@@ -7,15 +7,18 @@ import stronghold.model.StrongHold;
 
 public abstract class Building implements Serializable {
 	private final int maxHp;
+	private final String name;
+	private final int neededWorkers;
+	private final int width;
+	private final int height;
+
 	private int hp;
 	private int x;
 	private int y;
 	private final int ownerIndex;
-	private final String name;
-	private final int neededWorkers;
 	private final int turnOfBuild;
 
-	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int turnOfBuild) {
+	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int turnOfBuild, int width, int height) {
 		this.maxHp = maxHp;
 		this.hp = maxHp;
 		this.x = x;
@@ -24,6 +27,8 @@ public abstract class Building implements Serializable {
 		this.name = name;
 		this.neededWorkers = neededWorkers;
 		this.turnOfBuild = turnOfBuild;
+		this.width = width;
+		this.height = height;
 	}
 
 	public int getMaxHp() {
@@ -59,11 +64,13 @@ public abstract class Building implements Serializable {
 	public int getNeededWorkers() {
 		return neededWorkers;
 	}
-
 	public int getTurnOfBuild() {
 		return turnOfBuild;
 	}
-
-	
-	
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
+	}
 }

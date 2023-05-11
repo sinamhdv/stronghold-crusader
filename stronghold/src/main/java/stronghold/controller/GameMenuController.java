@@ -43,6 +43,7 @@ public class GameMenuController {
 			return GameMenuMessage.CONSTRUCTION_FAILED;
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
+		game.getCurrentPlayer().addBuilding(game.getMap().getGrid()[x][y].getBuilding());
 		return GameMenuMessage.SUCCESS;
 	}
 
