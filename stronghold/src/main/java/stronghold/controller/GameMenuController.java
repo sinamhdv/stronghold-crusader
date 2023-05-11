@@ -11,6 +11,7 @@ import stronghold.view.GameMenu;
 
 public class GameMenuController {
 	private static Game game;
+
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
 	}
@@ -54,41 +55,45 @@ public class GameMenuController {
 
 	public static int getPopularityInfluencingFood(int foodRate) {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		int influencingFood = foodRate*2;
-		if(currentPlayer.getFoodVariety() - 1 > 0) {
-			influencingFood += currentPlayer.getFoodVariety() - 1; 
+		int influencingFood = foodRate * 2;
+		if (currentPlayer.getFoodVariety() - 1 > 0) {
+			influencingFood += currentPlayer.getFoodVariety() - 1;
 		}
 		return influencingFood;
 	}
 
 	public static int getTaxPopularityInfluencing(int taxRate) {
-		if(taxRate > -4 && taxRate < 1)
-			return (-2)*taxRate + 1;
+		if (taxRate > -4 && taxRate < 1)
+			return (-2) * taxRate + 1;
 		else if (taxRate > 0 && taxRate < 5)
-			return taxRate*(-2);
+			return taxRate * (-2);
 		else if (taxRate > 4 && taxRate < 9)
-			return (-4)*taxRate + 8;
-		else 
+			return (-4) * taxRate + 8;
+		else
 			return 9999;
 	}
 
 	public static GameMenuMessage setFoodRate(int foodRate) {
 		Government currentPleyer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if(foodRate < -2 || foodRate > 2) 
+		if (foodRate < -2 || foodRate > 2)
 			return GameMenuMessage.INVALID_FOOD_RATE;
-		else 
-		{
-			currentPleyer.setFoodRate(foodRate);
-			return GameMenuMessage.SUCCESS;
-		}
+		currentPleyer.setFoodRate(foodRate);
+		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage setTaxRate(int taxRate) {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if(taxRate < -3 || taxRate > 8)
+		if (taxRate < -3 || taxRate > 8)
 			return GameMenuMessage.INVALID_TAX_RATE;
 		currentPlayer.setTaxRate(taxRate);
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage setFearRate (int fearRate) {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		if (fearRate < -5 || fearRate > 5) 
+			return GameMenuMessage.INVALID_FEAR_RATE;
+		currentPlayer.setFearFactor(fearRate);
+		return GameMenuMessage.SUCCESS;
+	}
 }
