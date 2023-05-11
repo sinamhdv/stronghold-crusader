@@ -18,6 +18,7 @@ public class Government {
 	private int taxRate = 0;
 	private int religionRate = 0;
 	private int gold = 0;
+	private int wineUsageCycleTurns = 0;
 	private final ArrayList<Person> people = new ArrayList<>();
 
 	public Government(User user, int index, Map map) {
@@ -106,11 +107,28 @@ public class Government {
 		this.gold = gold;
 	}
 
+	public int getWineUsageCycleTurns() {
+		return wineUsageCycleTurns;
+	}
+	
+	public void setWineUsageCycleTurns(int wineUsageCycleTurns) {
+		this.wineUsageCycleTurns = wineUsageCycleTurns;
+	}
+
 	public void addBuilding(Building building) {
 		buildings.add(building);
 	}
 	public void addPerson(Person person) {
 		people.add(person);
+	}
+
+	public void useWine() {
+		if (wineUsageCycleTurns == 0 || StrongHold.getCurrentGame().getPassedTurns() % wineUsageCycleTurns != 0)
+			return;
+		if (getResourceCount(ResourceType.WINE) == 0)
+			return;
+		decreaseResource(ResourceType.WINE, 1);
+		popularity++;
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
@@ -133,7 +151,7 @@ public class Government {
 				Stockpile stockpile = (Stockpile) building;
 				if(stockpile.getResources().containsKey(resourceType)) {
 					int resourceCount = stockpile.getResources().get(resourceType);
-					while (stockpile.getCapacity() > stockpile.getSumOfResource() && canIncrease < count) {
+					while (stockpile.getCapacity() > stockpile.getSumOfResources() && canIncrease < count) {
 						stockpile.getResources().put(resourceType, ++resourceCount);
 						canIncrease++;
 					}
@@ -176,7 +194,7 @@ public class Government {
 			if (building instanceof Stockpile) {
 				Stockpile stockpile = (Stockpile) building;
 				if (stockpile.getResources().containsKey(resourceType)) {
-					capacity += (stockpile.getCapacity() - stockpile.getSumOfResource());
+					capacity += (stockpile.getCapacity() - stockpile.getSumOfResources());
 				}
 			}
 		}
