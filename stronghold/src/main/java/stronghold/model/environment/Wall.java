@@ -1,6 +1,8 @@
 package stronghold.model.environment;
 
 public class Wall extends EnvironmentItem {
+	public static final int REQUIRED_STONE = 1;
+
 	private int hp;
 
 	public Wall(int ownerIndex) {

@@ -3,6 +3,7 @@ package stronghold.view;
 import java.util.HashMap;
 
 import stronghold.controller.GameMenuController;
+import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.StrongHold;
 import stronghold.view.parser.Command;
@@ -16,6 +17,8 @@ public class GameMenu {
 
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
+
+		// TODO: find a way to force each player to build their keep and generate a Lord for each player
 
 		HashMap<String, String> matcher;
 		while (true) {
@@ -58,5 +61,9 @@ public class GameMenu {
 			Integer.parseInt(matcher.get("y")),
 			matcher.get("type")
 		).getErrorString());
+	}
+
+	public static void showMapEditorError(MapEditorMenuMessage message) {
+		System.out.println(message.getErrorString());
 	}
 }

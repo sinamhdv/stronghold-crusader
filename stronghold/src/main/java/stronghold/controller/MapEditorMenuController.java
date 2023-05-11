@@ -127,6 +127,7 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.FULL_CELL;
 		if (!tile.getGroundType().isBuildable())
 			return MapEditorMenuMessage.BAD_GROUND;
+		// TODO: check if the building fits in this space considering its dimentions
 		// TODO: find a way to generate buildings from config efficiently
 		// Building building = newBuildingByName(type, x, y, getSelectedGovernment());
 		// if (building == null)
