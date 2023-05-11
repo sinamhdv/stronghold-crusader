@@ -8,6 +8,7 @@ import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
+import stronghold.model.StrongHold;
 import stronghold.model.environment.Wall;
 import stronghold.view.GameMenu;
 
@@ -54,12 +55,12 @@ public class GameMenuController {
 
 	}
 
-	public static int getPopularityInfluencing(int popularityrate) {
-		int foodVariety = 0;
-		ArrayList<ResourceType> food = new ArrayList<>();
-		food.add(ResourceType.APPLE);
-		food.add(Me)
-		ResourceType[] = [ResourceType.APPLE, ResourceType.BREAD, ResourceType.CHEESE, ResourceType.IRON]; 
-		for()
+	public static int getPopularityInfluencingFood(int foodRate) {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		int influencingFood = foodRate*2;
+		if(currentPlayer.getFoodVariety() - 1 > 0) {
+			influencingFood += currentPlayer.getFoodVariety() - 1; 
+		}
+		return influencingFood;
 	}
 }
