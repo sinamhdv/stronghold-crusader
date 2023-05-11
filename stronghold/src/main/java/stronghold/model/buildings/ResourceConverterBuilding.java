@@ -6,72 +6,68 @@ import stronghold.model.map.GroundType;
 
 public class ResourceConverterBuilding extends Building {
 	private ResourceType inputType;
-	private ResourceType outpuType;
-	private GroundType groundType;
-	private int productionRate;
-	private int productionNumber;
-	private int usageRate;
+	private ResourceType outputType;
+	private final GroundType[] allowedGroundTypes;
+	private int productionCycleTurns;
+	private int outputsProducedCount;
+	private int inputsUsedCount;
 
-	public ResourceConverterBuilding(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers,
-			int terunOfBuild, ResourceType inputType, ResourceType outpuType, GroundType groundType, int productionRate,
-			int productionNumber, int usageRate) {
-		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
+	public ResourceConverterBuilding(int maxHp, String name, int neededWorkers, int width, int height,
+			int verticalHeight, boolean isSelectable, int x, int y, int residents, int residentsCapacity,
+			boolean hasWorkers, int ownerIndex, int turnOfBuild, ResourceType inputType, ResourceType outpuType,
+			GroundType[] allowedGroundTypes, int productionCycleTurns, int outputsProducedCount, int inputsUsedCount) {
+		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residents,
+				residentsCapacity, hasWorkers, ownerIndex, turnOfBuild);
 		this.inputType = inputType;
-		this.outpuType = outpuType;
-		this.groundType = groundType;
-		this.productionRate = productionRate;
-		this.productionNumber = productionNumber;
-		this.usageRate = usageRate;
+		this.outputType = outpuType;
+		this.allowedGroundTypes = allowedGroundTypes;
+		this.productionCycleTurns = productionCycleTurns;
+		this.outputsProducedCount = outputsProducedCount;
+		this.inputsUsedCount = inputsUsedCount;
 	}
 
 	public ResourceType getInputType() {
 		return inputType;
 	}
-
-	public ResourceType getOutpuType() {
-		return outpuType;
-	}
-
-	public GroundType getGroundType() {
-		return groundType;
-	}
-
-	public int getProductionRate() {
-		return productionRate;
-	}
-
-	public int getProductionNumber() {
-		return productionNumber;
-	}
-
 	public void setInputType(ResourceType inputType) {
 		this.inputType = inputType;
 	}
-
-	public void setOutpuType(ResourceType outpuType) {
-		this.outpuType = outpuType;
+	public ResourceType getOutputType() {
+		return outputType;
 	}
-
-	public void setGroundType(GroundType groundType) {
-		this.groundType = groundType;
+	public void setOutputType(ResourceType outpuType) {
+		this.outputType = outpuType;
 	}
-
-	public void setProductionRate(int productionRate) {
-		this.productionRate = productionRate;
+	public GroundType[] getAllowedGroundTypes() {
+		return allowedGroundTypes;
 	}
-
-	public void setProductionNumber(int productionNumber) {
-		this.productionNumber = productionNumber;
+	public int getProductionCycleTurns() {
+		return productionCycleTurns;
+	}
+	public void setProductionCycleTurns(int productionCycleTurns) {
+		this.productionCycleTurns = productionCycleTurns;
+	}
+	public int getOutputsProducedCount() {
+		return outputsProducedCount;
+	}
+	public void setOutputsProducedCount(int outputsProducedCount) {
+		this.outputsProducedCount = outputsProducedCount;
+	}
+	public int getInputsUsedCount() {
+		return inputsUsedCount;
+	}
+	public void setInputsUsedCount(int inputsUsedCount) {
+		this.inputsUsedCount = inputsUsedCount;
 	}
 
 	public void performConversion() {
-		if ((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % productionRate != 0)
+		if ((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % getProductionCycleTurns() != 0)
 			return;
-		if (outpuType != null && getOwner().getResourceCount(inputType) >= usageRate) {
-			getOwner().increaseResource(outpuType, productionNumber);
-		} 
-		if (inputType != null) {
-			getOwner().decreaseResource(inputType, usageRate);
-		}
+		if (getOwner().getResourceCount(inputType) < getInputsUsedCount())
+			return;
+		if (outputType != null)
+			getOwner().increaseResource(outputType, getOutputsProducedCount());
+		if (inputType != null)
+			getOwner().decreaseResource(inputType, getInputsUsedCount());
 	}
 }

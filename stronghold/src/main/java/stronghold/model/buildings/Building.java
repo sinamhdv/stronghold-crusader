@@ -11,24 +11,36 @@ public abstract class Building implements Serializable {
 	private final int neededWorkers;
 	private final int width;
 	private final int height;
+	private int verticalHeight;
+	private final boolean isSelectable;
 
 	private int hp;
 	private int x;
 	private int y;
+	private int residents;
+	private final int residentsCapacity;
+	private boolean hasWorkers;
 	private final int ownerIndex;
 	private final int turnOfBuild;
 
-	public Building(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers, int turnOfBuild, int width, int height) {
+	public Building(int maxHp, String name, int neededWorkers, int width, int height, int verticalHeight,
+			boolean isSelectable, int x, int y, int residents, int residentsCapacity, boolean hasWorkers,
+			int ownerIndex, int turnOfBuild) {
 		this.maxHp = maxHp;
-		this.hp = maxHp;
-		this.x = x;
-		this.y = y;
-		this.ownerIndex = ownerIndex;
 		this.name = name;
 		this.neededWorkers = neededWorkers;
-		this.turnOfBuild = turnOfBuild;
 		this.width = width;
 		this.height = height;
+		this.verticalHeight = verticalHeight;
+		this.isSelectable = isSelectable;
+		this.x = x;
+		this.y = y;
+		this.residents = residents;
+		this.residentsCapacity = residentsCapacity;
+		this.hasWorkers = hasWorkers;
+		this.ownerIndex = ownerIndex;
+		this.turnOfBuild = turnOfBuild;
+		this.hp = maxHp;
 	}
 
 	public int getMaxHp() {
@@ -72,5 +84,29 @@ public abstract class Building implements Serializable {
 	}
 	public int getWidth() {
 		return width;
+	}
+	public int getVerticalHeight() {
+		return verticalHeight;
+	}
+	public boolean isSelectable() {
+		return isSelectable;
+	}
+	public int getResidents() {
+		return residents;
+	}
+	public void setResidents(int residents) {
+		this.residents = residents;
+	}
+	public int getResidentsCapacity() {
+		return residentsCapacity;
+	}
+	public boolean hasWorkers() {
+		return hasWorkers;
+	}
+	public void setHasWorkers(boolean hasWorkers) {
+		this.hasWorkers = hasWorkers;
+	}
+	public void setVerticalHeight(int verticalHeight) {
+		this.verticalHeight = verticalHeight;
 	}
 }

@@ -1,41 +1,40 @@
 package stronghold.model.buildings;
 
 public class DefensiveStructure extends Building {
-	private int fireRate;
-	private int defendRate;
-	private DefensiveStructure type;
-	private boolean isCaptured;
-	public DefensiveStructure(int maxHp, int x, int y, int ownerIndex, String name, int neededWorkers,
-			int terunOfBuild, int fireRate, int defendRate, DefensiveStructure type, boolean isCaptured) {
-		super(maxHp, x, y, ownerIndex, name, neededWorkers, terunOfBuild);
-		this.fireRate = fireRate;
-		this.defendRate = defendRate;
-		this.type = type;
-		this.isCaptured = isCaptured;
+	private final int fireRange;
+	private final int defendRange;
+	private final boolean isGate;	// TODO: opening a gate is just setVerticalHeight(1)
+	private final boolean isVertical;	// only used for gates
+	
+	private boolean isCaptured = false;
+
+	public DefensiveStructure(int maxHp, String name, int neededWorkers, int width, int height, int verticalHeight,
+			boolean isSelectable, int x, int y, int residents, int residentsCapacity, boolean hasWorkers,
+			int ownerIndex, int turnOfBuild, int fireRange, int defendRange, boolean isGate, boolean isVertical) {
+		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residents,
+				residentsCapacity, hasWorkers, ownerIndex, turnOfBuild);
+		this.fireRange = fireRange;
+		this.defendRange = defendRange;
+		this.isGate = isGate;
+		this.isVertical = isVertical;
 	}
-	public int getFireRate() {
-		return fireRate;
+
+	public int getFireRange() {
+		return fireRange;
 	}
-	public int getDefendRate() {
-		return defendRate;
+	public int getDefendRange() {
+		return defendRange;
 	}
-	public DefensiveStructure getType() {
-		return type;
+	public boolean isGate() {
+		return isGate;
+	}
+	public boolean isVertical() {
+		return isVertical;
 	}
 	public boolean isCaptured() {
 		return isCaptured;
 	}
-	public void setFireRate(int fireRate) {
-		this.fireRate = fireRate;
-	}
-	public void setDefendRate(int defendRate) {
-		this.defendRate = defendRate;
-	}
-	public void setType(DefensiveStructure type) {
-		this.type = type;
-	}
 	public void setCaptured(boolean isCaptured) {
 		this.isCaptured = isCaptured;
 	}
-	
 }
