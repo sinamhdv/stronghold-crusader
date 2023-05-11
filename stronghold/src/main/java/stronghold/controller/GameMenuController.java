@@ -72,6 +72,7 @@ public class GameMenuController {
 		else if (taxRate > 4 && taxRate < 9)
 			return (-4)*taxRate + 8;
 		else 
-			return 9999999;
+			return 9999;
 	}
+
 }

@@ -45,8 +45,11 @@ public class GameMenu {
 	private static void showPopularityFactors() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		System.out.println("Popularity factors:");
-		System.out.println("Food Influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
-		System.out.println("Tax Influencing : " );
+		System.out.println("Food influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
+		System.out.println("Tax influencing : " + GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate()));
+		System.out.println("Fear influencing : " + currentPlayer.getFearFactor());
+		System.out.println("Religion influencing : " );
+		//TODO: get religion influencing after handel church
 	}
 
 	private static void runDropWall(HashMap<String, String> matcher) {
