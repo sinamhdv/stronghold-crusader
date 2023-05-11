@@ -13,19 +13,18 @@ public abstract class Building implements Serializable {
 	private final int height;
 	private int verticalHeight;
 	private final boolean isSelectable;
+	private final int residentsCapacity;
 
 	private int hp;
 	private int x;
 	private int y;
 	private int residents;
-	private final int residentsCapacity;
 	private boolean hasWorkers;
 	private final int ownerIndex;
 	private final int turnOfBuild;
 
 	public Building(int maxHp, String name, int neededWorkers, int width, int height, int verticalHeight,
-			boolean isSelectable, int x, int y, int residents, int residentsCapacity, boolean hasWorkers,
-			int ownerIndex, int turnOfBuild) {
+			boolean isSelectable, int x, int y, int residentsCapacity, int ownerIndex) {
 		this.maxHp = maxHp;
 		this.name = name;
 		this.neededWorkers = neededWorkers;
@@ -35,13 +34,20 @@ public abstract class Building implements Serializable {
 		this.isSelectable = isSelectable;
 		this.x = x;
 		this.y = y;
-		this.residents = residents;
+		this.residents = 0;	// TODO: set this to residentsCapacity immediately and forget about gradual population growth?
 		this.residentsCapacity = residentsCapacity;
-		this.hasWorkers = hasWorkers;
+		this.hasWorkers = false;
 		this.ownerIndex = ownerIndex;
-		this.turnOfBuild = turnOfBuild;
+		this.turnOfBuild = (StrongHold.getCurrentGame() == null ? 0 : StrongHold.getCurrentGame().getPassedTurns());
 		this.hp = maxHp;
 	}
+
+	protected Building(Building model, int x, int y, int ownerIndex) {
+		this(model.maxHp, model.name, model.neededWorkers, model.width, model.height, model.verticalHeight,
+			model.isSelectable, x, y, model.residentsCapacity, ownerIndex);
+	}
+
+	abstract public Building generateCopy(int x, int y, int ownerIndex);
 
 	public int getMaxHp() {
 		return maxHp;

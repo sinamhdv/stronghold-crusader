@@ -13,17 +13,32 @@ public class ResourceConverterBuilding extends Building {
 	private int inputsUsedCount;
 
 	public ResourceConverterBuilding(int maxHp, String name, int neededWorkers, int width, int height,
-			int verticalHeight, boolean isSelectable, int x, int y, int residents, int residentsCapacity,
-			boolean hasWorkers, int ownerIndex, int turnOfBuild, ResourceType inputType, ResourceType outpuType,
-			GroundType[] allowedGroundTypes, int productionCycleTurns, int outputsProducedCount, int inputsUsedCount) {
-		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residents,
-				residentsCapacity, hasWorkers, ownerIndex, turnOfBuild);
+			int verticalHeight, boolean isSelectable, int x, int y, int residentsCapacity, int ownerIndex,
+			ResourceType inputType, ResourceType outputType, GroundType[] allowedGroundTypes, int productionCycleTurns,
+			int outputsProducedCount, int inputsUsedCount) {
+		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residentsCapacity,
+				ownerIndex);
 		this.inputType = inputType;
-		this.outputType = outpuType;
+		this.outputType = outputType;
 		this.allowedGroundTypes = allowedGroundTypes;
 		this.productionCycleTurns = productionCycleTurns;
 		this.outputsProducedCount = outputsProducedCount;
 		this.inputsUsedCount = inputsUsedCount;
+	}
+
+	private ResourceConverterBuilding(ResourceConverterBuilding model, int x, int y, int ownerIndex) {
+		super(model, x, y, ownerIndex);
+		this.inputType = model.inputType;
+		this.outputType = model.outputType;
+		this.allowedGroundTypes = model.allowedGroundTypes;
+		this.productionCycleTurns = model.productionCycleTurns;
+		this.outputsProducedCount = model.outputsProducedCount;
+		this.inputsUsedCount = model.inputsUsedCount;
+	}
+
+	@Override
+	public Building generateCopy(int x, int y, int ownerIndex) {
+		return new ResourceConverterBuilding(this, x, y, ownerIndex);
 	}
 
 	public ResourceType getInputType() {

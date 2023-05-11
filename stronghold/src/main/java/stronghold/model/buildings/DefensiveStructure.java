@@ -9,14 +9,27 @@ public class DefensiveStructure extends Building {
 	private boolean isCaptured = false;
 
 	public DefensiveStructure(int maxHp, String name, int neededWorkers, int width, int height, int verticalHeight,
-			boolean isSelectable, int x, int y, int residents, int residentsCapacity, boolean hasWorkers,
-			int ownerIndex, int turnOfBuild, int fireRange, int defendRange, boolean isGate, boolean isVertical) {
-		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residents,
-				residentsCapacity, hasWorkers, ownerIndex, turnOfBuild);
+			boolean isSelectable, int x, int y, int residentsCapacity, int ownerIndex, int fireRange, int defendRange,
+			boolean isGate, boolean isVertical) {
+		super(maxHp, name, neededWorkers, width, height, verticalHeight, isSelectable, x, y, residentsCapacity,
+				ownerIndex);
 		this.fireRange = fireRange;
 		this.defendRange = defendRange;
 		this.isGate = isGate;
 		this.isVertical = isVertical;
+	}
+
+	private DefensiveStructure(DefensiveStructure model, int x, int y, int ownerIndex) {
+		super(model, x, y, ownerIndex);
+		this.fireRange = model.fireRange;
+		this.defendRange = model.defendRange;
+		this.isGate = model.isGate;
+		this.isVertical = model.isVertical;
+	}
+
+	@Override
+	public Building generateCopy(int x, int y, int ownerIndex) {
+		return new DefensiveStructure(this, x, y, ownerIndex);
 	}
 
 	public int getFireRange() {

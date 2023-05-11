@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import stronghold.controller.MapEditorMenuController;
 import stronghold.controller.MapManagementMenuController;
+import stronghold.model.StrongHold;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -11,6 +12,7 @@ public class MapEditorMenu {
 	public static void run() {
 		System.out.println("======[Map Editor]======");
 
+		StrongHold.setCurrentGame(null);	// signal other functions that we're in editor mode
 		MapEditorMenuController.setMap(MapManagementMenuController.getLoadedMap());
 		MapEditorMenuController.setSelectedGovernment(0);
 
