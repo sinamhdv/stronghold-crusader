@@ -175,14 +175,4 @@ public class Government {
 		return capacity;
 	}
 
-	public int getSumOfSpecificResource(ResourceType resourceType) {
-		int sum = 0;
-		for (Building building : buildings) {
-			if (building instanceof Stockpile) {
-				Stockpile stockpile = (Stockpile) building;
-				sum += stockpile.getResources().get(resourceType);
-			}
-		}
-		return sum;
-	}
 }

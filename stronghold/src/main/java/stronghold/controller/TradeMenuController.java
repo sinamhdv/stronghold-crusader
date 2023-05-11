@@ -71,7 +71,7 @@ public class TradeMenuController {
 			return TradeMenuMessage.EMPTY_FIELD;
 		else if (StrongHold.getCurrentGame().getTradeById(id) == null)
 			return TradeMenuMessage.THERE_IS_NO_TRADE_WITH_THIS_ID;
-		else if (currentPlayer.getSumOfSpecificResource(trade.getResource()) < trade.getAmount())
+		else if (currentPlayer.getResourceCount(trade.getResource()) < trade.getAmount())
 			return TradeMenuMessage.NOT_HAVING_ENOUGH_RESOURCE;
 		else
 			return null;
