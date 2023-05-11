@@ -63,4 +63,15 @@ public class GameMenuController {
 		}
 		return influencingFood;
 	}
+
+	public static int getTaxPopularityInfluencing(int taxRate) {
+		if(taxRate > -4 && taxRate < 1)
+			return (-2)*taxRate + 1;
+		else if (taxRate > 0 && taxRate < 5)
+			return taxRate*(-2);
+		else if (taxRate > 4 && taxRate < 9)
+			return (-4)*taxRate + 8;
+		else 
+			return 9999999;
+	}
 }

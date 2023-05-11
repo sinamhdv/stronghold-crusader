@@ -5,6 +5,7 @@ import java.util.HashMap;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
+import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
@@ -42,8 +43,10 @@ public class GameMenu {
 	}
 
 	private static void showPopularityFactors() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		System.out.println("Popularity factors:");
-		System.out.println("Food rate: ");
+		System.out.println("Food Influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
+		System.out.println("Tax Influencing : " );
 	}
 
 	private static void runDropWall(HashMap<String, String> matcher) {
