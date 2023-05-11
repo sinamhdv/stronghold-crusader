@@ -25,6 +25,10 @@ public class GameMenu {
 				showPopularity();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
 				showPopularityFactors();
+			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_WALL)) != null)
+				runDropWall(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
+				runDropBuilding(matcher);
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -37,5 +41,22 @@ public class GameMenu {
 	private static void showPopularityFactors() {
 		System.out.println("Popularity factors:");
 		System.out.println("Food rate: ");
+	}
+
+	private static void runDropWall(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.dropWall(
+			Integer.parseInt(matcher.get("x1")),
+			Integer.parseInt(matcher.get("y1")),
+			Integer.parseInt(matcher.get("x2")),
+			Integer.parseInt(matcher.get("y2"))
+		).getErrorString());
+	}
+
+	private static void runDropBuilding(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.dropBuilding(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type")
+		).getErrorString());
 	}
 }
