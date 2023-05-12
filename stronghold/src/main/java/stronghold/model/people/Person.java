@@ -28,8 +28,8 @@ public class Person implements Serializable {
 	private int ownerIndex;
 	private int x;
 	private int y;
-	private int destX = -1;
-	private int destY = -1;
+	private int destX;
+	private int destY;
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
@@ -49,6 +49,8 @@ public class Person implements Serializable {
 		this.ownerIndex = ownerIndex;
 		this.x = x;
 		this.y = y;
+		this.destX = x;
+		this.destY = y;
 	}
 
 	public Person(Person other, int x, int y, int ownerIndex) {
