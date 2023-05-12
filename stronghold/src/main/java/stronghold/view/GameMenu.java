@@ -33,6 +33,10 @@ public class GameMenu {
 				showPopularityFactors();
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
+				runSelectBuilding(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
+				showSelectedBuilding();
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -45,8 +49,8 @@ public class GameMenu {
 	private static void showPopularityFactors() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		int sumOfInfluencing = GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate())
-							 + GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate()) 
-							 +  currentPlayer.getFearFactor();
+				+ GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate())
+				+ currentPlayer.getFearFactor();
 		System.out.println("Popularity factors:");
 		System.out.println(
 				"Food influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
@@ -60,9 +64,10 @@ public class GameMenu {
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.dropBuilding(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y")),
-				matcher.get("type")).getErrorString());
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y")),
+			matcher.get("type")
+		).getErrorString());
 	}
 
 	public static void showMapEditorError(MapEditorMenuMessage message) {
@@ -91,5 +96,23 @@ public class GameMenu {
 	public static void fearRateShow() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		System.out.println("your fear rate : " + currentPlayer.getFearFactor());
+	}
+
+	private static void runSelectBuilding(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.selectBuilding(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		).getErrorString());
+	}
+
+	private static void showSelectedBuilding() {
+		if (game.getSelectedBuilding() == null)
+			System.out.println("No building is selected");
+		else {
+			System.out.println(game.getSelectedBuilding().getName() + " ---> (" +
+				game.getSelectedBuilding().getX() + ", " +
+				game.getSelectedBuilding().getY() + ")"
+			);
+		}
 	}
 }

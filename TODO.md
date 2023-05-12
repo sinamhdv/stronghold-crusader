@@ -5,10 +5,12 @@
 - [ ] ensure each player has a keep/granary/general stockpile before the game begins
 - [X] ensure a player doesn't build a new keep during the game
 - [X] drop unit on defensive structures
-- [ ] generate lord
+- [X] generate lord
+- [ ] units that are created on killing pits in the beginning of the game should die
 - [ ] add POPULATION to ResourceType and resource management functions in government
 
-- [ ] select building
+- [ ] next turn
+- [X] select building
 - [ ] create unit
 - [ ] repair
 - [ ] select unit

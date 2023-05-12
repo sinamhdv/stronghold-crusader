@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.people.Person;
 import stronghold.model.people.PersonType;
 import stronghold.utils.ConfigManager;
@@ -24,9 +25,45 @@ public class GenerateConfig {
 	}
 
 	private static void generateBuildings() {
-		addBuilding(new DefensiveStructure(1000, "keep", 0, 3, 3, 1, true, 0, 0, 8, 0, 10, 7, false, false));
-		addBuilding(new DefensiveStructure(100, "high wall", 0, 1, 1, 2, false, 0, 0, 0, 0, 4, 10, false, false));
-		addBuilding(new DefensiveStructure(50, "low wall", 0, 1, 1, 2, false, 0, 0, 0, 0, 2, 12, false, false));
+		
+		addBuilding(new DefensiveStructure(
+			1000,
+			"keep",
+			0,
+			3, 3, 1,
+			true,
+			0, 0,
+			8, 0,
+			10,
+			7,
+			DefensiveStructureType.KEEP,
+			false
+		));
+
+		addBuilding(new DefensiveStructure(
+			100,
+			"high wall",
+			0,
+			1, 1, 2,
+			false, 0, 0,
+			0, 0,
+			4, 10,
+			DefensiveStructureType.WALL,
+			false
+		));
+
+		addBuilding(new DefensiveStructure(
+			50,
+			"low wall",
+			0,
+			1, 1, 2,
+			false,
+			0, 0,
+			0, 0,
+			2, 12,
+			DefensiveStructureType.WALL,
+			false
+		));
 	}
 
 	private static void addBuilding(Building building) {

@@ -8,7 +8,9 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Building;
 import stronghold.utils.ConfigManager;
+import stronghold.utils.Miscellaneous;
 import stronghold.view.GameMenu;
 
 public class GameMenuController {
@@ -59,6 +61,19 @@ public class GameMenuController {
 
 	private static void decreaseObjectsResources(String objectName, Government government) {
 		decreaseObjectsResources(objectName, government, 1, 1);
+	}
+
+	public static GameMenuMessage selectBuilding(int x, int y) {
+		game.setSelectedBuilding(null);
+		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
+			return GameMenuMessage.INVALID_COORDINATES;
+		Building building = game.getMap().getGrid()[x][y].getBuilding();
+		if (building == null)
+			return GameMenuMessage.NO_BUILDING_FOUND;
+		if (building.getOwnerIndex() != game.getCurrentPlayerIndex())
+			return GameMenuMessage.BUILDING_NOT_YOURS;
+		game.setSelectedBuilding(building);
+		return GameMenuMessage.SUCCESS;
 	}
 
 	public static int getPopularityInfluencingFood(int foodRate) {
