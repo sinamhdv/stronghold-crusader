@@ -59,4 +59,8 @@ public class MapTile implements Serializable {
 			this.groundType.isPassable()
 		);
 	}
+
+	public int getHeight() {
+		return (building == null ? 0 : building.getVerticalHeight());
+	}
 }
