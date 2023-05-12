@@ -21,6 +21,8 @@ public class MainMenuController {
 		if (!DatabaseManager.mapExists(mapName))
 			return MainMenuMessage.MAP_DOESNT_EXIST;
 		Map map = DatabaseManager.loadMapByName(mapName);
+		MainMenuMessage message = checkKeeps(map);
+		if (message != null) return message;
 		String[] usernames = MainMenu.askPlayersNames(map.getGovernmentsCount());
 		User[] users = new User[usernames.length];
 		boolean currentUserFound = false;
@@ -36,5 +38,13 @@ public class MainMenuController {
 		Game game = new Game(map, users);
 		StrongHold.setCurrentGame(game);
 		return MainMenuMessage.SUCCESS;
+	}
+
+	private static MainMenuMessage checkKeeps(Map map) {
+		for (int i = 0; i < map.getGovernmentsCount(); i++) {
+			if (!CentralController.hasKeepOnMap(map, i))
+				return MainMenuMessage.KEEP_NOT_FOUND;
+		}
+		return null;
 	}
 }
