@@ -36,7 +36,8 @@ public class MapMenuController {
 		MapMenuController.currentMap = currentMap;
 	}
 	public static void updateCurrentMap() {
-		currentMap = StrongHold.getCurrentGame().getMap();
+		if (StrongHold.getCurrentGame() != null)
+			currentMap = StrongHold.getCurrentGame().getMap();
 	}
 
 	public static MapMenuMessage moveMap(String up, String down, String left, String right) {

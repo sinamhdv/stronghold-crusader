@@ -34,8 +34,8 @@ public class GameMenu {
 				runSelectBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
 				showSelectedBuilding();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCE_AMOUNT)) != null)
-				showResourceAmount(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
+				showResourcesAmount();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
 				runSelectUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
@@ -127,13 +127,10 @@ public class GameMenu {
 		}
 	}
 
-	private static void showResourceAmount(HashMap<String, String> matcher) {
-		String name = matcher.get("resource");
-		ResourceType resourceType = ResourceType.getResourceByName(name);
-		if (resourceType == null)
-			System.out.println("Error: Invalid resource type");
-		System.out.println("Total amount of the requested resource is: " +
-			game.getCurrentPlayer().getResourceCount(resourceType));
+	private static void showResourcesAmount() {
+		System.out.println("Resources report:");
+		for (ResourceType resourceType : ResourceType.values())
+			System.out.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
 	}
 
 	private static void runSelectUnit(HashMap<String, String> matcher) {

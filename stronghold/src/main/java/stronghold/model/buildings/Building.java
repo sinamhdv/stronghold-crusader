@@ -115,4 +115,12 @@ public abstract class Building implements Serializable {
 	public void setVerticalHeight(int verticalHeight) {
 		this.verticalHeight = verticalHeight;
 	}
+
+	@Override
+	public String toString() {
+		String result = name + "(" + ownerIndex + ") -> hp=" + hp + "/" + maxHp;
+		if (residentsCapacity > 0) result += ", residents=" + residents;
+		if (neededWorkers > 0) result += ", neededWorkers=" + neededWorkers + ", hasWorkers=" + hasWorkers;
+		return result;
+	}
 }

@@ -185,6 +185,13 @@ public class Person implements Serializable {
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
 	}
 
+	@Override
+	public String toString() {
+		String result = name + "(" + ownerIndex + ") (hp=" + hp +
+			") @ (" + x + ", " + y + ") -> (" + destX + ", " + destY + ")";
+		return result;
+	}
+
 	public void disband() {
 		// TODO
 	}

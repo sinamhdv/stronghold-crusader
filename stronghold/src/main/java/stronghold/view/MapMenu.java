@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import stronghold.controller.MapMenuController;
 import stronghold.controller.messages.MapMenuMessage;
-import stronghold.model.StrongHold;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
@@ -14,19 +13,16 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapMenu {
-	private static boolean inGameMode;
-
 	public static void run(Map map) {
 		System.out.println("======[Map Menu]======");
 		
 		MapMenuController.setCurrentMap(map);
-		inGameMode = (map == null);
 
 		while (true) {
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;
 
-			if (map == null) MapMenuController.updateCurrentMap();
+			MapMenuController.updateCurrentMap();
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_MAP)) != null)
 				runShowMap(matcher);
@@ -102,16 +98,12 @@ public class MapMenu {
 		if (tile.getEnvironmentItem() != null)
 			System.out.println("Environment Item: " + tile.getEnvironmentItem());
 		if (tile.getBuilding() != null)
-			System.out.println("Building: " + tile.getBuilding().getName() + " -> " +
-			(inGameMode ? tile.getBuilding().getOwner().getUser().getUserName() : tile.getBuilding().getOwnerIndex()));
+			System.out.println("Building: " + tile.getBuilding());
 		for (int i = 0; i < MapMenuController.getCurrentMap().getGovernmentsCount(); i++) {
-			System.out.println("List of people owned by #" + i + " " +
-								(inGameMode ? StrongHold.getCurrentGame().getGovernments()[i].getUser().getUserName() : "") +
-								": ");
+			System.out.println("List of people owned by #" + i + " " +": ");
 			ArrayList<Person> filteredPeople = Miscellaneous.getPeopleByOwner(tile.getPeople(), i);
-			HashMap<String, Integer> peopleCount = Miscellaneous.countPeopleFromArray(filteredPeople);
-			for (String personName : peopleCount.keySet())
-				System.out.println(personName + ": " + peopleCount.get(personName));
+			for (Person person : filteredPeople)
+				System.out.println(person);
 		}
 	}
 }
