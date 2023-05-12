@@ -2,6 +2,7 @@ package stronghold;
 
 import java.util.ArrayList;
 
+import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
@@ -28,42 +29,40 @@ public class GenerateConfig {
 	private static void generateBuildings() {
 		
 		addBuilding(new DefensiveStructure(
-			1000,
-			"keep",
-			0,
+			1000, "keep", 0,
 			3, 3, 1,
-			true,
-			0, 0,
+			true, 0, 0,
 			8, 0,
-			10,
-			7,
-			DefensiveStructureType.KEEP,
-			false
+			10, 7,
+			DefensiveStructureType.KEEP, false
 		));
 
 		addBuilding(new DefensiveStructure(
-			100,
-			"high wall",
-			0,
+			100, "high wall", 0,
 			1, 1, 2,
 			false, 0, 0,
 			0, 0,
 			4, 10,
-			DefensiveStructureType.WALL,
-			false
+			DefensiveStructureType.WALL, false
 		));
 
 		addBuilding(new DefensiveStructure(
-			50,
-			"low wall",
-			0,
+			50, "low wall", 0,
 			1, 1, 2,
-			false,
-			0, 0,
+			false, 0, 0,
 			0, 0,
 			2, 12,
-			DefensiveStructureType.WALL,
-			false
+			DefensiveStructureType.WALL, false
+		));
+
+		addBuilding(new Barracks(
+			100, "european barracks", 0,
+			3, 3, 999,
+			true, 0, 0,
+			0, 0,
+			0, new String[] {
+				"european archer", "swordsman"
+			}
 		));
 	}
 

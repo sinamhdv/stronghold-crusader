@@ -11,7 +11,7 @@ public class OilSmelter extends Building {
 				ownerIndex);
 	}
 
-	public OilSmelter(OilSmelter model, int x, int y, int ownerIndex) {
+	private OilSmelter(OilSmelter model, int x, int y, int ownerIndex) {
 		super(model, x, y, ownerIndex);
 	}
 

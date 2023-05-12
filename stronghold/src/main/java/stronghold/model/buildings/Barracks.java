@@ -13,7 +13,7 @@ public class Barracks extends Building {
 		this.troopNames = troopNames;
 	}
 
-	public Barracks(Barracks model, int x, int y, int ownerIndex) {
+	private Barracks(Barracks model, int x, int y, int ownerIndex) {
 		super(model, x, y, ownerIndex);
 		this.popularityBoost = model.popularityBoost;
 		this.troopNames = model.troopNames;

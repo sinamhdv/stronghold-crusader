@@ -8,6 +8,7 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.people.Person;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -119,14 +120,11 @@ public class GameMenu {
 	}
 
 	private static void showSelectedBuilding() {
-		if (game.getSelectedBuilding() == null)
+		if (game.getSelectedBuilding() == null) {
 			System.out.println("No building is selected");
-		else {
-			System.out.println(game.getSelectedBuilding().getName() + " ---> (" +
-				game.getSelectedBuilding().getX() + ", " +
-				game.getSelectedBuilding().getY() + ")"
-			);
+			return;
 		}
+		System.out.println(game.getSelectedBuilding());
 	}
 
 	private static void showResourcesAmount() {
@@ -158,8 +156,8 @@ public class GameMenu {
 			System.out.println("No unit is selected");
 			return;
 		}
-		System.out.println("The units in cell (" + game.getSelectedUnits().get(0).getX() +
-			", " + game.getSelectedUnits().get(0).getY() + ") are selected");
+		for (Person person : game.getSelectedUnits())
+			System.out.println(person);
 	}
 
 	private static void runCreateUnit(HashMap<String, String> matcher) {

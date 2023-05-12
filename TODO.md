@@ -10,13 +10,14 @@
 - [ ] add POPULATION to ResourceType and resource management functions in government
 - [ ] handle assassin visibility in map menu
 - [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
+- [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
 
 - [ ] next turn
 - [X] select building
 - [ ] create unit
 - [ ] repair
 - [X] select unit
-- [ ] move unit
+- [X] move unit
 - [ ] patrol
 - [ ] stance
 - [ ] melee attack
