@@ -1,6 +1,9 @@
 {
 	"keep": {},
-	"wood-cutter": {
-		"WOOD": 3
+	"low wall": {
+		"ROCK": 1
+	},
+	"high wall": {
+		"ROCK": 2
 	}
 }

@@ -6,7 +6,6 @@ import stronghold.model.buildings.BuildingGenerator;
 import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
-import stronghold.model.environment.Wall;
 import stronghold.model.map.GroundType;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
@@ -156,15 +155,6 @@ public class MapEditorMenuController {
 		if (index < 0 || index >= map.getGovernmentsCount())
 			return MapEditorMenuMessage.INVALID_GOVERNMENT_INDEX;
 		setSelectedGovernment(index);
-		return MapEditorMenuMessage.SUCCESS;
-	}
-
-	public static MapEditorMenuMessage dropWall(int x1, int y1, int x2, int y2) {
-		MapEditorMenuMessage rectangleErrors = checkRectangle(x1, y1, x2, y2, true);
-		if (rectangleErrors != null) return rectangleErrors;
-		for (int i = x1; i <= x2; i++)
-			for (int j = y1; j <= y2; j++)
-				map.getGrid()[i][j].setEnvironmentItem(new Wall(getSelectedGovernment()));
 		return MapEditorMenuMessage.SUCCESS;
 	}
 }

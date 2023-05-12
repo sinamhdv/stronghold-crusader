@@ -37,8 +37,6 @@ public class MapEditorMenu {
 				runDropUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_WALL)) != null)
-				runDropWall(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_GOVERNMENT)) != null)
 				runSelectGovernment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_GOVERNMENT)) != null)
@@ -122,14 +120,5 @@ public class MapEditorMenu {
 
 	private static void showSelectedGovernment() {
 		System.out.println("The selected government is: " + MapEditorMenuController.getSelectedGovernment());
-	}
-
-	private static void runDropWall(HashMap<String, String> matcher) {
-		System.out.println(MapEditorMenuController.dropWall(
-			Integer.parseInt(matcher.get("x1")),
-			Integer.parseInt(matcher.get("y1")),
-			Integer.parseInt(matcher.get("x2")),
-			Integer.parseInt(matcher.get("y2"))
-		).getErrorString());
 	}
 }

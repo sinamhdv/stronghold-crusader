@@ -2,9 +2,9 @@ package stronghold.controller;
 
 import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
-import stronghold.model.environment.Wall;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.view.TerminalColor;
@@ -81,11 +81,10 @@ public class MapMenuController {
 			return paintTileString(new String[] {"  ", "  "}, TerminalColor.RESET, TerminalColor.RESET);
 		MapTile tile = map[x][y];
 		String result = "";
-		if (tile.getBuilding() != null) result += "B";
+		if (tile.getBuilding() != null) result += (tile.getBuilding() instanceof DefensiveStructure ? "W" : "B");
 		if (!tile.getPeople().isEmpty()) result += "S";
 		if (tile.getEnvironmentItem() instanceof Tree) result += "T";
 		else if (tile.getEnvironmentItem() instanceof Rock) result += "R";
-		else if (tile.getEnvironmentItem() instanceof Wall) result += "W";
 		while (result.length() < 4) result += "#";
 		return paintTileString(new String[] {
 			result.substring(0, 2),

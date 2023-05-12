@@ -31,8 +31,6 @@ public class GameMenu {
 				showPopularity();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
 				showPopularityFactors();
-			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_WALL)) != null)
-				runDropWall(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
 			else
@@ -58,14 +56,6 @@ public class GameMenu {
 		System.out.println("Religion influencing : ");
 		// TODO: get religion influencing after handel church
 		System.out.println("Sum of your influencing : " + sumOfInfluencing);
-	}
-
-	private static void runDropWall(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.dropWall(
-				Integer.parseInt(matcher.get("x1")),
-				Integer.parseInt(matcher.get("y1")),
-				Integer.parseInt(matcher.get("x2")),
-				Integer.parseInt(matcher.get("y2"))).getErrorString());
 	}
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
