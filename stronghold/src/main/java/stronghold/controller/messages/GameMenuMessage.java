@@ -14,8 +14,10 @@ public enum GameMenuMessage {
 	
 	// repair
 	THERE_IS_NO_SELECTED_BUILDING("There is no selected building"),
-	CANT_REPAIR("you can't repair this building"),
-
+	CANT_REPAIR("You can't repair this building"),
+	THERE_ARE_ENEMY_SOLDIERS("Repair faild: there are enemy soldiers near you"),
+	NOT_HAVINT_ENOUGH_RESURCE("You don't have enough resource to repair building"),
+	SUCCESSFULL_REPAIR("Ripaired this building successfully"),
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
