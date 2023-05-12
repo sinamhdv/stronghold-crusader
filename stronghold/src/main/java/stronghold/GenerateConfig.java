@@ -18,6 +18,7 @@ public class GenerateConfig {
 	private static void generatePeople() {
 		ArrayList<Person> people = new ArrayList<>();
 
+		people.add(new Person("lord", 2, 400, 80, 999999, 1, 0, false, false, false, false, PersonType.LORD,0, 0, 0));
 		people.add(new Person("european archer", 6, 50, 20, 999999, 1, 10, true, false, false, false, PersonType.NORMAL,0, 0, 0));
 		people.add(new Person("swordsman", 2, 200, 60, 999999, 1, 0, false, false, false, false, PersonType.NORMAL, 0, 0, 0));
 

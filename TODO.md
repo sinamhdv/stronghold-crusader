@@ -2,7 +2,7 @@
 - [X] remove drop wall
 - [ ] find workers for a newly created building
 - [ ] gradual population growth
-- [ ] ensure each player has a keep before the game begins
+- [X] ensure each player has a keep before the game begins
 - [X] ensure a player doesn't build a new keep during the game
 - [X] drop unit on defensive structures
 - [X] generate lord
@@ -23,3 +23,8 @@
 - [ ] dig tunnel
 - [ ] build siege equipment
 - [ ] disband
+
+
+
+
+- [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)

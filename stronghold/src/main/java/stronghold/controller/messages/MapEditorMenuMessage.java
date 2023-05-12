@@ -17,6 +17,7 @@ public enum MapEditorMenuMessage {
 	INVALID_BUILDING_TYPE("Error: invalid building type"),
 	CANNOT_PLACE_UNIT("Error: cannot place units in this cell"),
 	SECOND_KEEP("Error: this government already has a keep; cannot build a second one"),
+	SECOND_LORD("Error: this government already has a lord"),
 
 	// select government
 	INVALID_GOVERNMENT_INDEX("Error: invalid government index"),

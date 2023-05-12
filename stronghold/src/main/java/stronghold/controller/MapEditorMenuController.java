@@ -133,6 +133,8 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.CANNOT_PLACE_UNIT;
 		if (PersonGenerator.newPersonByName(type, x, y, getSelectedGovernment()) == null)
 			return MapEditorMenuMessage.INVALID_UNIT_TYPE;
+		if (type.equals("lord") && CentralController.hasKeepOnMap(map, getSelectedGovernment()))
+			return MapEditorMenuMessage.SECOND_LORD;
 		for (int i = 0; i < count; i++)
 			tile.addPerson(PersonGenerator.newPersonByName(type, x, y, getSelectedGovernment()));
 		return MapEditorMenuMessage.SUCCESS;
@@ -162,10 +164,11 @@ public class MapEditorMenuController {
 				}
 			}
 		}
+
+		System.out.println(dropUnit(x, y, "lord", 1));
 		for (int i = x; i <= x2; i++)
 			for (int j = y; j <= y2; j++)
 				map.getGrid()[i][j].setBuilding(building);
-		dropUnit(x, y, "lord", getSelectedGovernment());
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
