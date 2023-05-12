@@ -90,6 +90,6 @@ public class MapMenuController {
 			result.substring(0, 2),
 			result.substring(2, 4)
 		},
-		tile.getGroundType().getBackgroundColor(), tile.getGroundType().getForegroundColor());
+		tile.getBackgroundColor(), tile.getForegroundColor());
 	}
 }

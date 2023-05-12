@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import stronghold.model.buildings.Building;
 import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.people.Person;
+import stronghold.view.TerminalColor;
 
 public class MapTile implements Serializable {
 	private GroundType groundType = GroundType.NORMAL;
@@ -43,6 +44,14 @@ public class MapTile implements Serializable {
 	}
 	public void addPerson(Person person) {
 		people.add(person);
+	}
+	public TerminalColor getBackgroundColor() {
+		if (building == null && environmentItem == null) return groundType.getBackgroundColor();
+		return TerminalColor.BLACK;
+	}
+	public TerminalColor getForegroundColor() {
+		if (building == null && environmentItem == null) return groundType.getForegroundColor();
+		return TerminalColor.CYAN;
 	}
 
 	public boolean hasPeople() {
