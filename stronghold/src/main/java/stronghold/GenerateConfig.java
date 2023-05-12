@@ -3,6 +3,7 @@ package stronghold;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
+import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.people.Person;
 import stronghold.utils.ConfigManager;
 
@@ -22,10 +23,10 @@ public class GenerateConfig {
 	}
 
 	private static void generateBuildings() {
-		addBuilding();
+		addBuilding(new DefensiveStructure(1000, "Keep", 0, 3, 3, 1, true, 0, 0, 8, 0, 10, 7, false, false));
 	}
 
 	private static void addBuilding(Building building) {
-		
+		ConfigManager.saveBuildingConfig(building);
 	}
 }

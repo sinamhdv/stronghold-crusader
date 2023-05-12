@@ -3,6 +3,7 @@ package stronghold.controller;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.BuildingGenerator;
+import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
 import stronghold.model.environment.Wall;
@@ -134,6 +135,17 @@ public class MapEditorMenuController {
 		int y2 = y + building.getWidth() - 1;
 		MapEditorMenuMessage rectangleErrors = checkRectangle(x, y, x2, y2, true);
 		if (rectangleErrors != null) return rectangleErrors;
+	
+		if (building instanceof ResourceConverterBuilding) {
+			for (int i = x; i <= x2; i++) {
+				for (int j = y; j <= y2; j++) {
+					GroundType groundType = map.getGrid()[i][j].getGroundType();
+					if (!((ResourceConverterBuilding)building).isGroundTypeAllowed(groundType))
+						return MapEditorMenuMessage.BAD_GROUND;
+				}
+			}
+		}
+
 		for (int i = x; i <= x2; i++)
 			for (int j = y; j <= y2; j++)
 				map.getGrid()[i][j].setBuilding(building);

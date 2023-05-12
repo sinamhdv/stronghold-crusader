@@ -53,8 +53,11 @@ public class ResourceConverterBuilding extends Building {
 	public void setOutputType(ResourceType outpuType) {
 		this.outputType = outpuType;
 	}
-	public GroundType[] getAllowedGroundTypes() {
-		return allowedGroundTypes;
+	public boolean isGroundTypeAllowed(GroundType groundType) {
+		for (GroundType type : allowedGroundTypes)
+			if (type == groundType)
+				return true;
+		return false;
 	}
 	public int getProductionCycleTurns() {
 		return productionCycleTurns;
