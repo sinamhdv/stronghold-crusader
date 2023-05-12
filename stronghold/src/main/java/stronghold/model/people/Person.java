@@ -18,14 +18,15 @@ public class Person implements Serializable {
 	private final boolean canClimbWalls;
 	private final boolean canDigMoats;
 	private final boolean hasBurningOil;
+	private final PersonType type;
 
 	private int ownerIndex;
 	private int x;
 	private int y;
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
-			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, int ownerIndex,
-			int x, int y) {
+			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
+			int ownerIndex, int x, int y) {
 		this.name = name;
 		this.speed = speed;
 		this.hp = hp;
@@ -37,6 +38,7 @@ public class Person implements Serializable {
 		this.canClimbWalls = canClimbWalls;
 		this.canDigMoats = canDigMoats;
 		this.hasBurningOil = hasBurningOil;
+		this.type = type;
 		this.ownerIndex = ownerIndex;
 		this.x = x;
 		this.y = y;
@@ -45,7 +47,7 @@ public class Person implements Serializable {
 	public Person(Person other, int x, int y, int ownerIndex) {
 		this(other.name, other.speed, other.hp, other.damage, other.visibilityRange, other.attackRate,
 			other.attackRange, other.canClimbLadder, other.canClimbWalls, other.canDigMoats, other.hasBurningOil,
-			ownerIndex, x, y);
+			other.type, ownerIndex, x, y);
 	}
 
 	public int getSpeed() {
@@ -119,6 +121,9 @@ public class Person implements Serializable {
 	}
 	public boolean hasBurningOil() {
 		return hasBurningOil;
+	}
+	public PersonType getType() {
+		return type;
 	}
 
 	public void move(int targetX, int targetY) {

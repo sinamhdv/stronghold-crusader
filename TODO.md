@@ -1,0 +1,23 @@
+- [X] check special resource converter ground types in drop building in map editor
+- [X] remove drop wall
+- [ ] find workers for a newly created building
+- [ ] gradual population growth
+- [ ] ensure each player has a keep/granary/general stockpile before the game begins
+- [X] ensure a player doesn't build a new keep during the game
+- [X] drop unit on defensive structures
+- [ ] generate lord
+- [ ] add POPULATION to ResourceType and resource management functions in government
+
+- [ ] select building
+- [ ] create unit
+- [ ] repair
+- [ ] select unit
+- [ ] move unit
+- [ ] patrol
+- [ ] stance
+- [ ] melee attack
+- [ ] ranged attack
+- [ ] pour/fill oil
+- [ ] dig tunnel
+- [ ] build siege equipment
+- [ ] disband
