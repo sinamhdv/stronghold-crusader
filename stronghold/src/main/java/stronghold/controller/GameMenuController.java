@@ -89,6 +89,14 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage moveUnit(int x, int y) {
+		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
+			return GameMenuMessage.INVALID_COORDINATES;
+		for (Person unit : game.getSelectedUnits())
+			unit.setDestination(x, y);
+		return GameMenuMessage.SUCCESS;
+	}
+
 	public static int getPopularityInfluencingFood(int foodRate) {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		int influencingFood = foodRate * 2;

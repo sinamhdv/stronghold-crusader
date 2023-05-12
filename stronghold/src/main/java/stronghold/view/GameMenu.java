@@ -38,6 +38,8 @@ public class GameMenu {
 				showResourceAmount(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
 				runSelectUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
+				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -132,6 +134,13 @@ public class GameMenu {
 
 	private static void runSelectUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.selectUnit(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		).getErrorString());
+	}
+
+	private static void runMoveUnit(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.moveUnit(
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y"))
 		).getErrorString());
