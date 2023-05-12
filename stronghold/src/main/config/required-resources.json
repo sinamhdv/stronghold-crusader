@@ -6,7 +6,8 @@
 	"high wall": {
 		"ROCK": 2
 	},
-
+	"general stockpile": {},
+	"granary": {},
 
 
 	"lord": {}

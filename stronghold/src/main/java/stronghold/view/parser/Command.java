@@ -57,6 +57,7 @@ public enum Command {
 	DROP_BUILDING("drop building <-x,x> <-y,y> [-t,type]"),
 	SELECT_BUILDING("select building <-x,x> <-y,y>"),
 	SHOW_SELECTED_BUILDING("show selected building"),
+	SHOW_RESOURCE_AMOUNT("show resource amount [-r,resource]"),
 	CREATE_UNIT("create unit [-t,type] <-c,count>"),
 	REPAIR("repair"),
 	SELECT_UNIT("select unit <-x,x> <-y,y>"),
