@@ -132,6 +132,8 @@ public class Government {
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
+		if (resourceType == ResourceType.GOLD)
+			return this.gold;
 		int resourceCount = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -145,6 +147,10 @@ public class Government {
 	}
 
 	public int increaseResource(ResourceType resourceType, int count) {
+		if (resourceType == ResourceType.GOLD) {
+			this.gold += count;
+			return count;
+		}
 		int canIncrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -162,6 +168,11 @@ public class Government {
 	}
 
 	public int decreaseResource(ResourceType resourceType, int count) {
+		if (resourceType == ResourceType.GOLD) {
+			if (count > this.gold) count = this.gold;
+			this.gold -= count;
+			return count;
+		}
 		int canDecrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -176,17 +187,6 @@ public class Government {
 			}
 		}
 		return canDecrease;
-	}
-
-	public boolean isThereStockpileToResource(ResourceType resourceType) { // TODO: this function is not ever used;
-																			// shall we remove it?
-		for (Building building : buildings) {
-			if (building instanceof Stockpile) {
-				if (((Stockpile) building).getResources().containsKey(resourceType))
-					return true;
-			}
-		}
-		return false;
 	}
 
 	public int getCapacityOfResourceType(ResourceType resourceType) {
