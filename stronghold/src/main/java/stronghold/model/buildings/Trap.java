@@ -26,4 +26,7 @@ public class Trap extends Building {
 	public int getDamage() {
 		return damage;
 	}
+	public boolean hasDogs() {
+		return hasDogs;
+	}
 }

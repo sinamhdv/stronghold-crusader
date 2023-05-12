@@ -70,6 +70,7 @@ public enum Command {
 	DIG_TUNNEL("dig tunnel <-x,x> <-y,y>"),
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-q,equipment]"),
 	DISBAND("disband"),
+	NEXT_TURN("next turn"),
 
 	// Map Editor Menu
 	SET_TEXTURE("set texture <-x,x> <-y,y> [-t,type]"),

@@ -80,7 +80,7 @@ public class MapEditorMenuController {
 		return MapEditorMenuMessage.SUCCESS;
 	}
 
-	private static void eraseBuilding(Building building) {
+	public static void eraseBuilding(Building building) {
 		if (building == null) return;
 		for (int i = building.getX(); i <= building.getX() + building.getHeight() - 1; i++) {
 			for (int j = building.getY(); j <= building.getY() + building.getWidth() - 1; j++) {

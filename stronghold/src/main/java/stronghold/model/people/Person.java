@@ -2,8 +2,13 @@ package stronghold.model.people;
 
 import java.io.Serializable;
 
+import stronghold.controller.MapEditorMenuController;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Trap;
+import stronghold.model.map.MapTile;
+import stronghold.model.map.Path;
+import stronghold.model.map.Pathfinding;
 
 public class Person implements Serializable {
 	private final String name;
@@ -136,6 +141,37 @@ public class Person implements Serializable {
 	public void setDestination(int destX, int destY) {
 		this.destX = destX;
 		this.destY = destY;
+	}
+
+	public boolean hurt(int damage) {
+		setHp(getHp() - damage);
+		if (getHp() <= 0) {	// die
+			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
+			tile.getPeople().remove(this);
+			// TODO: the government must lose if the lord dies
+			return true;
+		}
+		return false;
+	}
+
+	public void moveTowardsDestination() {
+		Path path = Pathfinding.findPath(this);
+		int[][] cells = path.getCells();
+		for (int i = 0; i < cells.length; i++) {	// check for killing pits
+			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cells[i][0]][cells[i][1]];
+			if (tile.getBuilding() instanceof Trap) {
+				Trap trap = (Trap)tile.getBuilding();
+				if (!trap.hasDogs() && trap.getOwnerIndex() != this.getOwnerIndex()) {
+					boolean died = this.hurt(trap.getDamage());
+					MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
+					MapEditorMenuController.setSelectedGovernment(this.getOwnerIndex());
+					MapEditorMenuController.eraseBuilding(trap);
+					if (died) return;
+				}
+			}
+		}
+		setX(cells[cells.length - 1][0]);
+		setY(cells[cells.length - 1][1]);
 	}
 
 	public void disband() {

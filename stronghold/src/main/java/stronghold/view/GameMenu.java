@@ -40,6 +40,8 @@ public class GameMenu {
 				runSelectUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
 				runMoveUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
+				runNextTurn();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -144,5 +146,9 @@ public class GameMenu {
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y"))
 		).getErrorString());
+	}
+
+	private static void runNextTurn() {
+		System.out.println(GameMenuController.nextTurn().getErrorString());
 	}
 }

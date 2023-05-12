@@ -11,6 +11,7 @@ import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.map.Pathfinding;
 import stronghold.model.people.Person;
 import stronghold.utils.ConfigManager;
 import stronghold.utils.Miscellaneous;
@@ -96,6 +97,29 @@ public class GameMenuController {
 		for (Person unit : game.getSelectedUnits())
 			unit.setDestination(x, y);
 		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage nextTurn() {
+		// actions that must be done after each player switch
+		Pathfinding.clearCache();
+		handleTroopMovements();
+		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
+			// actions that must be done after a full turn
+			game.setPassedTurns(game.getPassedTurns() + 1);
+		}
+		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
+		return GameMenuMessage.SUCCESS;
+	}
+
+	private static void handleTroopMovements() {
+		for (int i = 0; i < game.getMap().getHeight(); i++) {
+			for (int j = 0; j < game.getMap().getWidth(); j++) {
+				for (Person person : game.getMap().getGrid()[i][j].getPeople()) {
+					if (person.getOwnerIndex() == game.getCurrentPlayerIndex())
+						person.moveTowardsDestination();
+				}
+			}
+		}
 	}
 
 	public static int getPopularityInfluencingFood(int foodRate) {
