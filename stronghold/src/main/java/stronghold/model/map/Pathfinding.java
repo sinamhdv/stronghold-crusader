@@ -68,9 +68,11 @@ public class Pathfinding {
 		ArrayList<Integer> cellsY = new ArrayList<>();
 		int x = agent.getDestX();
 		int y = agent.getDestY();
+		if (distance[x][y] == 0)
+			return new Path(agent, new int[] {x, y}, new int[][] {{agent.getX(), agent.getY()}});
 		cellsX.add(x);
 		cellsY.add(y);
-		while (distance[x][y] != 0 && (x != agent.getX() || y != agent.getY())) {
+		while (x != agent.getX() || y != agent.getY()) {
 			int[] parent = getParent(x, y, distance);
 			x = parent[0];
 			y = parent[1];

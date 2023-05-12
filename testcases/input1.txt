@@ -8,9 +8,30 @@ select government -g 1
 drop building -x 1 -y 5 -t keep
 select government -g 2
 drop building -x 5 -y 1 -t keep
-drop building -t "high wall" -x 3 -y 4
-drop building -t "low wall" -x 4 -y 3
-drop building -t "low wall" -x 4 -y 1
+drop building -t "high wall" -x 5 -y 5
+drop building -t "high wall" -x 5 -y 6
+drop building -t "high wall" -x 5 -y 7
+drop building -t "high wall" -x 5 -y 8
+drop building -t "high wall" -x 5 -y 9
+drop building -t "high wall" -x 5 -y 10
+drop building -t "high wall" -x 5 -y 11
+drop building -t "high wall" -x 5 -y 12
+drop building -t "low wall" -x 6 -y 8
+drop building -t "low wall" -x 6 -y 10
+drop building -t "low wall" -x 6 -y 12
+drop building -t "low wall" -x 7 -y 5
+drop building -t "low wall" -x 7 -y 6
+drop building -t "low wall" -x 7 -y 8
+drop building -t "low wall" -x 7 -y 10
+drop building -t "low wall" -x 7 -y 11
+drop building -t "low wall" -x 7 -y 12
+drop building -t "low wall" -x 8 -y 6
+drop building -t "low wall" -x 8 -y 10
+drop building -t "low wall" -x 9 -y 6
+drop building -t "low wall" -x 9 -y 7
+drop building -t "low wall" -x 9 -y 8
+drop building -t "low wall" -x 9 -y 9
+drop building -t "low wall" -x 9 -y 10
 back
 back
 exit
@@ -18,4 +39,4 @@ exit
 
 
 #######################
-MapEditor
+map1

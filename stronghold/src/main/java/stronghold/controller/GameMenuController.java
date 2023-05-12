@@ -118,15 +118,9 @@ public class GameMenuController {
 	}
 
 	private static void handleTroopMovements() {
-		for (int i = 0; i < game.getMap().getHeight(); i++) {
-			for (int j = 0; j < game.getMap().getWidth(); j++) {
-				ArrayList<Person> tileClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
-				for (Person person : tileClone) {
-					if (person.getOwnerIndex() == game.getCurrentPlayerIndex())
-						person.moveTowardsDestination();
-				}
-			}
-		}
+		ArrayList<Person> peopleClone = new ArrayList<>(game.getCurrentPlayer().getPeople());
+		for (Person person : peopleClone)
+			person.moveTowardsDestination();
 	}
 
 	public static int getPopularityInfluencingFood(int foodRate) {
