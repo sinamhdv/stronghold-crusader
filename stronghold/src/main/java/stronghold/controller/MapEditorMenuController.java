@@ -3,6 +3,8 @@ package stronghold.controller;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.BuildingGenerator;
+import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.environment.Rock;
 import stronghold.model.environment.Tree;
@@ -69,10 +71,22 @@ public class MapEditorMenuController {
 			return MapEditorMenuMessage.INVALID_COORDINATES;
 		if (x2 < x1 || y2 < y1)
 			return MapEditorMenuMessage.INVALID_COORDINATES;
-		for (int i = x1; i <= x2; i++)
-			for (int j = y1; j <= y2; j++)
+		for (int i = x1; i <= x2; i++) {
+			for (int j = y1; j <= y2; j++) {
+				eraseBuilding(map.getGrid()[i][j].getBuilding());
 				map.getGrid()[i][j] = new MapTile();
+			}
+		}
 		return MapEditorMenuMessage.SUCCESS;
+	}
+
+	private static void eraseBuilding(Building building) {
+		if (building == null) return;
+		for (int i = building.getX(); i <= building.getX() + building.getHeight() - 1; i++) {
+			for (int j = building.getY(); j <= building.getY() + building.getWidth() - 1; j++) {
+				map.getGrid()[i][j].setBuilding(null);
+			}
+		}
 	}
 
 	public static MapEditorMenuMessage dropRock(int x, int y, String directionString) {
@@ -115,10 +129,8 @@ public class MapEditorMenuController {
 		MapTile tile = map.getGrid()[x][y];
 		if (count <= 0)
 			return MapEditorMenuMessage.INVALID_COUNT;
-		if (tile.hasObstacle())
-			return MapEditorMenuMessage.FULL_CELL;
-		if (!tile.getGroundType().isPassable())
-			return MapEditorMenuMessage.BAD_GROUND;
+		if (!tile.isPassable())
+			return MapEditorMenuMessage.CANNOT_PLACE_UNIT;
 		if (PersonGenerator.newPersonByName(type, x, y, getSelectedGovernment()) == null)
 			return MapEditorMenuMessage.INVALID_UNIT_TYPE;
 		for (int i = 0; i < count; i++)
@@ -130,11 +142,17 @@ public class MapEditorMenuController {
 		Building building = BuildingGenerator.newBuildingByName(type, x, y, getSelectedGovernment());
 		if (building == null)
 			return MapEditorMenuMessage.INVALID_BUILDING_TYPE;
+			
+		if ((building instanceof DefensiveStructure) &&
+			((DefensiveStructure)building).getType() == DefensiveStructureType.KEEP &&
+			CentralController.hasKeepOnMap(map, getSelectedGovernment()))
+				return MapEditorMenuMessage.SECOND_KEEP;
+		
 		int x2 = x + building.getHeight() - 1;
 		int y2 = y + building.getWidth() - 1;
 		MapEditorMenuMessage rectangleErrors = checkRectangle(x, y, x2, y2, true);
 		if (rectangleErrors != null) return rectangleErrors;
-	
+
 		if (building instanceof ResourceConverterBuilding) {
 			for (int i = x; i <= x2; i++) {
 				for (int j = y; j <= y2; j++) {
@@ -144,10 +162,10 @@ public class MapEditorMenuController {
 				}
 			}
 		}
-
 		for (int i = x; i <= x2; i++)
 			for (int j = y; j <= y2; j++)
 				map.getGrid()[i][j].setBuilding(building);
+		dropUnit(x, y, "lord", getSelectedGovernment());
 		return MapEditorMenuMessage.SUCCESS;
 	}
 

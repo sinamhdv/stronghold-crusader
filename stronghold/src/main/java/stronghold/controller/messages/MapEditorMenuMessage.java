@@ -15,6 +15,8 @@ public enum MapEditorMenuMessage {
 	INVALID_COUNT("Error: count must be positive"),
 	INVALID_UNIT_TYPE("Error: invalid unit type"),
 	INVALID_BUILDING_TYPE("Error: invalid building type"),
+	CANNOT_PLACE_UNIT("Error: cannot place units in this cell"),
+	SECOND_KEEP("Error: this government already has a keep; cannot build a second one"),
 
 	// select government
 	INVALID_GOVERNMENT_INDEX("Error: invalid government index"),

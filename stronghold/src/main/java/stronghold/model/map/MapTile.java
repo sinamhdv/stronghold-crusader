@@ -51,4 +51,12 @@ public class MapTile implements Serializable {
 	public boolean hasObstacle() {
 		return (building != null || environmentItem != null);
 	}
+
+	public boolean isPassable() {
+		return (
+			this.environmentItem == null &&
+			(this.building == null || this.building.getVerticalHeight() <= 5) &&
+			this.groundType.isPassable()
+		);
+	}
 }
