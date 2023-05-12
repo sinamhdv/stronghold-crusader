@@ -9,6 +9,7 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.map.Pathfinding;
@@ -40,9 +41,31 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage createUnit(String type, int count) {
+		if (!(game.getSelectedBuilding() instanceof Barracks))
+			return GameMenuMessage.BAD_SELECTED_BUILDING;
+		if (!((Barracks)game.getSelectedBuilding()).canBuildTroop(type))
+			return GameMenuMessage.INCORRECT_UNIT_NAME;
+		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
+			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
+		int[] keep = game.getCurrentPlayer().findKeep();
+		MapEditorMenuController.setMap(game.getMap());
+		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
+		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, count);
+		if (message != MapEditorMenuMessage.SUCCESS) {
+			GameMenu.showMapEditorError(message);
+			return GameMenuMessage.CONSTRUCTION_FAILED;
+		}
+		decreaseObjectsResources(type, game.getCurrentPlayer());
+		ArrayList<Person> tilePeople = game.getMap().getGrid()[keep[0]][keep[1]].getPeople();
+		game.getCurrentPlayer().addPerson(tilePeople.get(tilePeople.size() - 1));
+		return GameMenuMessage.SUCCESS;
+	}
+
 	private static boolean hasEnoughResourcesForObject(String objectName, Government government,
 			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
+		if (requiredResources == null) return true;
 		for (ResourceType resourceType : requiredResources.keySet()) {
 			int requiredPart = (repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts;
 			if (government.getResourceCount(resourceType) < requiredPart)
@@ -58,6 +81,7 @@ public class GameMenuController {
 	private static void decreaseObjectsResources(String objectName, Government government,
 			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
+		if (requiredResources == null) return;
 		for (ResourceType resourceType : requiredResources.keySet())
 			government.decreaseResource(resourceType,
 					(repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts);

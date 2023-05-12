@@ -119,7 +119,7 @@ public abstract class Building implements Serializable {
 	@Override
 	public String toString() {
 		String result = name + "(" + ownerIndex + ") -> hp=" + hp + "/" + maxHp;
-		if (residentsCapacity > 0) result += ", residents=" + residents;
+		if (residentsCapacity > 0) result += ", residents=" + residents + "/" + residentsCapacity;
 		if (neededWorkers > 0) result += ", neededWorkers=" + neededWorkers + ", hasWorkers=" + hasWorkers;
 		return result;
 	}

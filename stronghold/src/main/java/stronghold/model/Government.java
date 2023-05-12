@@ -3,6 +3,8 @@ package stronghold.model;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
+import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
@@ -212,6 +214,13 @@ public class Government {
 			}
 		}
 		return foodVariety;
-		
+	}
+
+	public int[] findKeep() {
+		for (Building building : buildings)
+			if ((building instanceof DefensiveStructure) &&
+				((DefensiveStructure)building).getType() == DefensiveStructureType.KEEP)
+				return new int[] {building.getX(), building.getY()};
+		return null;
 	}
 }

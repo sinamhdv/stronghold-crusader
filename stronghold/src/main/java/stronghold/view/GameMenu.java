@@ -30,6 +30,8 @@ public class GameMenu {
 				showPopularityFactors();
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
+				runCreateUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
 				runSelectBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
@@ -158,5 +160,12 @@ public class GameMenu {
 		}
 		System.out.println("The units in cell (" + game.getSelectedUnits().get(0).getX() +
 			", " + game.getSelectedUnits().get(0).getY() + ") are selected");
+	}
+
+	private static void runCreateUnit(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.createUnit(
+			matcher.get("type"),
+			Integer.parseInt(matcher.get("count"))
+		).getErrorString());
 	}
 }

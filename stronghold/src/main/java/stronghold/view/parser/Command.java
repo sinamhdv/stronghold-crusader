@@ -43,7 +43,7 @@ public enum Command {
 	// Map Menu
 	SHOW_MAP("show map <-x,x> <-y,y>"),
 	MOVE_MAP("move map <-u,up=1>? <-d,down=1>? <-r,right=1>? <-l,left=1>?"),
-	SHOW_TILE_DETAILS("show tile details <-x,x> <-y,y>"),
+	SHOW_TILE_DETAILS("show details <-x,x> <-y,y>"),
 
 	// Game Menu
 	SHOW_POPULARITY_FACTORS("show popularity factors"),

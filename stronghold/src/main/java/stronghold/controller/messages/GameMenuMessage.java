@@ -10,7 +10,8 @@ public enum GameMenuMessage {
 
 	// drop building/create unit
 	NOT_ENOUGH_RESOURCES("Error: you don't have enough resources"),
-	CONSTRUCTION_FAILED("Construction failed"),
+	CONSTRUCTION_FAILED("Error: Construction of the required object failed"),
+	INCORRECT_UNIT_NAME("Error: The unit name doesn't match this barracks"),
 	
 	// repair
 	THERE_IS_NO_SELECTED_BUILDING("There is no selected building"),
@@ -22,6 +23,7 @@ public enum GameMenuMessage {
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
+	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
 
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
