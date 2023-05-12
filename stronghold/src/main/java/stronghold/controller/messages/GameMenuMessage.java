@@ -18,7 +18,7 @@ public enum GameMenuMessage {
 
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
-	NO_BUILDING_FOUND("No building was found in the requested cell"),
+	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
 	;
 
 	private final String errorString;

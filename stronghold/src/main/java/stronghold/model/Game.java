@@ -43,6 +43,12 @@ public class Game {
 	public ArrayList<Person> getSelectedUnits() {
 		return selectedUnits;
 	}
+	public void clearSelectedUnits() {
+		selectedUnits.clear();
+	}
+	public void addSelectedUnit(Person person) {
+		selectedUnits.add(person);
+	}
 
 	public Building getSelectedBuilding() {
 		return selectedBuilding;

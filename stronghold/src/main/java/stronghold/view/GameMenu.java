@@ -36,6 +36,8 @@ public class GameMenu {
 				showSelectedBuilding();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCE_AMOUNT)) != null)
 				showResourceAmount(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
+				runSelectUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -126,5 +128,12 @@ public class GameMenu {
 			System.out.println("Error: Invalid resource type");
 		System.out.println("Total amount of the requested resource is: " +
 			game.getCurrentPlayer().getResourceCount(resourceType));
+	}
+
+	private static void runSelectUnit(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.selectUnit(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		).getErrorString());
 	}
 }
