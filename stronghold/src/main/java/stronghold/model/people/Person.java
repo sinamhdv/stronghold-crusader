@@ -23,6 +23,8 @@ public class Person implements Serializable {
 	private int ownerIndex;
 	private int x;
 	private int y;
+	private int destX = -1;
+	private int destY = -1;
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
@@ -125,9 +127,15 @@ public class Person implements Serializable {
 	public PersonType getType() {
 		return type;
 	}
-
-	public void move(int targetX, int targetY) {
-		// TODO: run BFS on the map
+	public int getDestX() {
+		return destX;
+	}
+	public int getDestY() {
+		return destY;
+	}
+	public void setDestination(int destX, int destY) {
+		this.destX = destX;
+		this.destY = destY;
 	}
 
 	public void disband() {

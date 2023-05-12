@@ -8,6 +8,8 @@
 - [X] generate lord
 - [ ] units that are created on killing pits in the beginning of the game should die
 - [ ] add POPULATION to ResourceType and resource management functions in government
+- [ ] handle assassin visibility in map menu
+- [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
 
 - [ ] next turn
 - [X] select building
