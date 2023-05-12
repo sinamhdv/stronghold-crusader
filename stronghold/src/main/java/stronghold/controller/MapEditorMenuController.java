@@ -165,7 +165,7 @@ public class MapEditorMenuController {
 			}
 		}
 
-		System.out.println(dropUnit(x, y, "lord", 1));
+		dropUnit(x, y, "lord", 1);
 		for (int i = x; i <= x2; i++)
 			for (int j = y; j <= y2; j++)
 				map.getGrid()[i][j].setBuilding(building);

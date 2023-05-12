@@ -20,9 +20,6 @@ public class GameMenu {
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
 
-		// TODO: find a way to force each player to build their keep and generate a Lord
-		// for each player
-
 		HashMap<String, String> matcher;
 		while (true) {
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
@@ -37,6 +34,10 @@ public class GameMenu {
 				runSelectBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
 				showSelectedBuilding();
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
+				MapMenu.run(game.getMap());
+				System.out.println("======[Game Menu]======");
+			}
 			else
 				System.out.println("Error: Invalid command");
 		}

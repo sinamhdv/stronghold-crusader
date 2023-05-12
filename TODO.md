@@ -9,6 +9,7 @@
 - [ ] units that are created on killing pits in the beginning of the game should die
 - [ ] add POPULATION to ResourceType and resource management functions in government
 
+- [ ] show resource count -r resource
 - [ ] next turn
 - [X] select building
 - [ ] create unit
@@ -23,7 +24,6 @@
 - [ ] dig tunnel
 - [ ] build siege equipment
 - [ ] disband
-
 
 
 
