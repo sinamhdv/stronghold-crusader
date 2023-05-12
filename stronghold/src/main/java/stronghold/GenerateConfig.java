@@ -24,6 +24,8 @@ public class GenerateConfig {
 
 	private static void generateBuildings() {
 		addBuilding(new DefensiveStructure(1000, "Keep", 0, 3, 3, 1, true, 0, 0, 8, 0, 10, 7, false, false));
+		addBuilding(new DefensiveStructure(100, "high wall", 0, 1, 1, 2, false, 0, 0, 0, 0, 4, 10, false, false));
+		addBuilding(new DefensiveStructure(50, "low wall", 0, 1, 1, 2, false, 0, 0, 0, 0, 2, 12, false, false));
 	}
 
 	private static void addBuilding(Building building) {

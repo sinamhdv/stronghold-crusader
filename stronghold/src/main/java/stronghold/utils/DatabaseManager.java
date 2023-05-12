@@ -49,7 +49,7 @@ public class DatabaseManager {
 	}
 	static void serializeObject(String filename, Object object) {
 		try {
-			OutputStream file = new FileOutputStream(getMapFilename(filename));
+			OutputStream file = new FileOutputStream(filename);
 			ObjectOutputStream serializer = new ObjectOutputStream(file);
 			serializer.writeObject(object);
 			serializer.close();
