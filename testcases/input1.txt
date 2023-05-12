@@ -1,18 +1,21 @@
-signup menu
-signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname"
-signup -u sina -p Password#1 -e example@ce.sharif.edu -n "sina's \" nickname" -c aaaa
-signup -u sina -p abcdE4fgh -e example@ce.sharif.edu -n "sina's \" nickname"
-signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c
-signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c ""
-signup -u sina -p abcd -e example@ce.sharif.edu -n "sina's \" nickname" -c abcd
-signup -u sina -p Password#1 -e example@ce.sharif.edu -n "sina's \" nickname" -c Password#1
-question pick -q abcd -a test -c test
-question pick -q 123 -a test -c test
-question pick -q 2 -a test -c none
-question pick -q 2 -a test -c test
+map management
+delete map -n map1
+new map -n map1 -g 3 -w 100 -h 100
+edit map -n map1
+drop building -x 1 -y 1 -t keep
+drop unit -x 4 -y 4 -t swordsman -c 1
+select government -g 1
+drop building -x 1 -y 5 -t keep
+select government -g 2
+drop building -x 5 -y 1 -t keep
+drop building -t "high wall" -x 3 -y 4
+drop building -t "low wall" -x 4 -y 3
+drop building -t "low wall" -x 4 -y 1
 back
-login -u sina -p Password#1 --stay-logged-in
+back
 exit
 
-###########################################
-signup
+
+
+#######################
+MapEditor

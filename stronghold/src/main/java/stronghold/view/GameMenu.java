@@ -157,6 +157,7 @@ public class GameMenu {
 	private static void showSelectedUnits() {
 		if (game.getSelectedUnits().isEmpty()) {
 			System.out.println("No unit is selected");
+			return;
 		}
 		System.out.println("The units in cell (" + game.getSelectedUnits().get(0).getX() +
 			", " + game.getSelectedUnits().get(0).getY() + ") are selected");

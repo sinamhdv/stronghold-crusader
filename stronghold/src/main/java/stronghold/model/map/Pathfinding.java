@@ -91,7 +91,7 @@ public class Pathfinding {
 	private static int[] getParent(int x, int y, int[][] distance) {
 		for (int[] delta : neighbors) {
 			int ux = x + delta[0];
-			int uy = y = delta[1];
+			int uy = y + delta[1];
 			if (ux < 0 || uy < 0 || ux >= distance.length || uy >= distance[0].length) continue;
 			if (distance[ux][uy] == distance[x][y] - 1) return new int[] {ux, uy};
 		}

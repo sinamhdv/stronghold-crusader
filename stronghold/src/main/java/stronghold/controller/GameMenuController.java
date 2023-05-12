@@ -106,6 +106,8 @@ public class GameMenuController {
 	public static GameMenuMessage nextTurn() {
 		// actions that must be done after each player switch
 		Pathfinding.clearCache();
+		game.setSelectedBuilding(null);
+		game.clearSelectedUnits();
 		handleTroopMovements();
 		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
 			// actions that must be done after a full turn
@@ -118,7 +120,8 @@ public class GameMenuController {
 	private static void handleTroopMovements() {
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
-				for (Person person : game.getMap().getGrid()[i][j].getPeople()) {
+				ArrayList<Person> tileClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
+				for (Person person : tileClone) {
 					if (person.getOwnerIndex() == game.getCurrentPlayerIndex())
 						person.moveTowardsDestination();
 				}

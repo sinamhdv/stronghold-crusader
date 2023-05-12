@@ -158,6 +158,12 @@ public class Person implements Serializable {
 
 	public void moveTowardsDestination() {
 		Path path = Pathfinding.findPath(this);
+
+		System.out.println("DBG: the found path for " + name + ":");
+		for (int[] cell : path.getCells())
+			System.out.print("(" + cell[0] + ", " + cell[1] + ") -> ");
+		System.out.println();
+
 		int[][] cells = path.getCells();
 		for (int i = 0; i < cells.length; i++) {	// check for killing pits
 			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cells[i][0]][cells[i][1]];
@@ -172,8 +178,10 @@ public class Person implements Serializable {
 				}
 			}
 		}
+		StrongHold.getCurrentGame().getMap().getGrid()[x][y].getPeople().remove(this);
 		setX(cells[cells.length - 1][0]);
 		setY(cells[cells.length - 1][1]);
+		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
 	}
 
 	public void disband() {

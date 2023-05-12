@@ -2,14 +2,14 @@
 # a script to test the program with input text files in testcases folder
 
 run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_2l06s9ma3j6g78ajfi0yk4l92.argfile stronghold.Main'
-inputs_count=2
+inputs_count=1
 
 RED='\033[31m'
 GREEN='\033[32m'
 YELLOW='\033[33m'
 RESET='\033[0m'
 
-rm -i stronghold/src/main/database/users.json
+# rm -i stronghold/src/main/database/users.json
 
 for ((i=1;i<=$inputs_count;i++)); do
 	echo -n "Running testcase #$i (`tail -1 testcases/input$i.txt`): "

@@ -1,33 +1,21 @@
 ======[Login Menu]======
 Checking for auto-login...
-Auto-login failed
-======[Signup Menu]======
-password is weak : password length is less than 6 characters
-Password confirmation is not true
-password is weak : password must contain at least one of !@#$%^&*-_=+
-invalid command
-Empty field
-password is weak : password length is less than 6 characters
-Pick your security question:
-1. What is your father's name?
-2. What was your first pet's name?
-3. What is your mother's last name?
-Invalid command: please pick a security question
-Pick your security question:
-1. What is your father's name?
-2. What was your first pet's name?
-3. What is your mother's last name?
-Error: Incorrect question number
-Pick your security question:
-1. What is your father's name?
-2. What was your first pet's name?
-3. What is your mother's last name?
-Error: answer confirm must match answer
-Pick your security question:
-1. What is your father's name?
-2. What was your first pet's name?
-3. What is your mother's last name?
-Signup is successful
-User logged in successfully!
+Auto-login successful
+======[Main Menu]======
+======[Map Management Menu]======
+Successfully deleted the map
+New map created successfully
+Successfully loaded the map
+======[Map Editor]======
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+======[Map Management Menu]======
 ======[Main Menu]======
 Exitting...
