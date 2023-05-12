@@ -18,9 +18,13 @@ public enum GameMenuMessage {
 	THERE_ARE_ENEMY_SOLDIERS("Repair faild: there are enemy soldiers near you"),
 	NOT_HAVINT_ENOUGH_RESURCE("You don't have enough resource to repair building"),
 	SUCCESSFULL_REPAIR("Ripaired this building successfully"),
+
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
+
+	// unit commands
+	NO_UNIT_SELECTED("Error: no selected unit"),
 	;
 
 	private final String errorString;

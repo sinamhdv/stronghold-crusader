@@ -94,6 +94,8 @@ public class GameMenuController {
 	public static GameMenuMessage moveUnit(int x, int y) {
 		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
 			return GameMenuMessage.INVALID_COORDINATES;
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
 		for (Person unit : game.getSelectedUnits())
 			unit.setDestination(x, y);
 		return GameMenuMessage.SUCCESS;

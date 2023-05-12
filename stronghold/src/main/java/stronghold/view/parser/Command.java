@@ -61,6 +61,7 @@ public enum Command {
 	CREATE_UNIT("create unit [-t,type] <-c,count>"),
 	REPAIR("repair"),
 	SELECT_UNIT("select unit <-x,x> <-y,y>"),
+	SHOW_SELECTED_UNITS("show selected units"),
 	MOVE_UNIT("move unit <-x,x> <-y,y>"),
 	PATROL_UNIT("patrol unit <-x1,x1> <-y1,y1> <-x2,x2> <-y2,y2>"),
 	SET_STANCE("set stance [-s,stanceType]"),

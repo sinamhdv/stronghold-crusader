@@ -38,6 +38,8 @@ public class GameMenu {
 				showResourceAmount(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
 				runSelectUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
+				showSelectedUnits();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
@@ -150,5 +152,13 @@ public class GameMenu {
 
 	private static void runNextTurn() {
 		System.out.println(GameMenuController.nextTurn().getErrorString());
+	}
+
+	private static void showSelectedUnits() {
+		if (game.getSelectedUnits().isEmpty()) {
+			System.out.println("No unit is selected");
+		}
+		System.out.println("The units in cell (" + game.getSelectedUnits().get(0).getX() +
+			", " + game.getSelectedUnits().get(0).getY() + ") are selected");
 	}
 }
