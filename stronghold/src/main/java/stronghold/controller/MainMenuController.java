@@ -24,6 +24,8 @@ public class MainMenuController {
 		MainMenuMessage message = checkKeeps(map);
 		if (message != null) return message;
 		String[] usernames = MainMenu.askPlayersNames(map.getGovernmentsCount());
+		if (hasRepetitiveName(usernames))
+			return MainMenuMessage.REPETITIVE_USERNAME;
 		User[] users = new User[usernames.length];
 		boolean currentUserFound = false;
 		for (int i = 0; i < users.length; i++) {
@@ -46,5 +48,13 @@ public class MainMenuController {
 				return MainMenuMessage.KEEP_NOT_FOUND;
 		}
 		return null;
+	}
+
+	private static boolean hasRepetitiveName(String[] array) {
+		for (int i = 0; i < array.length; i++)
+			for (int j = i + 1; j < array.length; j++)
+				if (array[i].equals(array[j]))
+					return true;
+		return false;
 	}
 }

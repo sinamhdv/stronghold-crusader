@@ -6,6 +6,7 @@ public enum MainMenuMessage {
 	USERNAME_NOT_FOUND("Error: one of the entered usernames was not found"),
 	CURRENT_USER_NOT_FOUND("Error: the current user must be one of the players"),
 	KEEP_NOT_FOUND("Error: each player must have a keep in the map"),
+	REPETITIVE_USERNAME("Error: a username was mentioned more than once"),
 	;
 
 	private String errorString;
