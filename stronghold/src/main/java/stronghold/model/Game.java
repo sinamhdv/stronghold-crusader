@@ -97,4 +97,9 @@ public class Game {
 	public ArrayList<TradeRequest> getAllTradeAccepts() {
 		return allTradeAccepts;
 	}
+
+	public void updateGovernments() {
+		for (Government government : governments)
+			government.updateStats();
+	}
 }

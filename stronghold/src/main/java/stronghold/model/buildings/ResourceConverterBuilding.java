@@ -54,6 +54,7 @@ public class ResourceConverterBuilding extends Building {
 		this.outputType = outpuType;
 	}
 	public boolean isGroundTypeAllowed(GroundType groundType) {
+		if (allowedGroundTypes == null) return true;
 		for (GroundType type : allowedGroundTypes)
 			if (type == groundType)
 				return true;

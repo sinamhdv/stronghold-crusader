@@ -2,10 +2,11 @@ package stronghold.model.buildings;
 
 import java.io.Serializable;
 
+import stronghold.controller.MapEditorMenuController;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 
-public abstract class Building implements Serializable {
+public class Building implements Serializable {
 	private final int maxHp;
 	private final String name;
 	private final int neededWorkers;
@@ -47,7 +48,9 @@ public abstract class Building implements Serializable {
 			model.isSelectable, x, y, model.residentsCapacity, ownerIndex);
 	}
 
-	abstract public Building generateCopy(int x, int y, int ownerIndex);
+	public Building generateCopy(int x, int y, int ownerIndex) {
+		return new Building(this, x, y, ownerIndex);
+	}
 
 	public int getMaxHp() {
 		return maxHp;
@@ -122,5 +125,22 @@ public abstract class Building implements Serializable {
 		if (residentsCapacity > 0) result += ", residents=" + residents + "/" + residentsCapacity;
 		if (neededWorkers > 0) result += ", neededWorkers=" + neededWorkers + ", hasWorkers=" + hasWorkers;
 		return result;
+	}
+
+	public void destroy() {
+		MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
+		MapEditorMenuController.setSelectedGovernment(this.ownerIndex);
+		MapEditorMenuController.eraseBuilding(this);
+		getOwner().getBuildings().remove(this);
+		// TODO: if the keep is destroyed the government must lose
+	}
+
+	public boolean hurt(int damage) {
+		setHp(getHp() - damage);
+		if (getHp() <= 0) {
+			destroy();
+			return true;
+		}
+		return false;
 	}
 }

@@ -11,6 +11,13 @@
 - [ ] handle assassin visibility in map menu
 - [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
 - [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
+- [ ] the impact of fear factor on troops damage
+- [ ] killing pits shouldn't be destroyed and they shouldn't be seen in map menu by enemies
+
+- [ ] check market/trade/repair
+- [ ] game ending condition
+- [ ] capturing gates
+- [X] draw bridge
 
 - [ ] next turn
 - [X] select building
@@ -20,11 +27,17 @@
 - [X] move unit
 - [X] patrol
 - [ ] stance
-- [ ] melee attack
-- [ ] ranged attack
+- [ ] attack
 - [ ] pour/fill oil
 - [ ] dig tunnel
-- [ ] build siege equipment
+- [ ] build siege equipment => trebuchet, siege tower, catapult, shield, battering ram, fire ballista
 - [ ] disband
+- [X] open gate
+- [X] close gate
+- [ ] dig moat
+- [ ] fill moat
 
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
+- [ ] usage of cows in tanner workshops
+- [ ] storing untransported rock in the main stockpiles
+- [ ] stables do not regenerate horses after knights die

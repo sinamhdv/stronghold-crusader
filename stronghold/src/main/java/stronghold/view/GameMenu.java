@@ -9,6 +9,7 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
+import stronghold.utils.PopularityFormulas;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -29,6 +30,20 @@ public class GameMenu {
 				showPopularity();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
 				showPopularityFactors();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_LIST)) != null)
+				showFoodList();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_RATE)) != null)
+				foodRateShow();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FOOD_RATE)) != null)
+				runSetFoodRate(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TAX_RATE)) != null)
+				taxRateShow();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SET_TAX_RATE)) != null)
+				runSetTaxRate(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FEAR_RATE)) != null)
+				fearRateShow();
+			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FEAR_RATE)) != null)
+				runSetFearRate(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
 				runDropBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
@@ -37,6 +52,10 @@ public class GameMenu {
 				runSelectBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
 				showSelectedBuilding();
+			else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
+				runOpenGate();
+			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
+				runCloseGate();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
 				showResourcesAmount();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
@@ -47,8 +66,14 @@ public class GameMenu {
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
 				runPatrolUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
+				runAttack(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
+				runSetStance(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
 				runNextTurn();
+			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -63,18 +88,16 @@ public class GameMenu {
 	}
 
 	private static void showPopularityFactors() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		int sumOfInfluencing = GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate())
-				+ GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate())
-				+ currentPlayer.getFearFactor();
+		Government currentPlayer = game.getCurrentPlayer();
 		System.out.println("Popularity factors:");
-		System.out.println(
-				"Food influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
-		System.out.println(
-				"Tax influencing : " + GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate()));
-		System.out.println("Fear influencing : " + currentPlayer.getFearFactor());
-		System.out.println("Religion influencing : ");
-		// TODO: get religion influencing after handel church
+		System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
+		System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
+		System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
+		System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
+		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
+			PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+			currentPlayer.getReligionPopularityInfluence() +
+			currentPlayer.getFearFactor();
 		System.out.println("Sum of your influencing : " + sumOfInfluencing);
 	}
 
@@ -90,28 +113,45 @@ public class GameMenu {
 		System.out.println(message.getErrorString());
 	}
 
-	public static void showFoodList() {
+	private static void showFoodList() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		ResourceType[] food = new ResourceType[] { ResourceType.APPLE, ResourceType.CHEESE, ResourceType.MEAT,
-				ResourceType.BREAD };
-		for (int i = 0; i < 4; i++) {
-			System.out.println("your " + food[i].getName() + " property : " + currentPlayer.getResourceCount(food[i]));
+		ResourceType[] foodTypes = ResourceType.foodTypes;
+		for (int i = 0; i < foodTypes.length; i++) {
+			System.out.println("your " + foodTypes[i].getName() + " property: " + currentPlayer.getResourceCount(foodTypes[i]));
 		}
 	}
 
-	public static void foodRateShow() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your food rate : " + currentPlayer.getFoodRate());
+	private static void runSetFearRate(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setFearRate(
+			Integer.parseInt(matcher.get("rate"))
+		).getErrorString());
 	}
 
-	public static void taxRateShow() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your tax rate : " + currentPlayer.getTaxRate());
+	private static void runSetFoodRate(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setFoodRate(
+			Integer.parseInt(matcher.get("rate"))
+		).getErrorString());
 	}
 
-	public static void fearRateShow() {
+	private static void runSetTaxRate(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setTaxRate(
+			Integer.parseInt(matcher.get("rate"))
+		).getErrorString());
+	}
+
+	private static void foodRateShow() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your fear rate : " + currentPlayer.getFearFactor());
+		System.out.println("your food rate: " + currentPlayer.getFoodRate());
+	}
+
+	private static void taxRateShow() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		System.out.println("your tax rate: " + currentPlayer.getTaxRate());
+	}
+
+	private static void fearRateShow() {
+		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+		System.out.println("your fear rate: " + currentPlayer.getFearFactor());
 	}
 
 	private static void runSelectBuilding(HashMap<String, String> matcher) {
@@ -171,6 +211,29 @@ public class GameMenu {
 
 	private static void runPatrolUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.patrolUnit(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		).getErrorString());
+	}
+
+	private static void runOpenGate() {
+		System.out.println(GameMenuController.changeGateState(false).getErrorString());
+	}
+
+	private static void runCloseGate() {
+		System.out.println(GameMenuController.changeGateState(true).getErrorString());
+	}
+
+	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
+		System.out.println();
+	}
+
+	private static void runSetStance(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setStance(matcher.get("stanceType")).getErrorString());
+	}
+
+	private static void runAttack(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.attack(
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y"))
 		).getErrorString());

@@ -2,11 +2,7 @@ package stronghold.model.people;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
-import stronghold.controller.MapEditorMenuController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
@@ -207,13 +203,17 @@ public class Person implements Serializable {
 		return patrolMode;
 	}
 
+	public void die() {
+		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
+		tile.getPeople().remove(this);
+		getOwner().getPeople().remove(this);
+		// TODO: the government must lose if the lord dies
+	}
+
 	public boolean hurt(int damage) {
 		setHp(getHp() - damage);
-		if (getHp() <= 0) { // die
-			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
-			tile.getPeople().remove(this);
-			getOwner().getPeople().remove(this);
-			// TODO: the government must lose if the lord dies
+		if (getHp() <= 0) {
+			die();
 			return true;
 		}
 		return false;
@@ -234,11 +234,8 @@ public class Person implements Serializable {
 				Trap trap = (Trap) tile.getBuilding();
 				if (!trap.hasDogs() && trap.getOwnerIndex() != this.getOwnerIndex()) {
 					boolean died = this.hurt(trap.getDamage());
-					MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
-					MapEditorMenuController.setSelectedGovernment(this.getOwnerIndex());
-					MapEditorMenuController.eraseBuilding(trap);
-					if (died)
-						return;
+					trap.destroy();
+					if (died) return;
 				}
 			}
 		}
@@ -271,7 +268,6 @@ public class Person implements Serializable {
 				|| stance == StanceType.OFFENSIVE) {
 			setDestination(person.getX(), person.getY());
 		}
-
 	}
 
 	public int getDistance(Person person) {
@@ -286,32 +282,26 @@ public class Person implements Serializable {
 		if(randomNumber == 0) {
 			for(int i = 0; i < limit; i++) {
 				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon) {
-					if(person.getOwner() != getOwner()) {
-						return person;
-					}
-				}
-				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people) {
+				for(Person person : peopleClon)
 					if(person.getOwner() != getOwner())
 						return person;
-				}
+				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
+				for(Person person : people)
+					if(person.getOwner() != getOwner())
+						return person;
 			}
 		}
 
 		else {
 			for(int i = 0; i < limit; i++) {
 				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people) {
+				for(Person person : people)
 					if(person.getOwner() != getOwner())
 						return person;
-				}
 				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon) {
-					if(person.getOwner() != getOwner()) {
+				for(Person person : peopleClon)
+					if(person.getOwner() != getOwner())
 						return person;
-					}
-				}
 			}
 		}
 

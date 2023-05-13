@@ -4,6 +4,7 @@ public enum GameMenuMessage {
 	SUCCESS("Success!"),
 	INVALID_COORDINATES("Error: Invalid coordinates"),
 
+	// government management
 	INVALID_FOOD_RATE("Invalid food rate"),
 	INVALID_TAX_RATE("Invalid tax rate"),
 	INVALID_FEAR_RATE("Invalid fear rate"),
@@ -12,6 +13,7 @@ public enum GameMenuMessage {
 	NOT_ENOUGH_RESOURCES("Error: you don't have enough resources"),
 	CONSTRUCTION_FAILED("Error: Construction of the required object failed"),
 	INCORRECT_UNIT_NAME("Error: The unit name doesn't match this barracks"),
+	NOT_ENOUGH_PEASANTS("Error: not enough peasants are available"),
 	
 	// repair
 	THERE_IS_NO_SELECTED_BUILDING("There is no selected building"),
@@ -23,13 +25,24 @@ public enum GameMenuMessage {
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
-	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
+	NOT_SELECTABLE("Error: this building is not selectable"),
 
 	// attack
 	THERE_IS_NO_ENEMY_TO_FIGHT("There is no enemy to fight"),
 	INVALID_DESTINATION("Invalid destination"),
+
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
+	INVALID_STANCE("Error: invalid stance name"),
+
+	// building commands
+	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
+	GATE_CAPTURED("Error: cannot close a captured gate"),
+
+	// siege equipment
+	INVALID_EQUIPMENT_NAME("Error: Invalid equipment name"),
+	BAD_UNITS_PRESENT("Error: non-enginner or enemy units are present in the selected cell"),
+	NOT_ENOUGH_ENGINEERS("Error: not enough engineers"),
 	;
 
 	private final String errorString;

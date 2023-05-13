@@ -2,15 +2,21 @@ package stronghold.model;
 
 import java.util.ArrayList;
 
+import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
+import stronghold.utils.PopularityFormulas;
 
 public class Government {
+	private static final int MAX_POPULARITY = 100;
+	private static final int MIN_POPULARITY = 0;
+
 	private final User user;
 	private final ArrayList<Building> buildings = new ArrayList<>();
 	private final int index;
@@ -18,9 +24,8 @@ public class Government {
 	private int fearFactor = 0;
 	private int foodRate = 0;
 	private int taxRate = 0;
-	private int religionRate = 0;
-	private int gold = 0;
-	private int wineUsageCycleTurns = 0;
+	private int gold = 1000;
+	private int wineUsageCycleTurns = 1;	// TODO: add a command to change this? (probably not necessary)
 	private final ArrayList<Person> people = new ArrayList<>();
 
 	public Government(User user, int index, Map map) {
@@ -57,10 +62,6 @@ public class Government {
 		return popularity;
 	}
 
-	public void setPopularity(int popularity) {
-		this.popularity = popularity;
-	}
-
 	public int getFearFactor() {
 		return fearFactor;
 	}
@@ -85,20 +86,35 @@ public class Government {
 		this.taxRate = taxRate;
 	}
 
-	public int getReligionRate() {
-		return religionRate;
-	}
-
-	public void setReligionRate(int religionRate) {
-		this.religionRate = religionRate;
-	}
-
 	public ArrayList<Person> getPeople() {
 		return people;
 	}
 
-	public void updatePopularity() {
-		popularity += fearFactor + foodRate + taxRate + religionRate;
+	private void changePopularity(int delta) {
+		popularity += delta;
+		if (popularity > MAX_POPULARITY) popularity = MAX_POPULARITY;
+		if (popularity < MIN_POPULARITY) popularity = MIN_POPULARITY;
+	}
+
+	public int getReligionPopularityInfluence() {
+		int sum = 0;
+		for (Building building : buildings)
+			if (building instanceof Barracks)
+				sum += ((Barracks)building).getPopularityBoost();
+		return sum;
+	}
+
+	public int getFoodPopularityInfluence() {
+		return PopularityFormulas.foodRate2Popularity(foodRate) + Math.max(getFoodVariety() - 1, 0);
+	}
+
+	private void updatePopularity() {
+		changePopularity(
+			getFoodPopularityInfluence() +
+			PopularityFormulas.taxRate2Popularity(taxRate) +
+			getReligionPopularityInfluence() +
+			fearFactor
+		);
 	}
 
 	public int getGold() {
@@ -124,18 +140,25 @@ public class Government {
 		people.add(person);
 	}
 
-	public void useWine() {
+	private void useWine() {
 		if (wineUsageCycleTurns == 0 || StrongHold.getCurrentGame().getPassedTurns() % wineUsageCycleTurns != 0)
 			return;
-		if (getResourceCount(ResourceType.WINE) == 0)
-			return;
-		decreaseResource(ResourceType.WINE, 1);
-		popularity++;
+		boolean haveActiveInn = false;
+		for (Building building : buildings)
+			if ((building instanceof Stockpile) &&
+				((Stockpile)building).getResources().containsKey(ResourceType.WINE) &&
+				building.hasWorkers())
+				haveActiveInn = true;
+		if (!haveActiveInn) return;
+		if (decreaseResource(ResourceType.WINE, 1) > 0)
+			changePopularity(1);
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
 		if (resourceType == ResourceType.GOLD)
 			return this.gold;
+		if (resourceType == ResourceType.POPULATION)
+			return getPopulation();
 		int resourceCount = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -153,6 +176,8 @@ public class Government {
 			this.gold += count;
 			return count;
 		}
+		if (resourceType == ResourceType.POPULATION)
+			return increasePopulation(count);
 		int canIncrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -175,6 +200,8 @@ public class Government {
 			this.gold -= count;
 			return count;
 		}
+		if (resourceType == ResourceType.POPULATION)
+			return decreasePopulation(count);
 		int canDecrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -205,11 +232,10 @@ public class Government {
 	}
 
 	public int getFoodVariety() {
-		ResourceType[] food = new ResourceType[] { ResourceType.APPLE, ResourceType.CHEESE, ResourceType.MEAT,
-				ResourceType.BREAD };
+		ResourceType[] foodTypes = ResourceType.foodTypes;
 		int foodVariety = 0;
-		for (int i = 0; i < 4; i++) {
-			if (getResourceCount(food[i]) > 0) {
+		for (int i = 0; i < foodTypes.length; i++) {
+			if (getResourceCount(foodTypes[i]) > 0) {
 				foodVariety++;
 			}
 		}
@@ -222,5 +248,101 @@ public class Government {
 				((DefensiveStructure)building).getType() == DefensiveStructureType.KEEP)
 				return new int[] {building.getX(), building.getY()};
 		return null;
+	}
+
+	public void updateStats() {
+		updatePopularity();
+		useWine();
+		updateBuildings();
+		updatePopulation();
+		updateFood();
+		updateTax();
+	}
+
+	private void updateBuildings() {
+		for (Building building : buildings) {
+			if (building instanceof ResourceConverterBuilding)
+				((ResourceConverterBuilding)building).performConversion();
+		}
+	}
+
+	private void decreaseFood(int amount) {
+		ResourceType[] foodTypes = ResourceType.foodTypes;
+		for (int i = 0; i < foodTypes.length; i++) {
+			int currentAmount = getResourceCount(foodTypes[i]);
+			decreaseResource(foodTypes[i], Math.min(currentAmount, amount));
+			amount = Math.max(0, amount - currentAmount);
+		}
+	}
+
+	private int getFoodCount() {
+		ResourceType[] foodTypes = ResourceType.foodTypes;
+		int sum = 0;
+		for (int i = 0; i < foodTypes.length; i++)
+			sum += getResourceCount(foodTypes[i]);
+		return sum;
+	}
+
+	private void updateFood() {
+		if (getFoodCount() == 0) setFoodRate(-2);
+		int amount = PopularityFormulas.foodRate2FoodAmountx2(foodRate) * getPopulation() / 2;
+		decreaseFood(amount);
+	}
+
+	private void updateTax() {
+		if (getGold() == 0 && taxRate < 0) setTaxRate(0);
+		int money = PopularityFormulas.taxRate2Moneyx5(taxRate) * getPopulation() / 5;
+		setGold(Math.max(0, getGold() + money));
+	}
+
+	private int getPopulationGrowthRate() {
+		if (popularity < 10) return -2;
+		if (popularity < 30) return -1;
+		if (popularity < 50) return 1;
+		if (popularity < 80) return 2;
+		return 3;
+	}
+
+	private void updatePopulation() {
+		int growthRate = getPopulationGrowthRate();
+		if (growthRate > 0) increasePopulation(growthRate);
+		else if (growthRate < 0) decreasePopulation(-growthRate);
+	}
+
+	public int getPopulation() {
+		int sum = 0;
+		for (Building building : buildings)
+			sum += building.getResidents();
+		return sum;
+	}
+
+	public int increasePopulation(int amount) {
+		int canAdd = 0;
+		for (Building building : buildings) {
+			while (building.getResidents() < building.getResidentsCapacity() && canAdd < amount) {
+				building.setResidents(building.getResidents() + 1);
+				canAdd++;
+			}
+		}
+		return canAdd;
+	}
+
+	public int decreasePopulation(int amount) {
+		int canDecrease = 0;
+		for (Building building : buildings) {
+			while (building.getResidents() > 0 && canDecrease < amount) {
+				building.setResidents(building.getResidents() - 1);
+				canDecrease++;
+			}
+		}
+		return canDecrease;
+	}
+
+	public int getWorkersCount() {
+		int sum = 0;
+		for (Building building : buildings)
+			if (building.hasWorkers())
+				sum += building.getNeededWorkers();
+		return sum;
 	}
 }
