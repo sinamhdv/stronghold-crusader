@@ -143,8 +143,13 @@ public class Government {
 	private void useWine() {
 		if (wineUsageCycleTurns == 0 || StrongHold.getCurrentGame().getPassedTurns() % wineUsageCycleTurns != 0)
 			return;
-		if (getResourceCount(ResourceType.WINE) == 0)
-			return;
+		boolean haveActiveInn = false;
+		for (Building building : buildings)
+			if ((building instanceof Stockpile) &&
+				((Stockpile)building).getResources().containsKey(ResourceType.WINE) &&
+				building.hasWorkers())
+				haveActiveInn = true;
+		if (!haveActiveInn) return;
 		if (decreaseResource(ResourceType.WINE, 1) > 0)
 			changePopularity(1);
 	}

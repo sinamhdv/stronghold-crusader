@@ -12,6 +12,7 @@
 - [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
 - [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
 - [ ] the impact of fear factor on troops damage
+- [ ] killing pits can't be destroyed and they can't be seen in map menu by enemies
 
 - [ ] next turn
 - [X] select building
