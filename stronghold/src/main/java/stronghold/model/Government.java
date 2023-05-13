@@ -105,7 +105,7 @@ public class Government {
 	}
 
 	public int getFoodPopularityInfluence() {
-		return PopularityFormulas.foodRate2Popularity(foodRate) + getFoodVariety() - 1;
+		return PopularityFormulas.foodRate2Popularity(foodRate) + Math.max(getFoodVariety() - 1, 0);
 	}
 
 	private void updatePopularity() {

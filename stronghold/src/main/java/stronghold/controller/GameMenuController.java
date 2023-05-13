@@ -173,14 +173,7 @@ public class GameMenuController {
 			person.moveTowardsDestination();
 	}
 
-	public static int getPopularityInfluencingFood(int foodRate) {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		int influencingFood = foodRate * 2;
-		if (currentPlayer.getFoodVariety() - 1 > 0) {
-			influencingFood += currentPlayer.getFoodVariety() - 1;
-		}
-		return influencingFood;
-	}
+	
 
 	public static int getTaxPopularityInfluencing(int taxRate) {
 		if (taxRate > -4 && taxRate < 1)

@@ -9,6 +9,7 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
+import stronghold.utils.PopularityFormulas;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -77,18 +78,16 @@ public class GameMenu {
 	}
 
 	private static void showPopularityFactors() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		int sumOfInfluencing = GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate())
-				+ GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate())
-				+ currentPlayer.getFearFactor();
+		Government currentPlayer = game.getCurrentPlayer();
 		System.out.println("Popularity factors:");
-		System.out.println(
-				"Food influencing : " + GameMenuController.getPopularityInfluencingFood(currentPlayer.getFoodRate()));
-		System.out.println(
-				"Tax influencing : " + GameMenuController.getTaxPopularityInfluencing(currentPlayer.getTaxRate()));
-		System.out.println("Fear influencing : " + currentPlayer.getFearFactor());
-		System.out.println("Religion influencing : ");
-		// TODO: get religion influencing after handel church
+		System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
+		System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
+		System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
+		System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
+		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
+			PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+			currentPlayer.getReligionPopularityInfluence() +
+			currentPlayer.getFearFactor();
 		System.out.println("Sum of your influencing : " + sumOfInfluencing);
 	}
 
