@@ -21,6 +21,7 @@ public enum ResourceType {
 	IRON(15, 10, "Iron", true),
 	OIL(15, 10, "Oil", true),
 	GOLD(0, 0, "Gold", false),
+	POPULATION(0, 0, "Population", false),
 	;
 	
 	// TODO: modify Market and Trade to use only resources that have isTradable == true

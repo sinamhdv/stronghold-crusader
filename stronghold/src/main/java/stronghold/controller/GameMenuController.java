@@ -41,17 +41,19 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
-	public static GameMenuMessage createUnit(String type, int count) {
+	public static GameMenuMessage createSingleUnit(String type) {
 		if (!(game.getSelectedBuilding() instanceof Barracks))
 			return GameMenuMessage.BAD_SELECTED_BUILDING;
 		if (!((Barracks)game.getSelectedBuilding()).canBuildTroop(type))
 			return GameMenuMessage.INCORRECT_UNIT_NAME;
 		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
 			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
+		if (game.getCurrentPlayer().getPopulation() - game.getCurrentPlayer().getWorkersCount() < 1)
+			return GameMenuMessage.NOT_ENOUGH_PEASANTS;
 		int[] keep = game.getCurrentPlayer().findKeep();
 		MapEditorMenuController.setMap(game.getMap());
 		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
-		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, count);
+		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, 1);
 		if (message != MapEditorMenuMessage.SUCCESS) {
 			GameMenu.showMapEditorError(message);
 			return GameMenuMessage.CONSTRUCTION_FAILED;
@@ -59,6 +61,15 @@ public class GameMenuController {
 		decreaseObjectsResources(type, game.getCurrentPlayer());
 		ArrayList<Person> tilePeople = game.getMap().getGrid()[keep[0]][keep[1]].getPeople();
 		game.getCurrentPlayer().addPerson(tilePeople.get(tilePeople.size() - 1));
+		game.getCurrentPlayer().decreasePopulation(1);
+		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage createUnit(String type, int count) {
+		for (int i = 0; i < count; i++) {
+			GameMenuMessage message = createSingleUnit(type);
+			if (message != GameMenuMessage.SUCCESS) return message;
+		}
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -150,6 +161,7 @@ public class GameMenuController {
 		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
 			// actions that must be done after a full turn
 			game.setPassedTurns(game.getPassedTurns() + 1);
+			game.updateGovernments();
 		}
 		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
 		return GameMenuMessage.SUCCESS;

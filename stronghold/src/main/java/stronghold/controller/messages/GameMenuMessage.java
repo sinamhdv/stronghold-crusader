@@ -12,6 +12,7 @@ public enum GameMenuMessage {
 	NOT_ENOUGH_RESOURCES("Error: you don't have enough resources"),
 	CONSTRUCTION_FAILED("Error: Construction of the required object failed"),
 	INCORRECT_UNIT_NAME("Error: The unit name doesn't match this barracks"),
+	NOT_ENOUGH_PEASANTS("Error: not enough peasants are available"),
 	
 	// repair
 	THERE_IS_NO_SELECTED_BUILDING("There is no selected building"),

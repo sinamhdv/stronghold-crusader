@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
 
 public class Government {
+	private static final int MAX_POPULARITY = 100;
+	private static final int MIN_POPULARITY = 0;
+
 	private final User user;
 	private final ArrayList<Building> buildings = new ArrayList<>();
 	private final int index;
@@ -57,10 +61,6 @@ public class Government {
 		return popularity;
 	}
 
-	public void setPopularity(int popularity) {
-		this.popularity = popularity;
-	}
-
 	public int getFearFactor() {
 		return fearFactor;
 	}
@@ -97,8 +97,14 @@ public class Government {
 		return people;
 	}
 
-	public void updatePopularity() {
-		popularity += fearFactor + foodRate + taxRate + religionRate;
+	private void changePopularity(int delta) {
+		popularity += delta;
+		if (popularity > MAX_POPULARITY) popularity = MAX_POPULARITY;
+		if (popularity < MIN_POPULARITY) popularity = MIN_POPULARITY;
+	}
+
+	private void updatePopularity() {
+		changePopularity(fearFactor + foodRate + taxRate + religionRate);
 	}
 
 	public int getGold() {
@@ -124,18 +130,20 @@ public class Government {
 		people.add(person);
 	}
 
-	public void useWine() {
+	private void useWine() {
 		if (wineUsageCycleTurns == 0 || StrongHold.getCurrentGame().getPassedTurns() % wineUsageCycleTurns != 0)
 			return;
 		if (getResourceCount(ResourceType.WINE) == 0)
 			return;
 		decreaseResource(ResourceType.WINE, 1);
-		popularity++;
+		changePopularity(1);
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
 		if (resourceType == ResourceType.GOLD)
 			return this.gold;
+		if (resourceType == ResourceType.POPULATION)
+			return getPopulation();
 		int resourceCount = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -153,6 +161,8 @@ public class Government {
 			this.gold += count;
 			return count;
 		}
+		if (resourceType == ResourceType.POPULATION)
+			return increasePopulation(count);
 		int canIncrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -175,6 +185,8 @@ public class Government {
 			this.gold -= count;
 			return count;
 		}
+		if (resourceType == ResourceType.POPULATION)
+			return decreasePopulation(count);
 		int canDecrease = 0;
 		for (Building building : this.buildings) {
 			if (building instanceof Stockpile) {
@@ -222,5 +234,71 @@ public class Government {
 				((DefensiveStructure)building).getType() == DefensiveStructureType.KEEP)
 				return new int[] {building.getX(), building.getY()};
 		return null;
+	}
+
+	public void updateStats() {
+		updatePopularity();
+		useWine();
+		updateBuildings();
+		updatePopulation();
+		updateFood();
+	}
+
+	private void updateBuildings() {
+		for (Building building : buildings) {
+			if (building instanceof ResourceConverterBuilding)
+				((ResourceConverterBuilding)building).performConversion();
+		}
+	}
+
+	private int getPopulationGrowthRate() {
+		if (popularity < 10) return -2;
+		if (popularity < 30) return -1;
+		if (popularity < 50) return 1;
+		if (popularity < 80) return 2;
+		return 3;
+	}
+
+	private void updatePopulation() {
+		int growthRate = getPopulationGrowthRate();
+		if (growthRate > 0) increasePopulation(growthRate);
+		else if (growthRate < 0) decreasePopulation(-growthRate);
+	}
+
+	public int getPopulation() {
+		int sum = 0;
+		for (Building building : buildings)
+			sum += building.getResidents();
+		return sum;
+	}
+
+	public int increasePopulation(int amount) {
+		int canAdd = 0;
+		for (Building building : buildings) {
+			while (building.getResidents() < building.getResidentsCapacity() && canAdd < amount) {
+				building.setResidents(building.getResidents() + 1);
+				canAdd++;
+			}
+		}
+		return canAdd;
+	}
+
+	public int decreasePopulation(int amount) {
+		int canDecrease = 0;
+		for (Building building : buildings) {
+			while (building.getResidents() > 0 && canDecrease < amount) {
+				building.setResidents(building.getResidents() - 1);
+				canDecrease++;
+			}
+		}
+		return canDecrease;
+	}
+
+	public int getWorkersCount() {
+		int sum = 0;
+		for (Building building : buildings)
+			if (building.hasWorkers())
+				sum += building.getNeededWorkers();
+		return sum;
 	}
 }
