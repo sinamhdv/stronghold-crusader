@@ -26,6 +26,9 @@ public enum GameMenuMessage {
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
 	NOT_SELECTABLE("Error: this building is not selectable"),
 
+	// attack
+	THERE_IS_NO_ENEMY_TO_FIGHT("There is no enemy to fight"),
+	INVALID_DESTINATION("Invalid destination"),
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
 
