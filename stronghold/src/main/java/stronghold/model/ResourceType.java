@@ -8,6 +8,7 @@ public enum ResourceType {
 	BREAD(9, 7, "Bread", true),
 	GRAPES(15, 10, "Grapes", true),
 	WHEAT(5, 3, "Wheat", true),
+	FLOUR(5, 3, "Flour", true),
 	WOOD(20, 15, "Wood", true),
 	ROCK(25, 18, "Rock", true),
 	BOW(30, 25, "Bow", true),

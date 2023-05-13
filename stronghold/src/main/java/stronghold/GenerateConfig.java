@@ -1,11 +1,17 @@
 package stronghold;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import stronghold.model.ResourceType;
 import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.ResourceConverterBuilding;
+import stronghold.model.buildings.Stockpile;
+import stronghold.model.buildings.Trap;
 import stronghold.model.people.Person;
 import stronghold.model.people.PersonType;
 import stronghold.utils.ConfigManager;
@@ -146,14 +152,93 @@ public class GenerateConfig {
 		));
 
 		addBuilding(new Barracks(
-			100, "european barracks", 0,
-			3, 3, 999,
+			200, "european barracks", 0,
+			2, 2, 999,
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
 				"european archer", "swordsman"
 			}
 		));
+
+		addBuilding(new Barracks(
+			200, "arabian barracks", 0,
+			2, 2, 999,
+			true, 0, 0,
+			0, 0,
+			0, new String[] {
+				"arabian archer", "arabian swordsman"
+			}
+		));
+
+		addBuilding(new Barracks(
+			200, "engineers guild", 0,
+			2, 2, 999,
+			true, 0, 0,
+			0, 0,
+			0, new String[] {
+				"engineer", "ladderman", "tunneler"
+			}
+		));
+
+		addBuilding(new Trap(
+			10, "killing pit", 0,
+			0, 0, 0,
+			false, 0, 0,
+			0, 0,
+			9999, false
+		));
+
+		addBuilding(new Stockpile(
+			200, "inn", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			new HashMap<>(Map.of(
+				ResourceType.WINE, 0
+			)), 20
+		));
+
+		addBuilding(new Stockpile(
+			200, "armory", 0,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			new HashMap<>(Map.of(
+				ResourceType.BOW, 0,
+				ResourceType.CROSBOW, 0,
+				ResourceType.SPEAR, 0,
+				ResourceType.PIKE, 0,
+				ResourceType.MACE, 0,
+				ResourceType.SWORDS, 0,
+				ResourceType.LEATHER_ARMOR, 0,
+				ResourceType.METAL_ARMOR, 0
+			)), 40
+		));
+
+		addBuilding(new Stockpile(
+			200, "granary", 0,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			new HashMap<>(Map.of(
+				ResourceType.APPLE, 0,
+				ResourceType.CHEESE, 0,
+				ResourceType.BREAD, 0,
+				ResourceType.MEAT, 0
+			)), 50
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "mill", 3,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.WHEAT, ResourceType.FLOUR,
+			null,
+			2, 2, 1
+		));
+		
 	}
 
 	private static void addBuilding(Building building) {
