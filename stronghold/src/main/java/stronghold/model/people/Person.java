@@ -312,9 +312,11 @@ public class Person implements Serializable {
 		Game currentGame = StrongHold.getCurrentGame();
 		ArrayList<Person> peopleClone = new ArrayList<>(currentGame.getMap().getGrid()[x][y].getPeople());
 		boolean isthereEnemy =  false;
+		Person enemy = null;
 		for(Person person : peopleClone) {
 			if(person.getOwner() != getOwner()) {
 				isthereEnemy = true;
+				enemy = person;
 				break;
 			}
 		}
@@ -324,8 +326,14 @@ public class Person implements Serializable {
 			return GameMenuMessage.INVALID_DESTINATION;	
 		}
 		else {
+			if(attackRange > 1) //attack -x
+			{
+				enemy.hurt(getDamage());
+			}
 			setDestination(destX, destY);
 			return GameMenuMessage.SUCCESS;
 		}
 	}
+
+
 }
