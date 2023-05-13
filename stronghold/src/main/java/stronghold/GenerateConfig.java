@@ -9,6 +9,7 @@ import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.OilSmelter;
 import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.buildings.Trap;
@@ -390,6 +391,83 @@ public class GenerateConfig {
 			ResourceType.WOOD, ResourceType.CROSBOW,
 			null,
 			2, 2, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "apple farm", 1,
+			3, 3, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.APPLE,
+			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
+			3, 8, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "dairy farm", 1,
+			3, 3, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.CHEESE,
+			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
+			3, 8, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "grape farm", 1,
+			3, 3, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.GRAPES,
+			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
+			3, 4, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "wheat farm", 1,
+			3, 3, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.WHEAT,
+			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
+			3, 4, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "hunter", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.MEAT,
+			null,
+			3, 4, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "bakery", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.FLOUR, ResourceType.BREAD,
+			null,
+			2, 4, 2
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "brewery", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.GRAPES, ResourceType.WINE,
+			null,
+			2, 4, 2
+		));
+
+		addBuilding(new OilSmelter(
+			200, "oil smelter", 0,
+			0, 0, 0,
+			false, 0, 0,
+			0, 0
 		));
 	}
 
