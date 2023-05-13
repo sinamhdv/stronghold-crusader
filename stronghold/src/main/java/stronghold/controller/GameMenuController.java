@@ -217,7 +217,7 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
-	public static GameMenuMessage Repair() {
+	public static GameMenuMessage repair() {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		Game currentGame = StrongHold.getCurrentGame();
 		Building building = currentGame.getSelectedBuilding();

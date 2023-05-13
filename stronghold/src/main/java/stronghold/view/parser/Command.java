@@ -54,6 +54,7 @@ public enum Command {
 	SET_TAX_RATE("tax rate <-r,rate>"),
 	SHOW_TAX_RATE("show tax rate"),
 	SET_FEAR_RATE("fear rate <-r,rate>"),
+	SHOW_FEAR_RATE("show fear rate"),
 	DROP_BUILDING("drop building <-x,x> <-y,y> [-t,type]"),
 	SELECT_BUILDING("select building <-x,x> <-y,y>"),
 	SHOW_SELECTED_BUILDING("show selected building"),
