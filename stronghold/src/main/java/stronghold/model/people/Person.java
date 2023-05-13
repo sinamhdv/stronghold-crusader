@@ -339,8 +339,10 @@ public class Person implements Serializable {
 	public GameMenuMessage digMoat(String Direction) {
 		Game currentGame = StrongHold.getCurrentGame();
 		MapTile mapTile = null;
-		if(Direction.equals("up")) 
-			 mapTile = currentGame.getMap().getGrid()[x][y + 1];
+		if(!canDigMoats)
+			return GameMenuMessage.THIS_PERSON_CANT_DIG_MOAT;
+		else if(Direction.equals("up")) 
+			mapTile = currentGame.getMap().getGrid()[x][y + 1];
 		else if(Direction.equals("down")) 
 			mapTile = currentGame.getMap().getGrid()[x][y - 1];
 		else if(Direction.equals("right")) 

@@ -32,7 +32,7 @@ public enum GameMenuMessage {
 	INVALID_DESTINATION("Invalid destination"),
 	INVALID_DIRECTION("Erorr: invalid direction"),
 	DIG_MOAT_SUCCESSFULLY("Dig moat successfully"),
-
+	THIS_PERSON_CANT_DIG_MOAT("Eroor: this person can't dig moat"),
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
 	INVALID_STANCE("Error: invalid stance name"),

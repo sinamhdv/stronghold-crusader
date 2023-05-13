@@ -74,6 +74,8 @@ public class GameMenu {
 				runNextTurn();
 			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
+
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -237,5 +239,9 @@ public class GameMenu {
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y"))
 		).getErrorString());
+	}
+
+	private static void runDigMoat(HashMap<String, String> matcher) {
+		System.out.println();
 	}
 }
