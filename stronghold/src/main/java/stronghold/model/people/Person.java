@@ -256,9 +256,15 @@ public class Person implements Serializable {
 		// TODO
 	}
 
-	public void fight(Person peson) {
-		if (attackRange != 0) {
-
+	public void automaticFight(Person person) {
+		if (stance == StanceType.STANDING) {
+			if(getDistance(person) == 0) {
+				person.hurt(getDamage());
+				hurt(person.getDamage());
+			}
+		}
+		else if (stance == StanceType.DEFENSIVE) {
+			
 		}
 	}
 
