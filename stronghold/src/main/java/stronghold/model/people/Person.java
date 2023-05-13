@@ -31,6 +31,10 @@ public class Person implements Serializable {
 	private int destX;
 	private int destY;
 
+	private int patrolX;
+	private int patrolY;
+	private boolean patrolMode = false;
+
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
 			int ownerIndex, int x, int y) {
@@ -144,6 +148,25 @@ public class Person implements Serializable {
 		this.destX = destX;
 		this.destY = destY;
 	}
+	public int getPatrolX() {
+		return patrolX;
+	}
+	public int getPatrolY() {
+		return patrolY;
+	}
+	public void setPatrol(int patrolX, int patrolY) {
+		this.patrolX = x;
+		this.patrolY = y;
+		this.destX = patrolX;
+		this.destY = patrolY;
+		this.patrolMode = true;
+	}
+	public void setPatrolMode(boolean patrolMode) {
+		this.patrolMode = patrolMode;
+	}
+	public boolean getPatrolMode() {
+		return patrolMode;
+	}
 
 	public boolean hurt(int damage) {
 		setHp(getHp() - damage);
@@ -183,6 +206,10 @@ public class Person implements Serializable {
 		setX(cells[cells.length - 1][0]);
 		setY(cells[cells.length - 1][1]);
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
+
+		if (patrolMode && x == destX && y == destY) {	// reached patrol destination
+			setPatrol(patrolX, patrolY);
+		}
 	}
 
 	@Override

@@ -18,7 +18,7 @@
 - [ ] repair
 - [X] select unit
 - [X] move unit
-- [ ] patrol
+- [X] patrol
 - [ ] stance
 - [ ] melee attack
 - [ ] ranged attack

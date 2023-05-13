@@ -63,7 +63,7 @@ public enum Command {
 	SELECT_UNIT("select unit <-x,x> <-y,y>"),
 	SHOW_SELECTED_UNITS("show selected units"),
 	MOVE_UNIT("move unit <-x,x> <-y,y>"),
-	PATROL_UNIT("patrol unit <-x1,x1> <-y1,y1> <-x2,x2> <-y2,y2>"),
+	PATROL_UNIT("patrol unit <-x,x> <-y,y>"),
 	SET_STANCE("set stance [-s,stanceType]"),
 	MELEE_ATTACK("melee attack <-x,x> <-y,y>"),
 	RANGED_ATTACK("ranged attack <-x,x> <-y,y>"),

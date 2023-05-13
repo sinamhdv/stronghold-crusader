@@ -45,6 +45,8 @@ public class GameMenu {
 				showSelectedUnits();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
 				runMoveUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
+				runPatrolUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
 				runNextTurn();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
@@ -164,6 +166,13 @@ public class GameMenu {
 		System.out.println(GameMenuController.createUnit(
 			matcher.get("type"),
 			Integer.parseInt(matcher.get("count"))
+		).getErrorString());
+	}
+
+	private static void runPatrolUnit(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.patrolUnit(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
 		).getErrorString());
 	}
 }
