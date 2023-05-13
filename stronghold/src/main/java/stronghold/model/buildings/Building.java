@@ -5,7 +5,7 @@ import java.io.Serializable;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 
-public abstract class Building implements Serializable {
+public class Building implements Serializable {
 	private final int maxHp;
 	private final String name;
 	private final int neededWorkers;
@@ -47,7 +47,9 @@ public abstract class Building implements Serializable {
 			model.isSelectable, x, y, model.residentsCapacity, ownerIndex);
 	}
 
-	abstract public Building generateCopy(int x, int y, int ownerIndex);
+	public Building generateCopy(int x, int y, int ownerIndex) {
+		return new Building(this, x, y, ownerIndex);
+	}
 
 	public int getMaxHp() {
 		return maxHp;
