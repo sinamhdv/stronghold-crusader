@@ -111,6 +111,8 @@ public class GameMenuController {
 			return GameMenuMessage.NO_BUILDING_FOUND;
 		if (building.getOwnerIndex() != game.getCurrentPlayerIndex())
 			return GameMenuMessage.BUILDING_NOT_YOURS;
+		if (!building.isSelectable())
+			return GameMenuMessage.NOT_SELECTABLE;
 		game.setSelectedBuilding(building);
 		return GameMenuMessage.SUCCESS;
 	}

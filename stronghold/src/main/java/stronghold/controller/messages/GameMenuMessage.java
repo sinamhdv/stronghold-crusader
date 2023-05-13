@@ -25,6 +25,7 @@ public enum GameMenuMessage {
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
 	NO_BUILDING_FOUND("Error: No building was found in the requested cell"),
 	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
+	NOT_SELECTABLE("Error: this building is not selectable"),
 
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
