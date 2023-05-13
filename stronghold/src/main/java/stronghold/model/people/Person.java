@@ -18,7 +18,7 @@ public class Person implements Serializable {
 	private final int visibilityRange;
 	private final int attackRate;
 	private int attackRange;
-	private StanceType stance = StanceType.NORMAL;
+	private StanceType stance = StanceType.STANDING;
 	private final boolean canClimbLadder;
 	private final boolean canClimbWalls;
 	private final boolean canDigMoats;
@@ -59,101 +59,131 @@ public class Person implements Serializable {
 
 	public Person(Person other, int x, int y, int ownerIndex) {
 		this(other.name, other.speed, other.hp, other.damage, other.visibilityRange, other.attackRate,
-			other.attackRange, other.canClimbLadder, other.canClimbWalls, other.canDigMoats, other.hasBurningOil,
-			other.type, ownerIndex, x, y);
+				other.attackRange, other.canClimbLadder, other.canClimbWalls, other.canDigMoats, other.hasBurningOil,
+				other.type, ownerIndex, x, y);
 	}
 
 	public int getSpeed() {
 		return speed;
 	}
+
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+
 	public int getHp() {
 		return hp;
 	}
+
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
+
 	public int getDamage() {
 		return damage;
 	}
+
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
+
 	public Government getOwner() {
 		return (ownerIndex == -1 ? null : StrongHold.getCurrentGame().getGovernments()[ownerIndex]);
 	}
+
 	public int getOwnerIndex() {
 		return ownerIndex;
 	}
+
 	public int getX() {
 		return x;
 	}
+
 	public void setX(int x) {
 		this.x = x;
 	}
+
 	public int getY() {
 		return y;
 	}
+
 	public void setY(int y) {
 		this.y = y;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public int getAttackRange() {
 		return attackRange;
 	}
+
 	public void setAttackRange(int attackRange) {
 		this.attackRange = attackRange;
 	}
+
 	public StanceType getStance() {
 		return stance;
 	}
+
 	public void setStance(StanceType stance) {
 		this.stance = stance;
 	}
+
 	public int getVisibilityRange() {
 		return visibilityRange;
 	}
+
 	public int getAttackRate() {
 		return attackRate;
 	}
+
 	public boolean canClimbLadder() {
 		return canClimbLadder;
 	}
+
 	public boolean canClimbWalls() {
 		return canClimbWalls;
 	}
+
 	public boolean canDigMoats() {
 		return canDigMoats;
 	}
+
 	public void setOwnerIndex(int ownerIndex) {
 		this.ownerIndex = ownerIndex;
 	}
+
 	public boolean hasBurningOil() {
 		return hasBurningOil;
 	}
+
 	public PersonType getType() {
 		return type;
 	}
+
 	public int getDestX() {
 		return destX;
 	}
+
 	public int getDestY() {
 		return destY;
 	}
+
 	public void setDestination(int destX, int destY) {
 		this.destX = destX;
 		this.destY = destY;
 	}
+
 	public int getPatrolX() {
 		return patrolX;
 	}
+
 	public int getPatrolY() {
 		return patrolY;
 	}
+
 	public void setPatrol(int patrolX, int patrolY) {
 		this.patrolX = x;
 		this.patrolY = y;
@@ -161,16 +191,18 @@ public class Person implements Serializable {
 		this.destY = patrolY;
 		this.patrolMode = true;
 	}
+
 	public void setPatrolMode(boolean patrolMode) {
 		this.patrolMode = patrolMode;
 	}
+
 	public boolean getPatrolMode() {
 		return patrolMode;
 	}
 
 	public boolean hurt(int damage) {
 		setHp(getHp() - damage);
-		if (getHp() <= 0) {	// die
+		if (getHp() <= 0) { // die
 			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 			tile.getPeople().remove(this);
 			getOwner().getPeople().remove(this);
@@ -189,16 +221,17 @@ public class Person implements Serializable {
 		System.out.println();
 
 		int[][] cells = path.getCells();
-		for (int i = 0; i < cells.length; i++) {	// check for killing pits
+		for (int i = 0; i < cells.length; i++) { // check for killing pits
 			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cells[i][0]][cells[i][1]];
 			if (tile.getBuilding() instanceof Trap) {
-				Trap trap = (Trap)tile.getBuilding();
+				Trap trap = (Trap) tile.getBuilding();
 				if (!trap.hasDogs() && trap.getOwnerIndex() != this.getOwnerIndex()) {
 					boolean died = this.hurt(trap.getDamage());
 					MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
 					MapEditorMenuController.setSelectedGovernment(this.getOwnerIndex());
 					MapEditorMenuController.eraseBuilding(trap);
-					if (died) return;
+					if (died)
+						return;
 				}
 			}
 		}
@@ -207,7 +240,7 @@ public class Person implements Serializable {
 		setY(cells[cells.length - 1][1]);
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
 
-		if (patrolMode && x == destX && y == destY) {	// reached patrol destination
+		if (patrolMode && x == destX && y == destY) { // reached patrol destination
 			setPatrol(patrolX, patrolY);
 		}
 	}
@@ -215,11 +248,22 @@ public class Person implements Serializable {
 	@Override
 	public String toString() {
 		String result = name + "(" + ownerIndex + ") (hp=" + hp +
-			") @ (" + x + ", " + y + ") -> (" + destX + ", " + destY + ")";
+				") @ (" + x + ", " + y + ") -> (" + destX + ", " + destY + ")";
 		return result;
 	}
 
 	public void disband() {
 		// TODO
+	}
+
+	public void fight(Person peson) {
+		if (attackRange != 0) {
+
+		}
+	}
+
+	public Double  getDistance(Person person) {
+		double destance = Math.sqrt((x - person.getX())*(x - person.getX()) + (y - person.getY())*(y - person.getY()));
+		return destance;
 	}
 }

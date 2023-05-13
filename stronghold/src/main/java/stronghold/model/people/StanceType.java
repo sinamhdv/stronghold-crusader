@@ -1,7 +1,7 @@
 package stronghold.model.people;
 
 public enum StanceType {
-	NORMAL,
+	STANDING,
 	OFFENSIVE,
 	DEFENSIVE
 }

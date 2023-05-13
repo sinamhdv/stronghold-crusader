@@ -44,7 +44,7 @@ public class GameMenuController {
 	public static GameMenuMessage createUnit(String type, int count) {
 		if (!(game.getSelectedBuilding() instanceof Barracks))
 			return GameMenuMessage.BAD_SELECTED_BUILDING;
-		if (!((Barracks)game.getSelectedBuilding()).canBuildTroop(type))
+		if (!((Barracks) game.getSelectedBuilding()).canBuildTroop(type))
 			return GameMenuMessage.INCORRECT_UNIT_NAME;
 		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
 			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
@@ -65,7 +65,8 @@ public class GameMenuController {
 	private static boolean hasEnoughResourcesForObject(String objectName, Government government,
 			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
-		if (requiredResources == null) return true;
+		if (requiredResources == null)
+			return true;
 		for (ResourceType resourceType : requiredResources.keySet()) {
 			int requiredPart = (repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts;
 			if (government.getResourceCount(resourceType) < requiredPart)
@@ -81,7 +82,8 @@ public class GameMenuController {
 	private static void decreaseObjectsResources(String objectName, Government government,
 			int repairedParts, int totalParts) {
 		HashMap<ResourceType, Integer> requiredResources = ConfigManager.getRequiredResources(objectName);
-		if (requiredResources == null) return;
+		if (requiredResources == null)
+			return;
 		for (ResourceType resourceType : requiredResources.keySet())
 			government.decreaseResource(resourceType,
 					(repairedParts * requiredResources.get(resourceType) + totalParts - 1) / totalParts);
@@ -217,7 +219,8 @@ public class GameMenuController {
 			int lengthOfY = building.getY() + building.getWidth() - 1;
 			for (int i = lengthOfX; i <= lengthOfX + repairErrorEnemyRadius; i++) {
 				for (int j = lengthOfY; j <= lengthOfY + repairErrorEnemyRadius; j++) {
-					ArrayList<Person> peopleArrayList = currentGame.getMap().getGrid()[i][j].getPeople();
+					ArrayList<Person> peopleArrayList = new ArrayList<>(
+							currentGame.getMap().getGrid()[i][j].getPeople());
 					for (Person person : peopleArrayList) {
 						if (person.getOwner() != currentPlayer)
 							return GameMenuMessage.THERE_ARE_ENEMY_SOLDIERS;
@@ -235,5 +238,15 @@ public class GameMenuController {
 			}
 		} else
 			return GameMenuMessage.CANT_REPAIR;
+	}
+
+	public static void handelFights(int i, int j) {
+		ArrayList<Person> peopeleClone = new ArrayList<>(StrongHold.getCurrentGame().getMap().getGrid()[i][j].getPeople());
+		for(Person person : peopeleClone) {
+			if(person instanceof Troop)
+		} 
+			
+
+
 	}
 }
