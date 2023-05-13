@@ -240,14 +240,14 @@ public class GameMenuController {
 			return GameMenuMessage.CANT_REPAIR;
 	}
 
-	public static void handelFights() {
+	public static void handelAutomaticFights() {
 	 for(int i=0; i<400; i++) {
 		for(int j = 0; j<400; j++) {
-			
+			ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
+			for(Person person : peopleClone){
+				person.automaticFight(person.getEnemy());
+			}
 		}
 	 }
-			
-
-
 	}
 }
