@@ -14,6 +14,7 @@
 - [ ] the impact of fear factor on troops damage
 - [ ] killing pits can't be destroyed and they can't be seen in map menu by enemies
 
+- [ ] check market/trade/repair
 - [ ] game ending condition
 - [ ] capturing gates
 - [X] draw bridge

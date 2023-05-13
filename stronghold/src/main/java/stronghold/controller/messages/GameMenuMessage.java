@@ -32,6 +32,11 @@ public enum GameMenuMessage {
 	// building commands
 	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
 	GATE_CAPTURED("Error: cannot close a captured gate"),
+
+	// siege equipment
+	INVALID_EQUIPMENT_NAME("Error: Invalid equipment name"),
+	BAD_UNITS_PRESENT("Error: non-enginner or enemy units are present in the selected cell"),
+	NOT_ENOUGH_ENGINEERS("Error: not enough engineers"),
 	;
 
 	private final String errorString;

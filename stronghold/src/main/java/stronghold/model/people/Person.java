@@ -167,13 +167,17 @@ public class Person implements Serializable {
 		return patrolMode;
 	}
 
+	public void die() {
+		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
+		tile.getPeople().remove(this);
+		getOwner().getPeople().remove(this);
+		// TODO: the government must lose if the lord dies
+	}
+
 	public boolean hurt(int damage) {
 		setHp(getHp() - damage);
-		if (getHp() <= 0) {	// die
-			MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
-			tile.getPeople().remove(this);
-			getOwner().getPeople().remove(this);
-			// TODO: the government must lose if the lord dies
+		if (getHp() <= 0) {
+			die();
 			return true;
 		}
 		return false;

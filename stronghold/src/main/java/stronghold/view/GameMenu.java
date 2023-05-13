@@ -68,6 +68,8 @@ public class GameMenu {
 				runPatrolUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
 				runNextTurn();
+			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -216,5 +218,9 @@ public class GameMenu {
 
 	private static void runCloseGate() {
 		System.out.println(GameMenuController.changeGateState(true).getErrorString());
+	}
+
+	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
+		System.out.println();
 	}
 }

@@ -15,6 +15,7 @@ import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.map.Pathfinding;
 import stronghold.model.people.Person;
+import stronghold.model.people.PersonType;
 import stronghold.utils.ConfigManager;
 import stronghold.utils.Miscellaneous;
 import stronghold.view.GameMenu;
@@ -131,6 +132,28 @@ public class GameMenuController {
 		}
 		else
 			building.openGate();
+		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage buildSiegeEquipment(String name) {
+		HashMap<ResourceType, Integer> resources = ConfigManager.getRequiredResources(name);
+		if (resources == null)
+			return GameMenuMessage.INVALID_EQUIPMENT_NAME;
+		int enginnersCount = resources.get(ResourceType.POPULATION);
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		int tileX = game.getSelectedUnits().get(0).getX();
+		int tileY = game.getSelectedUnits().get(0).getY();
+		ArrayList<Person> people = new ArrayList<>(game.getMap().getGrid()[tileX][tileY].getPeople());
+		for (Person person : people)
+			if (person.getType() != PersonType.ENGINEER || person.getOwnerIndex() != game.getCurrentPlayerIndex())
+				return GameMenuMessage.BAD_UNITS_PRESENT;
+		if (people.size() < enginnersCount)
+			return GameMenuMessage.NOT_ENOUGH_ENGINEERS;
+		for (Person person : people)
+			person.die();
+		// TODO: create a siege tent
+		// TODO: create the siege equipment after 3 turns
 		return GameMenuMessage.SUCCESS;
 	}
 
