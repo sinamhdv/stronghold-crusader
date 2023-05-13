@@ -16,7 +16,7 @@ public class PopularityFormulas {
 	}
 
 	public static int taxRate2Moneyx5(int taxRate) {
-		if (taxRate < 0) return -taxRate + 2;
+		if (taxRate < 0) return taxRate - 2;
 		if (taxRate == 0) return 0;
 		return taxRate + 2;
 	}

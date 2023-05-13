@@ -227,11 +227,10 @@ public class Government {
 	}
 
 	public int getFoodVariety() {
-		ResourceType[] food = new ResourceType[] { ResourceType.APPLE, ResourceType.CHEESE, ResourceType.MEAT,
-				ResourceType.BREAD };
+		ResourceType[] foodTypes = ResourceType.foodTypes;
 		int foodVariety = 0;
-		for (int i = 0; i < 4; i++) {
-			if (getResourceCount(food[i]) > 0) {
+		for (int i = 0; i < foodTypes.length; i++) {
+			if (getResourceCount(foodTypes[i]) > 0) {
 				foodVariety++;
 			}
 		}
@@ -262,12 +261,33 @@ public class Government {
 		}
 	}
 
+	private void decreaseFood(int amount) {
+		ResourceType[] foodTypes = ResourceType.foodTypes;
+		for (int i = 0; i < foodTypes.length; i++) {
+			int currentAmount = getResourceCount(foodTypes[i]);
+			decreaseResource(foodTypes[i], Math.min(currentAmount, amount));
+			amount = Math.max(0, amount - currentAmount);
+		}
+	}
+
+	private int getFoodCount() {
+		ResourceType[] foodTypes = ResourceType.foodTypes;
+		int sum = 0;
+		for (int i = 0; i < foodTypes.length; i++)
+			sum += getResourceCount(foodTypes[i]);
+		return sum;
+	}
+
 	private void updateFood() {
-		// TODO
+		if (getFoodCount() == 0) setFoodRate(-2);
+		int amount = PopularityFormulas.foodRate2FoodAmountx2(foodRate) * getPopulation() / 2;
+		decreaseFood(amount);
 	}
 
 	private void updateTax() {
-		// TODO
+		if (getGold() == 0 && taxRate < 0) setTaxRate(0);
+		int money = PopularityFormulas.taxRate2Moneyx5(taxRate) * getPopulation() / 5;
+		setGold(Math.max(0, getGold() + money));
 	}
 
 	private int getPopulationGrowthRate() {
