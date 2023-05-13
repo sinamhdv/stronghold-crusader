@@ -270,7 +270,6 @@ public class Person implements Serializable {
 				person) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
 				|| stance == StanceType.OFFENSIVE) {
 			setDestination(person.getX(), person.getY());
-			moveTowardsDestination();
 		}
 
 	}
@@ -336,7 +335,6 @@ public class Person implements Serializable {
 		}
 		else {
 			setDestination(destX, destY);
-			moveTowardsDestination();
 			return GameMenuMessage.SUCCESS;
 		}
 	}
