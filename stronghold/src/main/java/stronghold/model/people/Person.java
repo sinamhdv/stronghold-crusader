@@ -257,18 +257,19 @@ public class Person implements Serializable {
 	}
 
 	public void automaticFight(Person person) {
-		if ((stance == StanceType.STANDING && getDistance(person) == stance.getRadiusOfMovement()) || 
-			(stance == StanceType.DEFENSIVE && getDistance(person) <= stance.getRadiusOfMovement()) || 
-			(stance == StanceType.OFFENSIVE)) {
-				person.hurt(getDamage());
-				hurt(person.getDamage());
-			}
+		if(getDistance(person) <= attackRange) {
+			person.hurt(getDamage());
+			hurt(person.getDamage());
 		}
+		else if((stance == StanceType.DEFENSIVE && getDistance(person) == StanceType.DEFENSIVE.getRadiusOfMovement()) 
+			|| stance == StanceType.OFFENSIVE) {
+				setDestination(person.getX(), person.getY());
+			}
+
 	}
 
-	public Double getDistance(Person person) {
-		double destance = Math
-				.sqrt((x - person.getX()) * (x - person.getX()) + (y - person.getY()) * (y - person.getY()));
+	public int getDistance(Person person) {
+		int destance = (x - person.getX()) * (x - person.getX()) + (y - person.getY()) * (y - person.getY());
 		return destance;
 	}
 }

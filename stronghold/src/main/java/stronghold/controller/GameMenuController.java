@@ -241,10 +241,7 @@ public class GameMenuController {
 	}
 
 	public static void handelFights(int i, int j) {
-		ArrayList<Person> peopeleClone = new ArrayList<>(StrongHold.getCurrentGame().getMap().getGrid()[i][j].getPeople());
-		for(Person person : peopeleClone) {
-			if(person instanceof Troop)
-		} 
+	
 			
 
 
