@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 import stronghold.controller.MapEditorMenuController;
+import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
@@ -267,6 +270,7 @@ public class Person implements Serializable {
 				person) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
 				|| stance == StanceType.OFFENSIVE) {
 			setDestination(person.getX(), person.getY());
+			moveTowardsDestination();
 		}
 
 	}
@@ -315,5 +319,25 @@ public class Person implements Serializable {
 		return null;
 	}
 
-
+	public GameMenuMessage fightWithDestination(int destX, int destY) {
+		Game currentGame = StrongHold.getCurrentGame();
+		ArrayList<Person> peopleClone = new ArrayList<>(currentGame.getMap().getGrid()[x][y].getPeople());
+		boolean isthereEnemy =  false;
+		for(Person person : peopleClone) {
+			if(person.getOwner() != getOwner()) {
+				isthereEnemy = true;
+				break;
+			}
+		}
+		if(isthereEnemy)
+			return GameMenuMessage.THERE_IS_NO_ENEMY_TO_FIGHT;
+		else if (destX < 0 || destY < 0 || destX > 400 || destY > 400) {
+			return GameMenuMessage.INVALID_DESTINATION;	
+		}
+		else {
+			setDestination(destX, destY);
+			moveTowardsDestination();
+			return GameMenuMessage.SUCCESS;
+		}
+	}
 }
