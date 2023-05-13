@@ -30,6 +30,8 @@ public enum GameMenuMessage {
 	// attack
 	THERE_IS_NO_ENEMY_TO_FIGHT("There is no enemy to fight"),
 	INVALID_DESTINATION("Invalid destination"),
+	INVALID_DIRECTION("Erorr: invalid direction"),
+	DIG_MOAT_SUCCESSFULLY("Dig moat successfully"),
 
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),

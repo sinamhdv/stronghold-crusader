@@ -229,10 +229,6 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
-	public static GameMenuMessage attack(int x, int y) {
-		
-	}
-
 	public static GameMenuMessage setFoodRate(int foodRate) {
 		Government currentPleyer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if (foodRate < -2 || foodRate > 2)

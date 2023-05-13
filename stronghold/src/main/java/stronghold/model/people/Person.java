@@ -8,6 +8,7 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Trap;
+import stronghold.model.map.GroundType;
 import stronghold.model.map.MapTile;
 import stronghold.model.map.Path;
 import stronghold.model.map.Pathfinding;
@@ -235,7 +236,8 @@ public class Person implements Serializable {
 				if (!trap.hasDogs() && trap.getOwnerIndex() != this.getOwnerIndex()) {
 					boolean died = this.hurt(trap.getDamage());
 					trap.destroy();
-					if (died) return;
+					if (died)
+						return;
 				}
 			}
 		}
@@ -279,28 +281,28 @@ public class Person implements Serializable {
 		int limit = Math.max(stance.getRadiusOfMovement(), attackRange);
 		Game currentGame = StrongHold.getCurrentGame();
 		int randomNumber = Miscellaneous.RANDOM_GENERATOR.nextInt(1);
-		if(randomNumber == 0) {
-			for(int i = 0; i < limit; i++) {
-				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon)
-					if(person.getOwner() != getOwner())
+		if (randomNumber == 0) {
+			for (int i = 0; i < limit; i++) {
+				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x + i][y].getPeople());
+				for (Person person : peopleClon)
+					if (person.getOwner() != getOwner())
 						return person;
-				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people)
-					if(person.getOwner() != getOwner())
+				ArrayList<Person> people = new ArrayList<>(currentGame.getMap().getGrid()[x][y + i].getPeople());
+				for (Person person : people)
+					if (person.getOwner() != getOwner())
 						return person;
 			}
 		}
 
 		else {
-			for(int i = 0; i < limit; i++) {
-				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people)
-					if(person.getOwner() != getOwner())
+			for (int i = 0; i < limit; i++) {
+				ArrayList<Person> people = new ArrayList<>(currentGame.getMap().getGrid()[x][y + i].getPeople());
+				for (Person person : people)
+					if (person.getOwner() != getOwner())
 						return person;
-				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon)
-					if(person.getOwner() != getOwner())
+				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x + i][y].getPeople());
+				for (Person person : peopleClon)
+					if (person.getOwner() != getOwner())
 						return person;
 			}
 		}
@@ -311,22 +313,21 @@ public class Person implements Serializable {
 	public GameMenuMessage fightWithDestination(int destX, int destY) {
 		Game currentGame = StrongHold.getCurrentGame();
 		ArrayList<Person> peopleClone = new ArrayList<>(currentGame.getMap().getGrid()[x][y].getPeople());
-		boolean isthereEnemy =  false;
+		boolean isthereEnemy = false;
 		Person enemy = null;
-		for(Person person : peopleClone) {
-			if(person.getOwner() != getOwner()) {
+		for (Person person : peopleClone) {
+			if (person.getOwner() != getOwner()) {
 				isthereEnemy = true;
 				enemy = person;
 				break;
 			}
 		}
-		if(isthereEnemy)
+		if (isthereEnemy)
 			return GameMenuMessage.THERE_IS_NO_ENEMY_TO_FIGHT;
 		else if (destX < 0 || destY < 0 || destX > 400 || destY > 400) {
-			return GameMenuMessage.INVALID_DESTINATION;	
-		}
-		else {
-			if(attackRange > 1) //attack -x
+			return GameMenuMessage.INVALID_DESTINATION;
+		} else {
+			if (attackRange > 1) // attack -x
 			{
 				enemy.hurt(getDamage());
 			}
@@ -335,5 +336,27 @@ public class Person implements Serializable {
 		}
 	}
 
+	public GameMenuMessage digMoat(String Direction) {
+		Game currentGame = StrongHold.getCurrentGame();
+		MapTile mapTile = null;
+		if(Direction.equals("up")) 
+			 mapTile = currentGame.getMap().getGrid()[x][y + 1];
+		else if(Direction.equals("down")) 
+			mapTile = currentGame.getMap().getGrid()[x][y - 1];
+		else if(Direction.equals("right")) 
+			mapTile = currentGame.getMap().getGrid()[x + 1][y];
+		else if (Direction.equals("left")) 
+			mapTile = currentGame.getMap().getGrid()[x - 1][y];
+		else 
+			return GameMenuMessage.INVALID_DESTINATION;
+		if(mapTile.getGroundType() != GroundType.SEA) {
+			mapTile.setGroundType(GroundType.NORMAL);
+			return GameMenuMessage.DIG_MOAT_SUCCESSFULLY;
+		}
+		else {
+			mapTile.setGroundType(GroundType.SEA);
+			return GameMenuMessage.DIG_MOAT_SUCCESSFULLY;
+		}	
+	}
 
 }
