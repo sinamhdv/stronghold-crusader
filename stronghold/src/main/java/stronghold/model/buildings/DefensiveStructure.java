@@ -7,6 +7,7 @@ public class DefensiveStructure extends Building {
 	private final DefensiveStructureType type;
 	
 	private boolean isCaptured = false;
+	private int savedVerticalHeight;
 
 	public DefensiveStructure(int maxHp, String name, int neededWorkers, int width, int height, int verticalHeight,
 			boolean isSelectable, int x, int y, int residentsCapacity, int ownerIndex, int fireRange, int defendRange,
@@ -49,5 +50,14 @@ public class DefensiveStructure extends Building {
 	}
 	public void setCaptured(boolean isCaptured) {
 		this.isCaptured = isCaptured;
+	}
+
+	public void openGate() {
+		savedVerticalHeight = getVerticalHeight();
+		setVerticalHeight(1);
+	}
+
+	public void closeGate() {
+		setVerticalHeight(savedVerticalHeight);
 	}
 }

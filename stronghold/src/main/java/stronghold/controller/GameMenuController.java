@@ -12,6 +12,7 @@ import stronghold.model.StrongHold;
 import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.map.Pathfinding;
 import stronghold.model.people.Person;
 import stronghold.utils.ConfigManager;
@@ -114,6 +115,22 @@ public class GameMenuController {
 		if (!building.isSelectable())
 			return GameMenuMessage.NOT_SELECTABLE;
 		game.setSelectedBuilding(building);
+		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage changeGateState(boolean close) {
+		if (!(game.getSelectedBuilding() instanceof DefensiveStructure))
+			return GameMenuMessage.BAD_SELECTED_BUILDING;
+		DefensiveStructure building = (DefensiveStructure) game.getSelectedBuilding();
+		if (building.getType() != DefensiveStructureType.GATE)
+			return GameMenuMessage.BAD_SELECTED_BUILDING;
+		if (close) {
+			if (building.isCaptured())
+				return GameMenuMessage.GATE_CAPTURED;
+			building.closeGate();
+		}
+		else
+			building.openGate();
 		return GameMenuMessage.SUCCESS;
 	}
 

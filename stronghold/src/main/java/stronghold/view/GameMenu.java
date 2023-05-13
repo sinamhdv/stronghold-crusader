@@ -52,6 +52,10 @@ public class GameMenu {
 				runSelectBuilding(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
 				showSelectedBuilding();
+			else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
+				runOpenGate();
+			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
+				runCloseGate();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
 				showResourcesAmount();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
@@ -204,5 +208,13 @@ public class GameMenu {
 			Integer.parseInt(matcher.get("x")),
 			Integer.parseInt(matcher.get("y"))
 		).getErrorString());
+	}
+
+	private static void runOpenGate() {
+		System.out.println(GameMenuController.changeGateState(false).getErrorString());
+	}
+
+	private static void runCloseGate() {
+		System.out.println(GameMenuController.changeGateState(true).getErrorString());
 	}
 }

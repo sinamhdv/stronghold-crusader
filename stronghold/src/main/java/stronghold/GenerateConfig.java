@@ -82,6 +82,15 @@ public class GenerateConfig {
 		));
 
 		addBuilding(new DefensiveStructure(
+			200, "draw bridge", 0,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			10, 10,
+			DefensiveStructureType.GATE, false
+		));
+
+		addBuilding(new DefensiveStructure(
 			300, "lookout tower", 0,
 			1, 1, 2,
 			true, 0, 0,
