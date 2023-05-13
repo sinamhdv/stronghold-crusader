@@ -2,11 +2,7 @@ package stronghold.model.people;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
-
-import stronghold.controller.MapEditorMenuController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
@@ -271,9 +267,7 @@ public class Person implements Serializable {
 				person) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
 				|| stance == StanceType.OFFENSIVE) {
 			setDestination(person.getX(), person.getY());
-			moveTowardsDestination();
 		}
-
 	}
 
 	public int getDistance(Person person) {
@@ -288,32 +282,25 @@ public class Person implements Serializable {
 		if(randomNumber == 0) {
 			for(int i = 0; i < limit; i++) {
 				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon) {
-					if(person.getOwner() != getOwner()) {
-						return person;
-					}
-				}
-				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people) {
+				for(Person person : peopleClon)
 					if(person.getOwner() != getOwner())
 						return person;
-				}
-			}
+				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
+				for(Person person : people)
+					if(person.getOwner() != getOwner())
+						return person;
 		}
 
 		else {
 			for(int i = 0; i < limit; i++) {
 				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-				for(Person person : people) {
+				for(Person person : people)
 					if(person.getOwner() != getOwner())
 						return person;
-				}
 				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-				for(Person person : peopleClon) {
-					if(person.getOwner() != getOwner()) {
+				for(Person person : peopleClon)
+					if(person.getOwner() != getOwner())
 						return person;
-					}
-				}
 			}
 		}
 
