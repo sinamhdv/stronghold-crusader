@@ -11,6 +11,7 @@
 - [ ] handle assassin visibility in map menu
 - [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
 - [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
+- [ ] the impact of fear factor on troops damage
 
 - [ ] next turn
 - [X] select building

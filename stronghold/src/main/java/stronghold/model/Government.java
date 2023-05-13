@@ -2,6 +2,7 @@ package stronghold.model;
 
 import java.util.ArrayList;
 
+import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
@@ -10,6 +11,7 @@ import stronghold.model.buildings.Stockpile;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
+import stronghold.utils.PopularityFormulas;
 
 public class Government {
 	private static final int MAX_POPULARITY = 100;
@@ -22,7 +24,6 @@ public class Government {
 	private int fearFactor = 0;
 	private int foodRate = 0;
 	private int taxRate = 0;
-	private int religionRate = 0;
 	private int gold = 0;
 	private int wineUsageCycleTurns = 0;
 	private final ArrayList<Person> people = new ArrayList<>();
@@ -85,14 +86,6 @@ public class Government {
 		this.taxRate = taxRate;
 	}
 
-	public int getReligionRate() {
-		return religionRate;
-	}
-
-	public void setReligionRate(int religionRate) {
-		this.religionRate = religionRate;
-	}
-
 	public ArrayList<Person> getPeople() {
 		return people;
 	}
@@ -103,8 +96,21 @@ public class Government {
 		if (popularity < MIN_POPULARITY) popularity = MIN_POPULARITY;
 	}
 
+	public int getReligionPopularityInfluence() {
+		int sum = 0;
+		for (Building building : buildings)
+			if (building instanceof Barracks)
+				sum += ((Barracks)building).getPopularityBoost();
+		return sum;
+	}
+
 	private void updatePopularity() {
-		changePopularity(fearFactor + foodRate + taxRate + religionRate);	// TODO: replace with influences
+		changePopularity(
+			PopularityFormulas.foodRate2Popularity(foodRate) +
+			PopularityFormulas.taxRate2Popularity(taxRate) +
+			getReligionPopularityInfluence() +
+			fearFactor
+		);
 	}
 
 	public int getGold() {
