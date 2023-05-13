@@ -30,4 +30,5 @@ public class Miscellaneous {
 	public static boolean checkCoordinatesOnMap(Map map, int x, int y) {
 		return (x >= 0 && y >= 0 && x < map.getGrid().length && y < map.getGrid()[0].length);
 	}
+
 }

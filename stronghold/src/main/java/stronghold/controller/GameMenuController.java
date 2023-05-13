@@ -240,8 +240,12 @@ public class GameMenuController {
 			return GameMenuMessage.CANT_REPAIR;
 	}
 
-	public static void handelFights(int i, int j) {
-	
+	public static void handelFights() {
+	 for(int i=0; i<400; i++) {
+		for(int j = 0; j<400; j++) {
+			
+		}
+	 }
 			
 
 

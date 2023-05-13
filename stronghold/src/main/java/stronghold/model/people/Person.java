@@ -1,14 +1,18 @@
 package stronghold.model.people;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Random;
 
 import stronghold.controller.MapEditorMenuController;
+import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Trap;
 import stronghold.model.map.MapTile;
 import stronghold.model.map.Path;
 import stronghold.model.map.Pathfinding;
+import stronghold.utils.Miscellaneous;
 
 public class Person implements Serializable {
 	private final String name;
@@ -259,7 +263,6 @@ public class Person implements Serializable {
 	public void automaticFight(Person person) {
 		if (getDistance(person) <= (attackRange * attackRange)) {
 			person.hurt(getDamage());
-			hurt(person.getDamage());
 		} else if ((stance == StanceType.DEFENSIVE && getDistance(
 				person) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
 				|| stance == StanceType.OFFENSIVE) {
@@ -272,4 +275,45 @@ public class Person implements Serializable {
 		int destance = (x - person.getX()) * (x - person.getX()) + (y - person.getY()) * (y - person.getY());
 		return destance;
 	}
+
+	public Person getEnemy() {
+		int limit = Math.max(stance.getRadiusOfMovement(), attackRange);
+		Game currentGame = StrongHold.getCurrentGame();
+		int randomNumber = Miscellaneous.RANDOM_GENERATOR.nextInt(1);
+		if(randomNumber == 0) {
+			for(int i = 0; i < limit; i++) {
+				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
+				for(Person person : peopleClon) {
+					if(person.getOwner() != getOwner()) {
+						return person;
+					}
+				}
+				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
+				for(Person person : people) {
+					if(person.getOwner() != getOwner())
+						return person;
+				}
+			}
+		}
+
+		else {
+			for(int i = 0; i < limit; i++) {
+				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
+				for(Person person : people) {
+					if(person.getOwner() != getOwner())
+						return person;
+				}
+				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
+				for(Person person : peopleClon) {
+					if(person.getOwner() != getOwner()) {
+						return person;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+
 }
