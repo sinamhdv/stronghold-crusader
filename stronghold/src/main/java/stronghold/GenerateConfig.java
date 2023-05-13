@@ -38,6 +38,87 @@ public class GenerateConfig {
 		));
 
 		addBuilding(new DefensiveStructure(
+			400, "horizontal small gate", 0,
+			2, 2, 2,
+			true, 0, 0,
+			8, 0,
+			10, 7,
+			DefensiveStructureType.GATE, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			400, "vertical small gate", 0,
+			2, 2, 2,
+			true, 0, 0,
+			8, 0,
+			10, 7,
+			DefensiveStructureType.GATE, true
+		));
+
+		addBuilding(new DefensiveStructure(
+			600, "horizontal large gate", 0,
+			3, 3, 2,
+			true, 0, 0,
+			10, 0,
+			12, 6,
+			DefensiveStructureType.GATE, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			600, "vertical large gate", 0,
+			3, 3, 2,
+			true, 0, 0,
+			10, 0,
+			12, 6,
+			DefensiveStructureType.GATE, true
+		));
+
+		addBuilding(new DefensiveStructure(
+			300, "lookout tower", 0,
+			1, 1, 2,
+			true, 0, 0,
+			0, 0,
+			12, 3,
+			DefensiveStructureType.TURRET, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			300, "small turret", 0,
+			1, 1, 2,
+			true, 0, 0,
+			0, 0,
+			10, 6,
+			DefensiveStructureType.TURRET, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			400, "large turret", 0,
+			2, 2, 2,
+			true, 0, 0,
+			0, 0,
+			10, 6,
+			DefensiveStructureType.TURRET, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			700, "square tower", 0,
+			3, 3, 2,
+			true, 0, 0,
+			0, 0,
+			12, 4,
+			DefensiveStructureType.TOWER, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			1000, "round tower", 0,
+			3, 3, 2,
+			true, 0, 0,
+			0, 0,
+			12, 4,
+			DefensiveStructureType.TOWER, false
+		));
+
+		addBuilding(new DefensiveStructure(
 			100, "high wall", 0,
 			1, 1, 2,
 			false, 0, 0,
@@ -53,6 +134,15 @@ public class GenerateConfig {
 			0, 0,
 			2, 12,
 			DefensiveStructureType.WALL, false
+		));
+
+		addBuilding(new DefensiveStructure(
+			50, "stairs", 0,
+			1, 1, 1,
+			false, 0, 0,
+			0, 0,
+			2, 12,
+			DefensiveStructureType.STAIRS, false
 		));
 
 		addBuilding(new Barracks(
