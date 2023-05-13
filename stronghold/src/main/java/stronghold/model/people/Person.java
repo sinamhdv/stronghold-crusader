@@ -2,7 +2,6 @@ package stronghold.model.people;
 
 import java.io.Serializable;
 
-import stronghold.controller.MapEditorMenuController;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Trap;
@@ -195,9 +194,7 @@ public class Person implements Serializable {
 				Trap trap = (Trap)tile.getBuilding();
 				if (!trap.hasDogs() && trap.getOwnerIndex() != this.getOwnerIndex()) {
 					boolean died = this.hurt(trap.getDamage());
-					MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
-					MapEditorMenuController.setSelectedGovernment(this.getOwnerIndex());
-					MapEditorMenuController.eraseBuilding(trap);
+					trap.destroy();
 					if (died) return;
 				}
 			}

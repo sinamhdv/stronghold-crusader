@@ -2,6 +2,7 @@ package stronghold.model.buildings;
 
 import java.io.Serializable;
 
+import stronghold.controller.MapEditorMenuController;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 
@@ -124,5 +125,22 @@ public class Building implements Serializable {
 		if (residentsCapacity > 0) result += ", residents=" + residents + "/" + residentsCapacity;
 		if (neededWorkers > 0) result += ", neededWorkers=" + neededWorkers + ", hasWorkers=" + hasWorkers;
 		return result;
+	}
+
+	public void destroy() {
+		MapEditorMenuController.setMap(StrongHold.getCurrentGame().getMap());
+		MapEditorMenuController.setSelectedGovernment(this.ownerIndex);
+		MapEditorMenuController.eraseBuilding(this);
+		getOwner().getBuildings().remove(this);
+		// TODO: if the keep is destroyed the government must lose
+	}
+
+	public boolean hurt(int damage) {
+		setHp(getHp() - damage);
+		if (getHp() <= 0) {
+			destroy();
+			return true;
+		}
+		return false;
 	}
 }

@@ -16,7 +16,7 @@
 
 - [ ] game ending condition
 - [ ] capturing gates
-- [ ] draw bridge
+- [X] draw bridge
 
 - [ ] next turn
 - [X] select building
@@ -32,8 +32,8 @@
 - [ ] dig tunnel
 - [ ] build siege equipment => trebuchet, siege tower, catapult, shield, battering ram, fire ballista
 - [ ] disband
-- [ ] open gate
-- [ ] close gate
+- [X] open gate
+- [X] close gate
 - [ ] dig moat
 - [ ] fill moat
 

@@ -24,8 +24,8 @@ public class Government {
 	private int fearFactor = 0;
 	private int foodRate = 0;
 	private int taxRate = 0;
-	private int gold = 0;
-	private int wineUsageCycleTurns = 0;
+	private int gold = 1000;
+	private int wineUsageCycleTurns = 1;	// TODO: add a command to change this? (probably not necessary)
 	private final ArrayList<Person> people = new ArrayList<>();
 
 	public Government(User user, int index, Map map) {
