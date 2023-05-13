@@ -289,6 +289,7 @@ public class Person implements Serializable {
 				for(Person person : people)
 					if(person.getOwner() != getOwner())
 						return person;
+			}
 		}
 
 		else {
@@ -324,7 +325,6 @@ public class Person implements Serializable {
 		}
 		else {
 			setDestination(destX, destY);
-			moveTowardsDestination();
 			return GameMenuMessage.SUCCESS;
 		}
 	}

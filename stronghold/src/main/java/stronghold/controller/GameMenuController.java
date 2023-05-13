@@ -16,6 +16,7 @@ import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.map.Pathfinding;
 import stronghold.model.people.Person;
 import stronghold.model.people.PersonType;
+import stronghold.model.people.StanceType;
 import stronghold.utils.ConfigManager;
 import stronghold.utils.Miscellaneous;
 import stronghold.view.GameMenu;
@@ -217,17 +218,19 @@ public class GameMenuController {
 			person.moveTowardsDestination();
 	}
 
-	
+	public static GameMenuMessage setStance(String stanceName) {
+		StanceType stance = StanceType.valueOf(stanceName);
+		if (stance == null)
+			return GameMenuMessage.INVALID_STANCE;
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		for (Person person : game.getSelectedUnits())
+			person.setStance(stance);
+		return GameMenuMessage.SUCCESS;
+	}
 
-	public static int getTaxPopularityInfluencing(int taxRate) {
-		if (taxRate > -4 && taxRate < 1)
-			return (-2) * taxRate + 1;
-		else if (taxRate > 0 && taxRate < 5)
-			return taxRate * (-2);
-		else if (taxRate > 4 && taxRate < 9)
-			return (-4) * taxRate + 8;
-		else
-			return 9999;
+	public static GameMenuMessage attack(int x, int y) {
+		
 	}
 
 	public static GameMenuMessage setFoodRate(int foodRate) {
@@ -288,14 +291,14 @@ public class GameMenuController {
 	}
 
 	public static void handelAutomaticFights() {
-	 for(int i=0; i<400; i++) {
-		for(int j = 0; j<400; j++) {
-			ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
-			for(Person person : peopleClone){
-				person.automaticFight(person.getEnemy());
+		for(int i=0; i<400; i++) {
+			for(int j = 0; j<400; j++) {
+				ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
+				for(Person person : peopleClone){
+					person.automaticFight(person.getEnemy());
+				}
 			}
 		}
-	 }
 	}
 
 }

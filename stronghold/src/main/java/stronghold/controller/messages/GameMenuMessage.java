@@ -4,6 +4,7 @@ public enum GameMenuMessage {
 	SUCCESS("Success!"),
 	INVALID_COORDINATES("Error: Invalid coordinates"),
 
+	// government management
 	INVALID_FOOD_RATE("Invalid food rate"),
 	INVALID_TAX_RATE("Invalid tax rate"),
 	INVALID_FEAR_RATE("Invalid fear rate"),
@@ -29,8 +30,10 @@ public enum GameMenuMessage {
 	// attack
 	THERE_IS_NO_ENEMY_TO_FIGHT("There is no enemy to fight"),
 	INVALID_DESTINATION("Invalid destination"),
+
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
+	INVALID_STANCE("Error: invalid stance name"),
 
 	// building commands
 	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),

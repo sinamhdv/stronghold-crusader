@@ -66,6 +66,10 @@ public class GameMenu {
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
 				runPatrolUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
+				runAttack(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
+				runSetStance(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
 				runNextTurn();
 			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
@@ -222,5 +226,16 @@ public class GameMenu {
 
 	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
 		System.out.println();
+	}
+
+	private static void runSetStance(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setStance(matcher.get("stanceType")).getErrorString());
+	}
+
+	private static void runAttack(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.attack(
+			Integer.parseInt(matcher.get("x")),
+			Integer.parseInt(matcher.get("y"))
+		).getErrorString());
 	}
 }
