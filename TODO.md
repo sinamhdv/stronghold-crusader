@@ -31,3 +31,5 @@
 
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
 - [ ] usage of cows in tanner workshops
+- [ ] storing untransported rock in the main stockpiles
+- [ ] stables do not regenerate horses after knights die

@@ -207,6 +207,14 @@ public class GenerateConfig {
 			9999, false
 		));
 
+		addBuilding(new Trap(
+			100, "dogs cage", 0,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			0, true
+		));
+
 		addBuilding(new Stockpile(
 			200, "inn", 1,
 			1, 1, 999,
@@ -254,6 +262,7 @@ public class GenerateConfig {
 			0, 0,
 			new HashMap<>(Map.of(
 				ResourceType.ROCK, 0,
+				ResourceType.UNTRANSPORTED_ROCK, 0,
 				ResourceType.WOOD, 0,
 				ResourceType.OIL, 0,
 				ResourceType.IRON, 0,
@@ -261,6 +270,16 @@ public class GenerateConfig {
 				ResourceType.WHEAT, 0,
 				ResourceType.FLOUR, 0
 			)), 80
+		));
+
+		addBuilding(new Stockpile(
+			200, "stable", 0,
+			2, 2, 999,
+			true, 0, 0,
+			0, 0,
+			new HashMap<>(Map.of(
+				ResourceType.HORSE, 4
+			)), 4
 		));
 
 		addBuilding(new ResourceConverterBuilding(
@@ -288,9 +307,9 @@ public class GenerateConfig {
 			2, 2, 999,
 			true, 0, 0,
 			0, 0,
-			null, ResourceType.ROCK,
+			null, ResourceType.UNTRANSPORTED_ROCK,
 			new GroundType[] { GroundType.STONE },
-			2, 5, 0
+			2, 8, 0
 		));
 
 		addBuilding(new ResourceConverterBuilding(
@@ -463,10 +482,34 @@ public class GenerateConfig {
 			2, 4, 2
 		));
 
+		addBuilding(new ResourceConverterBuilding(
+			200, "ox tether", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.UNTRANSPORTED_ROCK, ResourceType.ROCK,
+			null,
+			3, 8, 8
+		));
+
 		addBuilding(new OilSmelter(
 			200, "oil smelter", 0,
 			0, 0, 0,
 			false, 0, 0,
+			0, 0
+		));
+
+		addBuilding(new Building(
+			200, "house", 0,
+			1, 1, 999,
+			false, 0, 0,
+			8, 0
+		));
+
+		addBuilding(new Building(
+			200, "market", 0,
+			1, 1, 999,
+			true, 0, 0,
 			0, 0
 		));
 	}

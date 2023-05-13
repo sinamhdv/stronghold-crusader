@@ -11,6 +11,7 @@ public enum ResourceType {
 	FLOUR(5, 3, "Flour", true),
 	WOOD(20, 15, "Wood", true),
 	ROCK(25, 18, "Rock", true),
+	UNTRANSPORTED_ROCK(0, 0, "Untransported Rock", false),
 	BOW(30, 25, "Bow", true),
 	CROSBOW(35, 28, "Crosbow", true),
 	SPEAR(30, 25, "Spear", true),
@@ -21,6 +22,7 @@ public enum ResourceType {
 	METAL_ARMOR(35, 27, "Metal Armor", true),
 	IRON(15, 10, "Iron", true),
 	OIL(15, 10, "Oil", true),
+	HORSE(0, 0, "Horse", false),
 	GOLD(0, 0, "Gold", false),
 	POPULATION(0, 0, "Population", false),
 	;
