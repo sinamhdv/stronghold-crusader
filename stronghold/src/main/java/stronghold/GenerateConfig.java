@@ -12,6 +12,7 @@ import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.buildings.ResourceConverterBuilding;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.buildings.Trap;
+import stronghold.model.map.GroundType;
 import stronghold.model.people.Person;
 import stronghold.model.people.PersonType;
 import stronghold.utils.ConfigManager;
@@ -181,6 +182,22 @@ public class GenerateConfig {
 			}
 		));
 
+		addBuilding(new Barracks(
+			200, "chapel", 0,
+			1, 1, 999,
+			true, 0, 0,
+			2, 0,
+			0, new String[] {}
+		));
+
+		addBuilding(new Barracks(
+			200, "church", 0,
+			2, 2, 999,
+			true, 0, 0,
+			0, 0,
+			2, new String[] { "monk" }
+		));
+
 		addBuilding(new Trap(
 			10, "killing pit", 0,
 			0, 0, 0,
@@ -229,6 +246,22 @@ public class GenerateConfig {
 			)), 50
 		));
 
+		addBuilding(new Stockpile(
+			200, "stockpile", 0,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			new HashMap<>(Map.of(
+				ResourceType.ROCK, 0,
+				ResourceType.WOOD, 0,
+				ResourceType.OIL, 0,
+				ResourceType.IRON, 0,
+				ResourceType.GRAPES, 0,
+				ResourceType.WHEAT, 0,
+				ResourceType.FLOUR, 0
+			)), 80
+		));
+
 		addBuilding(new ResourceConverterBuilding(
 			200, "mill", 3,
 			1, 1, 999,
@@ -238,7 +271,126 @@ public class GenerateConfig {
 			null,
 			2, 2, 1
 		));
-		
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "iron mine", 2,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.IRON,
+			new GroundType[] { GroundType.IRON },
+			2, 3, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "stone mine", 3,
+			2, 2, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.ROCK,
+			new GroundType[] { GroundType.STONE },
+			2, 5, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "woodcutter", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.WOOD,
+			null,
+			3, 10, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "pitch rig", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.OIL,
+			new GroundType[] { GroundType.OIL },
+			3, 2, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "armorer", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.IRON, ResourceType.METAL_ARMOR,
+			null,
+			2, 2, 1
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "sword blacksmith", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.IRON, ResourceType.SWORDS,
+			null,
+			2, 2, 1
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "mace blacksmith", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.IRON, ResourceType.MACE,
+			null,
+			2, 2, 1
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "tanner", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			null, ResourceType.LEATHER_ARMOR,
+			null,
+			2, 1, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "spear poleturner", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.WOOD, ResourceType.SPEAR,
+			null,
+			2, 2, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "pike poleturner", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.WOOD, ResourceType.PIKE,
+			null,
+			2, 2, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "bow fletcher", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.WOOD, ResourceType.BOW,
+			null,
+			2, 2, 0
+		));
+
+		addBuilding(new ResourceConverterBuilding(
+			200, "crossbow fletcher", 1,
+			1, 1, 999,
+			true, 0, 0,
+			0, 0,
+			ResourceType.WOOD, ResourceType.CROSBOW,
+			null,
+			2, 2, 0
+		));
 	}
 
 	private static void addBuilding(Building building) {

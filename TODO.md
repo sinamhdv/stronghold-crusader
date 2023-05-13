@@ -30,3 +30,4 @@
 - [ ] disband
 
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
+- [ ] usage of cows in tanner workshops
