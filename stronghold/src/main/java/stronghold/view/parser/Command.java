@@ -70,9 +70,13 @@ public enum Command {
 	RANGED_ATTACK("ranged attack <-x,x> <-y,y>"),
 	POUR_OIL("pour oil [-d,direction]"),
 	DIG_TUNNEL("dig tunnel <-x,x> <-y,y>"),
+	DIG_MOAT("dig moat <-x,x> <-y,y>"),
+	FILL_MOAT("fill moat <-x,x> <-y,y>"),
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-q,equipment]"),
 	DISBAND("disband"),
 	NEXT_TURN("next turn"),
+	OPEN_GATE("open gate"),
+	CLOSE_GATE("close gate"),
 
 	// Map Editor Menu
 	SET_TEXTURE("set texture <-x,x> <-y,y> [-t,type]"),

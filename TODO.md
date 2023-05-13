@@ -14,6 +14,10 @@
 - [ ] the impact of fear factor on troops damage
 - [ ] killing pits can't be destroyed and they can't be seen in map menu by enemies
 
+- [ ] game ending condition
+- [ ] capturing gates
+- [ ] draw bridge
+
 - [ ] next turn
 - [X] select building
 - [ ] create unit
@@ -26,8 +30,12 @@
 - [ ] ranged attack
 - [ ] pour/fill oil
 - [ ] dig tunnel
-- [ ] build siege equipment
+- [ ] build siege equipment => trebuchet, siege tower, catapult, shield, battering ram, fire ballista
 - [ ] disband
+- [ ] open gate
+- [ ] close gate
+- [ ] dig moat
+- [ ] fill moat
 
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
 - [ ] usage of cows in tanner workshops
