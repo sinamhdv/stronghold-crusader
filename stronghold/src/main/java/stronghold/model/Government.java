@@ -104,7 +104,7 @@ public class Government {
 	}
 
 	private void updatePopularity() {
-		changePopularity(fearFactor + foodRate + taxRate + religionRate);
+		changePopularity(fearFactor + foodRate + taxRate + religionRate);	// TODO: replace with influences
 	}
 
 	public int getGold() {
@@ -135,8 +135,8 @@ public class Government {
 			return;
 		if (getResourceCount(ResourceType.WINE) == 0)
 			return;
-		decreaseResource(ResourceType.WINE, 1);
-		changePopularity(1);
+		if (decreaseResource(ResourceType.WINE, 1) > 0)
+			changePopularity(1);
 	}
 
 	public int getResourceCount(ResourceType resourceType) {
@@ -242,6 +242,7 @@ public class Government {
 		updateBuildings();
 		updatePopulation();
 		updateFood();
+		updateTax();
 	}
 
 	private void updateBuildings() {
@@ -249,6 +250,14 @@ public class Government {
 			if (building instanceof ResourceConverterBuilding)
 				((ResourceConverterBuilding)building).performConversion();
 		}
+	}
+
+	private void updateFood() {
+		// TODO
+	}
+
+	private void updateTax() {
+		// TODO
 	}
 
 	private int getPopulationGrowthRate() {
