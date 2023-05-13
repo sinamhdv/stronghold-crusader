@@ -104,9 +104,13 @@ public class Government {
 		return sum;
 	}
 
+	public int getFoodPopularityInfluence() {
+		return PopularityFormulas.foodRate2Popularity(foodRate) + getFoodVariety() - 1;
+	}
+
 	private void updatePopularity() {
 		changePopularity(
-			PopularityFormulas.foodRate2Popularity(foodRate) +
+			getFoodPopularityInfluence() +
 			PopularityFormulas.taxRate2Popularity(taxRate) +
 			getReligionPopularityInfluence() +
 			fearFactor
