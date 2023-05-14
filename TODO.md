@@ -1,3 +1,4 @@
+## TODO:
 - [X] check special resource converter ground types in drop building in map editor
 - [X] remove drop wall
 - [ ] find workers for a newly created building
@@ -6,18 +7,21 @@
 - [X] ensure a player doesn't build a new keep during the game
 - [X] drop unit on defensive structures
 - [X] generate lord
-- [ ] add POPULATION to ResourceType and resource management functions in government
+- [X] add POPULATION to ResourceType and resource management functions in government
 - [ ] handle assassin visibility in map menu
-- [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
+- [X] check and decrease peasants (non-worker people) when creating troops
 - [ ] the impact of fear factor on troops damage
-- [ ] killing pits shouldn't be destroyed and they shouldn't be seen in map menu by enemies
+- [ ] killing pits shouldn't be destroyed
+- [ ] killing pits shouldn't be seen in map menu by enemies
 
-- [ ] check popularity/resources/workers logic
-- [ ] check market/trade/repair
+## Test:
+- [ ] test popularity/resources/workers logic
+- [ ] test market/trade/repair
 - [X] game ending condition
 - [ ] capturing gates
 - [X] draw bridge
 
+## Commands:
 - [X] next turn
 - [X] select building
 - [X] create unit
@@ -37,6 +41,7 @@
 - [ ] fill moat
 - [ ] open dogs cage
 
+## Rare Cases:
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
 - [ ] usage of cows in tanner workshops
 - [ ] storing untransported rock in the main stockpiles

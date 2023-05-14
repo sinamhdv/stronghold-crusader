@@ -315,6 +315,21 @@ public class Person implements Serializable {
 		action = PersonAction.ATTACK;
 	}
 
+	private void printAttackMessage(Object target) {
+		String message = "Attack: " + name + "(" + ownerIndex + ") >>> ";
+		if (target instanceof Person) {
+			Person person = (Person) target;
+			message += person.getName() + "(" + person.getOwnerIndex() + ")[";
+			message += (person.getHp() + getDamage()) + " -> " + person.getHp() + "]";
+		}
+		else if (target instanceof Building) {
+			Building building = (Building) target;
+			message += building.getName() + "(" + building.getOwnerIndex() + ")[";
+			message += (building.getHp() + getDamage()) + " -> " + building.getHp() + "]";
+		}
+		System.out.println(message);
+	}
+
 	private void attackTargetObject(Object target) {
 		if (Miscellaneous.RANDOM_GENERATOR.nextInt(1, 101) > attackSuccessProbability)
 			return;
@@ -322,6 +337,7 @@ public class Person implements Serializable {
 			((Person)target).hurt(getDamage());
 		else if (target instanceof Building)
 			((Building)target).hurt(getDamage());
+		printAttackMessage(target);	// TODO: remove this?
 	}
 
 	private Object selectTargetObject() {
