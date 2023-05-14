@@ -274,7 +274,6 @@ public class Government {
 	}
 
 	private void updateWorkers() {
-
 		if (getWorkersCount() > getPopulation()) {	// disable some buildings
 			int initialDifference = getWorkersCount() - getPopulation();
 			for (Building building : buildings) {

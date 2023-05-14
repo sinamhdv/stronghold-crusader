@@ -83,7 +83,7 @@ public class GameMenu {
 			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
 				runSetStance(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
-				runNextTurn();
+				if (runNextTurn()) return;
 			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
@@ -196,14 +196,16 @@ public class GameMenu {
 				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
-	private static void runNextTurn() {
+	private static boolean runNextTurn() {
 		GameMenuMessage message = GameMenuController.nextTurn();
 		System.out.println(message.getErrorString());
-		if (message != GameMenuMessage.SUCCESS) return;
+		if (message == GameMenuMessage.END_GAME) return true;
+		else if (message != GameMenuMessage.SUCCESS) return false;
 		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.CYAN);
 		System.out.print("======[Player #" + game.getCurrentPlayerIndex() + "]======");
 		TerminalColor.resetColor();
 		System.out.println();
+		return false;
 	}
 
 	private static void showSelectedUnits() {

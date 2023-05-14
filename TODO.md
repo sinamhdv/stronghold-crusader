@@ -12,8 +12,9 @@
 - [ ] the impact of fear factor on troops damage
 - [ ] killing pits shouldn't be destroyed and they shouldn't be seen in map menu by enemies
 
+- [ ] check popularity/resources/workers logic
 - [ ] check market/trade/repair
-- [ ] game ending condition
+- [X] game ending condition
 - [ ] capturing gates
 - [X] draw bridge
 

@@ -25,7 +25,7 @@ import stronghold.view.GameMenu;
 
 public class GameMenuController {
 	private static Game game;
-	static final int repairErrorEnemyRadius = 5;
+	private static final int REPAIR_ERROR_RADUIS = 5;
 
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
@@ -220,7 +220,9 @@ public class GameMenuController {
 			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
 		if (checkGameEnding()) return GameMenuMessage.END_GAME;
-		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
+		do {
+			game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
+		} while (game.getCurrentPlayer().hasLost());
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -312,23 +314,23 @@ public class GameMenuController {
 	}
 
 	public static GameMenuMessage repair() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		Game currentGame = StrongHold.getCurrentGame();
-		Building building = currentGame.getSelectedBuilding();
+		Government currentPlayer = game.getCurrentPlayer();
+		Building building = game.getSelectedBuilding();
 
 		if (building == null)
 			return GameMenuMessage.THERE_IS_NO_SELECTED_BUILDING;
 		else if (building instanceof DefensiveStructure) {
-			int lengthOfX = building.getX() + building.getHeight() - 1;
-			int lengthOfY = building.getY() + building.getWidth() - 1;
-			for (int i = lengthOfX; i <= lengthOfX + repairErrorEnemyRadius; i++) {
-				for (int j = lengthOfY; j <= lengthOfY + repairErrorEnemyRadius; j++) {
-					ArrayList<Person> peopleArrayList = new ArrayList<>(
-							currentGame.getMap().getGrid()[i][j].getPeople());
-					for (Person person : peopleArrayList) {
-						if (person.getOwner() != currentPlayer)
+			int x1 = building.getX() - REPAIR_ERROR_RADUIS;
+			int x2 = building.getX() + building.getHeight() + REPAIR_ERROR_RADUIS;
+			int y1 = building.getY() - REPAIR_ERROR_RADUIS;
+			int y2 = building.getY() + building.getWidth() + REPAIR_ERROR_RADUIS;
+			for (int i = x1; i <= x2; i++) {
+				for (int j = y1; j <= y2; j++) {
+					if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), i, j)) continue;
+					ArrayList<Person> people = game.getMap().getGrid()[i][j].getPeople();
+					for (Person person : people)
+						if (person.getOwnerIndex() != building.getOwnerIndex())
 							return GameMenuMessage.THERE_ARE_ENEMY_SOLDIERS;
-					}
 				}
 			}
 			if (!hasEnoughResourcesForObject(building.getName(), currentPlayer, building.getMaxHp() - building.getHp(),
