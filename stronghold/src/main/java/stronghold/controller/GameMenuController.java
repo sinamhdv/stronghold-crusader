@@ -215,8 +215,8 @@ public class GameMenuController {
 		handleTroopNextTurnUpdate();
 		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
 			// actions that must be done after a full turn
-			game.updateGovernments();
 			handleTroopFullTurnUpdate();
+			game.updateGovernments();
 			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
 		if (checkGameEnding()) return GameMenuMessage.END_GAME;

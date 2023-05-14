@@ -270,6 +270,26 @@ public class Government {
 		updatePopulation();
 		updateFood();
 		updateTax();
+		updateWorkers();
+	}
+
+	private void updateWorkers() {
+
+		if (getWorkersCount() > getPopulation()) {	// disable some buildings
+			int initialDifference = getWorkersCount() - getPopulation();
+			for (Building building : buildings) {
+				if (building.hasWorkers() && building.getNeededWorkers() > 0) {
+					initialDifference -= building.getNeededWorkers();
+					building.setHasWorkers(false);
+					if (initialDifference <= 0) break;
+				}
+			}
+		}
+		else {	// enable buildings if possible
+			for (Building building : buildings)
+				if (!building.hasWorkers() && getPopulation() - getWorkersCount() >= building.getNeededWorkers())
+					building.setHasWorkers(true);
+		}
 	}
 
 	private void updateBuildings() {
