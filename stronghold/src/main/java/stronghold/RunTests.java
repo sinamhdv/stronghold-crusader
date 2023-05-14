@@ -12,10 +12,10 @@ import stronghold.view.parser.CommandParser;
 
 public class RunTests {
 	public static void run() {
-		
+
 	}
 
-	public static void testTerminal2DPrinter() {
+	static void testTerminal2DPrinter() {
 		Terminal2DPrinter printer = new Terminal2DPrinter();
 		int width = 10;
 		int height = 5;
@@ -33,7 +33,7 @@ public class RunTests {
 		printer.printOutput();
 	}
 
-	public static void testDB() {
+	static void testDB() {
 		System.out.println(StrongHold.getUsers());
 		User user = new User("sina", "pwd", "\\mmd\"", "haha", "abcd@exmaple.com", 10, 1, "hello");
 		StrongHold.addUser(user);
@@ -44,7 +44,7 @@ public class RunTests {
 		System.out.println(user.getNickName());
 	}
 
-	public static void testParser() {
+	static void testParser() {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			String line = scanner.nextLine();

@@ -73,7 +73,7 @@ public class Pathfinding {
 		cellsX.add(x);
 		cellsY.add(y);
 		while (x != agent.getX() || y != agent.getY()) {
-			int[] parent = getParent(x, y, distance);
+			int[] parent = getParent(x, y, distance, agent);
 			x = parent[0];
 			y = parent[1];
 			cellsX.add(x);
@@ -90,12 +90,15 @@ public class Pathfinding {
 		return new Path(agent, new int[] {agent.getDestX(), agent.getDestY()}, cells);
 	}
 
-	private static int[] getParent(int x, int y, int[][] distance) {
+	private static int[] getParent(int x, int y, int[][] distance, Person agent) {
 		for (int[] delta : neighbors) {
 			int ux = x + delta[0];
 			int uy = y + delta[1];
 			if (ux < 0 || uy < 0 || ux >= distance.length || uy >= distance[0].length) continue;
-			if (distance[ux][uy] == distance[x][y] - 1) return new int[] {ux, uy};
+			if (distance[ux][uy] == distance[x][y] - 1 && canPassEdge(agent,
+				StrongHold.getCurrentGame().getMap().getGrid()[ux][uy],
+				StrongHold.getCurrentGame().getMap().getGrid()[x][y]))
+				return new int[] {ux, uy};
 		}
 		return null;
 	}

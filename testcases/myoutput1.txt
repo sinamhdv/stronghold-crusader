@@ -37,6 +37,8 @@ Success!
 Success!
 Success!
 Success!
+Success!
+Success!
 ======[Map Management Menu]======
 ======[Main Menu]======
 Exitting...

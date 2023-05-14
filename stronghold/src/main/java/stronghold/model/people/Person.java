@@ -246,7 +246,7 @@ public class Person implements Serializable {
 	public void moveTowardsDestination() {
 		Path path = Pathfinding.findPath(this);
 
-		System.out.print("DBG: PATH(" + name + "):");
+		System.out.print("DBG: PATH(" + name + "): ");
 		for (int[] cell : path.getCells())
 			System.out.print("(" + cell[0] + ", " + cell[1] + ") -> ");
 		System.out.println();
@@ -388,7 +388,8 @@ public class Person implements Serializable {
 		if (canAttackBuildings) {
 			if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
 				(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs()) &&
-				(cellX != x || cellY != y)) {
+				StrongHold.getCurrentGame().getMap().getGrid()[x][y].getHeight() == 0 &&
+				action == PersonAction.ATTACK) {
 				return tile.getBuilding();
 			}
 		}

@@ -3,7 +3,7 @@ delete map -n map1
 new map -n map1 -g 3 -w 100 -h 100
 edit map -n map1
 drop building -x 1 -y 1 -t keep
-drop unit -x 4 -y 4 -t swordsman -c 1
+drop unit -x 7 -y 13 -t swordsman -c 1
 select government -g 1
 drop building -x 1 -y 5 -t keep
 select government -g 2
@@ -32,6 +32,8 @@ drop building -t "low wall" -x 9 -y 7
 drop building -t "low wall" -x 9 -y 8
 drop building -t "low wall" -x 9 -y 9
 drop building -t "low wall" -x 9 -y 10
+drop building -t "stairs" -x 8 -y 12
+drop unit -x 9 -y 9 -t assassin -c 2
 back
 back
 exit

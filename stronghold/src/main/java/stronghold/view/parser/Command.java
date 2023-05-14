@@ -76,7 +76,7 @@ public enum Command {
 	FILL_MOAT("fill moat [-d,direction]"),
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-e,equipment]"),
 	DISBAND("disband"),
-	NEXT_TURN("next turn"),
+	NEXT_TURN("next"),
 	OPEN_GATE("open gate"),
 	CLOSE_GATE("close gate"),
 
