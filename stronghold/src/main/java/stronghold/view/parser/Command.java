@@ -9,6 +9,8 @@ public enum Command {
 	PROFILE_MENU("profile menu"),
 	MAP_MENU("map menu"),
 	MAP_MANAGEMENT_MENU("map management"),
+	MARKET_MENU("market menu"),
+	TRADE_MENU("trade menu"),
 
 	// Signup Menu
 	SIGNUP("signup [-u,username] [-p,password] [-c,passwordConfirm]? [-e,email] [-n,nickname] [-s,slogan]?"),

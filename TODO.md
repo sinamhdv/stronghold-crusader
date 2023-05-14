@@ -21,7 +21,7 @@
 - [X] next turn
 - [X] select building
 - [X] create unit
-- [ ] repair
+- [X] repair
 - [X] select unit
 - [X] move unit
 - [X] patrol

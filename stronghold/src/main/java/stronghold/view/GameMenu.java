@@ -92,6 +92,10 @@ public class GameMenu {
 				runDigMoat(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
 				MapMenu.run(game.getMap());
+			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
+				MarketMenu.run();
+			else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
+				TradeMenu.run();
 			else
 				System.out.println("Error: Invalid command");
 		}
