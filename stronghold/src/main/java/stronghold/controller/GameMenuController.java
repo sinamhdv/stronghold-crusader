@@ -1,7 +1,6 @@
 package stronghold.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import stronghold.controller.messages.GameMenuMessage;
@@ -26,6 +25,7 @@ import stronghold.view.GameMenu;
 public class GameMenuController {
 	private static Game game;
 	private static final int REPAIR_ERROR_RADUIS = 5;
+	public static final int MAX_TUNNEL_DISTANCE = 8;
 
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
@@ -157,8 +157,6 @@ public class GameMenuController {
 			return GameMenuMessage.NOT_ENOUGH_ENGINEERS;
 		for (Person person : people)
 			person.die();
-		// TODO: create a siege tent
-		// TODO: create the siege equipment after 3 turns
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -358,23 +356,17 @@ public class GameMenuController {
 			return GameMenuMessage.CANT_REPAIR;
 	}
 
-	public static Government getWinnerGovernment() {
-		ArrayList<Government> players = new ArrayList<>(Arrays.asList(game.getGovernments()));
-		for (Government player : players) {
-			ArrayList<Person> peopleOfGovernment = player.getPeople();
-			boolean isLordDie = true;
-			for(Person person : peopleOfGovernment) {
-				if (person.getType() == PersonType.LORD) {
-					isLordDie = false;
-					break;
-				}
+	public static GameMenuMessage digTunnel() {
+		ArrayList<Person> peopleClone = new ArrayList<>(game.getSelectedUnits());
+		boolean tunnelerFound = false;
+		for(Person person: peopleClone) {
+			if(person.getType() == PersonType.TUNNELER) {
+				tunnelerFound = true;
+				person.digTunnel();
 			}
-			if (player.findKeep() == null || isLordDie) 
-				players.remove(player);
 		}
-		if (players.size() == 1)
-			return players.get(0);
-		return null;
+		if (!tunnelerFound)
+			return GameMenuMessage.NO_TUNNELER_SELECTED;
+		return GameMenuMessage.SUCCESS;
 	}
-
 }

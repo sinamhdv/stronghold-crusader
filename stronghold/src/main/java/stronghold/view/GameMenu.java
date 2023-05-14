@@ -11,7 +11,6 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
-import stronghold.model.people.PersonType;
 import stronghold.utils.PopularityFormulas;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
@@ -73,7 +72,7 @@ public class GameMenu {
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
 				showSelectedUnits();
 			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_TUNNEL)) != null)
-				runDigTunnel(matcher);
+				runDigTunnel();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
@@ -246,7 +245,9 @@ public class GameMenu {
 	}
 
 	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
-		System.out.println();
+		System.out.println(GameMenuController.buildSiegeEquipment(
+			matcher.get("equipment")
+		).getErrorString());
 	}
 
 	private static void runSetStance(HashMap<String, String> matcher) {
@@ -292,16 +293,7 @@ public class GameMenu {
 		}
 	}
 
-	private static void runDigTunnel(HashMap<String, String> matcher) {
-		ArrayList<Person> peopleClone = game.getSelectedUnits();
-		Government currentPlayer = game.getCurrentPlayer();
-		for(Person  person: peopleClone){
-			if(person.getOwner() == currentPlayer ){
-				if(person.getType() == PersonType.TUNNELER)
-					System.out.println(person.digTunnel());
-				else
-					System.out.println("This person is not tunneler");
-			}
-		}
+	private static void runDigTunnel() {
+		System.out.println(GameMenuController.digTunnel().getErrorString());
 	}
 }

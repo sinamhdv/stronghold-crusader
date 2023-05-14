@@ -231,6 +231,7 @@ public class Person implements Serializable {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 		tile.getPeople().remove(this);
 		getOwner().getPeople().remove(this);
+		StrongHold.getCurrentGame().getSelectedUnits().remove(this);
 		if (this.type == PersonType.LORD)
 			getOwner().lose();
 	}
@@ -465,17 +466,14 @@ public class Person implements Serializable {
 		return null;
 	}
 
-	public GameMenuMessage digTunnel() {
-		if(getType() != PersonType.TUNNELER)
-			return GameMenuMessage.THIS_UNIT_CANT_DIG_TUNNEL;
-		else if (getFirstDefensiveStructure() == null)
-			return GameMenuMessage.NOTHING_FOUND;
-		else 
-		{
-			getFirstDefensiveStructure().destroy();
+	public boolean digTunnel() {
+		Building building = getFirstDefensiveStructure();
+		if (building == null)
+			return false;
+		else {
+			building.destroy();
 			die();
-			return GameMenuMessage.DIG_TUNNEL_SUCCESSFULLY;
+			return true;
 		}
 	}
-
 }

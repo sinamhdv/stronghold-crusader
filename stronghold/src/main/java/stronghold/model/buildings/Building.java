@@ -132,6 +132,8 @@ public class Building implements Serializable {
 		MapEditorMenuController.setSelectedGovernment(this.ownerIndex);
 		MapEditorMenuController.eraseBuilding(this);
 		getOwner().getBuildings().remove(this);
+		if (StrongHold.getCurrentGame().getSelectedBuilding() == this)
+			StrongHold.getCurrentGame().setSelectedBuilding(null);
 		if ((this instanceof DefensiveStructure) && ((DefensiveStructure)this).getType() == DefensiveStructureType.KEEP)
 			getOwner().lose();
 	}

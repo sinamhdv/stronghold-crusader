@@ -38,6 +38,7 @@ public enum GameMenuMessage {
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
 	INVALID_STANCE("Error: invalid stance name"),
+	NO_TUNNELER_SELECTED("Error: no tunneler was selected"),
 
 	// building commands
 	BAD_SELECTED_BUILDING("Error: please select the proper building for this action"),
