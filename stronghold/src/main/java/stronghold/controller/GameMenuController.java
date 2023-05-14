@@ -1,6 +1,7 @@
 package stronghold.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import stronghold.controller.messages.GameMenuMessage;
@@ -320,4 +321,34 @@ public class GameMenuController {
 	// 		}
 	// 	}
 	// }
+	public static void handelAutomaticFights() {
+		for(int i=0; i<400; i++) {
+			for(int j = 0; j<400; j++) {
+				ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
+				for(Person person : peopleClone){
+					// person.automaticFight(person.getEnemy());
+				}
+			}
+		}
+	}
+
+	public static Government getWinnerGovernment() {
+		ArrayList<Government> players = new ArrayList<>(Arrays.asList(game.getGovernments()));
+		for (Government player : players) {
+			ArrayList<Person> peopleOfGovernment = player.getPeople();
+			boolean isLordDie = true;
+			for(Person person : peopleOfGovernment) {
+				if (person.getType() == PersonType.LORD) {
+					isLordDie = false;
+					break;
+				}
+			}
+			if (player.findKeep() == null || isLordDie) 
+				players.remove(player);
+		}
+		if (players.size() == 1)
+			return players.get(0);
+		return null;
+	}
+
 }
