@@ -302,10 +302,6 @@ public class Person implements Serializable {
 		setAction(PersonAction.IDLE);
 	}
 
-	public void disband() {
-		// TODO
-	}
-
 	public void setAttackTarget(int targetX, int targetY) {
 		if (getDistance(targetX, targetY) <= getAttackRange() * getAttackRange())
 			setDestination(x, y);
@@ -339,7 +335,7 @@ public class Person implements Serializable {
 			((Person)target).hurt(getDamage());
 		else if (target instanceof Building)
 			((Building)target).hurt(getDamage());
-		printAttackMessage(target);	// TODO: remove this?
+		printAttackMessage(target);
 	}
 
 	private Object selectTargetObject() {

@@ -35,7 +35,7 @@ public class Building implements Serializable {
 		this.isSelectable = isSelectable;
 		this.x = x;
 		this.y = y;
-		this.residents = 0;	// TODO: set this to residentsCapacity immediately and forget about gradual population growth?
+		this.residents = 0;
 		this.residentsCapacity = residentsCapacity;
 		this.hasWorkers = false;
 		this.ownerIndex = ownerIndex;

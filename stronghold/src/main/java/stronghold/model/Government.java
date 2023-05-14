@@ -25,7 +25,7 @@ public class Government {
 	private int foodRate = 0;
 	private int taxRate = 0;
 	private int gold = 1000;
-	private int wineUsageCycleTurns = 1;	// TODO: add a command to change this? (probably not necessary)
+	private int wineUsageCycleTurns = 1;
 	private final ArrayList<Person> people = new ArrayList<>();
 	private boolean hasLost = false;
 

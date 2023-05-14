@@ -62,7 +62,6 @@ public class CommandParser {
 			if (forwardSteps == -1) return null;
 			i += forwardSteps;
 		}
-		assert(i == tokens.length);	// TODO: remove this line after sufficient testing
 		if (!checkRequiredArguments(commandTokensMap)) {
 			System.out.println("Parser Error: Please specify all required fields");
 			return null;

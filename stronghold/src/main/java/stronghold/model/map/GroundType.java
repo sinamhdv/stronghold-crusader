@@ -16,7 +16,7 @@ public enum GroundType {
 	SHALLOW_WATER(true, TerminalColor.CYAN, TerminalColor.BLACK, "shallow water"),
 	RIVER(false, TerminalColor.BLUE, TerminalColor.GRAY, "river"),
 	SMALL_POND(false, TerminalColor.BLUE, TerminalColor.GRAY, "small pond"),
-	LARGE_POND(false, TerminalColor.BLUE, TerminalColor.GRAY, "large pond"),	// TODO: handle large pond differently?
+	LARGE_POND(false, TerminalColor.BLUE, TerminalColor.GRAY, "large pond"),
 	COAST(true, TerminalColor.YELLOW, TerminalColor.BLACK, "coast"),
 	SEA(false, TerminalColor.BLUE, TerminalColor.GRAY, "sea"),
 	;

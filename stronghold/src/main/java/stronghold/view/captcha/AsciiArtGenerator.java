@@ -49,7 +49,7 @@ public class AsciiArtGenerator {
 
 	public static String[] genarateCaptcha() {
 		String[] captcha = makingNoise(createCaptchaAsciiArt());
-		// ConvertCaptchaToPng.converter(captcha);	// TODO: use this for phase 2
+		// ConvertCaptchaToPng.converter(captcha);
 		return captcha;
 	}
 }
