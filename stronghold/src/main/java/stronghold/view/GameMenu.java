@@ -80,10 +80,8 @@ public class GameMenu {
 				runNextTurn();
 			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
 				MapMenu.run(game.getMap());
-				System.out.println("======[Game Menu]======");
-			}
 			else
 				System.out.println("Error: Invalid command");
 		}
