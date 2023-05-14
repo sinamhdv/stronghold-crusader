@@ -65,6 +65,7 @@ public enum Command {
 	SHOW_SELECTED_UNITS("show selected units"),
 	MOVE_UNIT("move unit <-x,x> <-y,y>"),
 	PATROL_UNIT("patrol unit <-x,x> <-y,y>"),
+	STOP_UNIT("stop unit"),
 	SET_STANCE("set stance [-s,stanceType]"),
 	ATTACK("attack <-x,x> <-y,y>"),
 	POUR_OIL("pour oil [-d,direction]"),

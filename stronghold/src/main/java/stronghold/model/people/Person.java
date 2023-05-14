@@ -374,20 +374,6 @@ public class Person implements Serializable {
 		return null;
 	}
 
-	// private Object selectTargetFromCell(int cellX, int cellY) {
-	// 	MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cellX][cellY];
-	// 	ArrayList<Object> enemies = new ArrayList<>();
-	// 	if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
-	// 		(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
-	// 		enemies.add(tile.getBuilding());
-	// 	}
-	// 	for (Person person : tile.getPeople())
-	// 		if (person.getOwnerIndex() != ownerIndex)
-	// 			enemies.add(person);
-	// 	if (enemies.isEmpty()) return null;
-	// 	return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
-	// }
-
 	public void searchForEnemies() {
 		if (action != PersonAction.IDLE && action != PersonAction.PATROL) return;
 		if (stance == StanceType.STANDING) return;
@@ -411,57 +397,6 @@ public class Person implements Serializable {
 		return (x - targetX) * (x - targetX) + (y - targetY) * (y - targetY);
 	}
 
-	// public Person getEnemy() {
-	// 	int limit = Math.max(stance.getRadiusOfMovement(), attackRange);
-	// 	Game currentGame = StrongHold.getCurrentGame();
-	// 	int randomNumber = Miscellaneous.RANDOM_GENERATOR.nextInt(1);
-	// 	if(randomNumber == 0) {
-	// 		for(int i = 0; i < limit; i++) {
-	// 			ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-	// 			for(Person person : peopleClon)
-	// 				if(person.getOwner() != getOwner())
-	// 					return person;
-	// 			ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-	// 			for(Person person : people)
-	// 				if(person.getOwner() != getOwner())
-	// 					return person;
-	// 		}
-	// 	}
-	// 	else {
-	// 		for(int i = 0; i < limit; i++) {
-	// 			ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
-	// 			for(Person person : people)
-	// 				if(person.getOwner() != getOwner())
-	// 					return person;
-	// 			ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x+i][y].getPeople());
-	// 			for(Person person : peopleClon)
-	// 				if(person.getOwner() != getOwner())
-	// 					return person;
-	// 		}
-	// 	}
-	// 	return null;
-	// }
-
-	// public GameMenuMessage fightWithDestination(int destX, int destY) {
-	// 	Game currentGame = StrongHold.getCurrentGame();
-	// 	ArrayList<Person> peopleClone = new ArrayList<>(currentGame.getMap().getGrid()[x][y].getPeople());
-	// 	boolean isthereEnemy =  false;
-	// 	for(Person person : peopleClone) {
-	// 		if(person.getOwner() != getOwner()) {
-	// 			isthereEnemy = true;
-	// 			break;
-	// 		}
-	// 	}
-	// 	if(isthereEnemy)
-	// 		return GameMenuMessage.THERE_IS_NO_ENEMY_TO_FIGHT;
-	// 	else if (destX < 0 || destY < 0 || destX > 400 || destY > 400) {
-	// 		return GameMenuMessage.INVALID_DESTINATION;	
-	// 	}
-	// 	else {
-	// 		setDestination(destX, destY);
-	// 		return GameMenuMessage.SUCCESS;
-	// 	}
-	// }
 	public Person getEnemy() {
 		int limit = Math.max(stance.getRadiusOfMovement(), attackRange);
 		Game currentGame = StrongHold.getCurrentGame();
@@ -521,18 +456,18 @@ public class Person implements Serializable {
 		}
 	}
 
-	public GameMenuMessage digMoat(String Direction) {
+	public GameMenuMessage digMoat(String direction) {
 		Game currentGame = StrongHold.getCurrentGame();
 		MapTile mapTile = null;
 		if (!canDigMoats)
 			return GameMenuMessage.THIS_PERSON_CANT_DIG_MOAT;
-		else if (Direction.equals("up"))
+		else if (direction.equals("up"))
 			mapTile = currentGame.getMap().getGrid()[x][y + 1];
-		else if (Direction.equals("down"))
+		else if (direction.equals("down"))
 			mapTile = currentGame.getMap().getGrid()[x][y - 1];
-		else if (Direction.equals("right"))
+		else if (direction.equals("right"))
 			mapTile = currentGame.getMap().getGrid()[x + 1][y];
-		else if (Direction.equals("left"))
+		else if (direction.equals("left"))
 			mapTile = currentGame.getMap().getGrid()[x - 1][y];
 		else
 			return GameMenuMessage.INVALID_DESTINATION;

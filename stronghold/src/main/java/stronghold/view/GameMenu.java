@@ -76,6 +76,8 @@ public class GameMenu {
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
 				runPatrolUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
+				runStopUnit();
 			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
 				runAttack(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
@@ -246,6 +248,10 @@ public class GameMenu {
 				Integer.parseInt(matcher.get("x")),
 				Integer.parseInt(matcher.get("y"))
 		).getErrorString());
+	}
+
+	private static void runStopUnit() {
+		System.out.println(GameMenuController.stopUnit().getErrorString());
 	}
 
 	private static void runDigMoat(HashMap<String, String> matcher) {

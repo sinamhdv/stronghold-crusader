@@ -186,6 +186,14 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage stopUnit() {
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
+		return GameMenuMessage.SUCCESS;
+	}
+
 	public static GameMenuMessage patrolUnit(int x, int y) {
 		for (Person unit : game.getSelectedUnits())
 			unit.stop();
