@@ -13,8 +13,7 @@ public class Game {
 	private int passedTurns = 0;
 	private final ArrayList<Person> selectedUnits = new ArrayList<>();
 	private Building selectedBuilding = null;
-	private static ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
-	private static ArrayList<TradeRequest> allTradeAccepts = new ArrayList<>();
+	private ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
 
 	public Game(Map map, User[] players) {
 		this.map = map;
@@ -70,32 +69,19 @@ public class Game {
 		return governments[currentPlayerIndex];
 	}
 
-	public ArrayList<TradeRequest> getAllTrads() {
+	public ArrayList<TradeRequest> getAllTrades() {
 		return allTradeRequests;
 	}
 
-	public TradeRequest getTradeById(String id) {
-		for (TradeRequest trade : allTradeRequests) {
-			if (trade.getId().equals(id))
+	public TradeRequest getTradeById(int id) {
+		for (TradeRequest trade : allTradeRequests)
+			if (trade.getId() == id)
 				return trade;
-		}
 		return null;
 	}
 
 	public void addTrade(TradeRequest trade) {
 		allTradeRequests.add(trade);
-	}
-
-	public void removeTradeRequest(TradeRequest trade) {
-		allTradeRequests.remove(trade);
-	}
-
-	public void addTradeAccept (TradeRequest tradeAccept) {
-		allTradeAccepts.add(tradeAccept);
-	}
-
-	public ArrayList<TradeRequest> getAllTradeAccepts() {
-		return allTradeAccepts;
 	}
 
 	public void updateGovernments() {

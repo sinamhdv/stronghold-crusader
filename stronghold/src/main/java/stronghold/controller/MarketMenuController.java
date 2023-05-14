@@ -35,7 +35,7 @@ public class MarketMenuController {
 	private static MarketMenuMessage getBuyItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getResourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (ResourceType.getResourceByName(itemName) == null)
+		if (resource == null || !resource.isTradable())
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;
@@ -50,7 +50,7 @@ public class MarketMenuController {
 	private static MarketMenuMessage getSellItemErrores(String itemName, int amount) {
 		ResourceType resource = ResourceType.getResourceByName(itemName);
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (ResourceType.getResourceByName(itemName) == null)
+		if (resource == null || !resource.isTradable())
 			return MarketMenuMessage.WRONG_ITEM;
 		else if (amount <= 0)
 			return MarketMenuMessage.INVALID_AMOUNT;

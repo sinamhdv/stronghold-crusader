@@ -1,20 +1,27 @@
 package stronghold.model;
 
 public class TradeRequest {
-	private String resourceName;
-	private int amount;
-	private int price;
-	private String message;
-	private String id;
-	private Government requestBy;
-	private Government acceptBy;
-	public TradeRequest(Government requestBy, Government acceptBy, String resourceName, int amount, int price, String message, String id) {
-		this.resourceName = resourceName;
+	private static int lastTradeId = 0;
+
+	private final ResourceType resourceType;
+	private final int amount;
+	private final int price;
+	private final String message;
+	private final int id;
+	private final int senderIndex;
+	private final int receiverIndex;
+
+	private boolean isAccepted = false;
+	private boolean isSeen = false;
+
+	public TradeRequest(int senderIndex, int receiverIndex, ResourceType resourceType, int amount, int price, String message) {
+		this.resourceType = resourceType;
 		this.amount = amount;
 		this.price = price;
 		this.message = message;
-		this.requestBy = requestBy;
-		this.acceptBy = acceptBy;
+		this.senderIndex = senderIndex;
+		this.receiverIndex = receiverIndex;
+		this.id = ++lastTradeId;
 	}
 
 	public int getAmount() {
@@ -28,28 +35,44 @@ public class TradeRequest {
 	public String getMessage() {
 		return message;
 	}
-
-	public ResourceType getResource() {
-		return ResourceType.getResourceByName(resourceName);
-	}
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public Government getRequestBy() {
-		return requestBy;
+	public int getReceiverIndex() {
+		return receiverIndex;
 	}
 
-	public Government getAcceptBy() {
-		return acceptBy;
+	public ResourceType getResourceType() {
+		return resourceType;
 	}
 
-	public String getResourceName() {
-		return resourceName;
+	public int getSenderIndex() {
+		return senderIndex;
 	}
 
-	public void setAcceptBy(Government acceptBy) {
-		this.acceptBy = acceptBy;
+	public boolean isAccepted() {
+		return isAccepted;
+	}
+
+	public boolean isSeen() {
+		return isSeen;
+	}
+
+	public void setAccepted(boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
+	public void setSeen(boolean isSeen) {
+		this.isSeen = isSeen;
+	}
+
+	@Override
+	public String toString() {
+		String result = id + ") [" + senderIndex + " -> " + receiverIndex + "]: ";
+		result += "resource=" + resourceType.getName() + ", amount=" + amount + ", price=" + price;
+		result += "status=" + (isAccepted ? "ACCEPTED" : "PENDING") + ", message=" + message;
+		return result;
 	}
 }

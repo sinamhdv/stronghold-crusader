@@ -40,6 +40,7 @@ public class MarketMenu {
 		Government currnetPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		System.out.println("ITEM\t\t\tBUYPRICE\t\tSELLPRICE\t\tYOURASSET");
 		for (ResourceType resource : ResourceType.values()) {
+			if (!resource.isTradable()) continue;
 			int asset = currnetPlayer.getResourceCount(resource);
 			System.out.println(resource.getName() + "\t\t\t" + resource.getBuyPrice() + "\t\t" + resource.getSellprice()
 					+ "\t\t" + asset);
