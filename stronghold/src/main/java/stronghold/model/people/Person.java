@@ -290,6 +290,9 @@ public class Person implements Serializable {
 	public String toString() {
 		String result = name + "(" + ownerIndex + ") (hp=" + hp + ", stance=" + stance +
 				") @ (" + x + ", " + y + ") -> (" + destX + ", " + destY + ")";
+		result += " action=" + action;
+		if (action == PersonAction.ATTACK) result += "(" + attackTargetX + ", " + attackTargetY + ")";
+		else if (action == PersonAction.PATROL) result += "(" + patrolX + ", " + patrolY + ")";
 		return result;
 	}
 
