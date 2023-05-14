@@ -82,8 +82,8 @@ public class MapMenuController {
 			return paintTileString(new String[] {"  ", "  "}, TerminalColor.RESET, TerminalColor.RESET);
 		MapTile tile = map[x][y];
 		String result = "";
-		if (tile.getBuilding() != null) result += (tile.getBuilding() instanceof DefensiveStructure ? "W" : "B");
-		if (!tile.getPeople().isEmpty()) result += "S";
+		if (tile.getBuilding() != null && tile.getBuilding().isVisible()) result += (tile.getBuilding() instanceof DefensiveStructure ? "W" : "B");
+		if (tile.hasVisiblePeople()) result += "S";
 		if (tile.getEnvironmentItem() instanceof Tree) result += "T";
 		else if (tile.getEnvironmentItem() instanceof Rock) result += "R";
 		while (result.length() < 4) result += "#";

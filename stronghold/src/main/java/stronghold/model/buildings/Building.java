@@ -144,4 +144,8 @@ public class Building implements Serializable {
 		}
 		return false;
 	}
+
+	public boolean isVisible() {
+		return !(this instanceof Trap) || ((Trap)this).hasDogs();
+	}
 }

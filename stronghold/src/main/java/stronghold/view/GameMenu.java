@@ -84,9 +84,9 @@ public class GameMenu {
 				runAttack(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
 				runSetStance(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
+			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
 				if (runNextTurn()) return;
-			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
 				runDigMoat(matcher);

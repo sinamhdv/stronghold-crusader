@@ -246,7 +246,7 @@ public class Person implements Serializable {
 	public void moveTowardsDestination() {
 		Path path = Pathfinding.findPath(this);
 
-		System.out.println("DBG: the found path for " + name + ":");
+		System.out.print("DBG: PATH(" + name + "):");
 		for (int[] cell : path.getCells())
 			System.out.print("(" + cell[0] + ", " + cell[1] + ") -> ");
 		System.out.println();
@@ -316,7 +316,8 @@ public class Person implements Serializable {
 	}
 
 	private void printAttackMessage(Object target) {
-		String message = "Attack: " + name + "(" + ownerIndex + ") >>> ";
+		if (target == null) return;
+		String message = "DBG: ATTACK: " + name + "(" + ownerIndex + ") >>> ";
 		if (target instanceof Person) {
 			Person person = (Person) target;
 			message += person.getName() + "(" + person.getOwnerIndex() + ")[";
@@ -386,7 +387,8 @@ public class Person implements Serializable {
 		}
 		if (canAttackBuildings) {
 			if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
-				(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
+				(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs()) &&
+				(cellX != x || cellY != y)) {
 				return tile.getBuilding();
 			}
 		}
@@ -404,6 +406,21 @@ public class Person implements Serializable {
 
 	public int getDistance(int targetX, int targetY) {
 		return (x - targetX) * (x - targetX) + (y - targetY) * (y - targetY);
+	}
+
+	public boolean isVisible() {
+		Game game = StrongHold.getCurrentGame();
+		if (game == null) return true;
+		if (type != PersonType.ASSASSIN || ownerIndex == game.getCurrentPlayerIndex()) return true;
+		for (int i = x - getVisibilityRange(); i <= x + getVisibilityRange(); i++) {
+			for (int j = y - getVisibilityRange(); j <= y + getVisibilityRange(); j++) {
+				if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), i, j)) continue;
+				for (Person person : game.getMap().getGrid()[i][j].getPeople())
+					if (person.getOwnerIndex() == game.getCurrentPlayerIndex())
+						return true;
+			}
+		}
+		return false;
 	}
 
 	public GameMenuMessage digMoat(String direction) {
