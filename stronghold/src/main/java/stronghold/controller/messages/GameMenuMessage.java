@@ -45,6 +45,11 @@ public enum GameMenuMessage {
 	INVALID_EQUIPMENT_NAME("Error: Invalid equipment name"),
 	BAD_UNITS_PRESENT("Error: non-enginner or enemy units are present in the selected cell"),
 	NOT_ENOUGH_ENGINEERS("Error: not enough engineers"),
+
+	// dig tunnel
+	THIS_UNIT_CANT_DIG_TUNNEL("Erorr: this unit can't dig tunnel"),
+	NOTHING_FOUND("Erorr: nothing found"),
+	DIG_TUNNEL_SUCCESSFULLY("Dig tunnel successfully"),
 	;
 
 	private final String errorString;

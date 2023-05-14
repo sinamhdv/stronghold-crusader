@@ -383,4 +383,17 @@ public class Person implements Serializable {
 		return null;
 	}
 
+	public GameMenuMessage digTunnel() {
+		if(getType() != PersonType.TUNNELER)
+			return GameMenuMessage.THIS_UNIT_CANT_DIG_TUNNEL;
+		else if (getFirstDefensiveStructure() == null)
+			return GameMenuMessage.NOTHING_FOUND;
+		else 
+		{
+			getFirstDefensiveStructure().destroy();
+			die();
+			return GameMenuMessage.DIG_TUNNEL_SUCCESSFULLY;
+		}
+	}
+
 }
