@@ -200,30 +200,29 @@ public class GameMenuController {
 		Pathfinding.clearCache();
 		game.setSelectedBuilding(null);
 		game.clearSelectedUnits();
-		handleTroopMovements();
+		handleTroopNextTurnUpdate();
 		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
 			// actions that must be done after a full turn
-			game.setPassedTurns(game.getPassedTurns() + 1);
 			game.updateGovernments();
-			handleFights();
-			handleDeaths();
+			handleTroopFullTurnUpdate();
+			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
 		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
 		return GameMenuMessage.SUCCESS;
 	}
 
-	private static void handleTroopMovements() {
+	private static void handleTroopNextTurnUpdate() {
 		ArrayList<Person> peopleClone = new ArrayList<>(game.getCurrentPlayer().getPeople());
 		for (Person person : peopleClone)
-			person.moveTowardsDestination();
+			person.nextTurnUpdate();
 	}
 
-	private static void handleFights() {
-		apijfdijf
-	}
-
-	private static void handleDeaths() {
-		psdjfpsijdf
+	private static void handleTroopFullTurnUpdate() {
+		ArrayList<Person> allPeople = new ArrayList<>();
+		for (int i = 0; i < game.getGovernments().length; i++)
+			allPeople.addAll(game.getGovernments()[i].getPeople());
+		for (Person person : allPeople)
+			person.fullTurnUpdate();
 	}
 
 	public static GameMenuMessage setStance(String stanceName) {
@@ -306,15 +305,14 @@ public class GameMenuController {
 			return GameMenuMessage.CANT_REPAIR;
 	}
 
-	public static void handelAutomaticFights() {
-		for(int i=0; i<400; i++) {
-			for(int j = 0; j<400; j++) {
-				ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
-				for(Person person : peopleClone){
-					person.automaticFight(person.getEnemy());
-				}
-			}
-		}
-	}
-
+	// public static void handelAutomaticFights() {
+	// 	for(int i=0; i<400; i++) {
+	// 		for(int j = 0; j<400; j++) {
+	// 			ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
+	// 			for(Person person : peopleClone){
+	// 				person.automaticFight(person.getEnemy());
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
