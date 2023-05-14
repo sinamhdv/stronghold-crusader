@@ -27,6 +27,7 @@ public class Government {
 	private int gold = 1000;
 	private int wineUsageCycleTurns = 1;	// TODO: add a command to change this? (probably not necessary)
 	private final ArrayList<Person> people = new ArrayList<>();
+	private boolean hasLost = false;
 
 	public Government(User user, int index, Map map) {
 		this.user = user;
@@ -90,6 +91,10 @@ public class Government {
 		return people;
 	}
 
+	public boolean hasLost() {
+		return hasLost;
+	}
+
 	private void changePopularity(int delta) {
 		popularity += delta;
 		if (popularity > MAX_POPULARITY) popularity = MAX_POPULARITY;
@@ -138,6 +143,14 @@ public class Government {
 	}
 	public void addPerson(Person person) {
 		people.add(person);
+	}
+
+	public void lose() {
+		ArrayList<Person> peopleClone = new ArrayList<>(people);
+		ArrayList<Building> buildingsClone = new ArrayList<>(buildings);
+		for (Person person : peopleClone) person.die();
+		for (Building building : buildingsClone) building.destroy();
+		hasLost = true;
 	}
 
 	private void useWine() {
@@ -257,6 +270,25 @@ public class Government {
 		updatePopulation();
 		updateFood();
 		updateTax();
+		updateWorkers();
+	}
+
+	private void updateWorkers() {
+		if (getWorkersCount() > getPopulation()) {	// disable some buildings
+			int initialDifference = getWorkersCount() - getPopulation();
+			for (Building building : buildings) {
+				if (building.hasWorkers() && building.getNeededWorkers() > 0) {
+					initialDifference -= building.getNeededWorkers();
+					building.setHasWorkers(false);
+					if (initialDifference <= 0) break;
+				}
+			}
+		}
+		else {	// enable buildings if possible
+			for (Building building : buildings)
+				if (!building.hasWorkers() && getPopulation() - getWorkersCount() >= building.getNeededWorkers())
+					building.setHasWorkers(true);
+		}
 	}
 
 	private void updateBuildings() {

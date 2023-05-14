@@ -10,6 +10,7 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.User;
 import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
@@ -24,7 +25,7 @@ import stronghold.view.GameMenu;
 
 public class GameMenuController {
 	private static Game game;
-	static final int repairErrorEnemyRadius = 5;
+	private static final int REPAIR_ERROR_RADUIS = 5;
 
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
@@ -169,26 +170,34 @@ public class GameMenuController {
 		units = Miscellaneous.getPeopleByOwner(units, game.getCurrentPlayerIndex());
 		for (Person person : units)
 			game.addSelectedUnit(person);
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
 		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage moveUnit(int x, int y) {
-		for (Person unit : game.getSelectedUnits()) {
-			unit.setDestination(unit.getX(), unit.getY());
-			unit.setPatrolMode(false);
-		}
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
 		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
 			return GameMenuMessage.INVALID_COORDINATES;
 		if (game.getSelectedUnits().isEmpty())
 			return GameMenuMessage.NO_UNIT_SELECTED;
 		for (Person unit : game.getSelectedUnits())
-			unit.setDestination(x, y);
+			unit.setMoveDestination(x, y);
+		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage stopUnit() {
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
 		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage patrolUnit(int x, int y) {
 		for (Person unit : game.getSelectedUnits())
-			unit.setPatrolMode(false);
+			unit.stop();
 		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
 			return GameMenuMessage.INVALID_COORDINATES;
 		if (game.getSelectedUnits().isEmpty())
@@ -203,30 +212,80 @@ public class GameMenuController {
 		Pathfinding.clearCache();
 		game.setSelectedBuilding(null);
 		game.clearSelectedUnits();
-		handleTroopMovements();
+		handleTroopNextTurnUpdate();
 		if (game.getCurrentPlayerIndex() == game.getMap().getGovernmentsCount() - 1) {
 			// actions that must be done after a full turn
-			game.setPassedTurns(game.getPassedTurns() + 1);
+			handleTroopFullTurnUpdate();
 			game.updateGovernments();
+			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
-		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
+		if (checkGameEnding()) return GameMenuMessage.END_GAME;
+		do {
+			game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
+		} while (game.getCurrentPlayer().hasLost());
 		return GameMenuMessage.SUCCESS;
 	}
 
-	private static void handleTroopMovements() {
+	private static boolean checkGameEnding() {
+		int lostCount = 0;
+		Government winner = null;
+		for (Government government : game.getGovernments()) {
+			if (government.hasLost())
+				lostCount++;
+			else
+				winner = government;
+		}
+		if (lostCount >= game.getGovernments().length - 1) {
+			handleWinner(winner);
+			return true;
+		}
+		return false;
+	}
+
+	private static void handleWinner(Government winner) {
+		GameMenu.showWinner(winner);
+		if (winner == null) return;
+		User user = winner.getUser();
+		user.setHighScore(user.getHighScore() + game.getGovernments().length - 1);
+	}
+
+	private static void handleTroopNextTurnUpdate() {
 		ArrayList<Person> peopleClone = new ArrayList<>(game.getCurrentPlayer().getPeople());
 		for (Person person : peopleClone)
-			person.moveTowardsDestination();
+			person.nextTurnUpdate();
+	}
+
+	private static void handleTroopFullTurnUpdate() {
+		ArrayList<Person> allPeople = new ArrayList<>();
+		for (int i = 0; i < game.getGovernments().length; i++)
+			allPeople.addAll(game.getGovernments()[i].getPeople());
+		for (Person person : allPeople)
+			person.fullTurnUpdate();
 	}
 
 	public static GameMenuMessage setStance(String stanceName) {
-		StanceType stance = StanceType.valueOf(stanceName);
-		if (stance == null)
+		StanceType stance;
+		try {
+			stance = StanceType.valueOf(stanceName);
+		} catch (IllegalArgumentException ex) {
 			return GameMenuMessage.INVALID_STANCE;
+		}
 		if (game.getSelectedUnits().isEmpty())
 			return GameMenuMessage.NO_UNIT_SELECTED;
 		for (Person person : game.getSelectedUnits())
 			person.setStance(stance);
+		return GameMenuMessage.SUCCESS;
+	}
+
+	public static GameMenuMessage attack(int targetX, int targetY) {
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
+		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), targetX, targetY))
+			return GameMenuMessage.INVALID_COORDINATES;
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		for (Person person : game.getSelectedUnits())
+			person.setAttackTarget(targetX, targetY);
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -255,23 +314,23 @@ public class GameMenuController {
 	}
 
 	public static GameMenuMessage repair() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		Game currentGame = StrongHold.getCurrentGame();
-		Building building = currentGame.getSelectedBuilding();
+		Government currentPlayer = game.getCurrentPlayer();
+		Building building = game.getSelectedBuilding();
 
 		if (building == null)
 			return GameMenuMessage.THERE_IS_NO_SELECTED_BUILDING;
 		else if (building instanceof DefensiveStructure) {
-			int lengthOfX = building.getX() + building.getHeight() - 1;
-			int lengthOfY = building.getY() + building.getWidth() - 1;
-			for (int i = lengthOfX; i <= lengthOfX + repairErrorEnemyRadius; i++) {
-				for (int j = lengthOfY; j <= lengthOfY + repairErrorEnemyRadius; j++) {
-					ArrayList<Person> peopleArrayList = new ArrayList<>(
-							currentGame.getMap().getGrid()[i][j].getPeople());
-					for (Person person : peopleArrayList) {
-						if (person.getOwner() != currentPlayer)
+			int x1 = building.getX() - REPAIR_ERROR_RADUIS;
+			int x2 = building.getX() + building.getHeight() + REPAIR_ERROR_RADUIS;
+			int y1 = building.getY() - REPAIR_ERROR_RADUIS;
+			int y2 = building.getY() + building.getWidth() + REPAIR_ERROR_RADUIS;
+			for (int i = x1; i <= x2; i++) {
+				for (int j = y1; j <= y2; j++) {
+					if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), i, j)) continue;
+					ArrayList<Person> people = game.getMap().getGrid()[i][j].getPeople();
+					for (Person person : people)
+						if (person.getOwnerIndex() != building.getOwnerIndex())
 							return GameMenuMessage.THERE_ARE_ENEMY_SOLDIERS;
-					}
 				}
 			}
 			if (!hasEnoughResourcesForObject(building.getName(), currentPlayer, building.getMaxHp() - building.getHp(),
@@ -285,17 +344,6 @@ public class GameMenuController {
 			}
 		} else
 			return GameMenuMessage.CANT_REPAIR;
-	}
-
-	public static void handelAutomaticFights() {
-		for(int i=0; i<400; i++) {
-			for(int j = 0; j<400; j++) {
-				ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
-				for(Person person : peopleClone){
-					person.automaticFight(person.getEnemy());
-				}
-			}
-		}
 	}
 
 	public static Government getWinnerGovernment() {

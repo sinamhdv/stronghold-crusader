@@ -82,6 +82,8 @@ public class ResourceConverterBuilding extends Building {
 	public void performConversion() {
 		if ((StrongHold.getCurrentGame().getPassedTurns() - getTurnOfBuild()) % getProductionCycleTurns() != 0)
 			return;
+		if (!hasWorkers())
+			return;
 		if (getOwner().getResourceCount(inputType) < getInputsUsedCount())
 			return;
 		if (outputType != null)

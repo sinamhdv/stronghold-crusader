@@ -5,5 +5,7 @@ public enum PersonType {
 	LADDERMAN,
 	TUNNELER,
 	ENGINEER,
-	LORD
+	LORD,
+	ASSASSIN,
+	BURNING_OIL
 }

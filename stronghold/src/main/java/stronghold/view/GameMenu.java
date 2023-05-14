@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import stronghold.controller.GameMenuController;
+import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
@@ -18,14 +19,19 @@ import stronghold.view.parser.CommandParser;
 public class GameMenu {
 	private static Game game;
 
-	public static void run() {
-		System.out.println("======[Game Menu]======");
+	private static void printMenuPrompt() {
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.GREEN);
+		System.out.print("game menu(" + game.getCurrentPlayerIndex() + ")> ");
+		TerminalColor.resetColor();
+	}
 
+	public static void run() {
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
 
 		HashMap<String, String> matcher;
 		while (true) {
+			printMenuPrompt();
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
@@ -58,6 +64,8 @@ public class GameMenu {
 				runOpenGate();
 			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
 				runCloseGate();
+			else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
+				runRepair();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
 				showResourcesAmount();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
@@ -70,20 +78,24 @@ public class GameMenu {
 				runMoveUnit(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
 				runPatrolUnit(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
+				runStopUnit();
 			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
 				runAttack(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
 				runSetStance(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null)
-				runNextTurn();
-			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
+				if (runNextTurn()) return;
+			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
 				runDigMoat(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
+			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
 				MapMenu.run(game.getMap());
-				System.out.println("======[Game Menu]======");
-			}
+			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
+				MarketMenu.run();
+			else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
+				TradeMenu.run();
 			else
 				System.out.println("Error: Invalid command");
 		}
@@ -190,8 +202,16 @@ public class GameMenu {
 				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
-	private static void runNextTurn() {
-		System.out.println(GameMenuController.nextTurn().getErrorString());
+	private static boolean runNextTurn() {
+		GameMenuMessage message = GameMenuController.nextTurn();
+		System.out.println(message.getErrorString());
+		if (message == GameMenuMessage.END_GAME) return true;
+		else if (message != GameMenuMessage.SUCCESS) return false;
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.CYAN);
+		System.out.print("======[Player #" + game.getCurrentPlayerIndex() + "]======");
+		TerminalColor.resetColor();
+		System.out.println();
+		return false;
 	}
 
 	private static void showSelectedUnits() {
@@ -234,7 +254,23 @@ public class GameMenu {
 	private static void runAttack(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.attack(
 				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
+				Integer.parseInt(matcher.get("y"))
+		).getErrorString());
+	}
+
+	private static void runStopUnit() {
+		System.out.println(GameMenuController.stopUnit().getErrorString());
+	}
+
+	public static void showWinner(Government winner) {
+		if (winner == null)
+			System.out.println("The game didn't have a winner");
+		else
+			System.out.println("The winner is: " + winner.getUser().getUserName());
+	}
+
+	private static void runRepair() {
+		System.out.println(GameMenuController.repair().getErrorString());
 	}
 
 	private static void runDigMoat(HashMap<String, String> matcher) {
@@ -262,5 +298,4 @@ public class GameMenu {
 			}
 		}
 	}
-
 }

@@ -19,7 +19,7 @@ public class MapManagementMenuController {
 			return MapManagementMenuMessage.MAP_ALREADY_EXISTS;
 		if (!FormatValidation.checkMapNameFormat(mapName))
 			return MapManagementMenuMessage.INVALID_MAP_NAME_FORMAT;
-		if (governmentsCount < 1 || governmentsCount > 8)
+		if (governmentsCount < 2 || governmentsCount > 8)
 			return MapManagementMenuMessage.INVALID_GOVERNMENTS_COUNT;
 		if (width < MIN_DIMENTIONS || width > MAX_DIMENTIONS || height < MIN_DIMENTIONS || height > MAX_DIMENTIONS)
 			return MapManagementMenuMessage.INVALID_DIMENTIONS;

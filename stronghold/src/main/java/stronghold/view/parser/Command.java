@@ -9,6 +9,8 @@ public enum Command {
 	PROFILE_MENU("profile menu"),
 	MAP_MENU("map menu"),
 	MAP_MANAGEMENT_MENU("map management"),
+	MARKET_MENU("market menu"),
+	TRADE_MENU("trade menu"),
 
 	// Signup Menu
 	SIGNUP("signup [-u,username] [-p,password] [-c,passwordConfirm]? [-e,email] [-n,nickname] [-s,slogan]?"),
@@ -65,10 +67,11 @@ public enum Command {
 	SHOW_SELECTED_UNITS("show selected units"),
 	MOVE_UNIT("move unit <-x,x> <-y,y>"),
 	PATROL_UNIT("patrol unit <-x,x> <-y,y>"),
+	STOP_UNIT("stop unit"),
 	SET_STANCE("set stance [-s,stanceType]"),
 	ATTACK("attack <-x,x> <-y,y>"),
 	POUR_OIL("pour oil [-d,direction]"),
-	DIG_TUNNEL("dig tunnel <-x,x> <-y,y>"),
+	DIG_TUNNEL("dig tunnel"),
 	DIG_MOAT("dig moat [-d,direction]"),
 	FILL_MOAT("fill moat [-d,direction]"),
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-e,equipment]"),
@@ -88,9 +91,9 @@ public enum Command {
 	SHOW_SELECTED_GOVERNMENT("show selected government"),
 
 	// Trade Menu
-	TRADE_REQUEST("trade [-t,resourceType] <-a,amount> <-p,price> [-m,message]"),
+	TRADE_REQUEST("trade [-r,resourceType] <-a,amount> <-p,price> [-m,message] <-g,government>"),
 	TRADE_LIST("trade list"),
-	TRADE_ACCEPT("trade accept [-i,id] [-m,message]"),
+	TRADE_ACCEPT("trade accept <-i,id>"),
 	TRADE_HISTORY("trade history"),
 
 	// Market Menu

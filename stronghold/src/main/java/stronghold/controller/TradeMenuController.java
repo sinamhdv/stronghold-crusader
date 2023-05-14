@@ -1,88 +1,93 @@
 package stronghold.controller;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
-
 import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
+import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.TradeRequest;
 
 public class TradeMenuController {
 	public static TradeMenuMessage tradeRequest(String resourceName, int amount, int price,
 			String message,
-			String id) {
-		Government ownerToRequest = StrongHold.getCurrentGame().getCurrentPlayer();
-		TradeMenuMessage errors = tradeRequestError(resourceName, amount, price, message, id);
+			int receiverIndex) {
+		int senderIndex = StrongHold.getCurrentGame().getCurrentPlayerIndex();
+		TradeMenuMessage errors = tradeRequestError(resourceName, amount, price, message, receiverIndex);
 		if (errors != null)
 			return errors;
 		else {
-			TradeRequest trade = new TradeRequest(ownerToRequest, null, resourceName, amount, price, message, id);
+			ResourceType resourceType = ResourceType.getResourceByName(resourceName);
+			TradeRequest trade = new TradeRequest(senderIndex, receiverIndex, resourceType, amount, price, message);
 			StrongHold.getCurrentGame().addTrade(trade);
 			return TradeMenuMessage.SUCCESSFUL_REQUEST;
 		}
 	}
 
 	private static TradeMenuMessage tradeRequestError(String resourceName, int amount, int price,
-			String message, String id) {
+			String message, int receiverIndex) {
+		ResourceType resourceType = ResourceType.getResourceByName(resourceName);
 		Government owner = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (resourceName.equals("") || message.equals("") || id.equals(id))
+		if (resourceName.equals("") || message.equals(""))
 			return TradeMenuMessage.EMPTY_FIELD;
 		else if (amount <= 0)
 			return TradeMenuMessage.INVALID_AMOUNT;
 		else if (price < 0)
 			return TradeMenuMessage.INVALID_PRICE;
-		else if (owner.getGold() < price * amount)
+		else if (owner.getGold() < price)
 			return TradeMenuMessage.NOT_HAVING_ENOUGH_MONEY;
+		else if (resourceType == null || !resourceType.isTradable())
+			return TradeMenuMessage.INVALID_RESOURCE_NAME;
+		else if (price == 0 && owner.getResourceCount(resourceType) < amount)
+			return TradeMenuMessage.NOT_HAVING_ENOUGH_RESOURCE;
+		else if (receiverIndex < 0 || receiverIndex >= StrongHold.getCurrentGame().getGovernments().length ||
+			receiverIndex == owner.getIndex())
+			return TradeMenuMessage.INVALID_RECEIVER_INDEX;
 		else
 			return null;
 	}
 
-	public static TradeMenuMessage tradeAccept(String id, String message) {
-		TradeMenuMessage errors = tradeAcceptErrors(id, message);
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		Game currentGame = StrongHold.getCurrentGame();
+	public static TradeMenuMessage tradeAccept(int id) {
+		TradeMenuMessage errors = tradeAcceptErrors(id);
+		Government receiver = StrongHold.getCurrentGame().getCurrentPlayer();
+		Game game = StrongHold.getCurrentGame();
 		if (errors != null)
 			return errors;
 		else {
 			TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
-			Government ownerOfRequest = trade.getRequestBy();
-			if(trade.getPrice() != 0) {
-				currentPlayer.decreaseResource(trade.getResource(), trade.getAmount());
-				ownerOfRequest.increaseResource(trade.getResource(), trade.getAmount());
-				currentPlayer.setGold( currentPlayer.getGold() + trade.getPrice() * trade.getAmount());
-				ownerOfRequest.setGold(ownerOfRequest.getGold() - trade.getPrice() * trade.getPrice());
+			Government sender = game.getGovernments()[trade.getSenderIndex()];
+			if(trade.getPrice() > 0) {
+				receiver.decreaseResource(trade.getResourceType(), trade.getAmount());
+				sender.increaseResource(trade.getResourceType(), trade.getAmount());
+				receiver.setGold(receiver.getGold() + trade.getPrice());
+				sender.setGold(sender.getGold() - trade.getPrice());
 			}
-			currentPlayer.increaseResource(trade.getResource(), trade.getAmount());
-			ownerOfRequest.decreaseResource(trade.getResource(), trade.getAmount());
-			trade.setAcceptBy(currentPlayer);
-			currentGame.addTradeAccept(trade);
-			currentGame.removeTradeRequest(trade);
+			else {
+				receiver.increaseResource(trade.getResourceType(), trade.getAmount());
+				sender.decreaseResource(trade.getResourceType(), trade.getAmount());
+			}
+			trade.setAccepted(true);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
-			
 		}
 	}
 
-	private static TradeMenuMessage tradeAcceptErrors(String id, String message) {
+	private static TradeMenuMessage tradeAcceptErrors(int id) {
 		TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		if (id.equals("") || message.equals(""))
-			return TradeMenuMessage.EMPTY_FIELD;
-		else if (StrongHold.getCurrentGame().getTradeById(id) == null)
+		if (trade == null)
 			return TradeMenuMessage.THERE_IS_NO_TRADE_WITH_THIS_ID;
-		else if (currentPlayer.getResourceCount(trade.getResource()) < trade.getAmount())
+		Game game = StrongHold.getCurrentGame();
+		Government sender = game.getGovernments()[trade.getSenderIndex()];
+		if (trade.getReceiverIndex() != game.getCurrentPlayerIndex())
+			return TradeMenuMessage.REQUEST_NOT_YOURS;
+		else if (trade.isAccepted())
+			return TradeMenuMessage.REQUEST_ENDED;
+		else if (trade.getPrice() > 0 &&
+			game.getCurrentPlayer().getResourceCount(trade.getResourceType()) < trade.getAmount())
 			return TradeMenuMessage.NOT_HAVING_ENOUGH_RESOURCE;
+		else if (sender.getGold() < trade.getPrice())
+			return TradeMenuMessage.NOT_ENOUGH_SENDER_GOLD;
+		else if (trade.getPrice() == 0 && sender.getResourceCount(trade.getResourceType()) < trade.getAmount())
+			return TradeMenuMessage.NOT_ENOUGH_SENDER_RESOURCE;
 		else
 			return null;
 	}
-
-	public static String getRandomId() {
-		final Random random = new Random();
-		final byte[] array = new byte[5];
-		random.nextBytes(array);
-		final String generated = new String(array, StandardCharsets.UTF_8);
-		return generated;
-	}
-
 }

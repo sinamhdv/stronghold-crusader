@@ -27,9 +27,10 @@ public class GenerateConfig {
 	private static void generatePeople() {
 		ArrayList<Person> people = new ArrayList<>();
 
-		people.add(new Person("lord", 2, 400, 80, 999999, 1, 0, false, false, false, false, PersonType.LORD,0, 0, 0));
-		people.add(new Person("european archer", 6, 50, 20, 999999, 1, 10, true, false, false, false, PersonType.NORMAL,0, 0, 0));
-		people.add(new Person("swordsman", 2, 200, 60, 999999, 1, 0, false, false, false, false, PersonType.NORMAL, 0, 0, 0));
+		people.add(new Person("lord", 2, 400, 80, 999999, 1, 1, false, false, false, false, PersonType.LORD,0, 0, 0, 100, true, true));
+		people.add(new Person("european archer", 4, 50, 20, 999999, 1, 7, true, false, false, false, PersonType.NORMAL,0, 0, 0, 100, true, false));
+		people.add(new Person("swordsman", 2, 200, 60, 999999, 1, 1, false, false, false, false, PersonType.NORMAL, 0, 0, 0, 100, true, true));
+		people.add(new Person("assassin", 4, 100, 40, 5, 1, 1, true, true, false, false, PersonType.ASSASSIN, 0, 0, 0, 100, true, true));
 
 		ConfigManager.savePeopleConfig(people.toArray(new Person[0]));
 	}
@@ -210,7 +211,7 @@ public class GenerateConfig {
 
 		addBuilding(new Trap(
 			10, "killing pit", 0,
-			0, 0, 0,
+			1, 1, 0,
 			false, 0, 0,
 			0, 0,
 			9999, false

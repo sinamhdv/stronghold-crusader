@@ -46,11 +46,11 @@ public class MapTile implements Serializable {
 		people.add(person);
 	}
 	public TerminalColor getBackgroundColor() {
-		if (building == null && environmentItem == null) return groundType.getBackgroundColor();
+		if ((building == null || !building.isVisible()) && environmentItem == null) return groundType.getBackgroundColor();
 		return TerminalColor.BLACK;
 	}
 	public TerminalColor getForegroundColor() {
-		if (building == null && environmentItem == null) return groundType.getForegroundColor();
+		if ((building == null || !building.isVisible()) && environmentItem == null) return groundType.getForegroundColor();
 		return TerminalColor.CYAN;
 	}
 
@@ -71,5 +71,12 @@ public class MapTile implements Serializable {
 
 	public int getHeight() {
 		return (building == null ? 0 : building.getVerticalHeight());
+	}
+
+	public boolean hasVisiblePeople() {
+		for (Person person : people)
+			if (person.isVisible())
+				return true;
+		return false;
 	}
 }

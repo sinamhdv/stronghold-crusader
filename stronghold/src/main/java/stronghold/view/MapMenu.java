@@ -13,12 +13,17 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapMenu {
+	private static void printMenuPrompt() {
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.RED);
+		System.out.print("map menu> ");
+		TerminalColor.resetColor();
+	}
+
 	public static void run(Map map) {
-		System.out.println("======[Map Menu]======");
-		
 		MapMenuController.setCurrentMap(map);
 
 		while (true) {
+			printMenuPrompt();
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;
 
@@ -97,13 +102,14 @@ public class MapMenu {
 		System.out.println("Ground Type: " + tile.getGroundType().getName());
 		if (tile.getEnvironmentItem() != null)
 			System.out.println("Environment Item: " + tile.getEnvironmentItem());
-		if (tile.getBuilding() != null)
+		if (tile.getBuilding() != null && tile.getBuilding().isVisible())
 			System.out.println("Building: " + tile.getBuilding());
 		for (int i = 0; i < MapMenuController.getCurrentMap().getGovernmentsCount(); i++) {
 			System.out.println("List of people owned by #" + i + " " +": ");
 			ArrayList<Person> filteredPeople = Miscellaneous.getPeopleByOwner(tile.getPeople(), i);
 			for (Person person : filteredPeople)
-				System.out.println(person);
+				if (person.isVisible())
+					System.out.println(person);
 		}
 	}
 }

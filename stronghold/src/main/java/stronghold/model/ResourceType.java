@@ -27,8 +27,6 @@ public enum ResourceType {
 	POPULATION(0, 0, "Population", false),
 	;
 	
-	// TODO: modify Market and Trade to use only resources that have isTradable == true
-
 	public static final ResourceType[] foodTypes = new ResourceType[] {
 		ResourceType.APPLE,
 		ResourceType.CHEESE,

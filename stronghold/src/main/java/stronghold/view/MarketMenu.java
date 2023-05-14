@@ -10,9 +10,15 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MarketMenu {
+	private static void printMenuPrompt() {
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.YELLOW);
+		System.out.print("market> ");
+		TerminalColor.resetColor();
+	}
+
 	public static void run() {
-		System.out.println("======[Market Menu]======");
 		while (true) {
+			printMenuPrompt();
 			String line = MainMenu.getScanner().nextLine();
 			String[] inputTokens = CommandParser.splitTokens(line);
 			HashMap<String, String> matcher;
@@ -23,8 +29,7 @@ public class MarketMenu {
 				runBuyItem(matcher);
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SHOW_PRICE_LIST)) != null)
 				showPriceList();
-			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
-				System.out.println("Exitting...");
+			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null) {
 				break;
 			} else
 				System.out.println("Error: Invalid command");
@@ -33,12 +38,12 @@ public class MarketMenu {
 
 	public static void showPriceList() {
 		Government currnetPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("ITEM     BUYPRICE     SELLPRICE     YOURASSET");
-		for (ResourceType resourceType : ResourceType.values()) {
-			ResourceType resource = resourceType;
+		System.out.println("ITEM\t\t\tBUYPRICE\t\tSELLPRICE\t\tYOURASSET");
+		for (ResourceType resource : ResourceType.values()) {
+			if (!resource.isTradable()) continue;
 			int asset = currnetPlayer.getResourceCount(resource);
-			System.out.println(resource.getName() + "     " + resource.getBuyPrice() + "     " + resource.getSellprice()
-					+ "     " + asset);
+			System.out.println(resource.getName() + "\t\t\t" + resource.getBuyPrice() + "\t\t" + resource.getSellprice()
+					+ "\t\t" + asset);
 		}
 	}
 

@@ -3,6 +3,7 @@ package stronghold.controller.messages;
 public enum GameMenuMessage {
 	SUCCESS("Success!"),
 	INVALID_COORDINATES("Error: Invalid coordinates"),
+	END_GAME("The game has ended!"),
 
 	// government management
 	INVALID_FOOD_RATE("Invalid food rate"),
@@ -11,7 +12,7 @@ public enum GameMenuMessage {
 
 	// drop building/create unit
 	NOT_ENOUGH_RESOURCES("Error: you don't have enough resources"),
-	CONSTRUCTION_FAILED("Error: Construction of the required object failed"),
+	CONSTRUCTION_FAILED("Construction of the required object failed"),
 	INCORRECT_UNIT_NAME("Error: The unit name doesn't match this barracks"),
 	NOT_ENOUGH_PEASANTS("Error: not enough peasants are available"),
 	
@@ -30,9 +31,10 @@ public enum GameMenuMessage {
 	// attack
 	THERE_IS_NO_ENEMY_TO_FIGHT("There is no enemy to fight"),
 	INVALID_DESTINATION("Invalid destination"),
-	INVALID_DIRECTION("Erorr: invalid direction"),
+	INVALID_DIRECTION("Error: invalid direction"),
 	DIG_MOAT_SUCCESSFULLY("Dig moat successfully"),
-	THIS_PERSON_CANT_DIG_MOAT("Eroor: this person can't dig moat"),
+	THIS_PERSON_CANT_DIG_MOAT("Error: this person can't dig moat"),
+
 	// unit commands
 	NO_UNIT_SELECTED("Error: no selected unit"),
 	INVALID_STANCE("Error: invalid stance name"),
