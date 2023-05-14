@@ -64,6 +64,8 @@ public class GameMenu {
 				runOpenGate();
 			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
 				runCloseGate();
+			else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
+				runRepair();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
 				showResourcesAmount();
 			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
@@ -263,6 +265,10 @@ public class GameMenu {
 			System.out.println("The winner is: " + winner.getUser().getUserName());
 	}
 
+	private static void runRepair() {
+		System.out.println(GameMenuController.repair().getErrorString());
+	}
+
 	private static void runDigMoat(HashMap<String, String> matcher) {
 		ArrayList<Person> peopleClone = game.getSelectedUnits();
 		Government currentPlayer = game.getCurrentPlayer();
@@ -288,5 +294,4 @@ public class GameMenu {
 			}
 		}
 	}
-
 }
