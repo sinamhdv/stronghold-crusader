@@ -1,6 +1,5 @@
 package stronghold.view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import stronghold.controller.GameMenuController;
@@ -89,8 +88,8 @@ public class GameMenu {
 				if (runNextTurn()) return;
 			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
-				runDigMoat(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
+				runCheatGold(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
 				MapMenu.run(game.getMap());
 			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
@@ -280,20 +279,11 @@ public class GameMenu {
 		System.out.println(GameMenuController.disbandUnit().getErrorString());
 	}
 
-	private static void runDigMoat(HashMap<String, String> matcher) {
-		ArrayList<Person> peopleClone = game.getSelectedUnits();
-		Government currentPlayer = game.getCurrentPlayer();
-		for(Person  person: peopleClone){
-			if(person.getOwner() == currentPlayer ){
-				if(person.canDigMoats())
-					System.out.println(person.digMoat(matcher.get("direction")));
-				else
-					System.out.println("This person can't dig moat");
-			}
-		}
-	}
-
 	private static void runDigTunnel() {
 		System.out.println(GameMenuController.digTunnel().getErrorString());
+	}
+
+	private static void runCheatGold(HashMap<String, String> matcher) {
+		game.getCurrentPlayer().setGold(Integer.parseInt(matcher.get("gold")));
 	}
 }

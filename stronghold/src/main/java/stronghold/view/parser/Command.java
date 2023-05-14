@@ -101,6 +101,8 @@ public enum Command {
 	SHOW_PRICE_LIST("show price list"),
 	BUY("buy [-i,itemName] <-a,amount>"),
 	SELL("sell [-i,itemName] <-a,amount>"),
+
+	CHEAT_GOLD("cheat gold <-g,gold>"),
 	;
 
 	private final String specification;

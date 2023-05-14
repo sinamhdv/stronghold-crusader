@@ -4,7 +4,7 @@ import stronghold.controller.messages.SignupAndProfileMenuMessage;
 
 public class FormatValidation {
 	public static boolean isNumber(String string) {
-		return string.matches("\\-?\\d+");
+		return string.length() < 10 && string.matches("\\-?\\d+");
 	}
 
 	public static SignupAndProfileMenuMessage checkPasswordStrength(String password) {

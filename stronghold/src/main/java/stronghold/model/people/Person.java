@@ -3,14 +3,14 @@ package stronghold.model.people;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import stronghold.controller.messages.GameMenuMessage;
+import stronghold.controller.GameMenuController;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.buildings.Trap;
-import stronghold.model.map.GroundType;
 import stronghold.model.map.MapTile;
 import stronghold.model.map.Path;
 import stronghold.model.map.Pathfinding;
@@ -422,52 +422,23 @@ public class Person implements Serializable {
 		return false;
 	}
 
-	public GameMenuMessage digMoat(String direction) {
-		Game currentGame = StrongHold.getCurrentGame();
-		MapTile mapTile = null;
-		if (!canDigMoats)
-			return GameMenuMessage.THIS_PERSON_CANT_DIG_MOAT;
-		else if (direction.equals("up"))
-			mapTile = currentGame.getMap().getGrid()[x][y + 1];
-		else if (direction.equals("down"))
-			mapTile = currentGame.getMap().getGrid()[x][y - 1];
-		else if (direction.equals("right"))
-			mapTile = currentGame.getMap().getGrid()[x + 1][y];
-		else if (direction.equals("left"))
-			mapTile = currentGame.getMap().getGrid()[x - 1][y];
-		else
-			return GameMenuMessage.INVALID_DESTINATION;
-		if (mapTile.getGroundType() != GroundType.SEA) {
-			mapTile.setGroundType(GroundType.NORMAL);
-			return GameMenuMessage.DIG_MOAT_SUCCESSFULLY;
-		} else {
-			mapTile.setGroundType(GroundType.SEA);
-			return GameMenuMessage.DIG_MOAT_SUCCESSFULLY;
-		}
-	}
-
-	public Building getFirstDefensiveStructure() {
-		Game currentGame = StrongHold.getCurrentGame();
-		MapTile[][] mapTiles = currentGame.getMap().getGrid();
-		Building building = null;
-		for (int i = 0; i < attackRange; i++) {
-			building = mapTiles[x + i][y].getBuilding();
-			if(building instanceof DefensiveStructure && building.getOwner() != getOwner()) 
+	public Building getRandomDefensiveStructure() {
+		Game game = StrongHold.getCurrentGame();
+		for (int i = x - GameMenuController.MAX_TUNNEL_DISTANCE; i <= x + GameMenuController.MAX_TUNNEL_DISTANCE; i++) {
+			for (int j = y - GameMenuController.MAX_TUNNEL_DISTANCE; j <= y + GameMenuController.MAX_TUNNEL_DISTANCE; j++) {
+				if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), i, j)) continue;
+				Building building = game.getMap().getGrid()[i][j].getBuilding();
+				if (!(building instanceof DefensiveStructure)) continue;
+				if (((DefensiveStructure)building).getType() == DefensiveStructureType.KEEP) continue;
+				if (building.getOwnerIndex() == ownerIndex) continue;
 				return building;
-			building = mapTiles[x - i][y].getBuilding();
-			if(building instanceof DefensiveStructure && building.getOwner() != getOwner())
-				return building;
-			building = mapTiles[x][y - i].getBuilding();
-			if(building instanceof DefensiveStructure && building.getOwner() != getOwner())
-				return building;
-			building = mapTiles[x][y + i].getBuilding();
-				return building;
+			}
 		}
 		return null;
 	}
 
 	public boolean digTunnel() {
-		Building building = getFirstDefensiveStructure();
+		Building building = getRandomDefensiveStructure();
 		if (building == null)
 			return false;
 		else {

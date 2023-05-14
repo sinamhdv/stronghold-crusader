@@ -1,0 +1,25 @@
+======[Login Menu]======
+Checking for auto-login...
+Auto-login successful
+======[Main Menu]======
+======[Map Management Menu]======
+Successfully deleted the map
+New map created successfully
+Successfully loaded the map
+======[Map Editor]======
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+Success!
+======[Map Management Menu]======
+======[Main Menu]======
+Exitting...

@@ -2,7 +2,7 @@
 # a script to test the program with input text files in testcases folder
 
 run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_2l06s9ma3j6g78ajfi0yk4l92.argfile stronghold.Main'
-inputs_count=1
+inputs_count=2
 
 RED='\033[31m'
 GREEN='\033[32m'
