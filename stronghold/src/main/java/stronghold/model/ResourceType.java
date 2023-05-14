@@ -13,7 +13,7 @@ public enum ResourceType {
 	ROCK(25, 18, "Rock", true),
 	UNTRANSPORTED_ROCK(0, 0, "Untransported Rock", false),
 	BOW(30, 25, "Bow", true),
-	CROSBOW(35, 28, "Crosbow", true),
+	CROSSBOW(35, 28, "Crossbow", true),
 	SPEAR(30, 25, "Spear", true),
 	PIKE(30,20, "Pike", true),
 	MACE(35, 25, "Mace", true),

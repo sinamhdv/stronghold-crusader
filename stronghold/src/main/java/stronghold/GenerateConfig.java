@@ -27,10 +27,157 @@ public class GenerateConfig {
 	private static void generatePeople() {
 		ArrayList<Person> people = new ArrayList<>();
 
-		people.add(new Person("lord", 2, 400, 80, 999999, 1, 1, false, false, false, false, PersonType.LORD,0, 0, 0, 100, true, true));
-		people.add(new Person("european archer", 4, 50, 20, 999999, 1, 7, true, false, false, false, PersonType.NORMAL,0, 0, 0, 100, true, false));
-		people.add(new Person("swordsman", 2, 200, 60, 999999, 1, 1, false, false, false, false, PersonType.NORMAL, 0, 0, 0, 100, true, true));
-		people.add(new Person("assassin", 4, 100, 40, 5, 1, 1, true, true, false, false, PersonType.ASSASSIN, 0, 0, 0, 100, true, true));
+		people.add(new Person(
+			"lord", 2, 400, 80,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.LORD, 0, 0, 0,
+			100, true, true
+		));
+		
+		people.add(new Person(
+			"archer", 4, 50, 20,
+			999999, 1, 8,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"crossbowman", 3, 50, 40,
+			999999, 1, 10,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"swordsman", 2, 200, 80,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"spearman", 4, 50, 20,
+			999999, 1, 1,
+			true, false, true,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"pikeman", 2, 100, 50,
+			999999, 1, 1,
+			false, false, true,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"maceman", 3, 70, 40,
+			999999, 1, 1,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"knight", 6, 180, 80,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"tunneler", 4, 20, 5,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.TUNNELER, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"ladderman", 4, 20, 5,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.LADDERMAN, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"engineer", 4, 20, 5,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.ENGINEER, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"monk", 3, 70, 40,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"arabian archer", 4, 50, 20,
+			999999, 1, 8,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"slave", 4, 50, 20,
+			999999, 1, 1,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"slinger", 4, 50, 20,
+			999999, 1, 5,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"assassin", 4, 100, 40,
+			5, 1, 1,
+			true, true, false,
+			false, PersonType.ASSASSIN, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"horse archer", 6, 100, 30,
+			999999, 1, 8,
+			false, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, false
+		));
+
+		people.add(new Person(
+			"arabian swordsman", 2, 180, 70,
+			999999, 1, 1,
+			false, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
+
+		people.add(new Person(
+			"firethrower", 4, 50, 20,
+			999999, 1, 5,
+			true, false, false,
+			false, PersonType.NORMAL, 0, 0, 0,
+			100, true, true
+		));
 
 		ConfigManager.savePeopleConfig(people.toArray(new Person[0]));
 	}
@@ -242,7 +389,7 @@ public class GenerateConfig {
 			0, 0,
 			new HashMap<>(Map.of(
 				ResourceType.BOW, 0,
-				ResourceType.CROSBOW, 0,
+				ResourceType.CROSSBOW, 0,
 				ResourceType.SPEAR, 0,
 				ResourceType.PIKE, 0,
 				ResourceType.MACE, 0,
@@ -417,7 +564,7 @@ public class GenerateConfig {
 			1, 1, 999,
 			true, 0, 0,
 			0, 0,
-			ResourceType.WOOD, ResourceType.CROSBOW,
+			ResourceType.WOOD, ResourceType.CROSSBOW,
 			null,
 			2, 2, 0
 		));

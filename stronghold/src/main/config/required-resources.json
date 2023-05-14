@@ -14,10 +14,22 @@
 
 
 	"lord": {},
-	"swordsman": {
-
-	},
-	"european archer": {
-
-	}
+	"archer": { "BOW": 1 },
+	"crossbowman": { "CROSSBOW": 1 },
+	"spearman": { "SPEAR": 1 },
+	"pikeman": { "PIKE": 1, "METAL_ARMOR": 1 },
+	"maceman": { "MACE": 1, "LEATHER_ARMOR": 1 },
+	"swordsman": { "SWORD": 1, "METAL_ARMOR": 1 },
+	"knight": { "SWORD": 1, "METAL_ARMOR": 1, "HORSE": 1 },
+	"tunneler": { "GOLD": 10 },
+	"ladderman": { "GOLD": 10 },
+	"engineer": { "GOLD": 10 },
+	"monk": { "GOLD": 30 },
+	"arabian archer": { "GOLD": 30 },
+	"slave": { "GOLD": 20 },
+	"slinger": { "GOLD": 20 },
+	"assassin": { "GOLD": 75 },
+	"horse archer": { "GOLD": 75 },
+	"arabian swordsman": { "GOLD": 90 },
+	"firethrower": { "GOLD": 20 }
 }
