@@ -84,6 +84,8 @@ public class GameMenu {
 				runAttack(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
 				runSetStance(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.DISBAND)) != null)
+				runDisband();
 			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
 				if (runNextTurn()) return;
 			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
@@ -271,6 +273,10 @@ public class GameMenu {
 
 	private static void runRepair() {
 		System.out.println(GameMenuController.repair().getErrorString());
+	}
+
+	private static void runDisband() {
+		System.out.println(GameMenuController.disbandUnit().getErrorString());
 	}
 
 	private static void runDigMoat(HashMap<String, String> matcher) {

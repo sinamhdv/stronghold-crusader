@@ -289,6 +289,18 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage disbandUnit() {
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		ArrayList<Person> unitsClone = new ArrayList<>(game.getSelectedUnits());
+		for (Person person : unitsClone) {
+			if (person.getType() == PersonType.LORD) continue;
+			person.getOwner().increasePopulation(1);
+			person.die();
+		}
+		return GameMenuMessage.SUCCESS;
+	}
+
 	public static GameMenuMessage setFoodRate(int foodRate) {
 		Government currentPleyer = StrongHold.getCurrentGame().getCurrentPlayer();
 		if (foodRate < -2 || foodRate > 2)
