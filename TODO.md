@@ -6,10 +6,8 @@
 - [X] ensure a player doesn't build a new keep during the game
 - [X] drop unit on defensive structures
 - [X] generate lord
-- [ ] units that are created on killing pits in the beginning of the game should die
 - [ ] add POPULATION to ResourceType and resource management functions in government
 - [ ] handle assassin visibility in map menu
-- [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder
 - [ ] check and decrease peasants (non-worker people) when creating troops (maybe add both PEASANT and POPULATION to ResourceType?)
 - [ ] the impact of fear factor on troops damage
 - [ ] killing pits shouldn't be destroyed and they shouldn't be seen in map menu by enemies
@@ -36,8 +34,11 @@
 - [X] close gate
 - [ ] dig moat
 - [ ] fill moat
+- [ ] open dogs cage
 
 - [ ] What if someone creates and then clears and the creates again a keep? (then we will have 2 lords :///)
 - [ ] usage of cows in tanner workshops
 - [ ] storing untransported rock in the main stockpiles
 - [ ] stables do not regenerate horses after knights die
+- [ ] units that are created on killing pits in the beginning of the game should die
+- [ ] handle simultaneous movement of laddermen and other people when someone wants to climb the ladder

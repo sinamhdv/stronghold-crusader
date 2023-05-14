@@ -172,22 +172,20 @@ public class GameMenuController {
 	}
 
 	public static GameMenuMessage moveUnit(int x, int y) {
-		for (Person unit : game.getSelectedUnits()) {
-			unit.setDestination(unit.getX(), unit.getY());
-			unit.setPatrolMode(false);
-		}
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
 		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
 			return GameMenuMessage.INVALID_COORDINATES;
 		if (game.getSelectedUnits().isEmpty())
 			return GameMenuMessage.NO_UNIT_SELECTED;
 		for (Person unit : game.getSelectedUnits())
-			unit.setDestination(x, y);
+			unit.setMoveDestination(x, y);
 		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage patrolUnit(int x, int y) {
 		for (Person unit : game.getSelectedUnits())
-			unit.setPatrolMode(false);
+			unit.stop();
 		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), x, y))
 			return GameMenuMessage.INVALID_COORDINATES;
 		if (game.getSelectedUnits().isEmpty())
@@ -207,6 +205,8 @@ public class GameMenuController {
 			// actions that must be done after a full turn
 			game.setPassedTurns(game.getPassedTurns() + 1);
 			game.updateGovernments();
+			handleFights();
+			handleDeaths();
 		}
 		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
 		return GameMenuMessage.SUCCESS;
@@ -216,6 +216,14 @@ public class GameMenuController {
 		ArrayList<Person> peopleClone = new ArrayList<>(game.getCurrentPlayer().getPeople());
 		for (Person person : peopleClone)
 			person.moveTowardsDestination();
+	}
+
+	private static void handleFights() {
+		apijfdijf
+	}
+
+	private static void handleDeaths() {
+		psdjfpsijdf
 	}
 
 	public static GameMenuMessage setStance(String stanceName) {
@@ -229,8 +237,16 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
-	public static GameMenuMessage attack(int x, int y) {
-		
+	public static GameMenuMessage attack(int targetX, int targetY) {
+		for (Person unit : game.getSelectedUnits())
+			unit.stop();
+		if (!Miscellaneous.checkCoordinatesOnMap(game.getMap(), targetX, targetY))
+			return GameMenuMessage.INVALID_COORDINATES;
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
+		for (Person person : game.getSelectedUnits())
+			person.setAttackTarget(targetX, targetY);
+		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage setFoodRate(int foodRate) {

@@ -7,6 +7,7 @@ import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Building;
 import stronghold.model.buildings.Trap;
 import stronghold.model.map.MapTile;
 import stronghold.model.map.Path;
@@ -28,15 +29,16 @@ public class Person implements Serializable {
 	private final boolean hasBurningOil;
 	private final PersonType type;
 
+	private PersonAction action = PersonAction.IDLE;
 	private int ownerIndex;
 	private int x;
 	private int y;
 	private int destX;
 	private int destY;
-
 	private int patrolX;
 	private int patrolY;
-	private boolean patrolMode = false;
+	private int attackTargetX;
+	private int attackTargetY;
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
@@ -179,6 +181,11 @@ public class Person implements Serializable {
 		this.destY = destY;
 	}
 
+	public void setMoveDestination(int destX, int destY) {
+		setDestination(destX, destY);
+		action = PersonAction.MOVE;
+	}
+
 	public int getPatrolX() {
 		return patrolX;
 	}
@@ -192,15 +199,23 @@ public class Person implements Serializable {
 		this.patrolY = y;
 		this.destX = patrolX;
 		this.destY = patrolY;
-		this.patrolMode = true;
+		this.action = PersonAction.PATROL;
 	}
 
-	public void setPatrolMode(boolean patrolMode) {
-		this.patrolMode = patrolMode;
+	public int getAttackTargetX() {
+		return attackTargetX;
+	}
+	
+	public int getAttackTargetY() {
+		return attackTargetY;
+	}
+	
+	public PersonAction getAction() {
+		return action;
 	}
 
-	public boolean getPatrolMode() {
-		return patrolMode;
+	public void setAction(PersonAction action) {
+		this.action = action;
 	}
 
 	public void die() {
@@ -244,9 +259,14 @@ public class Person implements Serializable {
 		setY(cells[cells.length - 1][1]);
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
 
-		if (patrolMode && x == destX && y == destY) { // reached patrol destination
-			setPatrol(patrolX, patrolY);
+		if (x == destX && y == destY) { // reached destination
+			if (action == PersonAction.PATROL)
+				setPatrol(patrolX, patrolY);
 		}
+	}
+
+	public void fullTurnUpdate() {
+		attackTargetObject(selectTargetObject());
 	}
 
 	@Override
@@ -256,23 +276,100 @@ public class Person implements Serializable {
 		return result;
 	}
 
+	public void stop() {
+		setDestination(getX(), getY());
+		setAction(PersonAction.IDLE);
+	}
+
 	public void disband() {
 		// TODO
 	}
 
+	public void setAttackTarget(int targetX, int targetY) {
+		if (getDistance(targetX, targetY) <= getAttackRange() * getAttackRange())
+			setDestination(x, y);
+		else
+			setDestination(targetX, targetY);
+		this.attackTargetX = targetX;
+		this.attackTargetY = targetY;
+		action = PersonAction.ATTACK;
+	}
+
+	private void attackTargetObject(Object target) {
+		if (target instanceof Person)
+			((Person)target).hurt(getDamage());
+		else if (target instanceof Building)
+			((Building)target).hurt(getDamage());
+	}
+
+	private Object selectTargetObject() {
+		if (action == PersonAction.ATTACK) {	// manual target selection
+			if (getDistance(attackTargetX, attackTargetY) <= getAttackRange() * getAttackRange())
+				return selectTargetFromCell(attackTargetX, attackTargetY);
+			return null;
+		}
+		else {	// search the attackRange for the closest target
+			int[] enemyXY = findClosestEnemy(getAttackRange());
+			if (enemyXY[0] == -1)
+				return null;
+			return selectTargetFromCell(enemyXY[0], enemyXY[1]);
+		}
+	}
+
+	private int[] findClosestEnemy(int range) {
+		int[] result = {-1, -1};
+		int resultDistance = 9999999;
+		for (int i = x - range; i <= x + range; i++) {
+			for (int j = y - range; j <= y + range; j++) {
+				if (i < 0 || j < 0 || i >= StrongHold.getCurrentGame().getMap().getHeight() ||
+					j >= StrongHold.getCurrentGame().getMap().getWidth())
+					continue;
+				if (getDistance(i, j) > range * range)
+					continue;
+				if (getDistance(i, j) < resultDistance && selectTargetFromCell(i, j) != null) {
+					result[0] = i;
+					result[1] = j;
+					resultDistance = getDistance(i, j);
+				}
+			}
+		}
+		return result;
+	}
+
+	private Object selectTargetFromCell(int cellX, int cellY) {
+		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cellX][cellY];
+		ArrayList<Object> enemies = new ArrayList<>();
+		if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
+			(!(tile.getBuilding() instanceof Trap) || !((Trap)tile.getBuilding()).hasDogs())) {
+			enemies.add(tile.getBuilding());
+		}
+		for (Person person : tile.getPeople())
+			if (person.getOwnerIndex() != ownerIndex)
+				enemies.add(person);
+		if (enemies.isEmpty()) return null;
+		return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
+	}
+
+	public void searchForEnemies() {
+		if (action != PersonAction.IDLE && action != PersonAction.PATROL)
+			return;
+		int[] enemyXY = findClosestEnemy(stance.getRadiusOfMovement());
+		if (enemyXY[0] == -1) return;
+		setDestination(enemyXY[0], enemyXY[1]);
+	}
+
 	public void automaticFight(Person person) {
-		if (getDistance(person) <= (attackRange * attackRange)) {
+		if (getDistance(person.x, person.y) <= (attackRange * attackRange)) {
 			person.hurt(getDamage());
 		} else if ((stance == StanceType.DEFENSIVE && getDistance(
-				person) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
+				person.x, person.y) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
 				|| stance == StanceType.OFFENSIVE) {
 			setDestination(person.getX(), person.getY());
 		}
 	}
 
-	public int getDistance(Person person) {
-		int destance = (x - person.getX()) * (x - person.getX()) + (y - person.getY()) * (y - person.getY());
-		return destance;
+	public int getDistance(int targetX, int targetY) {
+		return (x - targetX) * (x - targetX) + (y - targetY) * (y - targetY);
 	}
 
 	public Person getEnemy() {
@@ -291,7 +388,6 @@ public class Person implements Serializable {
 						return person;
 			}
 		}
-
 		else {
 			for(int i = 0; i < limit; i++) {
 				ArrayList<Person> people= new ArrayList<>(currentGame.getMap().getGrid()[x][y+i].getPeople());
@@ -304,7 +400,6 @@ public class Person implements Serializable {
 						return person;
 			}
 		}
-
 		return null;
 	}
 
