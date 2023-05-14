@@ -321,16 +321,6 @@ public class GameMenuController {
 	// 		}
 	// 	}
 	// }
-	public static void handelAutomaticFights() {
-		for(int i=0; i<400; i++) {
-			for(int j = 0; j<400; j++) {
-				ArrayList<Person> peopleClone = new ArrayList<>(game.getMap().getGrid()[i][j].getPeople());
-				for(Person person : peopleClone){
-					// person.automaticFight(person.getEnemy());
-				}
-			}
-		}
-	}
 
 	public static Government getWinnerGovernment() {
 		ArrayList<Government> players = new ArrayList<>(Arrays.asList(game.getGovernments()));

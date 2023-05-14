@@ -244,7 +244,8 @@ public class GameMenu {
 	private static void runAttack(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.attack(
 				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
+				Integer.parseInt(matcher.get("y"))
+		).getErrorString());
 	}
 
 	private static void runDigMoat(HashMap<String, String> matcher) {

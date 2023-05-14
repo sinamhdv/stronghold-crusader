@@ -68,7 +68,7 @@ public enum Command {
 	SET_STANCE("set stance [-s,stanceType]"),
 	ATTACK("attack <-x,x> <-y,y>"),
 	POUR_OIL("pour oil [-d,direction]"),
-	DIG_TUNNEL("dig tunnel <-x,x> <-y,y>"),
+	DIG_TUNNEL("dig tunnel"),
 	DIG_MOAT("dig moat [-d,direction]"),
 	FILL_MOAT("fill moat [-d,direction]"),
 	BUILD_SIEGE_EQUIPMENT("build siege equipment [-e,equipment]"),

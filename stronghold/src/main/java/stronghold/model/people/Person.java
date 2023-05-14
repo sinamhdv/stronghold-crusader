@@ -30,6 +30,9 @@ public class Person implements Serializable {
 	private final boolean canDigMoats;
 	private final boolean hasBurningOil;
 	private final PersonType type;
+	private final int attackSuccessProbability;
+	private final boolean canAttackPeople;
+	private final boolean canAttackBuildings;
 
 	private PersonAction action = PersonAction.IDLE;
 	private int ownerIndex;
@@ -44,7 +47,7 @@ public class Person implements Serializable {
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
-			int ownerIndex, int x, int y) {
+			int ownerIndex, int x, int y, int attackSuccessProbability, boolean canAttackPeople, boolean canAttackBuildings) {
 		this.name = name;
 		this.speed = speed;
 		this.hp = hp;
@@ -62,12 +65,15 @@ public class Person implements Serializable {
 		this.y = y;
 		this.destX = x;
 		this.destY = y;
+		this.attackSuccessProbability = attackSuccessProbability;
+		this.canAttackPeople = canAttackPeople;
+		this.canAttackBuildings = canAttackBuildings;
 	}
 
 	public Person(Person other, int x, int y, int ownerIndex) {
 		this(other.name, other.speed, other.hp, other.damage, other.visibilityRange, other.attackRate,
 				other.attackRange, other.canClimbLadder, other.canClimbWalls, other.canDigMoats, other.hasBurningOil,
-				other.type, ownerIndex, x, y);
+				other.type, ownerIndex, x, y, other.attackSuccessProbability, other.canAttackPeople, other.canAttackBuildings);
 	}
 
 	public int getSpeed() {
@@ -307,6 +313,8 @@ public class Person implements Serializable {
 	}
 
 	private void attackTargetObject(Object target) {
+		if (Miscellaneous.RANDOM_GENERATOR.nextInt(1, 101) > attackSuccessProbability)
+			return;
 		if (target instanceof Person)
 			((Person)target).hurt(getDamage());
 		else if (target instanceof Building)
@@ -349,15 +357,19 @@ public class Person implements Serializable {
 
 	private Object selectTargetFromCell(int cellX, int cellY) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cellX][cellY];
-		ArrayList<Object> enemies = new ArrayList<>();
-		for (Person person : tile.getPeople())
-			if (person.getOwnerIndex() != ownerIndex)
-				enemies.add(person);
-		if (!enemies.isEmpty())
-			return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
-		if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
-			(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
-			return tile.getBuilding();
+		if (canAttackPeople) {
+			ArrayList<Object> enemies = new ArrayList<>();
+			for (Person person : tile.getPeople())
+				if (person.getOwnerIndex() != ownerIndex)
+					enemies.add(person);
+			if (!enemies.isEmpty())
+				return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
+		}
+		if (canAttackBuildings) {
+			if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
+				(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
+				return tile.getBuilding();
+			}
 		}
 		return null;
 	}
