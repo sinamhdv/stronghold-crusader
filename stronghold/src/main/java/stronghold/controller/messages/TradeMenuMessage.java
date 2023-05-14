@@ -9,10 +9,11 @@ public enum TradeMenuMessage {
 	SUCCESSFUL_REQUEST("your request has been create successfully"),
 	NOT_HAVING_ENOUGH_RESOURCE("you don't have enough resource"),
 	SUCCESSFUL_ACCEPT("you accept this trade successfully"),
+	SUCCESSFUL_REJECT("you rejected this trade successfully"),
 	INVALID_RESOURCE_NAME("Error: invalid resource name"),
 	INVALID_RECEIVER_INDEX("Error: the receiver index is not correct"),
 	REQUEST_NOT_YOURS("Error: this trade request is not yours"),
-	REQUEST_ENDED("Error: this request has already been accepted"),
+	REQUEST_ENDED("Error: this request has already been accepted/rejected"),
 	NOT_ENOUGH_SENDER_GOLD("Error: the sender doesn't have enough gold"),
 	NOT_ENOUGH_SENDER_RESOURCE("Error: not enough sender resource"),
 	;

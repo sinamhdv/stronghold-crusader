@@ -6,6 +6,7 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.TradeRequest;
+import stronghold.model.TradeRequestState;
 
 public class TradeMenuController {
 	public static TradeMenuMessage tradeRequest(String resourceName, int amount, int price,
@@ -65,7 +66,7 @@ public class TradeMenuController {
 				receiver.increaseResource(trade.getResourceType(), trade.getAmount());
 				sender.decreaseResource(trade.getResourceType(), trade.getAmount());
 			}
-			trade.setAccepted(true);
+			trade.setState(TradeRequestState.ACCEPTED);
 			return TradeMenuMessage.SUCCESSFUL_ACCEPT;
 		}
 	}
@@ -78,7 +79,7 @@ public class TradeMenuController {
 		Government sender = game.getGovernments()[trade.getSenderIndex()];
 		if (trade.getReceiverIndex() != game.getCurrentPlayerIndex())
 			return TradeMenuMessage.REQUEST_NOT_YOURS;
-		else if (trade.isAccepted())
+		else if (trade.getState() != TradeRequestState.PENDING)
 			return TradeMenuMessage.REQUEST_ENDED;
 		else if (trade.getPrice() > 0 &&
 			game.getCurrentPlayer().getResourceCount(trade.getResourceType()) < trade.getAmount())
@@ -89,5 +90,24 @@ public class TradeMenuController {
 			return TradeMenuMessage.NOT_ENOUGH_SENDER_RESOURCE;
 		else
 			return null;
+	}
+
+	public static TradeMenuMessage tradeReject(int id) {
+		TradeMenuMessage errors = tradeRejectErrors(id);
+		if (errors != null) return errors;
+		TradeRequest request = StrongHold.getCurrentGame().getTradeById(id);
+		request.setState(TradeRequestState.REJECTED);
+		return TradeMenuMessage.SUCCESSFUL_REJECT;
+	}
+
+	private static TradeMenuMessage tradeRejectErrors(int id) {
+		TradeRequest trade = StrongHold.getCurrentGame().getTradeById(id);
+		if (trade == null)
+			return TradeMenuMessage.THERE_IS_NO_TRADE_WITH_THIS_ID;
+		if (trade.getReceiverIndex() != StrongHold.getCurrentGame().getCurrentPlayerIndex())
+			return TradeMenuMessage.REQUEST_NOT_YOURS;
+		else if (trade.getState() != TradeRequestState.PENDING)
+			return TradeMenuMessage.REQUEST_ENDED;
+		return null;
 	}
 }

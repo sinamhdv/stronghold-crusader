@@ -94,6 +94,7 @@ public enum Command {
 	TRADE_REQUEST("trade [-r,resourceType] <-a,amount> <-p,price> [-m,message] <-g,government>"),
 	TRADE_LIST("trade list"),
 	TRADE_ACCEPT("trade accept <-i,id>"),
+	TRADE_REJECT("trade reject <-i,id>"),
 	TRADE_HISTORY("trade history"),
 
 	// Market Menu

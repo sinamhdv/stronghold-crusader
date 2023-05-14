@@ -11,7 +11,7 @@ public class TradeRequest {
 	private final int senderIndex;
 	private final int receiverIndex;
 
-	private boolean isAccepted = false;
+	private TradeRequestState state = TradeRequestState.PENDING;
 	private boolean isSeen = false;
 
 	public TradeRequest(int senderIndex, int receiverIndex, ResourceType resourceType, int amount, int price, String message) {
@@ -52,27 +52,27 @@ public class TradeRequest {
 		return senderIndex;
 	}
 
-	public boolean isAccepted() {
-		return isAccepted;
-	}
-
 	public boolean isSeen() {
 		return isSeen;
-	}
-
-	public void setAccepted(boolean isAccepted) {
-		this.isAccepted = isAccepted;
 	}
 
 	public void setSeen(boolean isSeen) {
 		this.isSeen = isSeen;
 	}
 
+	public TradeRequestState getState() {
+		return state;
+	}
+
+	public void setState(TradeRequestState state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
 		String result = id + ") [" + senderIndex + " -> " + receiverIndex + "]: ";
 		result += "resource=" + resourceType.getName() + ", amount=" + amount + ", price=" + price;
-		result += "status=" + (isAccepted ? "ACCEPTED" : "PENDING") + ", message=" + message;
+		result += "status=" + state + ", message=" + message;
 		return result;
 	}
 }
