@@ -15,6 +15,7 @@ import stronghold.model.map.MapTile;
 import stronghold.model.map.Path;
 import stronghold.model.map.Pathfinding;
 import stronghold.utils.Miscellaneous;
+import stronghold.utils.PopularityFormulas;
 
 public class Person implements Serializable {
 	private final String name;
@@ -93,7 +94,7 @@ public class Person implements Serializable {
 	}
 
 	public int getDamage() {
-		return damage;
+		return PopularityFormulas.combineDamageAndFear(damage, getOwner().getFearFactor());
 	}
 
 	public void setDamage(int damage) {

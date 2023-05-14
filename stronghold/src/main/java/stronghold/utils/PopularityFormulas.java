@@ -20,4 +20,8 @@ public class PopularityFormulas {
 		if (taxRate == 0) return 0;
 		return taxRate + 2;
 	}
+
+	public static int combineDamageAndFear(int damage, int fear) {
+		return damage - (5 * fear * damage) / 100;
+	}
 }
