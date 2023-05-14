@@ -132,7 +132,8 @@ public class Building implements Serializable {
 		MapEditorMenuController.setSelectedGovernment(this.ownerIndex);
 		MapEditorMenuController.eraseBuilding(this);
 		getOwner().getBuildings().remove(this);
-		// TODO: if the keep is destroyed the government must lose
+		if ((this instanceof DefensiveStructure) && ((DefensiveStructure)this).getType() == DefensiveStructureType.KEEP)
+			getOwner().lose();
 	}
 
 	public boolean hurt(int damage) {

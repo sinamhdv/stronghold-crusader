@@ -3,6 +3,7 @@ package stronghold.view;
 import java.util.HashMap;
 
 import stronghold.controller.GameMenuController;
+import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
@@ -16,14 +17,19 @@ import stronghold.view.parser.CommandParser;
 public class GameMenu {
 	private static Game game;
 
-	public static void run() {
-		System.out.println("======[Game Menu]======");
+	private static void printMenuPrompt() {
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.GREEN);
+		System.out.print("game menu(" + game.getCurrentPlayerIndex() + ")> ");
+		TerminalColor.resetColor();
+	}
 
+	public static void run() {
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
 
 		HashMap<String, String> matcher;
 		while (true) {
+			printMenuPrompt();
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 
 			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
@@ -190,7 +196,13 @@ public class GameMenu {
 	}
 
 	private static void runNextTurn() {
-		System.out.println(GameMenuController.nextTurn().getErrorString());
+		GameMenuMessage message = GameMenuController.nextTurn();
+		System.out.println(message.getErrorString());
+		if (message != GameMenuMessage.SUCCESS) return;
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.CYAN);
+		System.out.print("======[Player #" + game.getCurrentPlayerIndex() + "]======");
+		TerminalColor.resetColor();
+		System.out.println();
 	}
 
 	private static void showSelectedUnits() {

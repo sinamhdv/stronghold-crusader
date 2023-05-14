@@ -100,6 +100,7 @@ public class Game {
 
 	public void updateGovernments() {
 		for (Government government : governments)
-			government.updateStats();
+			if (!government.hasLost())
+				government.updateStats();
 	}
 }

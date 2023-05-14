@@ -13,12 +13,17 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapMenu {
+	private static void printMenuPrompt() {
+		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.RED);
+		System.out.print("map menu> ");
+		TerminalColor.resetColor();
+	}
+
 	public static void run(Map map) {
-		System.out.println("======[Map Menu]======");
-		
 		MapMenuController.setCurrentMap(map);
 
 		while (true) {
+			printMenuPrompt();
 			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 			HashMap<String, String> matcher;
 

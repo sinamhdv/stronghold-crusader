@@ -27,6 +27,7 @@ public class Government {
 	private int gold = 1000;
 	private int wineUsageCycleTurns = 1;	// TODO: add a command to change this? (probably not necessary)
 	private final ArrayList<Person> people = new ArrayList<>();
+	private boolean hasLost = false;
 
 	public Government(User user, int index, Map map) {
 		this.user = user;
@@ -90,6 +91,10 @@ public class Government {
 		return people;
 	}
 
+	public boolean hasLost() {
+		return hasLost;
+	}
+
 	private void changePopularity(int delta) {
 		popularity += delta;
 		if (popularity > MAX_POPULARITY) popularity = MAX_POPULARITY;
@@ -138,6 +143,14 @@ public class Government {
 	}
 	public void addPerson(Person person) {
 		people.add(person);
+	}
+
+	public void lose() {
+		ArrayList<Person> peopleClone = new ArrayList<>(people);
+		ArrayList<Building> buildingsClone = new ArrayList<>(buildings);
+		for (Person person : peopleClone) person.die();
+		for (Building building : buildingsClone) building.destroy();
+		hasLost = true;
 	}
 
 	private void useWine() {

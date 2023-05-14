@@ -222,7 +222,8 @@ public class Person implements Serializable {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 		tile.getPeople().remove(this);
 		getOwner().getPeople().remove(this);
-		// TODO: the government must lose if the lord dies
+		if (this.type == PersonType.LORD)
+			getOwner().lose();
 	}
 
 	public boolean hurt(int damage) {
@@ -260,7 +261,9 @@ public class Person implements Serializable {
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
 
 		if (x == destX && y == destY) { // reached destination
-			if (action == PersonAction.PATROL)
+			if (action == PersonAction.MOVE)
+				setAction(PersonAction.IDLE);
+			else if (action == PersonAction.PATROL)
 				setPatrol(patrolX, patrolY);
 		}
 	}
@@ -276,7 +279,7 @@ public class Person implements Serializable {
 
 	@Override
 	public String toString() {
-		String result = name + "(" + ownerIndex + ") (hp=" + hp +
+		String result = name + "(" + ownerIndex + ") (hp=" + hp + ", stance=" + stance +
 				") @ (" + x + ", " + y + ") -> (" + destX + ", " + destY + ")";
 		return result;
 	}
@@ -344,20 +347,35 @@ public class Person implements Serializable {
 	private Object selectTargetFromCell(int cellX, int cellY) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cellX][cellY];
 		ArrayList<Object> enemies = new ArrayList<>();
-		if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
-			(!(tile.getBuilding() instanceof Trap) || !((Trap)tile.getBuilding()).hasDogs())) {
-			enemies.add(tile.getBuilding());
-		}
 		for (Person person : tile.getPeople())
 			if (person.getOwnerIndex() != ownerIndex)
 				enemies.add(person);
-		if (enemies.isEmpty()) return null;
-		return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
+		if (!enemies.isEmpty())
+			return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
+		if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
+			(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
+			return tile.getBuilding();
+		}
+		return null;
 	}
 
+	// private Object selectTargetFromCell(int cellX, int cellY) {
+	// 	MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[cellX][cellY];
+	// 	ArrayList<Object> enemies = new ArrayList<>();
+	// 	if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
+	// 		(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs())) {
+	// 		enemies.add(tile.getBuilding());
+	// 	}
+	// 	for (Person person : tile.getPeople())
+	// 		if (person.getOwnerIndex() != ownerIndex)
+	// 			enemies.add(person);
+	// 	if (enemies.isEmpty()) return null;
+	// 	return enemies.get(Miscellaneous.RANDOM_GENERATOR.nextInt(enemies.size()));
+	// }
+
 	public void searchForEnemies() {
-		if (action != PersonAction.IDLE && action != PersonAction.PATROL)
-			return;
+		if (action != PersonAction.IDLE && action != PersonAction.PATROL) return;
+		if (stance == StanceType.STANDING) return;
 		int[] enemyXY = findClosestEnemy(stance.getRadiusOfMovement());
 		if (enemyXY[0] == -1) return;
 		action = PersonAction.IDLE;

@@ -168,6 +168,8 @@ public class GameMenuController {
 		units = Miscellaneous.getPeopleByOwner(units, game.getCurrentPlayerIndex());
 		for (Person person : units)
 			game.addSelectedUnit(person);
+		if (game.getSelectedUnits().isEmpty())
+			return GameMenuMessage.NO_UNIT_SELECTED;
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -226,9 +228,12 @@ public class GameMenuController {
 	}
 
 	public static GameMenuMessage setStance(String stanceName) {
-		StanceType stance = StanceType.valueOf(stanceName);
-		if (stance == null)
+		StanceType stance;
+		try {
+			stance = StanceType.valueOf(stanceName);
+		} catch (IllegalArgumentException ex) {
 			return GameMenuMessage.INVALID_STANCE;
+		}
 		if (game.getSelectedUnits().isEmpty())
 			return GameMenuMessage.NO_UNIT_SELECTED;
 		for (Person person : game.getSelectedUnits())
