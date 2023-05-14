@@ -3,6 +3,7 @@ package stronghold.controller.messages;
 public enum GameMenuMessage {
 	SUCCESS("Success!"),
 	INVALID_COORDINATES("Error: Invalid coordinates"),
+	END_GAME("The game has ended!"),
 
 	// government management
 	INVALID_FOOD_RATE("Invalid food rate"),

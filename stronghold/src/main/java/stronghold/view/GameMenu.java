@@ -254,6 +254,13 @@ public class GameMenu {
 		System.out.println(GameMenuController.stopUnit().getErrorString());
 	}
 
+	public static void showWinner(Government winner) {
+		if (winner == null)
+			System.out.println("The game didn't have a winner");
+		else
+			System.out.println("The winner is: " + winner.getUser().getUserName());
+	}
+
 	private static void runDigMoat(HashMap<String, String> matcher) {
 		ArrayList<Person> peopleClone = game.getSelectedUnits();
 		Government currentPlayer = game.getCurrentPlayer();

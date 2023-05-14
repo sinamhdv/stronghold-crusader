@@ -10,6 +10,7 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.User;
 import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
@@ -218,8 +219,32 @@ public class GameMenuController {
 			handleTroopFullTurnUpdate();
 			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
+		if (checkGameEnding()) return GameMenuMessage.END_GAME;
 		game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
 		return GameMenuMessage.SUCCESS;
+	}
+
+	private static boolean checkGameEnding() {
+		int lostCount = 0;
+		Government winner = null;
+		for (Government government : game.getGovernments()) {
+			if (government.hasLost())
+				lostCount++;
+			else
+				winner = government;
+		}
+		if (lostCount >= game.getGovernments().length - 1) {
+			handleWinner(winner);
+			return true;
+		}
+		return false;
+	}
+
+	private static void handleWinner(Government winner) {
+		GameMenu.showWinner(winner);
+		if (winner == null) return;
+		User user = winner.getUser();
+		user.setHighScore(user.getHighScore() + game.getGovernments().length - 1);
 	}
 
 	private static void handleTroopNextTurnUpdate() {

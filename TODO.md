@@ -17,15 +17,15 @@
 - [ ] capturing gates
 - [X] draw bridge
 
-- [ ] next turn
+- [X] next turn
 - [X] select building
-- [ ] create unit
+- [X] create unit
 - [ ] repair
 - [X] select unit
 - [X] move unit
 - [X] patrol
-- [ ] stance
-- [ ] attack
+- [X] stance
+- [X] attack
 - [ ] pour/fill oil
 - [ ] dig tunnel
 - [ ] build siege equipment => trebuchet, siege tower, catapult, shield, battering ram, fire ballista
