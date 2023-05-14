@@ -6,6 +6,7 @@ import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.FormatValidation;
+import stronghold.utils.Miscellaneous;
 import stronghold.view.SignupMenu;
 import stronghold.view.captcha.CaptchaLoop;
 
@@ -69,16 +70,17 @@ public class SignupMenuController {
 	}
 
 	private static String generateRandomPassword() {
-		// TODO: come up with a better random password generation algorithm
-		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "0123456789"
-				+ "abcdefghijklmnopqrstuvxyz";
-		StringBuilder randompassword = new StringBuilder(8);
-		for (int i = 0; i < 8; i++) {
-			int index = (int) (alphaNumericString.length() * Math.random());
-			randompassword.append(alphaNumericString.charAt(index));
-		}
-		return randompassword.toString() + "@";
+		String[] charsets = {
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+			"abcdefghijklmnopqrstuvwxyz",
+			"0123456789",
+			"&!@#$%^*_-+="
+		};
+		String password = "";
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 3; j++)
+				password += charsets[i].charAt(Miscellaneous.RANDOM_GENERATOR.nextInt(charsets[i].length()));
+		return password;
 	}
 
 	private static String generateRandomSlogan() {
@@ -89,11 +91,8 @@ public class SignupMenuController {
 	}
 
 	private static String suggestUsername(String repetitiousUserName) {
-		Random random = new Random();
-		int upperBound = 10000;
-		// TODO : add constant upperbound to jason
-		while (true) {
-			String suggestUserName = repetitiousUserName + random.nextInt(upperBound);
+		for (int i = 0; ; i++) {
+			String suggestUserName = repetitiousUserName + i;
 			if (StrongHold.getUserByName(suggestUserName) == null) return suggestUserName; 
 		}
 	}
