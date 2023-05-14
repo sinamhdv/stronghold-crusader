@@ -316,7 +316,9 @@ public class GenerateConfig {
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
-				"european archer", "swordsman"
+				"archer", "crossbowman",
+				"spearman", "pikeman", "maceman",
+				"swordsman", "knight"
 			}
 		));
 
@@ -326,7 +328,9 @@ public class GenerateConfig {
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
-				"arabian archer", "arabian swordsman"
+				"arabian archer", "slave", "slinger",
+				"assassin", "horse archer",
+				"arabian swordsman", "firethrower"
 			}
 		));
 
