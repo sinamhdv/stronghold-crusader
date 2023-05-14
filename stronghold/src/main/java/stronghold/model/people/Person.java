@@ -386,77 +386,8 @@ public class Person implements Serializable {
 		setDestination(enemyXY[0], enemyXY[1]);
 	}
 
-	// public void automaticFight(Person person) {
-	// 	if (getDistance(person.x, person.y) <= (attackRange * attackRange)) {
-	// 		person.hurt(getDamage());
-	// 	} else if ((stance == StanceType.DEFENSIVE && getDistance(
-	// 			person.x, person.y) == (StanceType.DEFENSIVE.getRadiusOfMovement() * StanceType.DEFENSIVE.getRadiusOfMovement()))
-	// 			|| stance == StanceType.OFFENSIVE) {
-	// 		setDestination(person.getX(), person.getY());
-	// 	}
-	// }
-
 	public int getDistance(int targetX, int targetY) {
 		return (x - targetX) * (x - targetX) + (y - targetY) * (y - targetY);
-	}
-
-	public Person getEnemy() {
-		int limit = Math.max(stance.getRadiusOfMovement(), attackRange);
-		Game currentGame = StrongHold.getCurrentGame();
-		int randomNumber = Miscellaneous.RANDOM_GENERATOR.nextInt(1);
-		if (randomNumber == 0) {
-			for (int i = 0; i < limit; i++) {
-				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x + i][y].getPeople());
-				for (Person person : peopleClon)
-					if (person.getOwner() != getOwner())
-						return person;
-				ArrayList<Person> people = new ArrayList<>(currentGame.getMap().getGrid()[x][y + i].getPeople());
-				for (Person person : people)
-					if (person.getOwner() != getOwner())
-						return person;
-			}
-		}
-
-		else {
-			for (int i = 0; i < limit; i++) {
-				ArrayList<Person> people = new ArrayList<>(currentGame.getMap().getGrid()[x][y + i].getPeople());
-				for (Person person : people)
-					if (person.getOwner() != getOwner())
-						return person;
-				ArrayList<Person> peopleClon = new ArrayList<>(currentGame.getMap().getGrid()[x + i][y].getPeople());
-				for (Person person : peopleClon)
-					if (person.getOwner() != getOwner())
-						return person;
-			}
-		}
-
-		return null;
-	}
-
-	public GameMenuMessage fightWithDestination(int destX, int destY) {
-		Game currentGame = StrongHold.getCurrentGame();
-		ArrayList<Person> peopleClone = new ArrayList<>(currentGame.getMap().getGrid()[x][y].getPeople());
-		boolean isthereEnemy = false;
-		Person enemy = null;
-		for (Person person : peopleClone) {
-			if (person.getOwner() != getOwner()) {
-				isthereEnemy = true;
-				enemy = person;
-				break;
-			}
-		}
-		if (isthereEnemy)
-			return GameMenuMessage.THERE_IS_NO_ENEMY_TO_FIGHT;
-		else if (destX < 0 || destY < 0 || destX > 400 || destY > 400) {
-			return GameMenuMessage.INVALID_DESTINATION;
-		} else {
-			if (attackRange > 1) // attack -x
-			{
-				enemy.hurt(getDamage());
-			}
-			setDestination(destX, destY);
-			return GameMenuMessage.SUCCESS;
-		}
 	}
 
 	public GameMenuMessage digMoat(String direction) {
