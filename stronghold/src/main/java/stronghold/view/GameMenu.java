@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import stronghold.controller.GameMenuController;
@@ -75,7 +76,7 @@ public class GameMenu {
 			else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
 				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_MOAT)) != null)
-
+				runDigMoat(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
 				MapMenu.run(game.getMap());
 				System.out.println("======[Game Menu]======");
@@ -97,18 +98,17 @@ public class GameMenu {
 		System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
 		System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
 		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
-			PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
-			currentPlayer.getReligionPopularityInfluence() +
-			currentPlayer.getFearFactor();
+				PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+				currentPlayer.getReligionPopularityInfluence() +
+				currentPlayer.getFearFactor();
 		System.out.println("Sum of your influencing : " + sumOfInfluencing);
 	}
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.dropBuilding(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y")),
-			matcher.get("type")
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y")),
+				matcher.get("type")).getErrorString());
 	}
 
 	public static void showMapEditorError(MapEditorMenuMessage message) {
@@ -119,26 +119,24 @@ public class GameMenu {
 		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
 		ResourceType[] foodTypes = ResourceType.foodTypes;
 		for (int i = 0; i < foodTypes.length; i++) {
-			System.out.println("your " + foodTypes[i].getName() + " property: " + currentPlayer.getResourceCount(foodTypes[i]));
+			System.out.println(
+					"your " + foodTypes[i].getName() + " property: " + currentPlayer.getResourceCount(foodTypes[i]));
 		}
 	}
 
 	private static void runSetFearRate(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.setFearRate(
-			Integer.parseInt(matcher.get("rate"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("rate"))).getErrorString());
 	}
 
 	private static void runSetFoodRate(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.setFoodRate(
-			Integer.parseInt(matcher.get("rate"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("rate"))).getErrorString());
 	}
 
 	private static void runSetTaxRate(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.setTaxRate(
-			Integer.parseInt(matcher.get("rate"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("rate"))).getErrorString());
 	}
 
 	private static void foodRateShow() {
@@ -158,9 +156,8 @@ public class GameMenu {
 
 	private static void runSelectBuilding(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.selectBuilding(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
 	private static void showSelectedBuilding() {
@@ -174,21 +171,20 @@ public class GameMenu {
 	private static void showResourcesAmount() {
 		System.out.println("Resources report:");
 		for (ResourceType resourceType : ResourceType.values())
-			System.out.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
+			System.out
+					.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
 	}
 
 	private static void runSelectUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.selectUnit(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
 	private static void runMoveUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.moveUnit(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
 	private static void runNextTurn() {
@@ -206,16 +202,14 @@ public class GameMenu {
 
 	private static void runCreateUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.createUnit(
-			matcher.get("type"),
-			Integer.parseInt(matcher.get("count"))
-		).getErrorString());
+				matcher.get("type"),
+				Integer.parseInt(matcher.get("count"))).getErrorString());
 	}
 
 	private static void runPatrolUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.patrolUnit(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
 	private static void runOpenGate() {
@@ -236,12 +230,21 @@ public class GameMenu {
 
 	private static void runAttack(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.attack(
-			Integer.parseInt(matcher.get("x")),
-			Integer.parseInt(matcher.get("y"))
-		).getErrorString());
+				Integer.parseInt(matcher.get("x")),
+				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
 	private static void runDigMoat(HashMap<String, String> matcher) {
-		System.out.println();
+		ArrayList<Person> peopleClone = game.getSelectedUnits();
+		Government currentPlayer = game.getCurrentPlayer();
+		for(Person  person: peopleClone){
+			if(person.getOwner() == currentPlayer ){
+				if(person.canDigMoats())
+					System.out.println(person.digMoat(matcher.get("direction")));
+				else
+					System.out.println("This person can't dig moat");
+			}
+		}
 	}
+
 }
