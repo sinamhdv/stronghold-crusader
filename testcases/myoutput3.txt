@@ -3,7 +3,7 @@ Checking for auto-login...
 Auto-login successful
 ======[Main Menu]======
 ======[Map Management Menu]======
-Error: The requested map was not found
+Successfully deleted the map
 New map created successfully
 Successfully loaded the map
 ======[Map Editor]======
