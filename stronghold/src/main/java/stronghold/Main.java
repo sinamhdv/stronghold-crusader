@@ -7,7 +7,6 @@ public class Main {
 	public static void main(String[] args) {
 		DatabaseManager.loadUsers();
 		GenerateConfig.run();
-		RunTests.run();
 		LoginMenu.run();
 	}
 }
