@@ -264,12 +264,12 @@ public class Government {
 	}
 
 	public void updateStats() {
-		updatePopularity();
 		useWine();
 		updateBuildings();
 		updatePopulation();
 		updateFood();
 		updateTax();
+		updatePopularity();
 		updateWorkers();
 	}
 

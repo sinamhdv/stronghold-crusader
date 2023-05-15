@@ -1,6 +1,6 @@
 map management
 delete map -n map2
-new map -n map2 -g 3 -h 100 -w 100
+new map -n map2 -g 2 -h 100 -w 100
 edit map -n map2
 drop building -x 5 -y 5 -t keep
 rectangle set texture -x1 5 -x2 20 -y1 11 -y2 21 -t "high density grass"

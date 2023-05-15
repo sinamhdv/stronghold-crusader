@@ -397,7 +397,7 @@ public class GenerateConfig {
 				ResourceType.SPEAR, 0,
 				ResourceType.PIKE, 0,
 				ResourceType.MACE, 0,
-				ResourceType.SWORDS, 0,
+				ResourceType.SWORD, 0,
 				ResourceType.LEATHER_ARMOR, 0,
 				ResourceType.METAL_ARMOR, 0
 			)), 40
@@ -508,7 +508,7 @@ public class GenerateConfig {
 			1, 1, 999,
 			true, 0, 0,
 			0, 0,
-			ResourceType.IRON, ResourceType.SWORDS,
+			ResourceType.IRON, ResourceType.SWORD,
 			null,
 			2, 2, 1
 		));

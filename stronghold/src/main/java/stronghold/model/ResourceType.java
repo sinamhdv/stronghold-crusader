@@ -17,7 +17,7 @@ public enum ResourceType {
 	SPEAR(30, 25, "Spear", true),
 	PIKE(30,20, "Pike", true),
 	MACE(35, 25, "Mace", true),
-	SWORDS(40, 30, "Swords", true),
+	SWORD(40, 30, "Sword", true),
 	LEATHER_ARMOR(30, 25, "Leather Armor", true),
 	METAL_ARMOR(35, 27, "Metal Armor", true),
 	IRON(15, 10, "Iron", true),

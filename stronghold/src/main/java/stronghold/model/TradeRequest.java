@@ -72,7 +72,7 @@ public class TradeRequest {
 	public String toString() {
 		String result = id + ") [" + senderIndex + " -> " + receiverIndex + "]: ";
 		result += "resource=" + resourceType.getName() + ", amount=" + amount + ", price=" + price;
-		result += "status=" + state + ", message=" + message;
+		result += ", status=" + state + ", message=" + message;
 		return result;
 	}
 }
