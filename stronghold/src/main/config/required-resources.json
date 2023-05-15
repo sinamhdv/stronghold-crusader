@@ -1,5 +1,5 @@
 {
-	"keep": {},
+	"keep": { "ROCK": 20 },
 	"low wall": { "ROCK": 1 },
 	"high wall": { "ROCK": 2 },
 	"horizontal small gate": {},

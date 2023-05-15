@@ -45,6 +45,7 @@ public class Person implements Serializable {
 	private int patrolY;
 	private int attackTargetX;
 	private int attackTargetY;
+	private boolean hasAttackTarget = false;
 
 	public Person(String name, int speed, int hp, int damage, int visibilityRange, int attackRate, int attackRange,
 			boolean canClimbLadder, boolean canClimbWalls, boolean canDigMoats, boolean hasBurningOil, PersonType type,
@@ -303,6 +304,7 @@ public class Person implements Serializable {
 	public void stop() {
 		setDestination(getX(), getY());
 		setAction(PersonAction.IDLE);
+		hasAttackTarget = false;
 	}
 
 	public void setAttackTarget(int targetX, int targetY) {
@@ -313,6 +315,7 @@ public class Person implements Serializable {
 		this.attackTargetX = targetX;
 		this.attackTargetY = targetY;
 		action = PersonAction.ATTACK;
+		hasAttackTarget = true;
 	}
 
 	private void printAttackMessage(Object target) {
@@ -343,20 +346,23 @@ public class Person implements Serializable {
 	}
 
 	private Object selectTargetObject() {
-		if (action == PersonAction.ATTACK) {	// manual target selection
-			if (getDistance(attackTargetX, attackTargetY) <= getAttackRange() * getAttackRange())
-				return selectTargetFromCell(attackTargetX, attackTargetY);
+		if (hasAttackTarget) {	// manual target selection
+			if (getDistance(attackTargetX, attackTargetY) <= getAttackRange() * getAttackRange()) {
+				stop();
+				hasAttackTarget = true;
+				Object target = selectTargetFromCell(attackTargetX, attackTargetY);
+				if (target != null) return target;
+				else hasAttackTarget = false;
+			}
+		}
+		// search the attackRange for the closest target
+		int[] enemyXY = findClosestEnemy(getAttackRange(), true);
+		if (enemyXY[0] == -1)
 			return null;
-		}
-		else {	// search the attackRange for the closest target
-			int[] enemyXY = findClosestEnemy(getAttackRange());
-			if (enemyXY[0] == -1)
-				return null;
-			return selectTargetFromCell(enemyXY[0], enemyXY[1]);
-		}
+		return selectTargetFromCell(enemyXY[0], enemyXY[1]);
 	}
 
-	private int[] findClosestEnemy(int range) {
+	private int[] findClosestEnemy(int range, boolean includeBuildings) {
 		int[] result = {-1, -1};
 		int resultDistance = 9999999;
 		for (int i = x - range; i <= x + range; i++) {
@@ -366,10 +372,13 @@ public class Person implements Serializable {
 					continue;
 				if (getDistance(i, j) > range * range)
 					continue;
-				if (getDistance(i, j) < resultDistance && selectTargetFromCell(i, j) != null) {
-					result[0] = i;
-					result[1] = j;
-					resultDistance = getDistance(i, j);
+				if (getDistance(i, j) < resultDistance) {
+					Object target = selectTargetFromCell(i, j);
+					if (target != null && (includeBuildings || (target instanceof Person))) {
+						result[0] = i;
+						result[1] = j;
+						resultDistance = getDistance(i, j);
+					}
 				}
 			}
 		}
@@ -389,8 +398,7 @@ public class Person implements Serializable {
 		if (canAttackBuildings) {
 			if (tile.getBuilding() != null && tile.getBuilding().getOwnerIndex() != ownerIndex &&
 				(!(tile.getBuilding() instanceof Trap) || ((Trap)tile.getBuilding()).hasDogs()) &&
-				StrongHold.getCurrentGame().getMap().getGrid()[x][y].getHeight() == 0 &&
-				action == PersonAction.ATTACK) {
+				StrongHold.getCurrentGame().getMap().getGrid()[x][y].getHeight() == 0) {
 				return tile.getBuilding();
 			}
 		}
@@ -400,7 +408,7 @@ public class Person implements Serializable {
 	public void searchForEnemies() {
 		if (action != PersonAction.IDLE && action != PersonAction.PATROL) return;
 		if (stance == StanceType.STANDING) return;
-		int[] enemyXY = findClosestEnemy(stance.getRadiusOfMovement());
+		int[] enemyXY = findClosestEnemy(stance.getRadiusOfMovement(), false);
 		if (enemyXY[0] == -1) return;
 		action = PersonAction.IDLE;
 		setDestination(enemyXY[0], enemyXY[1]);

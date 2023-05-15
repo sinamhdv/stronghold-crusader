@@ -149,7 +149,7 @@ public class GenerateConfig {
 
 		people.add(new Person(
 			"assassin", 4, 100, 40,
-			5, 1, 1,
+			12, 1, 1,
 			true, true, false,
 			false, PersonType.ASSASSIN, 0, 0, 0,
 			100, true, false
@@ -348,8 +348,8 @@ public class GenerateConfig {
 			200, "chapel", 0,
 			1, 1, 999,
 			true, 0, 0,
-			2, 0,
-			0, new String[] {}
+			0, 0,
+			2, new String[] {}
 		));
 
 		addBuilding(new Barracks(
