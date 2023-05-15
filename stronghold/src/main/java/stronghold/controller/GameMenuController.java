@@ -26,7 +26,15 @@ public class GameMenuController {
 	private static Game game;
 	private static final int REPAIR_ERROR_RADUIS = 5;
 	public static final int MAX_TUNNEL_DISTANCE = 8;
+	private static boolean debugMode = false;
 
+	public static void setDebugMode(boolean debugMode) {
+		GameMenuController.debugMode = debugMode;
+	}
+	public static boolean getDebugMode() {
+		return debugMode;
+	}
+	
 	public static void setGame(Game game) {
 		GameMenuController.game = game;
 	}

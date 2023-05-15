@@ -90,6 +90,8 @@ public class GameMenu {
 				runBuildSiegeEquipment(matcher);
 			else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
 				runCheatGold(matcher);
+			else if ((matcher = CommandParser.getMatcher(input, Command.DEBUG_MODE)) != null)
+				runToggleDebugMode();
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
 				MapMenu.run(game.getMap());
 			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
@@ -285,5 +287,10 @@ public class GameMenu {
 
 	private static void runCheatGold(HashMap<String, String> matcher) {
 		game.getCurrentPlayer().setGold(Integer.parseInt(matcher.get("gold")));
+	}
+
+	private static void runToggleDebugMode() {
+		GameMenuController.setDebugMode(!GameMenuController.getDebugMode());
+		System.out.println("DEBUG MODE: " + GameMenuController.getDebugMode());
 	}
 }

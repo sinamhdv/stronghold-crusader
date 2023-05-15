@@ -248,10 +248,12 @@ public class Person implements Serializable {
 	public void moveTowardsDestination() {
 		Path path = Pathfinding.findPath(this);
 
-		System.out.print("DBG: PATH(" + name + "): ");
-		for (int[] cell : path.getCells())
-			System.out.print("(" + cell[0] + ", " + cell[1] + ") -> ");
-		System.out.println();
+		if (GameMenuController.getDebugMode()) {
+			System.out.print("DBG: PATH(" + name + "): ");
+			for (int[] cell : path.getCells())
+				System.out.print("(" + cell[0] + ", " + cell[1] + ") -> ");
+			System.out.println();
+		}
 
 		int[][] cells = path.getCells();
 		for (int i = 0; i < cells.length; i++) { // check for killing pits
@@ -336,7 +338,8 @@ public class Person implements Serializable {
 			((Person)target).hurt(getDamage());
 		else if (target instanceof Building)
 			((Building)target).hurt(getDamage());
-		printAttackMessage(target);
+		if (GameMenuController.getDebugMode())
+			printAttackMessage(target);
 	}
 
 	private Object selectTargetObject() {

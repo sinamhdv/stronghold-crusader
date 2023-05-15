@@ -103,6 +103,7 @@ public enum Command {
 	SELL("sell [-i,itemName] <-a,amount>"),
 
 	CHEAT_GOLD("cheat gold <-g,gold>"),
+	DEBUG_MODE("toggle debug mode"),
 	;
 
 	private final String specification;
