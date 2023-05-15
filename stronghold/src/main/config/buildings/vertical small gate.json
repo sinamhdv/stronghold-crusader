@@ -1,0 +1,1 @@
+{"fireRange":10,"defendRange":7,"isVertical":true,"type":"GATE","isCaptured":false,"closedVerticalHeight":2,"maxHp":400,"name":"vertical small gate","neededWorkers":0,"width":2,"height":2,"verticalHeight":2,"isSelectable":true,"residentsCapacity":8,"hp":400,"x":0,"y":0,"residents":0,"hasWorkers":false,"ownerIndex":0,"turnOfBuild":0}

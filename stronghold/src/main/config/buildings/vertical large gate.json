@@ -1,0 +1,1 @@
+{"fireRange":12,"defendRange":6,"isVertical":true,"type":"GATE","isCaptured":false,"closedVerticalHeight":2,"maxHp":600,"name":"vertical large gate","neededWorkers":0,"width":3,"height":3,"verticalHeight":2,"isSelectable":true,"residentsCapacity":10,"hp":600,"x":0,"y":0,"residents":0,"hasWorkers":false,"ownerIndex":0,"turnOfBuild":0}

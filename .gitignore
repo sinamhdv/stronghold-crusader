@@ -3,6 +3,4 @@ stronghold/.vscode/
 .idea/
 stronghold/.idea/
 stronghold/target/
-stronghold/src/main/database/
-stronghold/src/main/config/buildings/
 TODO.md
