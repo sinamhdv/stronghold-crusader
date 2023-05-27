@@ -10,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -18,8 +19,6 @@ import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.utils.DatabaseManager;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
 
 public class LoginMenu extends Application {
 	@FXML
@@ -32,6 +31,8 @@ public class LoginMenu extends Application {
 	private CheckBox showPasswordCheckBox;
 	@FXML
 	private Label errorText;
+	@FXML
+	private CheckBox stayLoggedInCheckBox;
 
 	private static Stage stage;
 	public static Stage getStage() {
@@ -46,10 +47,13 @@ public class LoginMenu extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		LoginMenu.stage = stage;
 		BorderPane borderPane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.show();
+		if (LoginMenuController.checkAutoLogin() == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
+			new MainMenu().start(stage);
 	}
 
 	@FXML
@@ -69,52 +73,62 @@ public class LoginMenu extends Application {
 			passwordMaskedField.textProperty().bindBidirectional(passwordUnmaskedField.textProperty());
 	}
 
-	public void loginButtonHandler(MouseEvent mouseEvent) {
-
-	}
-
-	public void passwordResetButtonHandler(MouseEvent mouseEvent) {
-
-	}
-
-	public void signupMenuButtonHandler(MouseEvent mouseEvent) {
-		
-	}
-
-	public static void run() {
-		System.out.println("======[Login Menu]======");
-		runCheckAutoLogin();
-
-		while (true) {
-			String line = MainMenu.getScanner().nextLine();
-			String[] inputTokens = CommandParser.splitTokens(line);
-			HashMap<String, String> matcher;
-
-			if ((matcher = CommandParser.getMatcher(inputTokens, Command.LOGIN)) != null)
-				runLogin(matcher);
-			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.FORGOT_PASSWORD)) != null)
-				runForgotPassword(matcher);
-			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP_MENU)) != null)
-				SignupMenu.run();
-			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
-				System.out.println("Exitting...");
-				break;
-			}
-			else
-				System.out.println("Error: Invalid command");
-		}
-	}
-
-	public static void runLogin(HashMap<String, String> matcher) {
+	public void loginButtonHandler(MouseEvent mouseEvent) throws Exception {
 		LoginMenuMessage message = LoginMenuController.login(
-			matcher.get("username"),
-			matcher.get("password"),
-			matcher.get("--stay-logged-in")
+			usernameTextField.getText(),
+			passwordMaskedField.getText(),
+			stayLoggedInCheckBox.isSelected()
 		);
-		System.out.println(message.getErrorString());
-		if (message == LoginMenuMessage.LOGIN_SUCCESS)
-			MainMenu.run();
+		if (message != LoginMenuMessage.LOGIN_SUCCESS) {
+			errorText.setText(message.getErrorString());
+			return;
+		}
+		new CaptchaMenu().start(stage);
 	}
+
+
+	public void passwordResetButtonHandler(MouseEvent mouseEvent) throws Exception {
+		System.out.println("password reset");
+	}
+
+	public void signupMenuButtonHandler(MouseEvent mouseEvent) throws Exception {
+		new SignupMenu().start(stage);
+	}
+
+	// public static void run() {
+	// 	System.out.println("======[Login Menu]======");
+	// 	runCheckAutoLogin();
+
+	// 	while (true) {
+	// 		String line = MainMenu.getScanner().nextLine();
+	// 		String[] inputTokens = CommandParser.splitTokens(line);
+	// 		HashMap<String, String> matcher;
+
+	// 		if ((matcher = CommandParser.getMatcher(inputTokens, Command.LOGIN)) != null)
+	// 			runLogin(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.FORGOT_PASSWORD)) != null)
+	// 			runForgotPassword(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP_MENU)) != null)
+	// 			SignupMenu.run();
+	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.EXIT)) != null) {
+	// 			System.out.println("Exitting...");
+	// 			break;
+	// 		}
+	// 		else
+	// 			System.out.println("Error: Invalid command");
+	// 	}
+	// }
+
+	// public static void runLogin(HashMap<String, String> matcher) {
+	// 	LoginMenuMessage message = LoginMenuController.login(
+	// 		matcher.get("username"),
+	// 		matcher.get("password"),
+	// 		matcher.get("--stay-logged-in")
+	// 	);
+	// 	System.out.println(message.getErrorString());
+	// 	if (message == LoginMenuMessage.LOGIN_SUCCESS)
+	// 		MainMenu.run();
+	// }
 
 	public static void runForgotPassword(HashMap<String, String> matcher) {
 		System.out.println(LoginMenuController.forgotPassword(
@@ -122,13 +136,13 @@ public class LoginMenu extends Application {
 		).getErrorString());
 	}
 
-	public static void runCheckAutoLogin() {
-		System.out.println("Checking for auto-login...");
-		LoginMenuMessage message = LoginMenuController.checkAutoLogin();
-		System.out.println(message.getErrorString());
-		if (message == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
-			MainMenu.run();
-	}
+	// public static void runCheckAutoLogin() {
+	// 	System.out.println("Checking for auto-login...");
+	// 	LoginMenuMessage message = LoginMenuController.checkAutoLogin();
+	// 	System.out.println(message.getErrorString());
+	// 	if (message == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
+	// 		MainMenu.run();
+	// }
 
 	public static String askSecurityQuestion(String question) {
 		System.out.println("Please answer this security question:");
