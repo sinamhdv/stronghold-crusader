@@ -2,12 +2,25 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
-public class SignupMenu {
+public class SignupMenu extends Application {
+	@Override
+	public void start(Stage stage) throws Exception {
+		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/SignupMenu.fxml"));
+		Scene scene = new Scene(borderPane);
+		stage.setScene(scene);
+		stage.show();
+	}
+
 	public static void run() {
 		System.out.println("======[Signup Menu]======");
 		

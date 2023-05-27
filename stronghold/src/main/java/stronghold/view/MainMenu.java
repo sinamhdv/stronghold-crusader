@@ -3,12 +3,26 @@ package stronghold.view;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
-public class MainMenu {
+public class MainMenu extends Application {
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
+		Scene scene = new Scene(borderPane);
+		stage.setScene(scene);
+		stage.show();
+	}
+
 	private static final Scanner scanner = new Scanner(System.in);
 	public static Scanner getScanner() {
 		return scanner;
