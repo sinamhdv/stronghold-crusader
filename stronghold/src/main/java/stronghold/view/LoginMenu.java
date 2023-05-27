@@ -2,13 +2,38 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+// import stronghold.GenerateConfig;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.utils.DatabaseManager;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
-public class LoginMenu {
+public class LoginMenu extends Application {
+	private static Stage stage;
+	public static Stage getStage() {
+		return stage;
+	}
+
+	public static void main(String[] args) {
+		DatabaseManager.loadUsers();
+		// GenerateConfig.run();
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		BorderPane borderPane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
+		Scene scene = new Scene(borderPane);
+		stage.setScene(scene);
+		stage.show();
+	}
 
 	public static void run() {
 		System.out.println("======[Login Menu]======");
