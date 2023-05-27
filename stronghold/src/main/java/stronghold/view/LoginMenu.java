@@ -1,6 +1,6 @@
 package stronghold.view;
 
-import java.util.HashMap;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 // import stronghold.GenerateConfig;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
-import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.StrongHold;
 import stronghold.utils.DatabaseManager;
 
 public class LoginMenu extends Application {
@@ -61,7 +61,7 @@ public class LoginMenu extends Application {
 		setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
 	}
 
-	private void setupPasswordShowAndHideFeature(TextField passwordUnmaskedField,
+	public static void setupPasswordShowAndHideFeature(TextField passwordUnmaskedField,
 		PasswordField passwordMaskedField,
 		CheckBox showPasswordCheckBox) {
 			passwordUnmaskedField.setManaged(false);
@@ -86,9 +86,18 @@ public class LoginMenu extends Application {
 		new CaptchaMenu().start(stage);
 	}
 
-
 	public void passwordResetButtonHandler(MouseEvent mouseEvent) throws Exception {
-		System.out.println("password reset");
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setHeaderText("Enter your username:");
+		Optional<String> result = dialog.showAndWait();
+		if (!result.isPresent())
+			errorText.setText("Please enter a username");
+		else if (StrongHold.getUserByName(result.get()) == null)
+			errorText.setText("Username doesn't exist");
+		else {
+			PasswordResetMenu.setPasswordResetUsername(result.get());
+			new PasswordResetMenu().start(stage);
+		}
 	}
 
 	public void signupMenuButtonHandler(MouseEvent mouseEvent) throws Exception {
@@ -130,11 +139,11 @@ public class LoginMenu extends Application {
 	// 		MainMenu.run();
 	// }
 
-	public static void runForgotPassword(HashMap<String, String> matcher) {
-		System.out.println(LoginMenuController.forgotPassword(
-			matcher.get("username")
-		).getErrorString());
-	}
+	// public static void runForgotPassword(HashMap<String, String> matcher) {
+	// 	System.out.println(LoginMenuController.forgotPassword(
+	// 		matcher.get("username")
+	// 	).getErrorString());
+	// }
 
 	// public static void runCheckAutoLogin() {
 	// 	System.out.println("Checking for auto-login...");
@@ -144,22 +153,22 @@ public class LoginMenu extends Application {
 	// 		MainMenu.run();
 	// }
 
-	public static String askSecurityQuestion(String question) {
-		System.out.println("Please answer this security question:");
-		System.out.println(question);
-		return MainMenu.getScanner().nextLine();
-	}
+	// public static String askSecurityQuestion(String question) {
+	// 	System.out.println("Please answer this security question:");
+	// 	System.out.println(question);
+	// 	return MainMenu.getScanner().nextLine();
+	// }
 
-	public static String[] getNewPassword() {
-		String[] password = new String[2];
-		System.out.print("Enter your new password: ");
-		password[0] = MainMenu.getScanner().nextLine();
-		System.out.print("Enter the password again: ");
-		password[1] = MainMenu.getScanner().nextLine();
-		return password;
-	}
+	// public static String[] getNewPassword() {
+	// 	String[] password = new String[2];
+	// 	System.out.print("Enter your new password: ");
+	// 	password[0] = MainMenu.getScanner().nextLine();
+	// 	System.out.print("Enter the password again: ");
+	// 	password[1] = MainMenu.getScanner().nextLine();
+	// 	return password;
+	// }
 
-	public static void alertWeakPassword(SignupAndProfileMenuMessage message) {
-		System.out.println(message.getErrorString());
-	}
+	// public static void alertWeakPassword(SignupAndProfileMenuMessage message) {
+	// 	System.out.println(message.getErrorString());
+	// }
 }

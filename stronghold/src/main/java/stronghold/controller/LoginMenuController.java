@@ -8,7 +8,6 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
-import stronghold.view.LoginMenu;
 
 public class LoginMenuController {
 	private static int failedLoginsCount = 0;
@@ -44,23 +43,16 @@ public class LoginMenuController {
 		return LoginMenuMessage.AUTO_LOGIN_SUCCESS;
 	}
 
-	public static LoginMenuMessage forgotPassword(String username) {
+	public static LoginMenuMessage forgotPassword(String username, String answer, String newPassword) {
 		User user = StrongHold.getUserByName(username);
 		if (user == null)
 			return LoginMenuMessage.USERNAME_DOESNT_EXIST;
-		String securityQuestion = CentralController.SECURITY_QUESTIONS[user.getSecurityQuestionNumber() - 1];
-		String answer = LoginMenu.askSecurityQuestion(securityQuestion);
 		if (!answer.equals(user.getSecurityQuestionAnswer()))
 			return LoginMenuMessage.INCORRECT_ANSWER;
-		String[] newPassword = LoginMenu.getNewPassword();
-		if (!newPassword[0].equals(newPassword[1]))
-			return LoginMenuMessage.PASSWORD_CONFIRM_WRONG;
-		SignupAndProfileMenuMessage passwordStrengthStatus = FormatValidation.checkPasswordStrength(newPassword[0]);
-		if (passwordStrengthStatus != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG) {
-			LoginMenu.alertWeakPassword(passwordStrengthStatus);
+		SignupAndProfileMenuMessage passwordStrengthStatus = FormatValidation.checkPasswordStrength(newPassword);
+		if (passwordStrengthStatus != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
 			return LoginMenuMessage.PASSWORD_WEAK;
-		}
-		user.setPassword(newPassword[0]);
+		user.setPassword(newPassword);
 		return LoginMenuMessage.PASSWORD_RESET_SUCCESS;
 	}
 }
