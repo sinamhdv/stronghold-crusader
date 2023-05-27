@@ -3,8 +3,14 @@ package stronghold.view;
 import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 // import stronghold.GenerateConfig;
@@ -16,6 +22,17 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class LoginMenu extends Application {
+	@FXML
+	private TextField usernameTextField;
+	@FXML
+	private TextField passwordUnmaskedField;
+	@FXML
+	private PasswordField passwordMaskedField;
+	@FXML
+	private CheckBox showPasswordCheckBox;
+	@FXML
+	private Label errorText;
+
 	private static Stage stage;
 	public static Stage getStage() {
 		return stage;
@@ -33,6 +50,35 @@ public class LoginMenu extends Application {
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.show();
+	}
+
+	@FXML
+	private void initialize() {
+		setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
+	}
+
+	private void setupPasswordShowAndHideFeature(TextField passwordUnmaskedField,
+		PasswordField passwordMaskedField,
+		CheckBox showPasswordCheckBox) {
+			passwordUnmaskedField.setManaged(false);
+			passwordUnmaskedField.setVisible(false);
+			passwordUnmaskedField.visibleProperty().bind(showPasswordCheckBox.selectedProperty());
+			passwordUnmaskedField.managedProperty().bind(showPasswordCheckBox.selectedProperty());
+			passwordMaskedField.visibleProperty().bind(showPasswordCheckBox.selectedProperty().not());
+			passwordMaskedField.managedProperty().bind(showPasswordCheckBox.selectedProperty().not());
+			passwordMaskedField.textProperty().bindBidirectional(passwordUnmaskedField.textProperty());
+	}
+
+	public void loginButtonHandler(MouseEvent mouseEvent) {
+
+	}
+
+	public void passwordResetButtonHandler(MouseEvent mouseEvent) {
+
+	}
+
+	public void signupMenuButtonHandler(MouseEvent mouseEvent) {
+		
 	}
 
 	public static void run() {

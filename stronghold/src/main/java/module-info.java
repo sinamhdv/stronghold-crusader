@@ -15,4 +15,5 @@ module stronghold {
     exports stronghold.model;
 
     opens stronghold.model to com.google.gson;
+    opens stronghold.view to javafx.fxml;
 }
