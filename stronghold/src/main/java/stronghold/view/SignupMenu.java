@@ -1,6 +1,5 @@
 package stronghold.view;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -23,8 +22,6 @@ import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.utils.FormatValidation;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
 
 public class SignupMenu extends Application {
 	@FXML
@@ -152,40 +149,40 @@ public class SignupMenu extends Application {
 	// 	}
 	// }
 	
-	public static String[] securityQuestionLoop() {
-		while (true) {
-			System.out.println("Pick your security question:");
-			for (int i = 0; i < CentralController.SECURITY_QUESTIONS.length; i++)
-				System.out.println((i + 1) + ". " + CentralController.SECURITY_QUESTIONS[i]);
-			String line = MainMenu.getScanner().nextLine();
-			String[] inputTokens = CommandParser.splitTokens(line);
-			HashMap<String, String> matcher;
-			if ((matcher = CommandParser.getMatcher(inputTokens, Command.QUESTION_PICK)) != null) {
-				if (matcher.get("answer").equals("") || matcher.get("answerConfirm").equals(""))
-					System.out.println("Error: Empty field");
-				else if (!matcher.get("answerConfirm").equals(matcher.get("answer")))
-					System.out.println("Error: answer confirm must match answer");
-				else if (Integer.parseInt(matcher.get("questionNumber")) < 1 ||
-					Integer.parseInt(matcher.get("questionNumber")) > CentralController.SECURITY_QUESTIONS.length)
-					System.out.println("Error: Incorrect question number");
-				else {
-					String[] result = new String[2];
-					result[0] = matcher.get("questionNumber");
-					result[1] = matcher.get("answer");
-					return result;
-				}
-			}
-			else {
-				System.out.println("Invalid command: please pick a security question");
-			}
-		}
-	}
+	// public static String[] securityQuestionLoop() {
+	// 	while (true) {
+	// 		System.out.println("Pick your security question:");
+	// 		for (int i = 0; i < CentralController.SECURITY_QUESTIONS.length; i++)
+	// 			System.out.println((i + 1) + ". " + CentralController.SECURITY_QUESTIONS[i]);
+	// 		String line = MainMenu.getScanner().nextLine();
+	// 		String[] inputTokens = CommandParser.splitTokens(line);
+	// 		HashMap<String, String> matcher;
+	// 		if ((matcher = CommandParser.getMatcher(inputTokens, Command.QUESTION_PICK)) != null) {
+	// 			if (matcher.get("answer").equals("") || matcher.get("answerConfirm").equals(""))
+	// 				System.out.println("Error: Empty field");
+	// 			else if (!matcher.get("answerConfirm").equals(matcher.get("answer")))
+	// 				System.out.println("Error: answer confirm must match answer");
+	// 			else if (Integer.parseInt(matcher.get("questionNumber")) < 1 ||
+	// 				Integer.parseInt(matcher.get("questionNumber")) > CentralController.SECURITY_QUESTIONS.length)
+	// 				System.out.println("Error: Incorrect question number");
+	// 			else {
+	// 				String[] result = new String[2];
+	// 				result[0] = matcher.get("questionNumber");
+	// 				result[1] = matcher.get("answer");
+	// 				return result;
+	// 			}
+	// 		}
+	// 		else {
+	// 			System.out.println("Invalid command: please pick a security question");
+	// 		}
+	// 	}
+	// }
 
-	public static boolean continueWithRandomUsername(String newUsername) {
-		System.out.println("The entered username already exists");
-		System.out.println("Do you want to continue with this suggested username?: " + newUsername);
-		System.out.println("Enter your choice (y/N): ");
-		String answer = MainMenu.getScanner().nextLine().toLowerCase();
-		return answer.equals("y");
-	}
+	// public static boolean continueWithRandomUsername(String newUsername) {
+	// 	System.out.println("The entered username already exists");
+	// 	System.out.println("Do you want to continue with this suggested username?: " + newUsername);
+	// 	System.out.println("Enter your choice (y/N): ");
+	// 	String answer = MainMenu.getScanner().nextLine().toLowerCase();
+	// 	return answer.equals("y");
+	// }
 }

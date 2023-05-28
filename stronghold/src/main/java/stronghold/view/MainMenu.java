@@ -1,17 +1,15 @@
 package stronghold.view;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
-import stronghold.controller.messages.MainMenuMessage;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
 
 public class MainMenu extends Application {
 
@@ -23,45 +21,66 @@ public class MainMenu extends Application {
 		stage.show();
 	}
 
+	public void startGameButtonHandler(MouseEvent mouseEvent) throws Exception {
+		System.out.println("start game");
+	}
+
+	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {
+		new ProfileMenu().start(LoginMenu.getStage());
+	}
+
+	public void mapManagementButtonHandler(MouseEvent mouseEvent) throws Exception {
+		System.out.println("map management");
+	}
+
+	public void logoutButtonHandler(MouseEvent mouseEvent) throws Exception {
+		MainMenuController.logout();
+		new LoginMenu().start(LoginMenu.getStage());
+	}
+
+	public void exitButtonHandler(MouseEvent mouseEvent) throws Exception {
+		Platform.exit();
+	}
+
 	private static final Scanner scanner = new Scanner(System.in);
 	public static Scanner getScanner() {
 		return scanner;
 	}
 
-	public static void run() {
-		System.out.println("======[Main Menu]======");
+	// public static void run() {
+	// 	System.out.println("======[Main Menu]======");
 
-		while (true) {
-			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
-			HashMap<String, String> matcher;
+	// 	while (true) {
+	// 		String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
+	// 		HashMap<String, String> matcher;
 
-			if ((matcher = CommandParser.getMatcher(input, Command.PROFILE_MENU)) != null)
-				ProfileMenu.run();
-			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MANAGEMENT_MENU)) != null)
-				MapManagementMenu.run();
-			else if ((matcher = CommandParser.getMatcher(input, Command.START_GAME)) != null)
-				runStartGame(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.LOGOUT)) != null) {
-				MainMenuController.logout();
-				System.out.println("logged out");
-				return;
-			}
-			else if ((matcher = CommandParser.getMatcher(input, Command.EXIT)) != null) {
-				System.out.println("Exitting...");
-				MainMenuController.exit();
-			}
-			else
-				System.out.println("Invalid command");
-		}
-	}
+	// 		if ((matcher = CommandParser.getMatcher(input, Command.PROFILE_MENU)) != null)
+	// 			ProfileMenu.run();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MANAGEMENT_MENU)) != null)
+	// 			MapManagementMenu.run();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.START_GAME)) != null)
+	// 			runStartGame(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.LOGOUT)) != null) {
+	// 			MainMenuController.logout();
+	// 			System.out.println("logged out");
+	// 			return;
+	// 		}
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.EXIT)) != null) {
+	// 			System.out.println("Exitting...");
+	// 			MainMenuController.exit();
+	// 		}
+	// 		else
+	// 			System.out.println("Invalid command");
+	// 	}
+	// }
 
-	private static void runStartGame(HashMap<String, String> matcher) {
-		MainMenuMessage message = MainMenuController.startGame(matcher.get("map"));
-		System.out.println(message.getErrorString());
-		if (message == MainMenuMessage.SUCCESS) {
-			GameMenu.run();
-		}
-	}
+	// private static void runStartGame(HashMap<String, String> matcher) {
+	// 	MainMenuMessage message = MainMenuController.startGame(matcher.get("map"));
+	// 	System.out.println(message.getErrorString());
+	// 	if (message == MainMenuMessage.SUCCESS) {
+	// 		GameMenu.run();
+	// 	}
+	// }
 
 	public static String[] askPlayersNames(int count) {
 		String[] usernames = new String[count];

@@ -3,6 +3,7 @@ stronghold/.vscode/
 .idea/
 stronghold/.idea/
 stronghold/target/
-TODO.md
+TODO1.md
+TODO2.md
 stronghold/src/main/database/users.json
 stronghold/src/main/database/stay-logged-in.txt

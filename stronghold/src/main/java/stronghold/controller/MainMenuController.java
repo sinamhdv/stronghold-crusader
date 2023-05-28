@@ -13,10 +13,6 @@ public class MainMenuController {
 		DatabaseManager.clearStayLoggedIn(StrongHold.getCurrentUser());
 	}
 
-	public static void exit() {
-		System.exit(0);
-	}
-
 	public static MainMenuMessage startGame(String mapName) {
 		if (!DatabaseManager.mapExists(mapName))
 			return MainMenuMessage.MAP_DOESNT_EXIST;
