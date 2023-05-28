@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -50,6 +51,8 @@ public class SignupMenu extends Application {
 	private Button randomizeSloganButton;
 	@FXML
 	private Label errorText;
+	@FXML
+	private ComboBox<String> securityQuestionsComboBox;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -67,6 +70,7 @@ public class SignupMenu extends Application {
 		setupSloganInputFields(sloganCheckBox, sloganTextField, randomizeSloganButton);
 		addUsernameErrorsListener(usernameTextField, usernameErrorText);
 		PasswordResetMenu.addPasswordStrengthListener(passwordStrengthErrorText, passwordMaskedField);
+		setupSecurityQuestionsComboBox(securityQuestionsComboBox);
 	}
 
 	private static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
@@ -87,6 +91,11 @@ public class SignupMenu extends Application {
 			else
 				error.setText("");
 		});
+	}
+
+	private static void setupSecurityQuestionsComboBox(ComboBox<String> comboBox) {
+		comboBox.getItems().addAll(CentralController.SECURITY_QUESTIONS);
+		comboBox.setValue("");
 	}
 
 	public void randomizeSloganButtonHandler(MouseEvent mouseEvent) throws Exception {
