@@ -3,6 +3,12 @@ package stronghold.view;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import stronghold.controller.MapMenuController;
 import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.map.Map;
@@ -12,7 +18,31 @@ import stronghold.utils.Miscellaneous;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
-public class MapMenu {
+public class MapMenu extends Application {
+	@Override
+	public void start(Stage stage) throws Exception {
+		Pane pane = FXMLLoader.load(MapMenu.class.getResource("/fxml/MapMenu.fxml"));
+		Scene scene = new Scene(pane);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.show();
+	}
+
+	@FXML
+	private void initialize() {
+		displayGraphicalMap();
+	}
+
+	private void displayGraphicalMap() {
+		int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
+		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
+		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
+			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
+				// TODO: display the tile representation at (i, j)
+			}
+		}
+	}
+
 	private static void printMenuPrompt() {
 		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.RED);
 		System.out.print("map menu> ");
