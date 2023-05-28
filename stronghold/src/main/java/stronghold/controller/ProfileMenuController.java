@@ -3,6 +3,7 @@ package stronghold.controller;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
 import stronghold.view.ProfileMenu;
 import stronghold.view.captcha.CaptchaLoop;
@@ -13,11 +14,13 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!FormatValidation.checkUserName(newUsername))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;
-		User previousUser = StrongHold.getUserByName(newUsername);
-		if (previousUser != null && StrongHold.getCurrentUser() != previousUser)
+		if (StrongHold.getUserByName(newUsername) != null)
 			return SignupAndProfileMenuMessage.USERNAME_EXIST;
 		StrongHold.getCurrentUser().setUserName(newUsername);
-		return SignupAndProfileMenuMessage.CHANGE_USERNAME_SUCCESSFUL;
+		String autoLoginUsername = DatabaseManager.getAutoLoginUsername();
+		if (autoLoginUsername != null && !autoLoginUsername.equals(""))
+			DatabaseManager.saveStayLoggedIn(StrongHold.getCurrentUser());
+		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 
 	public static SignupAndProfileMenuMessage changeNickName(String newNickName) {
@@ -25,7 +28,7 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else {
 			StrongHold.getCurrentUser().setNickName(newNickName);
-			return SignupAndProfileMenuMessage.CHANGE_NICKNAME_SUCCESSFUL;
+			return SignupAndProfileMenuMessage.SUCCESS;
 		}
 	}
 
@@ -47,7 +50,7 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.PASSWORD_IS_SHORT;
 
 		StrongHold.getCurrentUser().setPassword(newPassword);
-		return SignupAndProfileMenuMessage.CHANGE_PASSWORD_SUCCESS;
+		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 
 	public static SignupAndProfileMenuMessage changeEmail(String newEmail) {
@@ -59,18 +62,13 @@ public class ProfileMenuController {
 		if (previousUser != null && previousUser != StrongHold.getCurrentUser())
 			return SignupAndProfileMenuMessage.EMAIL_EXIST;
 		StrongHold.getCurrentUser().setEmail(newEmail);
-		return SignupAndProfileMenuMessage.CHANGE_EMAIL_SUCCESSFUL;
+		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 
 	public static SignupAndProfileMenuMessage changeSlogan(String slogan) {
-		if (slogan.equals(""))
+		if (slogan != null && slogan.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		StrongHold.getCurrentUser().setSlogan(slogan);
-		return SignupAndProfileMenuMessage.CHANGE_SLOGAN_SUCCESSFUL;
-	}
-
-	public static SignupAndProfileMenuMessage removeSlogan() {
-		StrongHold.getCurrentUser().setSlogan(null);
-		return SignupAndProfileMenuMessage.REMOVE_SLOGAN_SUCCESSFUL;
+		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 }
