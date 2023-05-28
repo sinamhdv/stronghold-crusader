@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,13 @@ public class CaptchaMenu extends Application {
 	private ImageView captchaImage;
 	@FXML
 	private TextField answerField;
+	@FXML
+	private Label errorText;
+
+	private static Application nextMenu;
+	public static void setNextMenu(Application nextMenu) {
+		CaptchaMenu.nextMenu = nextMenu;
+	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -42,6 +50,11 @@ public class CaptchaMenu extends Application {
 	}
 
 	public void submitButtonHandler(MouseEvent mouseEvent) throws Exception {
-		
+		if (answerField.getText().equals(Captcha.getNumber()))
+			nextMenu.start(LoginMenu.getStage());
+		else {
+			errorText.setText("Incorrect answer");
+			renewCaptcha();
+		}
 	}
 }

@@ -85,6 +85,7 @@ public class LoginMenu extends Application {
 			errorText.setText(message.getErrorString());
 			return;
 		}
+		CaptchaMenu.setNextMenu(new MainMenu());
 		new CaptchaMenu().start(stage);
 	}
 

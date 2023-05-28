@@ -3,8 +3,13 @@ package stronghold.utils;
 import java.io.File;
 
 public class Captcha {
+	private static String number;
+	public static String getNumber() {
+		return number;
+	}
+
 	public static void generateCaptcha() throws Exception {
-		String number = getRandom4DigitNumber();
+		number = getRandom4DigitNumber();
 		String[] command = {
 			"python3",
 			"main.py",
