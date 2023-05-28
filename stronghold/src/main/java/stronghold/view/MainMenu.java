@@ -18,6 +18,7 @@ public class MainMenu extends Application {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+		stage.setFullScreen(true);
 		stage.show();
 	}
 

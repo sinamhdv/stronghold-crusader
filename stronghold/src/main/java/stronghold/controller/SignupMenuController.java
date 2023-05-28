@@ -18,7 +18,7 @@ public class SignupMenuController {
 		User newUser = new User(username, password, nickName, slogan, email, 0,
 				securityQuestionIndex, securityQuestionAnswer);
 		StrongHold.addUser(newUser);
-		return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
+		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 
 	public static SignupAndProfileMenuMessage signUpFactorsError(String username, String nickName, String password,
@@ -28,16 +28,24 @@ public class SignupMenuController {
 			nickName.equals("") || email.equals("") ||
 			securityQuestionIndex < 0 || securityQuestionAnswer.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
-		else if (!FormatValidation.checkUserName(username))
-			return SignupAndProfileMenuMessage.INVALID_USERNAME;
-		else if (StrongHold.getUserByName(username) != null)
-			return SignupAndProfileMenuMessage.USERNAME_EXIST;
+		else if (checkUsernameRealtimeErrors(username) != null)
+			return checkUsernameRealtimeErrors(username);
 		else if (FormatValidation.checkPasswordStrength(password) != SignupAndProfileMenuMessage.PASSWORD_IS_STRONG)
 			return FormatValidation.checkPasswordStrength(password);
 		else if (StrongHold.getUserByEmail(email.toLowerCase()) != null)
 			return SignupAndProfileMenuMessage.EMAIL_EXIST;
 		else if (!FormatValidation.checkEmailFormat(email))
 			return SignupAndProfileMenuMessage.INVALID_EMAIL;
+		return null;
+	}
+
+	public static SignupAndProfileMenuMessage checkUsernameRealtimeErrors(String username) {
+		if (username.equals(""))
+			return SignupAndProfileMenuMessage.EMPTY_FIELD;
+		else if (!FormatValidation.checkUserName(username))
+			return SignupAndProfileMenuMessage.INVALID_USERNAME;
+		else if (StrongHold.getUserByName(username) != null)
+			return SignupAndProfileMenuMessage.USERNAME_EXIST;
 		return null;
 	}
 

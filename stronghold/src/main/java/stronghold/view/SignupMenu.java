@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
-import stronghold.utils.FormatValidation;
 
 public class SignupMenu extends Application {
 	@FXML
@@ -72,7 +71,7 @@ public class SignupMenu extends Application {
 		setupSecurityQuestionsComboBox(securityQuestionsComboBox);
 	}
 
-	private static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
+	public static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
 		sloganTextField.setVisible(false);
 		sloganTextField.setManaged(false);
 		randomizeButton.setVisible(false);
@@ -83,12 +82,10 @@ public class SignupMenu extends Application {
 		randomizeButton.managedProperty().bind(sloganCheckBox.selectedProperty());
 	}
 
-	private static void addUsernameErrorsListener(TextField usernameTextField, Label error) {
+	public static void addUsernameErrorsListener(TextField usernameTextField, Label error) {
 		usernameTextField.textProperty().addListener((observable, oldText, newText) -> {
-			if (!FormatValidation.checkUserName(newText))
-				error.setText(SignupAndProfileMenuMessage.INVALID_USERNAME.getErrorString());
-			else
-				error.setText("");
+			SignupAndProfileMenuMessage message = SignupMenuController.checkUsernameRealtimeErrors(newText);
+			error.setText(message == null ? "" : message.getErrorString());
 		});
 	}
 
@@ -114,7 +111,7 @@ public class SignupMenu extends Application {
 			securityQuestionsComboBox.getSelectionModel().getSelectedIndex(),
 			answerTextField.getText()
 		);
-		if (message != SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL) {
+		if (message != SignupAndProfileMenuMessage.SUCCESS) {
 			errorText.setText(message.getErrorString());
 			return;
 		}
