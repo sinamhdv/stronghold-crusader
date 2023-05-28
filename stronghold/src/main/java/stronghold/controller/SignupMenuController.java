@@ -16,9 +16,6 @@ public class SignupMenuController {
 		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, email, slogan);
 		if (message != null)
 			return message;
-
-
-
 		String[] securityQuestion = SignupMenu.securityQuestionLoop();
 		CaptchaLoop.captchaManager();
 		User newUser = new User(username, password, nickName, slogan, email, 0,
