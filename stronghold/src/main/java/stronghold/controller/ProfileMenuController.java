@@ -44,7 +44,7 @@ public class ProfileMenuController {
 		
 		String confirmation = ProfileMenu.askNewPasswordConfirmation();
 		if (!confirmation.equals(newPassword))
-			return SignupAndProfileMenuMessage.PASSWORD_CONFIRMATION_IS_NOT_TRUE;
+			return SignupAndProfileMenuMessage.PASSWORD_IS_SHORT;
 
 		StrongHold.getCurrentUser().setPassword(newPassword);
 		return SignupAndProfileMenuMessage.CHANGE_PASSWORD_SUCCESS;
