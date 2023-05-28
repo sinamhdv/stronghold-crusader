@@ -48,6 +48,7 @@ public class PasswordResetMenu extends Application {
 		BorderPane borderPane = FXMLLoader.load(PasswordResetMenu.class.getResource("/fxml/PasswordResetMenu.fxml"));
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+		stage.setFullScreen(true);
 		stage.show();
 	}
 
@@ -55,10 +56,10 @@ public class PasswordResetMenu extends Application {
 	private void initialize() {
 		LoginMenu.setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
 		initSecurityQuestionText();
-		initPasswordStrengthError(passwordStrengthError, passwordMaskedField);
+		addPasswordStrengthListener(passwordStrengthError, passwordMaskedField);
 	}
 
-	private static void initPasswordStrengthError(Label error, PasswordField passwordField) {
+	public static void addPasswordStrengthListener(Label error, PasswordField passwordField) {
 		passwordField.textProperty().addListener((observable, oldText, newText) -> {
 			SignupAndProfileMenuMessage message = FormatValidation.checkPasswordStrength(newText);
 			error.setText(message.getErrorString());
@@ -81,7 +82,9 @@ public class PasswordResetMenu extends Application {
 			errorText.setText(message.getErrorString());
 			return;
 		}
-		new Alert(AlertType.INFORMATION, "Success").showAndWait();
+		Alert alert = new Alert(AlertType.INFORMATION, "Success");
+		alert.initOwner(LoginMenu.getStage());
+		alert.showAndWait();
 		new LoginMenu().start(LoginMenu.getStage());
 	}
 }

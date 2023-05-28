@@ -91,6 +91,9 @@ public class LoginMenu extends Application {
 	public void passwordResetButtonHandler(MouseEvent mouseEvent) throws Exception {
 		TextInputDialog dialog = new TextInputDialog("");
 		dialog.setHeaderText("Enter your username:");
+		dialog.initOwner(stage);
+		stage.setFullScreen(false);
+		stage.setFullScreen(true);
 		Optional<String> result = dialog.showAndWait();
 		if (!result.isPresent())
 			errorText.setText("Please enter a username");
@@ -98,6 +101,7 @@ public class LoginMenu extends Application {
 			errorText.setText("Username doesn't exist");
 		else {
 			PasswordResetMenu.setPasswordResetUsername(result.get());
+			PasswordResetMenu.setPasswordResetUsername("sina");
 			new PasswordResetMenu().start(stage);
 		}
 	}
