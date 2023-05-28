@@ -2,13 +2,29 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import stronghold.controller.ProfileMenuController;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
-public class ProfileMenu {
+public class ProfileMenu extends Application {
+	@Override
+	public void start(Stage stage) throws Exception {
+		BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/ProfileMenu.fxml"));
+		Scene scene = new Scene(borderPane);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.show();
+	}
+
+	
+
 	public static void run() {
 		System.out.println("======[Profile Menu]======");
 		
