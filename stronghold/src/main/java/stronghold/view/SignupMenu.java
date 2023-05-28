@@ -16,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
+import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.utils.FormatValidation;
 import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
@@ -23,11 +25,15 @@ public class SignupMenu extends Application {
 	@FXML
 	private TextField usernameTextField;
 	@FXML
+	private Label usernameErrorText;
+	@FXML
 	private TextField passwordUnmaskedField;
 	@FXML
 	private PasswordField passwordMaskedField;
 	@FXML
 	private CheckBox showPasswordCheckBox;
+	@FXML
+	private Label passwordStrengthErrorText;
 	@FXML
 	private TextField nicknameTextField;
 	@FXML
@@ -55,6 +61,8 @@ public class SignupMenu extends Application {
 	private void initialize() {
 		LoginMenu.setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
 		setupSloganInputFields(sloganCheckBox, sloganTextField, randomizeSloganButton);
+		addUsernameErrorsListener(usernameTextField, usernameErrorText);
+		PasswordResetMenu.addPasswordStrengthListener(passwordStrengthErrorText, passwordMaskedField);
 	}
 
 	private static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
@@ -68,8 +76,21 @@ public class SignupMenu extends Application {
 		randomizeButton.managedProperty().bind(sloganCheckBox.selectedProperty());
 	}
 
+	private static void addUsernameErrorsListener(TextField usernameTextField, Label error) {
+		usernameTextField.textProperty().addListener((observable, oldText, newText) -> {
+			if (!FormatValidation.checkUserName(newText))
+				error.setText(SignupAndProfileMenuMessage.INVALID_USERNAME.getErrorString());
+			else
+				error.setText("");
+		});
+	}
+
 	public void randomizeSloganButtonHandler(MouseEvent mouseEvent) throws Exception {
 		sloganTextField.setText(SignupMenuController.generateRandomSlogan());
+	}
+
+	public void backButtonHandler(MouseEvent mouseEvent) throws Exception {
+		new LoginMenu().start(LoginMenu.getStage());
 	}
 
 	public static void run() {
