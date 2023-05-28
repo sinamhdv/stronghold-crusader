@@ -3,8 +3,13 @@ package stronghold.view;
 import java.util.HashMap;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.CentralController;
@@ -13,12 +18,39 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class SignupMenu extends Application {
+	@FXML
+	private TextField usernameTextField;
+	@FXML
+	private TextField passwordUnmaskedField;
+	@FXML
+	private PasswordField passwordMaskedField;
+	@FXML
+	private CheckBox showPasswordCheckBox;
+	@FXML
+	private TextField nicknameTextField;
+	@FXML
+	private TextField emailTextField;
+	@FXML
+	private CheckBox sloganCheckBox;
+	@FXML
+	private Label errorText;
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/SignupMenu.fxml"));
+		borderPane.setMinWidth(800);
+		borderPane.setMaxWidth(800);
+		borderPane.setMinHeight(600);
+		borderPane.setMaxHeight(600);
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+		stage.setFullScreen(true);
 		stage.show();
+	}
+
+	@FXML
+	private void initialize() {
+		LoginMenu.setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
 	}
 
 	public static void run() {

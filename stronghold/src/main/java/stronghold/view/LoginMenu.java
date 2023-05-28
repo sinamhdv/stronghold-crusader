@@ -51,6 +51,8 @@ public class LoginMenu extends Application {
 		BorderPane borderPane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
+		stage.setFullScreenExitHint("");
+		stage.setFullScreen(true);
 		stage.show();
 		if (LoginMenuController.checkAutoLogin() == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
 			new MainMenu().start(stage);
