@@ -7,28 +7,26 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.FormatValidation;
 import stronghold.utils.Miscellaneous;
-import stronghold.view.SignupMenu;
-import stronghold.view.captcha.CaptchaLoop;
 
 public class SignupMenuController {
 	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
-			String email, String slogan) {
-		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, email, slogan);
+			String email, String slogan, int securityQuestionIndex, String securityQuestionAnswer) {
+		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, email, slogan,
+			securityQuestionIndex, securityQuestionAnswer);
 		if (message != null)
 			return message;
-		String[] securityQuestion = SignupMenu.securityQuestionLoop();
-		CaptchaLoop.captchaManager();
 		User newUser = new User(username, password, nickName, slogan, email, 0,
-				Integer.parseInt(securityQuestion[0]), securityQuestion[1]);
+				securityQuestionIndex, securityQuestionAnswer);
 		StrongHold.addUser(newUser);
 		return SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL;
 	}
 
 	public static SignupAndProfileMenuMessage signUpFactorsError(String username, String nickName, String password,
-		String email, String slogan) {
+		String email, String slogan, int securityQuestionIndex, String securityQuestionAnswer) {
 		if ((slogan != null && slogan.equals("")) ||
 			username.equals("") || password.equals("") ||
-			nickName.equals("") || email.equals(""))
+			nickName.equals("") || email.equals("") ||
+			securityQuestionIndex < 0 || securityQuestionAnswer.equals(""))
 			return SignupAndProfileMenuMessage.EMPTY_FIELD;
 		else if (!FormatValidation.checkUserName(username))
 			return SignupAndProfileMenuMessage.INVALID_USERNAME;

@@ -69,7 +69,7 @@ public class PasswordResetMenu extends Application {
 
 	private void initSecurityQuestionText() {
 		User user = StrongHold.getUserByName(passwordResetUsername);
-		securityQuestionText.setText(CentralController.SECURITY_QUESTIONS[user.getSecurityQuestionNumber() - 1]);
+		securityQuestionText.setText(CentralController.SECURITY_QUESTIONS[user.getSecurityQuestionNumber()]);
 	}
 
 	public void submitButtonHandler(MouseEvent mouseEvent) throws Exception {

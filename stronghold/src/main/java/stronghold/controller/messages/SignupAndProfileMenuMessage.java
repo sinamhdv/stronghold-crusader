@@ -9,7 +9,7 @@ public enum SignupAndProfileMenuMessage {
 	PASSWORD_IS_STRONG("password is strong"),
 	EMPTY_FIELD("Empty field"),
 	INVALID_USERNAME("Invalid format for username"),
-	USERNAME_EXIST("Username already exist"),
+	USERNAME_EXIST("Username already exists"),
 	EMAIL_EXIST("This email already exist"),
 	INVALID_EMAIL("Invalid format for email"),
 	SIGNUP_SUCCESSFUL("Signup is successful"),

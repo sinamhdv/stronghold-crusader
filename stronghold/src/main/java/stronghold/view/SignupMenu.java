@@ -53,6 +53,8 @@ public class SignupMenu extends Application {
 	private Label errorText;
 	@FXML
 	private ComboBox<String> securityQuestionsComboBox;
+	@FXML
+	private TextField answerTextField;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -95,7 +97,6 @@ public class SignupMenu extends Application {
 
 	private static void setupSecurityQuestionsComboBox(ComboBox<String> comboBox) {
 		comboBox.getItems().addAll(CentralController.SECURITY_QUESTIONS);
-		comboBox.setValue("");
 	}
 
 	public void randomizeSloganButtonHandler(MouseEvent mouseEvent) throws Exception {
@@ -103,6 +104,23 @@ public class SignupMenu extends Application {
 	}
 
 	public void backButtonHandler(MouseEvent mouseEvent) throws Exception {
+		new LoginMenu().start(LoginMenu.getStage());
+	}
+
+	public void signupButtonHandler(MouseEvent mouseEvent) throws Exception {
+		SignupAndProfileMenuMessage message = SignupMenuController.signup(
+			usernameTextField.getText(),
+			nicknameTextField.getText(),
+			passwordMaskedField.getText(),
+			emailTextField.getText(),
+			(sloganCheckBox.isSelected() ? sloganTextField.getText() : null),
+			securityQuestionsComboBox.getSelectionModel().getSelectedIndex(),
+			answerTextField.getText()
+		);
+		if (message != SignupAndProfileMenuMessage.SIGNUP_SUCCESSFUL) {
+			errorText.setText(message.getErrorString());
+			return;
+		}
 		new LoginMenu().start(LoginMenu.getStage());
 	}
 
@@ -116,23 +134,23 @@ public class SignupMenu extends Application {
 			passwordMaskedField.setText(password);
 	}
 
-	public static void run() {
-		System.out.println("======[Signup Menu]======");
+	// public static void run() {
+	// 	System.out.println("======[Signup Menu]======");
 		
-		while (true) {
-			String line = MainMenu.getScanner().nextLine();
-			String[] inputTokens = CommandParser.splitTokens(line);
-			HashMap<String, String> matcher;
-			if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
-				return;
-			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
-				System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
-				matcher.get("password"), matcher.get("email"),
-				matcher.get("slogan")).getErrorString());
-			else
-				System.out.println("invalid command");
-		}
-	}
+	// 	while (true) {
+	// 		String line = MainMenu.getScanner().nextLine();
+	// 		String[] inputTokens = CommandParser.splitTokens(line);
+	// 		HashMap<String, String> matcher;
+	// 		if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
+	// 			return;
+	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
+	// 			System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
+	// 			matcher.get("password"), matcher.get("email"),
+	// 			matcher.get("slogan")).getErrorString());
+	// 		else
+	// 			System.out.println("invalid command");
+	// 	}
+	// }
 	
 	public static String[] securityQuestionLoop() {
 		while (true) {
