@@ -6,10 +6,12 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.CentralController;
@@ -33,15 +35,16 @@ public class SignupMenu extends Application {
 	@FXML
 	private CheckBox sloganCheckBox;
 	@FXML
+	private TextField sloganTextField;
+	@FXML
+	private Button randomizeSloganButton;
+	@FXML
 	private Label errorText;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/SignupMenu.fxml"));
-		borderPane.setMinWidth(800);
-		borderPane.setMaxWidth(800);
-		borderPane.setMinHeight(600);
-		borderPane.setMaxHeight(600);
+		borderPane.setPrefSize(800, 600);
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
@@ -51,6 +54,22 @@ public class SignupMenu extends Application {
 	@FXML
 	private void initialize() {
 		LoginMenu.setupPasswordShowAndHideFeature(passwordUnmaskedField, passwordMaskedField, showPasswordCheckBox);
+		setupSloganInputFields(sloganCheckBox, sloganTextField, randomizeSloganButton);
+	}
+
+	private static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
+		sloganTextField.setVisible(false);
+		sloganTextField.setManaged(false);
+		randomizeButton.setVisible(false);
+		randomizeButton.setManaged(false);
+		sloganTextField.visibleProperty().bind(sloganCheckBox.selectedProperty());
+		sloganTextField.managedProperty().bind(sloganCheckBox.selectedProperty());
+		randomizeButton.visibleProperty().bind(sloganCheckBox.selectedProperty());
+		randomizeButton.managedProperty().bind(sloganCheckBox.selectedProperty());
+	}
+
+	public void randomizeSloganButtonHandler(MouseEvent mouseEvent) throws Exception {
+		sloganTextField.setText(SignupMenuController.generateRandomSlogan());
 	}
 
 	public static void run() {
@@ -64,24 +83,13 @@ public class SignupMenu extends Application {
 				return;
 			else if ((matcher = CommandParser.getMatcher(inputTokens, Command.SIGNUP)) != null)
 				System.out.println(SignupMenuController.signup(matcher.get("username"), matcher.get("nickname"),
-				matcher.get("password"), matcher.get("passwordConfirm"), matcher.get("email"),
+				matcher.get("password"), matcher.get("email"),
 				matcher.get("slogan")).getErrorString());
 			else
 				System.out.println("invalid command");
 		}
 	}
-	public static boolean randomPasswordLoop(String randomPassword) {
-		String enterPassword = "";
-		while (true) {
-			System.out.println("Your random password is: " + randomPassword);
-			System.out.println("Please re-enter your password here: ");
-			enterPassword = MainMenu.getScanner().nextLine();
-			if (enterPassword.equals(randomPassword))
-				return true;
-			else
-				System.out.println("Incorrect password, try again :(");
-		}
-	}
+	
 	public static String[] securityQuestionLoop() {
 		while (true) {
 			System.out.println("Pick your security question:");
@@ -109,9 +117,6 @@ public class SignupMenu extends Application {
 				System.out.println("Invalid command: please pick a security question");
 			}
 		}
-	}
-	public static void showRandomSlogan(String randomSlogan) {
-		System.out.println("you're random slogan is : "+randomSlogan);
 	}
 
 	public static boolean continueWithRandomUsername(String newUsername) {
