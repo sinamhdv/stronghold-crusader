@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import stronghold.controller.MapMenuController;
@@ -19,9 +20,11 @@ import stronghold.view.parser.Command;
 import stronghold.view.parser.CommandParser;
 
 public class MapMenu extends Application {
+	private static Pane pane;
+
 	@Override
 	public void start(Stage stage) throws Exception {
-		Pane pane = FXMLLoader.load(MapMenu.class.getResource("/fxml/MapMenu.fxml"));
+		pane = FXMLLoader.load(MapMenu.class.getResource("/fxml/MapMenu.fxml"));
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
@@ -30,6 +33,7 @@ public class MapMenu extends Application {
 
 	@FXML
 	private void initialize() {
+		addControlsListeners();
 		displayGraphicalMap();
 	}
 
@@ -38,9 +42,27 @@ public class MapMenu extends Application {
 		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
 		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
 			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
-				// TODO: display the tile representation at (i, j)
+				ImageView tileImage = MapMenuController.getTileImage(i, j);	// TODO: implement this
+				pane.getChildren().add(tileImage);
+				tileImage.setLayoutX(i * pane.getHeight() / MapMenuController.SHOW_MAP_HEIGHT);
+				tileImage.setLayoutY(j * pane.getWidth() / MapMenuController.SHOW_MAP_WIDTH);
 			}
 		}
+	}
+
+	private void addControlsListeners() {
+		pane.setOnKeyPressed(event -> {
+			String keyName = event.getCode().getName();
+			if (keyName.equals("Up"))
+				MapMenuController.moveMap("1", "0", "0", "0");
+			else if (keyName.equals("Right"))
+				MapMenuController.moveMap("0", "0", "0", "1");
+			else if (keyName.equals("Left"))
+				MapMenuController.moveMap("0", "0", "1", "0");
+			else if (keyName.equals("Down"))
+				MapMenuController.moveMap("0", "1", "0", "0");
+			displayGraphicalMap();
+		});
 	}
 
 	private static void printMenuPrompt() {
