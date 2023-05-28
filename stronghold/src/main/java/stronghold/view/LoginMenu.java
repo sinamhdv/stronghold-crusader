@@ -101,7 +101,6 @@ public class LoginMenu extends Application {
 			errorText.setText("Username doesn't exist");
 		else {
 			PasswordResetMenu.setPasswordResetUsername(result.get());
-			PasswordResetMenu.setPasswordResetUsername("sina");
 			new PasswordResetMenu().start(stage);
 		}
 	}
