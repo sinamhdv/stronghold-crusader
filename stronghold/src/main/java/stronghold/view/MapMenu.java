@@ -38,16 +38,16 @@ public class MapMenu extends Application {
 	}
 
 	private void displayGraphicalMap() {
-		int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
-		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
-		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
-			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
-				ImageView tileImage = MapMenuController.getTileImage(i, j);	// TODO: implement this
-				pane.getChildren().add(tileImage);
-				tileImage.setLayoutX(i * pane.getHeight() / MapMenuController.SHOW_MAP_HEIGHT);
-				tileImage.setLayoutY(j * pane.getWidth() / MapMenuController.SHOW_MAP_WIDTH);
-			}
-		}
+		// int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
+		// int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
+		// for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
+		// 	for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
+		// 		ImageView tileImage = MapMenuController.getTileImage(i, j);	// TODO: implement this
+		// 		pane.getChildren().add(tileImage);
+		// 		tileImage.setLayoutX(i * pane.getHeight() / MapMenuController.SHOW_MAP_HEIGHT);
+		// 		tileImage.setLayoutY(j * pane.getWidth() / MapMenuController.SHOW_MAP_WIDTH);
+		// 	}
+		// }
 	}
 
 	private void addControlsListeners() {

@@ -44,11 +44,12 @@ public class MainMenu extends Application {
 		LoginMenu.getStage().setFullScreen(true);
 		Optional<String> mapName = dialog.showAndWait();
 		if (!mapName.isPresent())
-			errorText.setText("Please enter a username");
+			errorText.setText("Please enter a mapname");
 		else {
 			MainMenuMessage result = MainMenuController.startGame(mapName.get());
 			if(result.getErrorString().equals("Success!")) {
 				//TODO: GameMenu.start
+				System.out.println("game started");
 			}	
 			else 
 				errorText.setText(result.getErrorString());
@@ -114,18 +115,18 @@ public class MainMenu extends Application {
 
 	public static String[] askPlayersNames(int count) {
 		String[] usernames = new String[count];
-		BorderPane borderPane = new BorderPane();
-		VBox vBox = new VBox();
-		borderPane.getChildren().add(vBox);
-		Parent oldRoot = scene.getRoot();
-		scene.setRoot(borderPane);
 		for (int i = 0; i < count; i++) {
-			TextField userName = new TextField();
-			userName.setPromptText("username " + (i+1));
-			vBox.getChildren().add(userName);
-			usernames[i] = userName.getText();
+			TextInputDialog dialog = new TextInputDialog("");
+			dialog.setHeaderText("Enter your username " + (i+1)+" :");
+			dialog.initOwner(LoginMenu.getStage());
+			LoginMenu.getStage().setFullScreen(false);
+			LoginMenu.getStage().setFullScreen(true);
+			Optional<String> userName = dialog.showAndWait();
+			if (!userName.isPresent())
+				usernames[i] = "";
+			else
+				usernames[i] = userName.get();
 		}
-		scene.setRoot(oldRoot);
 		return usernames;
 	}
 }
