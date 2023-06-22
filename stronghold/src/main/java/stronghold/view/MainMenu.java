@@ -1,29 +1,54 @@
 package stronghold.view;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
+import stronghold.controller.messages.MainMenuMessage;
 
 public class MainMenu extends Application {
+
+	@FXML
+	private Label errorText;
+	
+	Scene scene;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
-		Scene scene = new Scene(borderPane);
+		scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
 		stage.show();
 	}
 
 	public void startGameButtonHandler(MouseEvent mouseEvent) throws Exception {
-		System.out.println("start game");
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setHeaderText("Enter your mapname:");
+		dialog.initOwner(LoginMenu.getStage());
+		LoginMenu.getStage().setFullScreen(false);
+		LoginMenu.getStage().setFullScreen(true);
+		Optional<String> mapName = dialog.showAndWait();
+		if (!mapName.isPresent())
+			errorText.setText("Please enter a username");
+		else {
+			MainMenuMessage result = MainMenuController.startGame(mapName.get());
+			if(result.getErrorString().equals("Success!")) {
+				//TODO: GameMenu.start
+			}	
+			else 
+				errorText.setText(result.getErrorString());
+		}
 	}
 
 	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {

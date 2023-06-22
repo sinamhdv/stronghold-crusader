@@ -21,6 +21,7 @@
 			<Button text="Map Management" onMouseClicked="#mapManagementButtonHandler"/>
 			<Button text="Logout" onMouseClicked="#logoutButtonHandler"/>
 			<Button text="Exit" onMouseClicked="#exitButtonHandler"/>
+			<Label text="" styleClass="error-text" fx:id="errorText"/>
 		</VBox>
 	</center>
 
