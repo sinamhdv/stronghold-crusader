@@ -7,11 +7,15 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.messages.MainMenuMessage;
@@ -21,7 +25,7 @@ public class MainMenu extends Application {
 	@FXML
 	private Label errorText;
 	
-	Scene scene;
+	static Scene scene;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -110,11 +114,18 @@ public class MainMenu extends Application {
 
 	public static String[] askPlayersNames(int count) {
 		String[] usernames = new String[count];
-		System.out.println("The selected map needs " + count + " players");
+		BorderPane borderPane = new BorderPane();
+		VBox vBox = new VBox();
+		borderPane.getChildren().add(vBox);
+		Parent oldRoot = scene.getRoot();
+		scene.setRoot(borderPane);
 		for (int i = 0; i < count; i++) {
-			System.out.print("- Enter the username of player #" + i + ": ");
-			usernames[i] = MainMenu.getScanner().nextLine();
+			TextField userName = new TextField();
+			userName.setPromptText("username " + (i+1));
+			vBox.getChildren().add(userName);
+			usernames[i] = userName.getText();
 		}
+		scene.setRoot(oldRoot);
 		return usernames;
 	}
 }
