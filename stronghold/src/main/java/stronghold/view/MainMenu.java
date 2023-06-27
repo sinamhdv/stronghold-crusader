@@ -12,11 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.messages.MainMenuMessage;
+import stronghold.utils.ViewUtils;
 
 public class MainMenu extends Application {
 
@@ -28,6 +31,10 @@ public class MainMenu extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
+		borderPane.setPrefSize(800, 600);
+		Image image = new Image(getClass().getResource("/pictures/SC2Gold_Screenshots_6.png").toExternalForm());
+		Background background = new Background(ViewUtils.setBackGround(image));
+		borderPane.setBackground(background);
 		scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);

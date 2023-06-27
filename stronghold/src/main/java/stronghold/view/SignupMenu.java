@@ -14,13 +14,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.utils.ViewUtils;
 
 public class SignupMenu extends Application {
 	@FXML
@@ -56,6 +59,9 @@ public class SignupMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/SignupMenu.fxml"));
 		borderPane.setPrefSize(800, 600);
+		Image image = new Image(getClass().getResource("/pictures/thumb-1920-1172588.png").toExternalForm());
+		Background background = new Background(ViewUtils.setBackGround(image));
+        borderPane.setBackground(background);
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
