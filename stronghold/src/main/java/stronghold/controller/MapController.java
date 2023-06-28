@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
-import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
@@ -23,24 +22,20 @@ public class MapController {
 		return new Group(image);
 	}
 
-	private static void showTileDetails(int x, int y) {
-		MapMenuMessage errorCheck = MapMenuController.checkCoordinateErrors(x, y);
-		if (errorCheck != MapMenuMessage.SUCCESS) {
-			System.out.println(errorCheck.getErrorString());
-			return;
-		}
-		MapTile tile = MapMenuController.getCurrentMap().getGrid()[x][y];
-		System.out.println("Ground Type: " + tile.getGroundType().getName());
+	public static String getTileDetails(int x, int y) {
+		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
+		String result = "(" + x + ", " + y + ")\n";
+		result += "Ground Type: " + tile.getGroundType().getName() + "\n";
 		if (tile.getEnvironmentItem() != null)
-			System.out.println("Environment Item: " + tile.getEnvironmentItem());
+			result += "Environment Item: " + tile.getEnvironmentItem() + "\n";
 		if (tile.getBuilding() != null && tile.getBuilding().isVisible())
-			System.out.println("Building: " + tile.getBuilding());
-		for (int i = 0; i < MapMenuController.getCurrentMap().getGovernmentsCount(); i++) {
-			System.out.println("List of people owned by #" + i + " " +": ");
+			result += "Building: " + tile.getBuilding() + "\n";
+		for (int i = 0; i < StrongHold.getCurrentGame().getMap().getGovernmentsCount(); i++) {
 			ArrayList<Person> filteredPeople = Miscellaneous.getPeopleByOwner(tile.getPeople(), i);
 			for (Person person : filteredPeople)
 				if (person.isVisible())
-					System.out.println(person);
+					result += person;
 		}
+		return result;
 	}
 }
