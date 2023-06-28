@@ -1,7 +1,7 @@
 #!/bin/bash
 # a script to test the program with input text files in testcases folder
 
-run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_2l06s9ma3j6g78ajfi0yk4l92.argfile stronghold.Main'
+run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_1q5g9b3oxxxwqlhcic6xq60m3.argfile -m stronghold/stronghold.view.LoginMenu'
 inputs_count=3
 
 RED='\033[31m'
