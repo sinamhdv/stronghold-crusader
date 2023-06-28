@@ -3,10 +3,8 @@ package stronghold.controller;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
@@ -38,7 +36,7 @@ public class MapController {
 	private static void addBuildingImage(MapTile tile, Group group, double width, double height) {
 		Building building = tile.getBuilding();
 		if (building == null || !building.isVisible()) return;
-		ImageView image = new ImageView(AssetImageLoader.getAssetImage("keep"));
+		ImageView image = new ImageView(AssetImageLoader.getAssetImage(building.getName()));
 		image.setFitHeight(height);
 		image.setFitWidth(width);
 		group.getChildren().add(image);
