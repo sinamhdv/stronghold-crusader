@@ -3,8 +3,10 @@ package stronghold.controller;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
@@ -15,7 +17,7 @@ import stronghold.utils.Miscellaneous;
 import stronghold.utils.ViewUtils;
 
 public class MapController {
-	public static final int SHOW_MAP_WIDTH = 32;
+	public static final int SHOW_MAP_WIDTH = 16;
 	public static final int SHOW_MAP_HEIGHT = SHOW_MAP_WIDTH / 16 * 9;
 
 	public static Group getTileRepresentation(int x, int y) {
@@ -36,19 +38,20 @@ public class MapController {
 	private static void addBuildingImage(MapTile tile, Group group, double width, double height) {
 		Building building = tile.getBuilding();
 		if (building == null || !building.isVisible()) return;
-		group.getChildren().add(new ImageView(AssetImageLoader.getAssetImage("keep")));
+		ImageView image = new ImageView(AssetImageLoader.getAssetImage("keep"));
+		image.setFitHeight(height);
+		image.setFitWidth(width);
+		group.getChildren().add(image);
 	}
 
 	private static void addTooltip(Group group, ImageView groundImage, int x, int y) {
 		Tooltip tooltip = new Tooltip(getTileDetails(x, y));
-		tooltip.setShowDelay(Duration.millis(100));
+		tooltip.setShowDelay(Duration.millis(10));
+		tooltip.setHideDelay(Duration.millis(10));
+		tooltip.setShowDuration(Duration.INDEFINITE);
+		Tooltip.install(group, tooltip);
 		group.setOnMouseEntered(event -> {
 			tooltip.setText(getTileDetails(x, y));
-			tooltip.show(group, event.getScreenX() + groundImage.getFitHeight(),
-				event.getScreenY() + groundImage.getFitWidth());
-		});
-		group.setOnMouseExited(event -> {
-			tooltip.hide();
 		});
 	}
 
