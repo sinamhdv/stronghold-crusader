@@ -16,4 +16,9 @@ public class Rock extends EnvironmentItem {
 	public String toString() {
 		return "Rock (direction = " + direction + ")";
 	}
+
+	@Override
+	public String getName() {
+		return "rock_" + direction;
+	}
 }

@@ -18,4 +18,6 @@ public abstract class EnvironmentItem implements Serializable {
 	public int getOwnerIndex() {
 		return ownerIndex;
 	}
+
+	public abstract String getName();
 }

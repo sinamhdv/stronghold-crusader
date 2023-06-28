@@ -12,19 +12,20 @@ public class Tree extends EnvironmentItem {
 		"date tree"
 	));
 
-	private String typeName;
+	private String name;
 
 	public Tree(String typeName) {
 		super(-1);
-		this.typeName = typeName;
+		this.name = typeName;
 	}
 
-	public String getTypeName() {
-		return typeName;
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override
 	public String toString() {
-		return "Tree (type = " + typeName + ")";
+		return "Tree (type = " + name + ")";
 	}
 }

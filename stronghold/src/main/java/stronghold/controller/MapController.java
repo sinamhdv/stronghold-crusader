@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
+import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
@@ -27,8 +28,8 @@ public class MapController {
 		groundImage.setFitWidth(width);
 		Group group = new Group(groundImage);
 		addBuildingImage(tile, group, width, height);
-		// if (tile.getEnvironmentItem() != null) addEnvironmentItemImage(tile, group, x, y);
-		// addPeopleImages(tile, group, x, y);
+		addEnvironmentItemImage(tile, group, width, height);
+		// addPeopleImages(tile, group, width, height);
 		addTooltip(group, groundImage, x, y);
 		return group;
 	}
@@ -37,6 +38,15 @@ public class MapController {
 		Building building = tile.getBuilding();
 		if (building == null || !building.isVisible()) return;
 		ImageView image = new ImageView(AssetImageLoader.getAssetImage(building.getName()));
+		image.setFitHeight(height);
+		image.setFitWidth(width);
+		group.getChildren().add(image);
+	}
+
+	private static void addEnvironmentItemImage(MapTile tile, Group group, double width, double height) {
+		EnvironmentItem environmentItem = tile.getEnvironmentItem();
+		if (environmentItem == null) return;
+		ImageView image = new ImageView(AssetImageLoader.getAssetImage(environmentItem.getName()));
 		image.setFitHeight(height);
 		image.setFitWidth(width);
 		group.getChildren().add(image);
