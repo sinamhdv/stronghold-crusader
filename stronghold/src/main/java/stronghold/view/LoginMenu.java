@@ -2,8 +2,6 @@ package stronghold.view;
 
 import java.util.Optional;
 
-import org.jcp.xml.dsig.internal.dom.Utils;
-
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +14,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-// import stronghold.GenerateConfig;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;

@@ -7,19 +7,13 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
-import stronghold.model.Game;
-import stronghold.model.StrongHold;
-import stronghold.model.User;
-import stronghold.utils.DatabaseManager;
 import stronghold.controller.messages.MainMenuMessage;
 
 public class MainMenu extends Application {
@@ -49,11 +43,9 @@ public class MainMenu extends Application {
 			errorText.setText("Please enter a mapname");
 		else {
 			MainMenuMessage result = MainMenuController.startGame(mapName.get());
-			if(result.getErrorString().equals("Success!")) {
-				//TODO: GameMenu.start
-				System.out.println("game started");
-			}	
-			else 
+			if(result == MainMenuMessage.SUCCESS)
+				new GameMenu().start(LoginMenu.getStage());
+			else
 				errorText.setText(result.getErrorString());
 		}
 	}

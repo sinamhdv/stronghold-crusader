@@ -12,7 +12,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
-import stronghold.controller.MapMenuController;
+import stronghold.controller.MapController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
@@ -46,9 +46,6 @@ public class GameMenu extends Application {
 
 	@FXML
 	private void initialize() {
-		MapMenuController.setCurrentMap(game.getMap());
-		MapMenuController.setCurrentX(10);
-		MapMenuController.setCurrentY(10);
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(0.5);
 		grid.setVgap(0.5);
@@ -60,15 +57,9 @@ public class GameMenu extends Application {
 		System.out.println(game.getMap().getWidth());
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
-				grid.add(MapMenuController.getTileRepresentation(i, j), j, i);
+				grid.add(MapController.getTileRepresentation(i, j), j, i);
 			}
 		}
-	}
-
-	private static void printMenuPrompt() {
-		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.GREEN);
-		System.out.print("game menu(" + game.getCurrentPlayerIndex() + ")> ");
-		TerminalColor.resetColor();
 	}
 
 	// public static void run() {
