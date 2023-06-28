@@ -53,8 +53,6 @@ public class GameMenu extends Application {
 	}
 
 	private void displayFullMap() {
-		System.out.println(game.getMap().getHeight());
-		System.out.println(game.getMap().getWidth());
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
 				grid.add(MapController.getTileRepresentation(i, j), j, i);
