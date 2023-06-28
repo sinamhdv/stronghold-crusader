@@ -1,11 +1,11 @@
 package stronghold.model;
 
 
-import javafx.scene.image.ImageView;
+
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 
-public class User {
+public class User implements Comparable<User> {
 	private String userName;
 	private String password;
 	private String nickName;
@@ -91,5 +91,16 @@ public class User {
 
 	public void setIndexOfOvatar(int indexOfOvatar) {
 		this.indexOfOvatar = indexOfOvatar;
+	}
+
+	@Override
+	public int compareTo(User other)
+	{
+		int thiRank = StrongHold.getRank(this);
+		int otherRank = StrongHold.getRank(other);
+		if(thiRank != otherRank)
+			return (int)(otherRank - thiRank);
+		else
+			return this.userName.compareTo(other.userName);
 	}
 }

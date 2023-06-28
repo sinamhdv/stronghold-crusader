@@ -19,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -116,12 +115,10 @@ public class ProfileMenu extends Application {
 		for (int i = 1; i < 5; i++) {
 			final int avatarIndex = i - 1; // subtract 1 to convert from 1-based to 0-based indexing
 			ImageView avatar = new ImageView(getClass().getResource("/pictures/avatar/" + i + ".png").toExternalForm());
-			System.out.println("/pictures/avatar/" + i +".png");
 			avatar.setOnMouseClicked(new EventHandler<Event>() {
 				@Override
 				public void handle(Event event) {
 					changeAvatarHandler(avatarIndex);
-					avatar.getStyleClass().add("avatar-image-view");
 				}
 			});
 			
