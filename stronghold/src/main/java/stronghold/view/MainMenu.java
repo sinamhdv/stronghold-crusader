@@ -10,6 +10,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.controller.MainMenuController;
+import stronghold.model.Game;
+import stronghold.model.StrongHold;
+import stronghold.model.User;
+import stronghold.utils.DatabaseManager;
 
 public class MainMenu extends Application {
 
@@ -23,7 +27,9 @@ public class MainMenu extends Application {
 	}
 
 	public void startGameButtonHandler(MouseEvent mouseEvent) throws Exception {
-		System.out.println("start game");
+		// System.out.println("start game");
+		StrongHold.setCurrentGame(new Game(DatabaseManager.loadMapByName("map2"), new User[] {StrongHold.getCurrentUser()}));
+		new GameMenu().start(LoginMenu.getStage());
 	}
 
 	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {

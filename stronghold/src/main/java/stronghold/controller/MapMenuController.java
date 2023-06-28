@@ -1,21 +1,28 @@
 package stronghold.controller;
 
+import javafx.scene.Group;
+import javafx.scene.image.ImageView;
+import javafx.stage.Screen;
 import stronghold.controller.messages.MapMenuMessage;
 import stronghold.model.StrongHold;
-import stronghold.model.buildings.DefensiveStructure;
-import stronghold.model.environment.Rock;
-import stronghold.model.environment.Tree;
 import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
-import stronghold.view.TerminalColor;
 
 public class MapMenuController {
-	public static final int SHOW_MAP_WIDTH = 45;
-	public static final int SHOW_MAP_HEIGHT = 15;
+	public static final int SHOW_MAP_WIDTH = 32;
+	public static final int SHOW_MAP_HEIGHT = SHOW_MAP_WIDTH / 16 * 9;
 
 	private static Map currentMap;
 	private static int currentX;
 	private static int currentY;
+
+	public static int getScreenHeight() {
+		return (int)(Screen.getPrimary().getBounds().getHeight() + 0.5);
+	}
+
+	public static int getScreenWidth() {
+		return (int)(Screen.getPrimary().getBounds().getWidth() + 0.5);
+	}
 
 	public static int getCurrentX() {
 		return currentX;
@@ -40,9 +47,7 @@ public class MapMenuController {
 			currentMap = StrongHold.getCurrentGame().getMap();
 	}
 
-	public static MapMenuMessage moveMap(String up, String down, String left, String right) {
-		int deltaX = (down == null ? 0 : Integer.parseInt(down)) - (up == null ? 0 : Integer.parseInt(up));
-		int deltaY = (right == null ? 0 : Integer.parseInt(right)) - (left == null ? 0 : Integer.parseInt(left));
+	public static MapMenuMessage moveMap(int deltaX, int deltaY) {
 		MapTile[][] map = getCurrentMap().getGrid();
 		if (currentX + deltaX < 0 || currentX + deltaX >= map.length
 		|| currentY + deltaY < 0 || currentY + deltaY >= map[0].length) {
@@ -69,28 +74,11 @@ public class MapMenuController {
 		return MapMenuMessage.SUCCESS;
 	}
 
-	private static String[] paintTileString(String[] tileString, TerminalColor backgroundColor, TerminalColor foregroundColor) {
-		for (int i = 0; i < tileString.length; i++)
-			tileString[i] = backgroundColor.getBackgroundColorCode() + foregroundColor.getForegroundColorCode() +
-							tileString[i] + TerminalColor.RESET.getBackgroundColorCode();
-		return tileString;
-	}
-
-	public static String[] getTileRepresentation(int x, int y) {
-		MapTile[][] map = getCurrentMap().getGrid();
-		if (x < 0 || y < 0 || x >= map.length || y >= map[0].length)
-			return paintTileString(new String[] {"  ", "  "}, TerminalColor.RESET, TerminalColor.RESET);
-		MapTile tile = map[x][y];
-		String result = "";
-		if (tile.getBuilding() != null && tile.getBuilding().isVisible()) result += (tile.getBuilding() instanceof DefensiveStructure ? "W" : "B");
-		if (tile.hasVisiblePeople()) result += "S";
-		if (tile.getEnvironmentItem() instanceof Tree) result += "T";
-		else if (tile.getEnvironmentItem() instanceof Rock) result += "R";
-		while (result.length() < 4) result += "#";
-		return paintTileString(new String[] {
-			result.substring(0, 2),
-			result.substring(2, 4)
-		},
-		tile.getBackgroundColor(), tile.getForegroundColor());
+	public static Group getTileRepresentation(int x, int y) {
+		MapTile tile = getCurrentMap().getGrid()[x][y];
+		ImageView image = new ImageView(tile.getGroundType().getImage());
+		image.setFitHeight(getScreenHeight() / (double)SHOW_MAP_HEIGHT);
+		image.setFitWidth(getScreenWidth() / (double)SHOW_MAP_WIDTH);
+		return new Group(image);
 	}
 }

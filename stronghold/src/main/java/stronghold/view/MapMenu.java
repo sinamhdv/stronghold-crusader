@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import stronghold.controller.MapMenuController;
@@ -16,8 +14,6 @@ import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
 import stronghold.utils.Miscellaneous;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
 
 public class MapMenu extends Application {
 	private static Pane pane;
@@ -31,40 +27,6 @@ public class MapMenu extends Application {
 		stage.show();
 	}
 
-	@FXML
-	private void initialize() {
-		addControlsListeners();
-		displayGraphicalMap();
-	}
-
-	private void displayGraphicalMap() {
-		int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
-		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
-		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
-			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
-				ImageView tileImage = MapMenuController.getTileImage(i, j);	// TODO: implement this
-				pane.getChildren().add(tileImage);
-				tileImage.setLayoutX(i * pane.getHeight() / MapMenuController.SHOW_MAP_HEIGHT);
-				tileImage.setLayoutY(j * pane.getWidth() / MapMenuController.SHOW_MAP_WIDTH);
-			}
-		}
-	}
-
-	private void addControlsListeners() {
-		pane.setOnKeyPressed(event -> {
-			String keyName = event.getCode().getName();
-			if (keyName.equals("Up"))
-				MapMenuController.moveMap("1", "0", "0", "0");
-			else if (keyName.equals("Right"))
-				MapMenuController.moveMap("0", "0", "0", "1");
-			else if (keyName.equals("Left"))
-				MapMenuController.moveMap("0", "0", "1", "0");
-			else if (keyName.equals("Down"))
-				MapMenuController.moveMap("0", "1", "0", "0");
-			displayGraphicalMap();
-		});
-	}
-
 	private static void printMenuPrompt() {
 		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.RED);
 		System.out.print("map menu> ");
@@ -72,26 +34,26 @@ public class MapMenu extends Application {
 	}
 
 	public static void run(Map map) {
-		MapMenuController.setCurrentMap(map);
+		// MapMenuController.setCurrentMap(map);
 
-		while (true) {
-			printMenuPrompt();
-			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
-			HashMap<String, String> matcher;
+		// while (true) {
+		// 	printMenuPrompt();
+		// 	String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
+		// 	HashMap<String, String> matcher;
 
-			MapMenuController.updateCurrentMap();
+		// 	MapMenuController.updateCurrentMap();
 
-			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_MAP)) != null)
-				runShowMap(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TILE_DETAILS)) != null)
-				runShowTileDetails(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_MAP)) != null)
-				runMoveMap(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null)
-				return;
-			else
-				System.out.println("Invalid command");
-		}
+		// 	if ((matcher = CommandParser.getMatcher(input, Command.SHOW_MAP)) != null)
+		// 		runShowMap(matcher);
+		// 	else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TILE_DETAILS)) != null)
+		// 		runShowTileDetails(matcher);
+		// 	else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_MAP)) != null)
+		// 		runMoveMap(matcher);
+		// 	else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null)
+		// 		return;
+		// 	else
+		// 		System.out.println("Invalid command");
+		// }
 	}
 
 	public static void runShowMap(HashMap<String, String> matcher) {
@@ -105,18 +67,18 @@ public class MapMenu extends Application {
 			System.out.println(message.getErrorString());
 	}
 
-	public static void runMoveMap(HashMap<String, String> matcher) {
-		MapMenuMessage message = MapMenuController.moveMap(
-			matcher.get("up"),
-			matcher.get("down"),
-			matcher.get("left"),
-			matcher.get("right")
-		);
-		if (message == MapMenuMessage.SUCCESS)
-			displayMap();
-		else
-			System.out.println(message.getErrorString());
-	}
+	// public static void runMoveMap(HashMap<String, String> matcher) {
+	// 	MapMenuMessage message = MapMenuController.moveMap(
+	// 		matcher.get("up"),
+	// 		matcher.get("down"),
+	// 		matcher.get("left"),
+	// 		matcher.get("right")
+	// 	);
+	// 	if (message == MapMenuMessage.SUCCESS)
+	// 		displayMap();
+	// 	else
+	// 		System.out.println(message.getErrorString());
+	// }
 
 	public static void runShowTileDetails(HashMap<String, String> matcher) {
 		showTileDetails(
@@ -126,22 +88,22 @@ public class MapMenu extends Application {
 	}
 
 	public static void displayMap() {
-		int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
-		int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
-		Terminal2DPrinter printer = new Terminal2DPrinter();
-		for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
-			printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
-			printer.addNewLine();
-			for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
-				String[] tileString = MapMenuController.getTileRepresentation(i, j);
-				printer.addOutput(new String[] {"|", "|"});
-				printer.addOutput(tileString);
-			}
-			printer.addOutput(new String[] {"|", "|"});
-			printer.addNewLine();
-		}
-		printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
-		printer.printOutput();
+		// int startX = MapMenuController.getCurrentX() - MapMenuController.SHOW_MAP_HEIGHT / 2;
+		// int startY = MapMenuController.getCurrentY() - MapMenuController.SHOW_MAP_WIDTH / 2;
+		// Terminal2DPrinter printer = new Terminal2DPrinter();
+		// for (int i = startX; i - startX < MapMenuController.SHOW_MAP_HEIGHT; i++) {
+		// 	printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
+		// 	printer.addNewLine();
+		// 	for (int j = startY; j - startY < MapMenuController.SHOW_MAP_WIDTH; j++) {
+		// 		String[] tileString = MapMenuController.getTileRepresentation(i, j);
+		// 		printer.addOutput(new String[] {"|", "|"});
+		// 		printer.addOutput(tileString);
+		// 	}
+		// 	printer.addOutput(new String[] {"|", "|"});
+		// 	printer.addNewLine();
+		// }
+		// printer.addOutput(new String[] {"-".repeat(MapMenuController.SHOW_MAP_WIDTH * 3 + 1)});
+		// printer.printOutput();
 	}
 
 	private static void showTileDetails(int x, int y) {

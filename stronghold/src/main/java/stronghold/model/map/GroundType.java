@@ -1,5 +1,6 @@
 package stronghold.model.map;
 
+import javafx.scene.image.Image;
 import stronghold.view.TerminalColor;
 
 public enum GroundType {
@@ -25,12 +26,14 @@ public enum GroundType {
 	private final TerminalColor backgroundColor;
 	private final TerminalColor foregroundColor;
 	private final String name;
+	private transient final Image image;
 
 	private GroundType(boolean isPassable, TerminalColor backgroundColor, TerminalColor foregroundColor, String name) {
 		this.isPassable = isPassable;
 		this.backgroundColor = backgroundColor;
 		this.foregroundColor = foregroundColor;
 		this.name = name;
+		this.image = new Image(getImagePath());
 	}
 
 	public boolean isPassable() {
@@ -54,5 +57,13 @@ public enum GroundType {
 			if (groundType.getName().equals(name))
 				return groundType;
 		return null;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public String getImagePath() {
+		return GroundType.class.getResource("/images/groundtypes/" + name + ".jpg").toExternalForm();
 	}
 }

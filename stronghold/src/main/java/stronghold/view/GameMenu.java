@@ -2,7 +2,17 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
+import stronghold.controller.MapMenuController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
@@ -11,11 +21,49 @@ import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
 import stronghold.utils.PopularityFormulas;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
 
-public class GameMenu {
+public class GameMenu extends Application {
 	private static Game game;
+
+	@FXML
+	private GridPane grid;
+
+	public GameMenu() {
+		game = StrongHold.getCurrentGame();
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		ScrollPane scrollPane = FXMLLoader.load(GameMenu.class.getResource("/fxml/GameMenu.fxml"));
+		scrollPane.setPannable(true);
+		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		Scene scene = new Scene(scrollPane);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.show();
+	}
+
+	@FXML
+	private void initialize() {
+		MapMenuController.setCurrentMap(game.getMap());
+		MapMenuController.setCurrentX(10);
+		MapMenuController.setCurrentY(10);
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(0.5);
+		grid.setVgap(0.5);
+		displayFullMap();
+	}
+
+	private void displayFullMap() {
+		System.out.println(game.getMap().getHeight());
+		System.out.println(game.getMap().getWidth());
+		for (int i = 0; i < game.getMap().getHeight(); i++) {
+			for (int j = 0; j < game.getMap().getWidth(); j++) {
+				grid.add(MapMenuController.getTileRepresentation(i, j), j, i);
+			}
+		}
+	}
 
 	private static void printMenuPrompt() {
 		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.GREEN);
@@ -23,85 +71,85 @@ public class GameMenu {
 		TerminalColor.resetColor();
 	}
 
-	public static void run() {
-		game = StrongHold.getCurrentGame();
-		GameMenuController.setGame(game);
+	// public static void run() {
+	// 	game = StrongHold.getCurrentGame();
+	// 	GameMenuController.setGame(game);
 
-		HashMap<String, String> matcher;
-		while (true) {
-			printMenuPrompt();
-			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
+	// 	HashMap<String, String> matcher;
+	// 	while (true) {
+	// 		printMenuPrompt();
+	// 		String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
 
-			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
-				showPopularity();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
-				showPopularityFactors();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_LIST)) != null)
-				showFoodList();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_RATE)) != null)
-				foodRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FOOD_RATE)) != null)
-				runSetFoodRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TAX_RATE)) != null)
-				taxRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_TAX_RATE)) != null)
-				runSetTaxRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FEAR_RATE)) != null)
-				fearRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FEAR_RATE)) != null)
-				runSetFearRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
-				runDropBuilding(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
-				runCreateUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
-				runSelectBuilding(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
-				showSelectedBuilding();
-			else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
-				runOpenGate();
-			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
-				runCloseGate();
-			else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
-				runRepair();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
-				showResourcesAmount();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
-				runSelectUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
-				showSelectedUnits();
-			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_TUNNEL)) != null)
-				runDigTunnel();
-			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
-				runMoveUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
-				runPatrolUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
-				runStopUnit();
-			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
-				runAttack(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
-				runSetStance(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DISBAND)) != null)
-				runDisband();
-			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
-				if (runNextTurn()) return;
-			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
-				runBuildSiegeEquipment(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
-				runCheatGold(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DEBUG_MODE)) != null)
-				runToggleDebugMode();
-			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
-				MapMenu.run(game.getMap());
-			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
-				MarketMenu.run();
-			else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
-				TradeMenu.run();
-			else
-				System.out.println("Error: Invalid command");
-		}
-	}
+	// 		if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
+	// 			showPopularity();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
+	// 			showPopularityFactors();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_LIST)) != null)
+	// 			showFoodList();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_RATE)) != null)
+	// 			foodRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_FOOD_RATE)) != null)
+	// 			runSetFoodRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TAX_RATE)) != null)
+	// 			taxRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_TAX_RATE)) != null)
+	// 			runSetTaxRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FEAR_RATE)) != null)
+	// 			fearRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_FEAR_RATE)) != null)
+	// 			runSetFearRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
+	// 			runDropBuilding(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
+	// 			runCreateUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
+	// 			runSelectBuilding(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
+	// 			showSelectedBuilding();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
+	// 			runOpenGate();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
+	// 			runCloseGate();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
+	// 			runRepair();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
+	// 			showResourcesAmount();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
+	// 			runSelectUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
+	// 			showSelectedUnits();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DIG_TUNNEL)) != null)
+	// 			runDigTunnel();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
+	// 			runMoveUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
+	// 			runPatrolUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
+	// 			runStopUnit();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
+	// 			runAttack(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
+	// 			runSetStance(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DISBAND)) != null)
+	// 			runDisband();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
+	// 			if (runNextTurn()) return;
+	// 		} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+	// 			runBuildSiegeEquipment(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
+	// 			runCheatGold(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DEBUG_MODE)) != null)
+	// 			runToggleDebugMode();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
+	// 			MapMenu.run(game.getMap());
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
+	// 			MarketMenu.run();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
+	// 			TradeMenu.run();
+	// 		else
+	// 			System.out.println("Error: Invalid command");
+	// 	}
+	// }
 
 	private static void showPopularity() {
 		System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());

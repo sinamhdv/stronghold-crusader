@@ -123,7 +123,7 @@ public class ProfileMenu extends Application {
 	}
 
 	private void initProfileInfo() {
-		// TODO: show avatar
+		// TODO: show avatar & slogan
 		usernameLabel.setText("username: " + user.getUserName());
 		passwordLabel.setText("password(SHA256): " + user.getPassword());
 		nicknameLabel.setText("nickname: " + user.getNickName());
