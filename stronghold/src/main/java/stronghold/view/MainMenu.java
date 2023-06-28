@@ -1,11 +1,17 @@
 package stronghold.view;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -14,22 +20,42 @@ import stronghold.model.Game;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.DatabaseManager;
+import stronghold.controller.messages.MainMenuMessage;
 
 public class MainMenu extends Application {
+
+	@FXML
+	private Label errorText;
+	
+	static Scene scene;
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
-		Scene scene = new Scene(borderPane);
+		scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
 		stage.show();
 	}
 
 	public void startGameButtonHandler(MouseEvent mouseEvent) throws Exception {
-		// System.out.println("start game");
-		StrongHold.setCurrentGame(new Game(DatabaseManager.loadMapByName("map2"), new User[] {StrongHold.getCurrentUser()}));
-		new GameMenu().start(LoginMenu.getStage());
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setHeaderText("Enter your mapname:");
+		dialog.initOwner(LoginMenu.getStage());
+		LoginMenu.getStage().setFullScreen(false);
+		LoginMenu.getStage().setFullScreen(true);
+		Optional<String> mapName = dialog.showAndWait();
+		if (!mapName.isPresent())
+			errorText.setText("Please enter a mapname");
+		else {
+			MainMenuMessage result = MainMenuController.startGame(mapName.get());
+			if(result.getErrorString().equals("Success!")) {
+				//TODO: GameMenu.start
+				System.out.println("game started");
+			}	
+			else 
+				errorText.setText(result.getErrorString());
+		}
 	}
 
 	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {
@@ -91,10 +117,17 @@ public class MainMenu extends Application {
 
 	public static String[] askPlayersNames(int count) {
 		String[] usernames = new String[count];
-		System.out.println("The selected map needs " + count + " players");
 		for (int i = 0; i < count; i++) {
-			System.out.print("- Enter the username of player #" + i + ": ");
-			usernames[i] = MainMenu.getScanner().nextLine();
+			TextInputDialog dialog = new TextInputDialog("");
+			dialog.setHeaderText("Enter your username " + (i+1)+" :");
+			dialog.initOwner(LoginMenu.getStage());
+			LoginMenu.getStage().setFullScreen(false);
+			LoginMenu.getStage().setFullScreen(true);
+			Optional<String> userName = dialog.showAndWait();
+			if (!userName.isPresent())
+				usernames[i] = "";
+			else
+				usernames[i] = userName.get();
 		}
 		return usernames;
 	}

@@ -2,6 +2,8 @@ package stronghold.view;
 
 import java.util.Optional;
 
+import org.jcp.xml.dsig.internal.dom.Utils;
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +13,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 // import stronghold.GenerateConfig;
@@ -19,6 +27,7 @@ import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.utils.DatabaseManager;
+import stronghold.utils.ViewUtils;
 
 public class LoginMenu extends Application {
 	@FXML
@@ -50,6 +59,9 @@ public class LoginMenu extends Application {
 		LoginMenu.stage = stage;
 		BorderPane borderPane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
 		Scene scene = new Scene(borderPane);
+		Image image = new Image(getClass().getResource("/pictures/680254.jpg").toExternalForm());
+		Background background = new Background(ViewUtils.setBackGround(image));
+        borderPane.setBackground(background);
 		stage.setScene(scene);
 		stage.setFullScreenExitHint("");
 		stage.setFullScreen(true);
@@ -177,4 +189,5 @@ public class LoginMenu extends Application {
 	// public static void alertWeakPassword(SignupAndProfileMenuMessage message) {
 	// 	System.out.println(message.getErrorString());
 	// }
+
 }
