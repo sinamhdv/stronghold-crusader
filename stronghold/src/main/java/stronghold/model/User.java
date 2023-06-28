@@ -1,6 +1,7 @@
 package stronghold.model;
 
 
+import javafx.scene.image.ImageView;
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 
@@ -13,6 +14,7 @@ public class User {
 	private int highScore;
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
+	private int indexOfOvatar = 1 ;
 
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
@@ -83,5 +85,11 @@ public class User {
 		return slogan;
 	}
 
+	public int getIndexOfOvatar() {
+		return indexOfOvatar;
+	}
 
+	public void setIndexOfOvatar(int indexOfOvatar) {
+		this.indexOfOvatar = indexOfOvatar;
+	}
 }

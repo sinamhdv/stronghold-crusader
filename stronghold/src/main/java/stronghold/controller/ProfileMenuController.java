@@ -1,5 +1,6 @@
 package stronghold.controller;
 
+import javafx.scene.image.ImageView;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
@@ -41,10 +42,10 @@ public class ProfileMenuController {
 			return SignupAndProfileMenuMessage.OLD_AND_NEW_PASSWORD_ARE_EQUAL;
 		else if (!FormatValidation.checkPasswordStrength(newPassword)
 				.equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
-					return FormatValidation.checkPasswordStrength(newPassword);
+			return FormatValidation.checkPasswordStrength(newPassword);
 
 		CaptchaLoop.captchaManager();
-		
+
 		String confirmation = ProfileMenu.askNewPasswordConfirmation();
 		if (!confirmation.equals(newPassword))
 			return SignupAndProfileMenuMessage.PASSWORD_IS_SHORT;
@@ -71,4 +72,10 @@ public class ProfileMenuController {
 		StrongHold.getCurrentUser().setSlogan(slogan);
 		return SignupAndProfileMenuMessage.SUCCESS;
 	}
+
+	public static void changeAvatar(int indexOfOvatar) {
+		StrongHold.getCurrentUser().setIndexOfOvatar(indexOfOvatar);
+	}
+
+	
 }

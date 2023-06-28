@@ -1,7 +1,10 @@
 package stronghold.view;
 
+import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -74,7 +77,9 @@ public class ProfileMenu extends Application {
 	@FXML
 	private Button randomizeSloganButton;
 	@FXML
-	private HBox avatarBox;
+	private HBox avatarBox1;
+	@FXML
+	private HBox avatarBox2;
 
 	// Change Avatar
 	// TODO
@@ -86,6 +91,8 @@ public class ProfileMenu extends Application {
 
 	private static User user;
 	private static int currentTab;
+	private ArrayList<ImageView> avatars = new ArrayList<>();
+
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -103,35 +110,28 @@ public class ProfileMenu extends Application {
 	private void initialize() {
 		user = StrongHold.getCurrentUser();
 		initTabs();
-		initProfileInfo();
 		SignupMenu.setupSloganInputFields(sloganCheckBox, sloganTextField, randomizeSloganButton);
 		fillSloganInputFields();
 		SignupMenu.addUsernameErrorsListener(newUsernameField, errorText);
+		for (int i = 1; i < 5; i++) {
+			final int avatarIndex = i - 1; // subtract 1 to convert from 1-based to 0-based indexing
+			ImageView avatar = new ImageView(getClass().getResource("/pictures/avatar/" + i + ".png").toExternalForm());
+			System.out.println("/pictures/avatar/" + i +".png");
+			avatar.setOnMouseClicked(new EventHandler<Event>() {
+				@Override
+				public void handle(Event event) {
+					changeAvatarHandler(avatarIndex);
+					avatar.getStyleClass().add("avatar-image-view");
+				}
+			});
+			
+			avatars.add(avatar);
+		}
+		for (int j = 0; j <= 3; j++) {
+			avatarBox1.getChildren().add(avatars.get(j));
+		}
 		activateTab(0);
-		Button button = new Button();
-		
-		Image avatarNumber1 = new Image(getClass().getResource("/pictures/avatar/1.png").toExternalForm());
-		Background backgroundImage = new Background(ViewUtils.setBackGround(avatarNumber1));
-		button.setBackground(backgroundImage);
-		//button.setPrefSize(150, 150);
-		//button.
-		ImageView avatarNumber2 = new ImageView(getClass().getResource("/pictures/avatar/2.png").toExternalForm());
-		ImageView avatarNumber3 = new ImageView(getClass().getResource("/pictures/avatar/3.png").toExternalForm());
-		ImageView avatarNumber4 = new ImageView(getClass().getResource("/pictures/avatar/4.png").toExternalForm());
-		ImageView avatarNumber5 = new ImageView(
-				getClass().getResource("/pictures/avatar/imgbin_spartan-army-ancient-greece-soldier-warrior-png.png")
-						.toExternalForm());
-		ImageView avatarNumber6 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_april-fools-png_3487514.png").toExternalForm());
-		ImageView avatarNumber7 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_steam-png-transparent_3322073.png").toExternalForm());
-		ImageView avatarNumber8 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_tf2-soldier-png_3490964.png").toExternalForm());
-		avatarBox.getChildren().add(button);
-		//avatarBox.getChildren().add(avatarNumber2);
-		//avatarBox.getChildren().add(avatarNumber3);
-		//avatarBox.getChildren().add(avatarNumber4);
-		//avatarBox.getChildren().add(avatarNumber5);
-		//avatarBox.getChildren().add(avatarNumber6);
-		//avatarBox.getChildren().add(avatarNumber7);
-		//avatarBox.getChildren().add(avatarNumber8);
+		initProfileInfo();
 	}
 
 	private void fillSloganInputFields() {
@@ -157,7 +157,9 @@ public class ProfileMenu extends Application {
 	}
 
 	private void initProfileInfo() {
-		// TODO: show avatar
+		int avatarIndex = StrongHold.getCurrentUser().getIndexOfOvatar();
+		Image avatar = avatars.get(avatarIndex).getImage();
+		avatarImage.setImage(avatar);
 		usernameLabel.setText("username: " + user.getUserName());
 		passwordLabel.setText("password(SHA256): " + user.getPassword());
 		nicknameLabel.setText("nickname: " + user.getNickName());
@@ -289,6 +291,11 @@ public class ProfileMenu extends Application {
 	public static String askNewPasswordConfirmation() {
 		System.out.print("Please enter the new password again: ");
 		return MainMenu.getScanner().nextLine();
+	}
+
+	public static void changeAvatarHandler(int indexOfPicture) {
+		ProfileMenuController.changeAvatar(indexOfPicture);
+		;
 	}
 
 }
