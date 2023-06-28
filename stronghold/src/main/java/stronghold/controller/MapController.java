@@ -29,7 +29,7 @@ public class MapController {
 		Group group = new Group(groundImage);
 		addBuildingImage(tile, group, width, height);
 		addEnvironmentItemImage(tile, group, width, height);
-		// addPeopleImages(tile, group, width, height);
+		addPeopleImages(tile, group, width, height);
 		addTooltip(group, groundImage, x, y);
 		return group;
 	}
@@ -50,6 +50,17 @@ public class MapController {
 		image.setFitHeight(height);
 		image.setFitWidth(width);
 		group.getChildren().add(image);
+	}
+
+	private static void addPeopleImages(MapTile tile, Group group, double width, double height) {
+		for (Person person : tile.getPeople()) {
+			if (person.isVisible()) {
+				ImageView image = new ImageView(AssetImageLoader.getAssetImage(person.getName()));
+				image.setFitHeight(height / 2);
+				image.setFitWidth(width / 3);
+				group.getChildren().add(image);
+			}
+		}
 	}
 
 	private static void addTooltip(Group group, ImageView groundImage, int x, int y) {
