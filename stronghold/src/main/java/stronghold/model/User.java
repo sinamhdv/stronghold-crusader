@@ -1,5 +1,6 @@
 package stronghold.model;
 
+
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 
@@ -12,6 +13,7 @@ public class User {
 	private int highScore;
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
+
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
 			int securityQuestionNumber, String securityQuestionAnswer) {
@@ -80,4 +82,6 @@ public class User {
 	public String getSlogan() {
 		return slogan;
 	}
+
+
 }

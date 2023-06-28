@@ -86,7 +86,7 @@ public class ProfileMenu extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/ProfileMenu.fxml"));
-		Image image = new Image(getClass().getResource("/pictures/thumb-1920-680255.jpg").toExternalForm());
+		Image image = new Image(getClass().getResource("/pictures/background/thumb-1920-680255.jpg").toExternalForm());
 		Background background = new Background(ViewUtils.setBackGround(image));
         borderPane.setBackground(background);
 		Scene scene = new Scene(borderPane);
@@ -248,4 +248,6 @@ public class ProfileMenu extends Application {
 		System.out.print("Please enter the new password again: ");
 		return MainMenu.getScanner().nextLine();
 	}
+
+	
 }

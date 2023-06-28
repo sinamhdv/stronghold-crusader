@@ -59,7 +59,7 @@ public class SignupMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/SignupMenu.fxml"));
 		borderPane.setPrefSize(800, 600);
-		Image image = new Image(getClass().getResource("/pictures/thumb-1920-1172588.png").toExternalForm());
+		Image image = new Image(getClass().getResource("/pictures/background/thumb-1920-1172588.png").toExternalForm());
 		Background background = new Background(ViewUtils.setBackGround(image));
         borderPane.setBackground(background);
 		Scene scene = new Scene(borderPane);
