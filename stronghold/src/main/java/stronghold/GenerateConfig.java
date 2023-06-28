@@ -186,7 +186,7 @@ public class GenerateConfig {
 		
 		addBuilding(new DefensiveStructure(
 			1000, "keep", 0,
-			3, 3, 1,
+			1, 1, 1,
 			true, 0, 0,
 			8, 0,
 			10, 7,
@@ -195,7 +195,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			400, "horizontal small gate", 0,
-			2, 2, 2,
+			1, 1, 2,
 			true, 0, 0,
 			8, 0,
 			10, 7,
@@ -204,7 +204,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			400, "vertical small gate", 0,
-			2, 2, 2,
+			1, 1, 2,
 			true, 0, 0,
 			8, 0,
 			10, 7,
@@ -213,7 +213,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			600, "horizontal large gate", 0,
-			3, 3, 2,
+			1, 1, 2,
 			true, 0, 0,
 			10, 0,
 			12, 6,
@@ -222,7 +222,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			600, "vertical large gate", 0,
-			3, 3, 2,
+			1, 1, 2,
 			true, 0, 0,
 			10, 0,
 			12, 6,
@@ -258,7 +258,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			400, "large turret", 0,
-			2, 2, 2,
+			1, 1, 2,
 			true, 0, 0,
 			0, 0,
 			10, 6,
@@ -267,7 +267,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			700, "square tower", 0,
-			3, 3, 2,
+			1, 1, 2,
 			true, 0, 0,
 			0, 0,
 			12, 4,
@@ -276,7 +276,7 @@ public class GenerateConfig {
 
 		addBuilding(new DefensiveStructure(
 			1000, "round tower", 0,
-			3, 3, 2,
+			1, 1, 2,
 			true, 0, 0,
 			0, 0,
 			12, 4,
@@ -312,7 +312,7 @@ public class GenerateConfig {
 
 		addBuilding(new Barracks(
 			200, "european barracks", 0,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
@@ -324,7 +324,7 @@ public class GenerateConfig {
 
 		addBuilding(new Barracks(
 			200, "arabian barracks", 0,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
@@ -336,7 +336,7 @@ public class GenerateConfig {
 
 		addBuilding(new Barracks(
 			200, "engineers guild", 0,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			0, new String[] {
@@ -354,7 +354,7 @@ public class GenerateConfig {
 
 		addBuilding(new Barracks(
 			200, "church", 0,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			2, new String[] { "monk" }
@@ -435,7 +435,7 @@ public class GenerateConfig {
 
 		addBuilding(new Stockpile(
 			200, "stable", 0,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			new HashMap<>(Map.of(
@@ -465,7 +465,7 @@ public class GenerateConfig {
 
 		addBuilding(new ResourceConverterBuilding(
 			200, "stone mine", 3,
-			2, 2, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			null, ResourceType.UNTRANSPORTED_ROCK,
@@ -575,7 +575,7 @@ public class GenerateConfig {
 
 		addBuilding(new ResourceConverterBuilding(
 			200, "apple farm", 1,
-			3, 3, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			null, ResourceType.APPLE,
@@ -585,7 +585,7 @@ public class GenerateConfig {
 
 		addBuilding(new ResourceConverterBuilding(
 			200, "dairy farm", 1,
-			3, 3, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			null, ResourceType.CHEESE,
@@ -595,7 +595,7 @@ public class GenerateConfig {
 
 		addBuilding(new ResourceConverterBuilding(
 			200, "grape farm", 1,
-			3, 3, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			null, ResourceType.GRAPES,
@@ -605,7 +605,7 @@ public class GenerateConfig {
 
 		addBuilding(new ResourceConverterBuilding(
 			200, "wheat farm", 1,
-			3, 3, 999,
+			1, 1, 999,
 			true, 0, 0,
 			0, 0,
 			null, ResourceType.WHEAT,
@@ -655,7 +655,7 @@ public class GenerateConfig {
 
 		addBuilding(new OilSmelter(
 			200, "oil smelter", 0,
-			0, 0, 0,
+			1, 1, 0,
 			false, 0, 0,
 			0, 0
 		));
