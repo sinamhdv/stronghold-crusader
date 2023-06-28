@@ -1,5 +1,6 @@
 package stronghold.view;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -71,6 +73,8 @@ public class ProfileMenu extends Application {
 	private TextField sloganTextField;
 	@FXML
 	private Button randomizeSloganButton;
+	@FXML
+	private HBox avatarBox;
 
 	// Change Avatar
 	// TODO
@@ -88,7 +92,7 @@ public class ProfileMenu extends Application {
 		BorderPane borderPane = FXMLLoader.load(ProfileMenu.class.getResource("/fxml/ProfileMenu.fxml"));
 		Image image = new Image(getClass().getResource("/pictures/background/thumb-1920-680255.jpg").toExternalForm());
 		Background background = new Background(ViewUtils.setBackGround(image));
-        borderPane.setBackground(background);
+		borderPane.setBackground(background);
 		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
@@ -104,6 +108,29 @@ public class ProfileMenu extends Application {
 		fillSloganInputFields();
 		SignupMenu.addUsernameErrorsListener(newUsernameField, errorText);
 		activateTab(0);
+		Button button = new Button();
+		
+		Image avatarNumber1 = new Image(getClass().getResource("/pictures/avatar/1.png").toExternalForm());
+		Background backgroundImage = new Background(ViewUtils.setBackGround(avatarNumber1));
+		button.setBackground(backgroundImage);
+		button.setPrefSize(150, 150);
+		ImageView avatarNumber2 = new ImageView(getClass().getResource("/pictures/avatar/2.png").toExternalForm());
+		ImageView avatarNumber3 = new ImageView(getClass().getResource("/pictures/avatar/3.png").toExternalForm());
+		ImageView avatarNumber4 = new ImageView(getClass().getResource("/pictures/avatar/4.png").toExternalForm());
+		ImageView avatarNumber5 = new ImageView(
+				getClass().getResource("/pictures/avatar/imgbin_spartan-army-ancient-greece-soldier-warrior-png.png")
+						.toExternalForm());
+		ImageView avatarNumber6 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_april-fools-png_3487514.png").toExternalForm());
+		ImageView avatarNumber7 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_steam-png-transparent_3322073.png").toExternalForm());
+		ImageView avatarNumber8 = new ImageView(getClass().getResource("/pictures/avatar/NicePng_tf2-soldier-png_3490964.png").toExternalForm());
+		avatarBox.getChildren().add(button);
+		//avatarBox.getChildren().add(avatarNumber2);
+		//avatarBox.getChildren().add(avatarNumber3);
+		//avatarBox.getChildren().add(avatarNumber4);
+		//avatarBox.getChildren().add(avatarNumber5);
+		//avatarBox.getChildren().add(avatarNumber6);
+		//avatarBox.getChildren().add(avatarNumber7);
+		//avatarBox.getChildren().add(avatarNumber8);
 	}
 
 	private void fillSloganInputFields() {
@@ -146,7 +173,7 @@ public class ProfileMenu extends Application {
 		}
 		tabs[index].setVisible(true);
 		tabs[index].setManaged(true);
-		if (index == 0) {	// update profile info
+		if (index == 0) { // update profile info
 			initProfileInfo();
 		}
 	}
@@ -169,8 +196,7 @@ public class ProfileMenu extends Application {
 
 	public void changeSloganButtonHandler(MouseEvent mouseEvent) {
 		updateErrors(ProfileMenuController.changeSlogan(
-			sloganCheckBox.isSelected() ? sloganTextField.getText() : null
-		));
+				sloganCheckBox.isSelected() ? sloganTextField.getText() : null));
 	}
 
 	public void updateErrors(SignupAndProfileMenuMessage message) {
@@ -185,63 +211,78 @@ public class ProfileMenu extends Application {
 	}
 
 	// public static void run() {
-	// 	System.out.println("======[Profile Menu]======");
-		
-	// 	while (true) {
-	// 		String line = MainMenu.getScanner().nextLine();
-	// 		String[] inputTokens = CommandParser.splitTokens(line);
-	// 		HashMap<String, String> matcher;
-	// 		if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
-	// 			return;
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_USERNAME)) != null)
-	// 			System.out.println(ProfileMenuController.changeUserName(matcher.get("username")).getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_NICKNAME)) != null)
-	// 			System.out.println(ProfileMenuController.changeNickName(matcher.get("nickname")).getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_PASSWORD)) != null)
-	// 			System.out.println(
-	// 					ProfileMenuController.changePassword(matcher.get("newPassword"), matcher.get("oldPassword")).getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_EMAIL)) != null)
-	// 			System.out.println(ProfileMenuController.changeEmail(matcher.get("email")).getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.CHANGE_SLOGAN)) != null)
-	// 			System.out.println(ProfileMenuController.changeSlogan(matcher.get("slogan")).getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.REMOVE_SLOGAN)) != null)
-	// 			System.out.println(ProfileMenuController.removeSlogan().getErrorString());
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.DISPLAY_HIGHSCORE)) != null)
-	// 			displayHighscore();
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.DISPLAY_RANK)) != null)
-	// 			displayRank();
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.DISPLAY_SLOGAN)) != null)
-	// 			displaySlogan();
-	// 		else if ((matcher = CommandParser.getMatcher(inputTokens, Command.PROFILE_DISPLAY)) != null)
-	// 			displayInfo();
-	// 		else
-	// 			System.out.println("Error: Invalid command");
-	// 	}
+	// System.out.println("======[Profile Menu]======");
+
+	// while (true) {
+	// String line = MainMenu.getScanner().nextLine();
+	// String[] inputTokens = CommandParser.splitTokens(line);
+	// HashMap<String, String> matcher;
+	// if ((matcher = CommandParser.getMatcher(inputTokens, Command.BACK)) != null)
+	// return;
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.CHANGE_USERNAME)) != null)
+	// System.out.println(ProfileMenuController.changeUserName(matcher.get("username")).getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.CHANGE_NICKNAME)) != null)
+	// System.out.println(ProfileMenuController.changeNickName(matcher.get("nickname")).getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.CHANGE_PASSWORD)) != null)
+	// System.out.println(
+	// ProfileMenuController.changePassword(matcher.get("newPassword"),
+	// matcher.get("oldPassword")).getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.CHANGE_EMAIL)) != null)
+	// System.out.println(ProfileMenuController.changeEmail(matcher.get("email")).getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.CHANGE_SLOGAN)) != null)
+	// System.out.println(ProfileMenuController.changeSlogan(matcher.get("slogan")).getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.REMOVE_SLOGAN)) != null)
+	// System.out.println(ProfileMenuController.removeSlogan().getErrorString());
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.DISPLAY_HIGHSCORE)) != null)
+	// displayHighscore();
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.DISPLAY_RANK)) != null)
+	// displayRank();
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.DISPLAY_SLOGAN)) != null)
+	// displaySlogan();
+	// else if ((matcher = CommandParser.getMatcher(inputTokens,
+	// Command.PROFILE_DISPLAY)) != null)
+	// displayInfo();
+	// else
+	// System.out.println("Error: Invalid command");
+	// }
 	// }
 
 	// private static void displayHighscore() {
-	// 	System.out.println("you're highscore is: " + StrongHold.getCurrentUser().getHighScore());
+	// System.out.println("you're highscore is: " +
+	// StrongHold.getCurrentUser().getHighScore());
 	// }
 
 	// private static void displayRank() {
-	// 	System.out.println("you're rank is: " + StrongHold.getRank(StrongHold.getCurrentUser()));
+	// System.out.println("you're rank is: " +
+	// StrongHold.getRank(StrongHold.getCurrentUser()));
 	// }
 
 	// private static void displaySlogan() {
-	// 	if (StrongHold.getCurrentUser().getSlogan() == null)
-	// 		System.out.println("you dont have any slogans");
-	// 	else
-	// 		System.out.println("you're slogan is: " + StrongHold.getCurrentUser().getSlogan());
+	// if (StrongHold.getCurrentUser().getSlogan() == null)
+	// System.out.println("you dont have any slogans");
+	// else
+	// System.out.println("you're slogan is: " +
+	// StrongHold.getCurrentUser().getSlogan());
 	// }
 
 	// private static void displayInfo() {
-	// 	User user = StrongHold.getCurrentUser();
-	// 	System.out.println("Username: " + user.getUserName());
-	// 	System.out.println("Nickname: " + user.getNickName());
-	// 	System.out.println("Email: " + user.getEmail());
-	// 	System.out.println("Highscore: " + user.getHighScore());
-	// 	System.out.println("Rank: " + StrongHold.getRank(user));
-	// 	System.out.println((user.getSlogan() == null ? "No slogan" : "Slogan: " + user.getSlogan()));
+	// User user = StrongHold.getCurrentUser();
+	// System.out.println("Username: " + user.getUserName());
+	// System.out.println("Nickname: " + user.getNickName());
+	// System.out.println("Email: " + user.getEmail());
+	// System.out.println("Highscore: " + user.getHighScore());
+	// System.out.println("Rank: " + StrongHold.getRank(user));
+	// System.out.println((user.getSlogan() == null ? "No slogan" : "Slogan: " +
+	// user.getSlogan()));
 	// }
 
 	public static String askNewPasswordConfirmation() {
@@ -249,5 +290,4 @@ public class ProfileMenu extends Application {
 		return MainMenu.getScanner().nextLine();
 	}
 
-	
 }
