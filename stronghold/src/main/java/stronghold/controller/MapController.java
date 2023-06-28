@@ -7,8 +7,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Building;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
+import stronghold.utils.AssetImageLoader;
 import stronghold.utils.Miscellaneous;
 import stronghold.utils.ViewUtils;
 
@@ -19,9 +21,25 @@ public class MapController {
 	public static Group getTileRepresentation(int x, int y) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 		ImageView groundImage = new ImageView(tile.getGroundType().getImage());
-		groundImage.setFitHeight(ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT);
-		groundImage.setFitWidth(ViewUtils.getScreenWidth() / (double)SHOW_MAP_WIDTH);
+		double height = ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT;
+		double width = ViewUtils.getScreenWidth() / (double)SHOW_MAP_WIDTH;
+		groundImage.setFitHeight(height);
+		groundImage.setFitWidth(width);
 		Group group = new Group(groundImage);
+		addBuildingImage(tile, group, width, height);
+		// if (tile.getEnvironmentItem() != null) addEnvironmentItemImage(tile, group, x, y);
+		// addPeopleImages(tile, group, x, y);
+		addTooltip(group, groundImage, x, y);
+		return group;
+	}
+
+	private static void addBuildingImage(MapTile tile, Group group, double width, double height) {
+		Building building = tile.getBuilding();
+		if (building == null || !building.isVisible()) return;
+		group.getChildren().add(new ImageView(AssetImageLoader.getAssetImage("keep")));
+	}
+
+	private static void addTooltip(Group group, ImageView groundImage, int x, int y) {
 		Tooltip tooltip = new Tooltip(getTileDetails(x, y));
 		tooltip.setShowDelay(Duration.millis(100));
 		group.setOnMouseEntered(event -> {
@@ -32,7 +50,6 @@ public class MapController {
 		group.setOnMouseExited(event -> {
 			tooltip.hide();
 		});
-		return group;
 	}
 
 	public static String getTileDetails(int x, int y) {

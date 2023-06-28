@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import stronghold.GenerateConfig;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
@@ -43,8 +44,9 @@ public class LoginMenu extends Application {
 
 	public static void main(String[] args) {
 		DatabaseManager.loadUsers();
-		// GenerateConfig.run();
-		launch(args);
+		GenerateConfig.run();
+		// launch(args);
+		MapManagementMenu.run();
 	}
 
 	@Override
