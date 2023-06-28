@@ -113,7 +113,8 @@ public class ProfileMenu extends Application {
 		Image avatarNumber1 = new Image(getClass().getResource("/pictures/avatar/1.png").toExternalForm());
 		Background backgroundImage = new Background(ViewUtils.setBackGround(avatarNumber1));
 		button.setBackground(backgroundImage);
-		button.setPrefSize(150, 150);
+		//button.setPrefSize(150, 150);
+		//button.
 		ImageView avatarNumber2 = new ImageView(getClass().getResource("/pictures/avatar/2.png").toExternalForm());
 		ImageView avatarNumber3 = new ImageView(getClass().getResource("/pictures/avatar/3.png").toExternalForm());
 		ImageView avatarNumber4 = new ImageView(getClass().getResource("/pictures/avatar/4.png").toExternalForm());
