@@ -1,9 +1,11 @@
 package stronghold.model;
 
+
+
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 
-public class User {
+public class User implements Comparable<User> {
 	private String userName;
 	private String password;
 	private String nickName;
@@ -12,6 +14,8 @@ public class User {
 	private int highScore;
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
+	private int indexOfOvatar = 1 ;
+
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
 			int securityQuestionNumber, String securityQuestionAnswer) {
@@ -79,5 +83,24 @@ public class User {
 	}
 	public String getSlogan() {
 		return slogan;
+	}
+
+	public int getIndexOfOvatar() {
+		return indexOfOvatar;
+	}
+
+	public void setIndexOfOvatar(int indexOfOvatar) {
+		this.indexOfOvatar = indexOfOvatar;
+	}
+
+	@Override
+	public int compareTo(User other)
+	{
+		int thiRank = StrongHold.getRank(this);
+		int otherRank = StrongHold.getRank(other);
+		if(thiRank != otherRank)
+			return (int)(otherRank - thiRank);
+		else
+			return this.userName.compareTo(other.userName);
 	}
 }

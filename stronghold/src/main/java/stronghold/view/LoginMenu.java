@@ -55,7 +55,7 @@ public class LoginMenu extends Application {
 		LoginMenu.stage = stage;
 		BorderPane borderPane = FXMLLoader.load(LoginMenu.class.getResource("/fxml/LoginMenu.fxml"));
 		Scene scene = new Scene(borderPane);
-		Image image = new Image(getClass().getResource("/pictures/680254.jpg").toExternalForm());
+		Image image = new Image(getClass().getResource("/pictures/background/680254.jpg").toExternalForm());
 		Background background = new Background(ViewUtils.setBackGround(image));
         borderPane.setBackground(background);
 		stage.setScene(scene);
