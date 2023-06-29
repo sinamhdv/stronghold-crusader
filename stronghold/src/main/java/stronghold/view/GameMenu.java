@@ -6,13 +6,14 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
-import stronghold.controller.MapController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
@@ -24,21 +25,37 @@ import stronghold.utils.PopularityFormulas;
 
 public class GameMenu extends Application {
 	private static Game game;
+	private static GameMenu instance;
 
 	@FXML
 	private GridPane grid;
+	@FXML
+	private ScrollPane scrollPane;
+	private BorderPane borderPane;
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
+		instance = this;
+	}
+
+	public static GameMenu getInstance() {
+		return instance;
+	}
+
+	ScrollPane getScrollPane() {
+		return scrollPane;
+	}
+	BorderPane getBorderPane() {
+		return borderPane;
+	}
+	GridPane getGrid() {
+		return grid;
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		ScrollPane scrollPane = FXMLLoader.load(GameMenu.class.getResource("/fxml/GameMenu.fxml"));
-		scrollPane.setPannable(true);
-		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
-		Scene scene = new Scene(scrollPane);
+		borderPane = FXMLLoader.load(GameMenu.class.getResource("/fxml/GameMenu.fxml"));
+		Scene scene = new Scene(borderPane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
 		stage.show();
@@ -46,18 +63,26 @@ public class GameMenu extends Application {
 
 	@FXML
 	private void initialize() {
+		scrollPane.setPannable(true);
+		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(0.5);
-		grid.setVgap(0.5);
+		grid.setHgap(MapScreen.GRID_GAPS);
+		grid.setVgap(MapScreen.GRID_GAPS);
+		grid.setGridLinesVisible(true);
 		displayFullMap();
 	}
 
 	private void displayFullMap() {
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
-				grid.add(MapController.getTileRepresentation(i, j), j, i);
+				grid.add(MapScreen.getTileRepresentation(i, j), j, i);
 			}
 		}
+	}
+
+	public Group getGridCell(int x, int y) {
+		return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
 	}
 
 	// public static void run() {

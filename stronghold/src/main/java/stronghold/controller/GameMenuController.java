@@ -28,6 +28,20 @@ public class GameMenuController {
 	public static final int MAX_TUNNEL_DISTANCE = 8;
 	private static boolean debugMode = false;
 
+	private static int selectedX, selectedY;
+	public static void setSelectedX(int selectedX) {
+		GameMenuController.selectedX = selectedX;
+	}
+	public static void setSelectedY(int selectedY) {
+		GameMenuController.selectedY = selectedY;
+	}
+	public static int getSelectedX() {
+		return selectedX;
+	}
+	public static int getSelectedY() {
+		return selectedY;
+	}
+
 	public static void setDebugMode(boolean debugMode) {
 		GameMenuController.debugMode = debugMode;
 	}

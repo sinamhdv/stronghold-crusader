@@ -1,10 +1,16 @@
-package stronghold.controller;
+package stronghold.view;
 
 import java.util.ArrayList;
 
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
@@ -15,22 +21,28 @@ import stronghold.utils.AssetImageLoader;
 import stronghold.utils.Miscellaneous;
 import stronghold.utils.ViewUtils;
 
-public class MapController {
+public class MapScreen {
 	public static final int SHOW_MAP_WIDTH = 16;
 	public static final int SHOW_MAP_HEIGHT = SHOW_MAP_WIDTH / 16 * 9;
+	public static final double GRID_GAPS = 0.5;
+	private static double cellDimentions = ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT;
+
+	private static int dragStartX, dragStartY;
+	private static Rectangle selectionRectangle;
 
 	public static Group getTileRepresentation(int x, int y) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 		ImageView groundImage = new ImageView(tile.getGroundType().getImage());
-		double height = ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT;
-		double width = ViewUtils.getScreenWidth() / (double)SHOW_MAP_WIDTH;
+		double height = cellDimentions;
+		double width = cellDimentions;
 		groundImage.setFitHeight(height);
 		groundImage.setFitWidth(width);
 		Group group = new Group(groundImage);
 		addBuildingImage(tile, group, width, height);
 		addEnvironmentItemImage(tile, group, width, height);
 		addPeopleImages(tile, group, width, height);
-		addTooltip(group, groundImage, x, y);
+		addTooltip(group, x, y);
+		addMouseHandlers(group, x, y);
 		return group;
 	}
 
@@ -63,7 +75,7 @@ public class MapController {
 		}
 	}
 
-	private static void addTooltip(Group group, ImageView groundImage, int x, int y) {
+	private static void addTooltip(Group group, int x, int y) {
 		Tooltip tooltip = new Tooltip(getTileDetails(x, y));
 		tooltip.setShowDelay(Duration.millis(10));
 		tooltip.setHideDelay(Duration.millis(10));
@@ -72,6 +84,58 @@ public class MapController {
 		group.setOnMouseEntered(event -> {
 			tooltip.setText(getTileDetails(x, y));
 		});
+	}
+
+	private static void addMouseHandlers(Group group, int x, int y) {
+		// group.setOnMouseClicked(event -> {
+		// 	if (!event.isShiftDown()) return;
+		// 	selectArea(x, y, x, y);
+		// });
+		// group.setOnDragDetected(event -> {
+		// 	if (!event.isShiftDown()) return;
+		// 	GameMenu.getInstance().getScrollPane().setPannable(false);
+		// 	group.startFullDrag();
+		// 	dragStartX = x;
+		// 	dragStartY = y;
+		// });
+		// group.setOnMouseDragReleased(event -> {
+		// 	if (!event.isShiftDown()) return;
+		// 	GameMenu.getInstance().getScrollPane().setPannable(true);
+		// 	selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
+		// 		Math.max(x, dragStartX), Math.max(y, dragStartY));
+		// });
+		group.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+			if (!event.isShiftDown()) return;
+			selectArea(x, y, x, y);
+		});
+		group.addEventFilter(MouseDragEvent.DRAG_DETECTED, event -> {
+			if (!event.isShiftDown()) return;
+			GameMenu.getInstance().getScrollPane().setPannable(false);
+			group.startFullDrag();
+			dragStartX = x;
+			dragStartY = y;
+		});
+		group.addEventFilter(MouseDragEvent.MOUSE_DRAG_RELEASED, event -> {
+			if (!event.isShiftDown()) return;
+			GameMenu.getInstance().getScrollPane().setPannable(true);
+			selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
+				Math.max(x, dragStartX), Math.max(y, dragStartY));
+		});
+	}
+
+	private static void selectArea(int x1, int y1, int x2, int y2) {
+		BorderPane borderPane = GameMenu.getInstance().getBorderPane();
+		GridPane grid = GameMenu.getInstance().getGrid();
+		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
+		selectionRectangle = new Rectangle((y2 - y1 + 1) * (cellDimentions + GRID_GAPS), (x2 - x1 + 1) * (cellDimentions + GRID_GAPS));
+		selectionRectangle.setFill(Color.PURPLE);
+		selectionRectangle.setStroke(Color.PURPLE);
+		selectionRectangle.setOpacity(0.2);
+		selectionRectangle.setManaged(false);
+		selectionRectangle.setMouseTransparent(true);
+		grid.add(selectionRectangle, x1, y1);
+		selectionRectangle.setX(y1 * (cellDimentions + GRID_GAPS));
+		selectionRectangle.setY(x1 * (cellDimentions + GRID_GAPS));
 	}
 
 	public static String getTileDetails(int x, int y) {
