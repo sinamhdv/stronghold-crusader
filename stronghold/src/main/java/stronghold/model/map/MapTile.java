@@ -3,10 +3,10 @@ package stronghold.model.map;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
 import stronghold.model.buildings.Building;
 import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.people.Person;
-import stronghold.view.TerminalColor;
 
 public class MapTile implements Serializable {
 	private GroundType groundType = GroundType.NORMAL;
@@ -45,13 +45,9 @@ public class MapTile implements Serializable {
 	public void addPerson(Person person) {
 		people.add(person);
 	}
-	public TerminalColor getBackgroundColor() {
-		if ((building == null || !building.isVisible()) && environmentItem == null) return groundType.getBackgroundColor();
-		return TerminalColor.BLACK;
-	}
-	public TerminalColor getForegroundColor() {
-		if ((building == null || !building.isVisible()) && environmentItem == null) return groundType.getForegroundColor();
-		return TerminalColor.CYAN;
+	public Color getColor() {
+		if ((building == null || !building.isVisible()) && environmentItem == null) return groundType.getColor();
+		return Color.BLACK;
 	}
 
 	public boolean hasPeople() {

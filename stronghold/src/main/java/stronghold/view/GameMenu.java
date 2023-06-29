@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -13,12 +14,15 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
@@ -44,7 +48,7 @@ public class GameMenu extends Application {
 	@FXML
 	private ToolBar toolBar;
 	@FXML
-	private ScrollPane buildingsScroll;
+	private ScrollPane mainPane;
 	@FXML
 	private ImageView minimap;
 
@@ -123,12 +127,13 @@ public class GameMenu extends Application {
 			BackgroundPosition.CENTER,
 			new BackgroundSize(toolBar.getPrefWidth(), toolBar.getPrefHeight(),
 			false, false, false, false))));
-		buildingsScroll.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
-		buildingsScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-		buildingsScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
-		minimap.setImage(new Image(GameMenu.class.getResource("/images/groundtypes/normal.jpg").toExternalForm()));
-		minimap.setFitHeight(buildingsScroll.getPrefHeight());
+		mainPane.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
+		mainPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		mainPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		minimap.setImage(GameToolBar.getMinimapImage(game.getMap()));
+		minimap.setFitHeight(mainPane.getPrefHeight());
 		minimap.setFitWidth(minimap.getFitHeight());
+		GameToolBar.setMinimapMouseHandler(minimap, scrollPane);
 	}
 
 	// public Group getGridCell(int x, int y) {

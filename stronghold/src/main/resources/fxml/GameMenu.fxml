@@ -25,7 +25,7 @@
 		<ToolBar fx:id="toolBar">
 			<HBox spacing="20">
 				<VBox>
-					<ScrollPane fx:id="buildingsScroll">
+					<ScrollPane fx:id="mainPane" styleClass="toolbar-main-pane">
 					</ScrollPane>
 					<HBox>	<!-- building category buttons -->
 						<Button text="Castle"/>
@@ -44,6 +44,7 @@
 					<Label text="Population/Max"/>
 					<Button text="Report"/>
 				</VBox>
+				<HBox alignment="CENTER"><Button text="Next Turn"/></HBox>
 			</HBox>
 		</ToolBar>
 	</bottom>
