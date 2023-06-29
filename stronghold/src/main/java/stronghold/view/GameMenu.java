@@ -6,11 +6,16 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.input.KeyCode;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -23,6 +28,7 @@ import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
 import stronghold.utils.PopularityFormulas;
+import stronghold.utils.ViewUtils;
 
 public class GameMenu extends Application {
 	private static Game game;
@@ -32,7 +38,10 @@ public class GameMenu extends Application {
 	private GridPane grid;
 	@FXML
 	private ScrollPane scrollPane;
+	@FXML
 	private BorderPane borderPane;
+	@FXML
+	private ToolBar toolBar;
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
@@ -74,6 +83,7 @@ public class GameMenu extends Application {
 		grid.setGridLinesVisible(true);
 		displayFullMap();
 		addKeyListeners();
+		setupToolBar();
 		scrollPane.requestFocus();
 	}
 
@@ -98,6 +108,16 @@ public class GameMenu extends Application {
 					break;
 			}
 		});
+	}
+
+	private void setupToolBar() {
+		toolBar.setPrefSize(ViewUtils.getScreenWidth(), ViewUtils.getScreenHeight() / 5.0);
+		toolBar.setBackground(new Background(new BackgroundImage(
+			new Image(GameMenu.class.getResource("/images/ui/toolbar.png").toExternalForm()),
+			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+			BackgroundPosition.CENTER,
+			new BackgroundSize(toolBar.getPrefWidth(), toolBar.getPrefHeight(),
+			false, false, false, false))));
 	}
 
 	// public Group getGridCell(int x, int y) {

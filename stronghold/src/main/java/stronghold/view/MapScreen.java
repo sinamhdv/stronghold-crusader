@@ -3,12 +3,8 @@ package stronghold.view;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -91,35 +87,18 @@ public class MapScreen {
 	}
 
 	private static void addMouseHandlers(Group group, int x, int y) {
-		// group.setOnMouseClicked(event -> {
-		// 	if (!event.isShiftDown()) return;
-		// 	selectArea(x, y, x, y);
-		// });
-		// group.setOnDragDetected(event -> {
-		// 	if (!event.isShiftDown()) return;
-		// 	GameMenu.getInstance().getScrollPane().setPannable(false);
-		// 	group.startFullDrag();
-		// 	dragStartX = x;
-		// 	dragStartY = y;
-		// });
-		// group.setOnMouseDragReleased(event -> {
-		// 	if (!event.isShiftDown()) return;
-		// 	GameMenu.getInstance().getScrollPane().setPannable(true);
-		// 	selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
-		// 		Math.max(x, dragStartX), Math.max(y, dragStartY));
-		// });
-		group.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+		group.setOnMouseClicked(event -> {
 			if (!event.isShiftDown()) return;
 			selectArea(x, y, x, y);
 		});
-		group.addEventFilter(MouseDragEvent.DRAG_DETECTED, event -> {
+		group.setOnDragDetected(event -> {
 			if (!event.isShiftDown()) return;
 			GameMenu.getInstance().getScrollPane().setPannable(false);
 			group.startFullDrag();
 			dragStartX = x;
 			dragStartY = y;
 		});
-		group.addEventFilter(MouseDragEvent.MOUSE_DRAG_RELEASED, event -> {
+		group.setOnMouseDragReleased(event -> {
 			if (!event.isShiftDown()) return;
 			GameMenu.getInstance().getScrollPane().setPannable(true);
 			selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
@@ -165,6 +144,5 @@ public class MapScreen {
 		GridPane grid = GameMenu.getInstance().getGrid();
 		grid.setScaleX(currentZoomLevel);
 		grid.setScaleY(currentZoomLevel);
-		grid.setScaleZ(currentZoomLevel);
 	}
 }
