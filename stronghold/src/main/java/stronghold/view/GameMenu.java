@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -35,6 +36,7 @@ public class GameMenu extends Application {
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
+		GameMenuController.setGame(game);
 		instance = this;
 	}
 
@@ -71,6 +73,8 @@ public class GameMenu extends Application {
 		grid.setVgap(MapScreen.GRID_GAPS);
 		grid.setGridLinesVisible(true);
 		displayFullMap();
+		addKeyListeners();
+		scrollPane.requestFocus();
 	}
 
 	private void displayFullMap() {
@@ -81,9 +85,24 @@ public class GameMenu extends Application {
 		}
 	}
 
-	public Group getGridCell(int x, int y) {
-		return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
+	private void addKeyListeners() {
+		scrollPane.setOnKeyPressed(event -> {
+			switch (event.getCode()) {
+				case EQUALS:
+					MapScreen.zoomHandler(1.02);
+					break;
+				case MINUS:
+					MapScreen.zoomHandler(1/1.02);
+					break;
+				default:
+					break;
+			}
+		});
 	}
+
+	// public Group getGridCell(int x, int y) {
+	// 	return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
+	// }
 
 	// public static void run() {
 	// 	game = StrongHold.getCurrentGame();

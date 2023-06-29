@@ -6,9 +6,3 @@
 .error-text {
 	-fx-text-fill: red;
 }
-
-.selected-cell {
-	-fx-border-style: solid;
-	-fx-border-width: 2px;
-	-fx-border-color: blue;
-}

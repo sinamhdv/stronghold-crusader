@@ -3,6 +3,7 @@ package stronghold.view;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
@@ -12,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import stronghold.controller.GameMenuController;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
 import stronghold.model.environment.EnvironmentItem;
@@ -29,6 +31,8 @@ public class MapScreen {
 
 	private static int dragStartX, dragStartY;
 	private static Rectangle selectionRectangle;
+
+	private static double currentZoomLevel = 1;
 
 	public static Group getTileRepresentation(int x, int y) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
@@ -124,7 +128,6 @@ public class MapScreen {
 	}
 
 	private static void selectArea(int x1, int y1, int x2, int y2) {
-		BorderPane borderPane = GameMenu.getInstance().getBorderPane();
 		GridPane grid = GameMenu.getInstance().getGrid();
 		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
 		selectionRectangle = new Rectangle((y2 - y1 + 1) * (cellDimentions + GRID_GAPS), (x2 - x1 + 1) * (cellDimentions + GRID_GAPS));
@@ -136,6 +139,7 @@ public class MapScreen {
 		grid.add(selectionRectangle, x1, y1);
 		selectionRectangle.setX(y1 * (cellDimentions + GRID_GAPS));
 		selectionRectangle.setY(x1 * (cellDimentions + GRID_GAPS));
+		GameMenuController.setSelectedArea(x1, y1, x2, y2);
 	}
 
 	public static String getTileDetails(int x, int y) {
@@ -153,5 +157,14 @@ public class MapScreen {
 					result += person + "\n";
 		}
 		return result;
+	}
+
+	static void zoomHandler(double value) {
+		if (currentZoomLevel * value < 1 || currentZoomLevel * value > 1.1) return;
+		currentZoomLevel *= value;
+		GridPane grid = GameMenu.getInstance().getGrid();
+		grid.setScaleX(currentZoomLevel);
+		grid.setScaleY(currentZoomLevel);
+		grid.setScaleZ(currentZoomLevel);
 	}
 }

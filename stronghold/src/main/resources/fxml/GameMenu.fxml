@@ -19,4 +19,9 @@
 		</ScrollPane>
 	</center>
 
+	<bottom>
+		<!-- <ToolBar fx:id="toolbar">
+		</ToolBar> -->
+	</bottom>
+
 </BorderPane>
