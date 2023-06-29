@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -42,6 +43,10 @@ public class GameMenu extends Application {
 	private BorderPane borderPane;
 	@FXML
 	private ToolBar toolBar;
+	@FXML
+	private ScrollPane buildingsScroll;
+	@FXML
+	private ImageView minimap;
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
@@ -118,6 +123,12 @@ public class GameMenu extends Application {
 			BackgroundPosition.CENTER,
 			new BackgroundSize(toolBar.getPrefWidth(), toolBar.getPrefHeight(),
 			false, false, false, false))));
+		buildingsScroll.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
+		buildingsScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		buildingsScroll.setVbarPolicy(ScrollBarPolicy.NEVER);
+		minimap.setImage(new Image(GameMenu.class.getResource("/images/groundtypes/normal.jpg").toExternalForm()));
+		minimap.setFitHeight(buildingsScroll.getPrefHeight());
+		minimap.setFitWidth(minimap.getFitHeight());
 	}
 
 	// public Group getGridCell(int x, int y) {

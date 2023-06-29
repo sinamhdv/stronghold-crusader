@@ -23,7 +23,7 @@
 
 	<bottom>
 		<ToolBar fx:id="toolBar">
-			<HBox>
+			<HBox spacing="20">
 				<VBox>
 					<ScrollPane fx:id="buildingsScroll">
 					</ScrollPane>
@@ -31,14 +31,14 @@
 						<Button text="Castle"/>
 					</HBox>
 				</VBox>
-				<VBox>
-					<Button text="Options"/>
-					<Button text="Briefing"/>
-					<Button text="Delete"/>
-					<Button text="Undo"/>
+				<VBox alignment="CENTER">
+					<Button text="Options" maxWidth="100" minWidth="100"/>
+					<Button text="Briefing" maxWidth="100" minWidth="100"/>
+					<Button text="Delete" maxWidth="100" minWidth="100"/>
+					<Button text="Undo" maxWidth="100" minWidth="100"/>
 				</VBox>
 				<ImageView fx:id="minimap"/>
-				<VBox>
+				<VBox alignment="CENTER" spacing="10">
 					<Label text="Popularity"/>
 					<Label text="Gold"/>
 					<Label text="Population/Max"/>
