@@ -43,6 +43,7 @@
 				</VBox>
 				<ImageView fx:id="minimap"/>
 				<VBox alignment="CENTER" spacing="10">
+					<ImageView fx:id="popularityFace" fitWidth="50" fitHeight="50"/>
 					<Label text="Popularity" fx:id="popularityLabel"/>
 					<Label text="Gold" fx:id="goldLabel"/>
 					<Label text="Population/Max" fx:id="populationLabel"/>

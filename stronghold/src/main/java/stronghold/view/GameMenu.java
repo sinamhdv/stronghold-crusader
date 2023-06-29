@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
@@ -41,6 +42,12 @@ public class GameMenu extends Application {
 	private static Game game;
 	private static GameMenu instance;
 
+	private static final Image[] popularityFaceEmojies = new Image[] {
+		new Image(GameMenu.class.getResource("/images/ui/sad.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/poker.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/smile.png").toExternalForm())
+	};
+
 	@FXML
 	private GridPane grid;
 	@FXML
@@ -55,6 +62,8 @@ public class GameMenu extends Application {
 	private StackPane mainPane;
 	@FXML
 	private ImageView minimap;
+	@FXML
+	private ImageView popularityFace;
 	@FXML
 	private Label popularityLabel;
 	@FXML
@@ -92,16 +101,6 @@ public class GameMenu extends Application {
 	}
 	StackPane getMainPane() {
 		return mainPane;
-	}
-
-	Label getPopularityLabel() {
-		return popularityLabel;
-	}
-	Label getPopulationLabel() {
-		return populationLabel;
-	}
-	Label getGoldLabel() {
-		return goldLabel;
 	}
 
 	@Override
@@ -183,11 +182,16 @@ public class GameMenu extends Application {
 		goldLabel.setText("Gold: " + player.getGold());
 		populationLabel.setText("Population: " +
 			player.getPopulation() + "/" + player.getMaxPopulation());
+		if (player.getPopularity() < 30) popularityFace.setImage(popularityFaceEmojies[0]);
+		else if (player.getPopularity() < 50) popularityFace.setImage(popularityFaceEmojies[1]);
+		else popularityFace.setImage(popularityFaceEmojies[2]);
 	}
 
 	public void refreshGovernmentReport() {
 		governmentReportBox.getChildren().clear();
-		governmentReportBox.getChildren().add(label);
+		VBox infoBox = new VBox(10);
+		
+		governmentReportBox.getChildren().add(infoBox);
 	}
 
 	private void setupBuildingCategories() {
