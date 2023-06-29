@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
 			xmlns:fx="http://javafx.com/fxml"
@@ -22,6 +23,28 @@
 
 	<bottom>
 		<ToolBar fx:id="toolBar">
+			<HBox>
+				<VBox>
+					<ScrollPane fx:id="buildingsScroll">
+					</ScrollPane>
+					<HBox>	<!-- building category buttons -->
+						<Button text="Castle"/>
+					</HBox>
+				</VBox>
+				<VBox>
+					<Button text="Options"/>
+					<Button text="Briefing"/>
+					<Button text="Delete"/>
+					<Button text="Undo"/>
+				</VBox>
+				<ImageView fx:id="minimap"/>
+				<VBox>
+					<Label text="Popularity"/>
+					<Label text="Gold"/>
+					<Label text="Population/Max"/>
+					<Button text="Report"/>
+				</VBox>
+			</HBox>
 		</ToolBar>
 	</bottom>
 
