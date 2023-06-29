@@ -370,6 +370,13 @@ public class Government {
 		return canDecrease;
 	}
 
+	public int getMaxPopulation() {
+		int result = 0;
+		for (Building building : buildings)
+			result += building.getResidentsCapacity();
+		return result;
+	}
+
 	public int getWorkersCount() {
 		int sum = 0;
 		for (Building building : buildings)

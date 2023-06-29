@@ -5,24 +5,26 @@ import java.util.HashMap;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
@@ -48,9 +50,26 @@ public class GameMenu extends Application {
 	@FXML
 	private ToolBar toolBar;
 	@FXML
-	private ScrollPane mainPane;
+	private ScrollPane mainScrollPane;
+	@FXML
+	private StackPane mainPane;
 	@FXML
 	private ImageView minimap;
+	@FXML
+	private Label popularityLabel;
+	@FXML
+	private Label goldLabel;
+	@FXML
+	private Label populationLabel;
+	@FXML
+	private Label attackLabel;
+	@FXML
+	private HBox buildingCategoryButtonsBox;
+
+	// Main Pane Boxes
+	@FXML
+	private HBox governmentReportBox;
+	private HBox[] buildingCategoryBoxes;
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
@@ -70,6 +89,19 @@ public class GameMenu extends Application {
 	}
 	GridPane getGrid() {
 		return grid;
+	}
+	StackPane getMainPane() {
+		return mainPane;
+	}
+
+	Label getPopularityLabel() {
+		return popularityLabel;
+	}
+	Label getPopulationLabel() {
+		return populationLabel;
+	}
+	Label getGoldLabel() {
+		return goldLabel;
 	}
 
 	@Override
@@ -127,13 +159,59 @@ public class GameMenu extends Application {
 			BackgroundPosition.CENTER,
 			new BackgroundSize(toolBar.getPrefWidth(), toolBar.getPrefHeight(),
 			false, false, false, false))));
-		mainPane.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
-		mainPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		mainPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		mainScrollPane.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
+		mainScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		mainScrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 		minimap.setImage(GameToolBar.getMinimapImage(game.getMap()));
-		minimap.setFitHeight(mainPane.getPrefHeight());
+		minimap.setFitHeight(mainScrollPane.getPrefHeight());
 		minimap.setFitWidth(minimap.getFitHeight());
 		GameToolBar.setMinimapMouseHandler(minimap, scrollPane);
+		updateToolBarReport();
+		setupBuildingCategories();
+	}
+
+	public void reportButtonHandler(MouseEvent event) {
+		refreshGovernmentReport();
+		GameToolBar.clearMainPane();
+		governmentReportBox.setVisible(true);
+		governmentReportBox.setManaged(true);
+	}
+
+	public void updateToolBarReport() {
+		Government player = game.getCurrentPlayer();
+		popularityLabel.setText("Popularity: " + player.getPopularity());
+		goldLabel.setText("Gold: " + player.getGold());
+		populationLabel.setText("Population: " +
+			player.getPopulation() + "/" + player.getMaxPopulation());
+	}
+
+	public void refreshGovernmentReport() {
+		governmentReportBox.getChildren().clear();
+		governmentReportBox.getChildren().add(label);
+	}
+
+	private void setupBuildingCategories() {
+		int index = 0;
+		for (Node node : buildingCategoryButtonsBox.getChildren()) {	// XXX: no children except category buttons
+			int tempIndex = index;
+			((Button)node).setOnMouseClicked(event -> { loadBuildingsCategory(tempIndex); });
+			index++;
+		}
+		buildingCategoryBoxes = new HBox[buildingCategoryButtonsBox.getChildren().size()];
+		for (int i = 0; i < buildingCategoryBoxes.length; i++) {
+			buildingCategoryBoxes[i] = new HBox(20);
+			buildingCategoryBoxes[i].setVisible(false);
+			buildingCategoryBoxes[i].setManaged(false);
+			buildingCategoryBoxes[i].setAlignment(Pos.CENTER_LEFT);
+			mainPane.getChildren().add(buildingCategoryBoxes[i]);
+		}
+		buildingCategoryBoxes[0].getChildren().add(new Label("castle"));
+	}
+
+	private void loadBuildingsCategory(int index) {
+		GameToolBar.clearMainPane();
+		buildingCategoryBoxes[index].setVisible(true);
+		buildingCategoryBoxes[index].setManaged(true);
 	}
 
 	// public Group getGridCell(int x, int y) {

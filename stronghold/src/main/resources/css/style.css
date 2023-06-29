@@ -10,3 +10,11 @@
 .toolbar-main-pane {
 	-fx-background: rgb(235, 191, 72);
 }
+
+.attack-label {
+	-fx-background-color: red;
+	-fx-text-fill: white;
+	-fx-padding: 10px;
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+}

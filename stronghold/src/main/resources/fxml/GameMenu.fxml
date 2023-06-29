@@ -25,24 +25,28 @@
 		<ToolBar fx:id="toolBar">
 			<HBox spacing="20">
 				<VBox>
-					<ScrollPane fx:id="mainPane" styleClass="toolbar-main-pane">
+					<ScrollPane fx:id="mainScrollPane" styleClass="toolbar-main-pane">
+						<StackPane fx:id="mainPane">
+							<HBox fx:id="governmentReportBox" visible="false" managed="false"></HBox>
+						</StackPane>
 					</ScrollPane>
-					<HBox>	<!-- building category buttons -->
+					<HBox fx:id="buildingCategoryButtonsBox">
 						<Button text="Castle"/>
 					</HBox>
 				</VBox>
-				<VBox alignment="CENTER">
+				<VBox alignment="CENTER" spacing="10">
 					<Button text="Options" maxWidth="100" minWidth="100"/>
 					<Button text="Briefing" maxWidth="100" minWidth="100"/>
 					<Button text="Delete" maxWidth="100" minWidth="100"/>
 					<Button text="Undo" maxWidth="100" minWidth="100"/>
+					<Label text="ATTACK" fx:id="attackLabel" styleClass="attack-label" visible="false"/>
 				</VBox>
 				<ImageView fx:id="minimap"/>
 				<VBox alignment="CENTER" spacing="10">
-					<Label text="Popularity"/>
-					<Label text="Gold"/>
-					<Label text="Population/Max"/>
-					<Button text="Report"/>
+					<Label text="Popularity" fx:id="popularityLabel"/>
+					<Label text="Gold" fx:id="goldLabel"/>
+					<Label text="Population/Max" fx:id="populationLabel"/>
+					<Button text="Report" onMouseClicked="#reportButtonHandler"/>
 				</VBox>
 				<HBox alignment="CENTER"><Button text="Next Turn"/></HBox>
 			</HBox>

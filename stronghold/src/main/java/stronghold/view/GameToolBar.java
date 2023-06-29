@@ -1,10 +1,13 @@
 package stronghold.view;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
 import stronghold.model.map.Map;
 
 public class GameToolBar {
@@ -28,7 +31,11 @@ public class GameToolBar {
 		});
 	}
 
-	static void updateGovernmentReport() {
-		
+	static void clearMainPane() {	// XXX: the main pane shouldn't have other random HBox children
+		for (Node node : GameMenu.getInstance().getMainPane().getChildren()) {
+			if (!(node instanceof HBox)) continue;
+			node.setVisible(false);
+			node.setManaged(false);
+		}
 	}
 }

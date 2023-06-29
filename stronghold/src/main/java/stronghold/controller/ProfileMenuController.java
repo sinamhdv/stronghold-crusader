@@ -1,6 +1,5 @@
 package stronghold.controller;
 
-import javafx.scene.image.ImageView;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
