@@ -15,6 +15,7 @@ public class User implements Comparable<User> {
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
 	private int indexOfOvatar = 1 ;
+	private int rank = StrongHold.sortPerson().indexOf(this);
 
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
@@ -102,5 +103,8 @@ public class User implements Comparable<User> {
 			return (int)(otherRank - thiRank);
 		else
 			return this.userName.compareTo(other.userName);
+	}
+	public int getRank() {
+		return rank;
 	}
 }

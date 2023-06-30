@@ -3,6 +3,8 @@ package stronghold.view;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,7 +15,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -75,23 +80,22 @@ public class ProfileMenu extends Application {
 	private TextField sloganTextField;
 	@FXML
 	private Button randomizeSloganButton;
+
+	// Change Avatar
 	@FXML
 	private HBox avatarBox1;
 	@FXML
 	private HBox avatarBox2;
 
-	// Change Avatar
-	// TODO
-
 	// Scoreboard
-	// TODO
+	@FXML
+	private  TableView<User> scoreBoard;
 
 	private VBox[] tabs = new VBox[8];
 
 	private static User user;
 	private static int currentTab;
 	private ArrayList<ImageView> avatars = new ArrayList<>();
-
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -121,7 +125,7 @@ public class ProfileMenu extends Application {
 					changeAvatarHandler(avatarIndex);
 				}
 			});
-			
+
 			avatars.add(avatar);
 		}
 		for (int j = 0; j <= 3; j++) {
@@ -129,6 +133,8 @@ public class ProfileMenu extends Application {
 		}
 		activateTab(0);
 		initProfileInfo();
+		showScoreBoard();
+
 	}
 
 	private void fillSloganInputFields() {
@@ -293,6 +299,31 @@ public class ProfileMenu extends Application {
 	public static void changeAvatarHandler(int indexOfPicture) {
 		ProfileMenuController.changeAvatar(indexOfPicture);
 		;
+	}
+
+	public  void showScoreBoard() {
+		final int[] startIndex = {0};
+		final int[] endIndex = {0};
+		ObservableList<User> users = FXCollections.observableArrayList(StrongHold.sortPerson());
+		TableColumn<User, String> nameColumn = new TableColumn<>("Name");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+		TableColumn<User, Integer> rankColumn = new TableColumn<>("Rank");
+		rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		TableColumn<User, Integer> scoreColumn = new TableColumn<>("High Score");
+		scoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
+		scoreBoard.getColumns().addAll(nameColumn, scoreColumn, rankColumn);
+		scoreBoard.setOnScroll(event -> {
+			if (event.getDeltaY() > 0 && endIndex[0] < users.size()) {
+				startIndex[0] = endIndex[0];
+				endIndex[0] = Math.min(endIndex[0] + 10, users.size());
+				scoreBoard.getItems().addAll(users.subList(startIndex[0], endIndex[0]));
+			}
+			else if (event.getDeltaY() < 0 && startIndex[0] > 0) {
+				endIndex[0] = startIndex[0];
+				startIndex[0] = Math.max(startIndex[0] - 10, 0);
+				scoreBoard.getItems().addAll(0, users.subList(startIndex[0], endIndex[0]));
+			}
+		});
 	}
 
 }

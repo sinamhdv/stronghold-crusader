@@ -77,7 +77,8 @@
 				</HBox>
 			</VBox>
 			<VBox alignment="CENTER" spacing="10">
-				<!-- scoreboard -->
+			<TableView fx:id = "scoreBoard">
+			</TableView>
 			</VBox>
 			<Label text="error" styleClass="error-text" fx:id="errorText"/>
 			<!-- <TextField promptText="username" maxWidth="300" fx:id="usernameTextField"/>
