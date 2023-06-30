@@ -69,6 +69,7 @@ public class GameMenuController {
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
 		game.getCurrentPlayer().addBuilding(game.getMap().getGrid()[x][y].getBuilding());
+		GameMenu.getInstance().updateToolBarReport();
 		return GameMenuMessage.SUCCESS;
 	}
 
@@ -86,7 +87,7 @@ public class GameMenuController {
 		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
 		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, 1);
 		if (message != MapEditorMenuMessage.SUCCESS) {
-			GameMenu.showMapEditorError(message);
+			// GameMenu.showMapEditorError(message);	// TODO
 			return GameMenuMessage.CONSTRUCTION_FAILED;
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
@@ -376,7 +377,7 @@ public class GameMenuController {
 				decreaseObjectsResources(building.getName(), currentPlayer, building.getMaxHp() - building.getHp(),
 						building.getMaxHp());
 				building.setHp(building.getMaxHp());
-				return GameMenuMessage.SUCCESSFULL_REPAIR;
+				return GameMenuMessage.SUCCESS;
 			}
 		} else
 			return GameMenuMessage.CANT_REPAIR;

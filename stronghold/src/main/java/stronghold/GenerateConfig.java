@@ -347,7 +347,7 @@ public class GenerateConfig {
 		addBuilding(new Barracks(
 			200, "chapel", 0,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			2, new String[] {}
 		));
@@ -446,7 +446,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "mill", 3,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.WHEAT, ResourceType.FLOUR,
 			null,
@@ -456,7 +456,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "iron mine", 2,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.IRON,
 			new GroundType[] { GroundType.IRON },
@@ -466,7 +466,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "stone mine", 3,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.UNTRANSPORTED_ROCK,
 			new GroundType[] { GroundType.STONE },
@@ -476,7 +476,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "woodcutter", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.WOOD,
 			null,
@@ -486,7 +486,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "pitch rig", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.OIL,
 			new GroundType[] { GroundType.OIL },
@@ -496,7 +496,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "armorer", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.IRON, ResourceType.METAL_ARMOR,
 			null,
@@ -506,7 +506,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "sword blacksmith", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.IRON, ResourceType.SWORD,
 			null,
@@ -516,7 +516,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "mace blacksmith", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.IRON, ResourceType.MACE,
 			null,
@@ -526,7 +526,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "tanner", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.LEATHER_ARMOR,
 			null,
@@ -536,7 +536,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "spear poleturner", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.WOOD, ResourceType.SPEAR,
 			null,
@@ -546,7 +546,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "pike poleturner", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.WOOD, ResourceType.PIKE,
 			null,
@@ -556,7 +556,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "bow fletcher", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.WOOD, ResourceType.BOW,
 			null,
@@ -566,7 +566,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "crossbow fletcher", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.WOOD, ResourceType.CROSSBOW,
 			null,
@@ -576,7 +576,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "apple farm", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.APPLE,
 			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
@@ -586,7 +586,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "dairy farm", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.CHEESE,
 			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
@@ -596,7 +596,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "grape farm", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.GRAPES,
 			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
@@ -606,7 +606,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "wheat farm", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.WHEAT,
 			new GroundType[] { GroundType.HIGH_DENSITY_GRASS, GroundType.NORMAL_GRASS },
@@ -616,7 +616,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "hunter", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			null, ResourceType.MEAT,
 			null,
@@ -626,7 +626,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "bakery", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.FLOUR, ResourceType.BREAD,
 			null,
@@ -636,7 +636,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "brewery", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.GRAPES, ResourceType.WINE,
 			null,
@@ -646,7 +646,7 @@ public class GenerateConfig {
 		addBuilding(new ResourceConverterBuilding(
 			200, "ox tether", 1,
 			1, 1, 999,
-			true, 0, 0,
+			false, 0, 0,
 			0, 0,
 			ResourceType.UNTRANSPORTED_ROCK, ResourceType.ROCK,
 			null,

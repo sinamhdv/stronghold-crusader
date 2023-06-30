@@ -91,8 +91,10 @@ public class MapScreen {
 
 	private static void addMouseHandlers(Group group, int x, int y) {
 		group.setOnMouseClicked(event -> {
-			if (!event.isShiftDown()) return;
-			selectArea(x, y, x, y);
+			if (event.isControlDown())	// select building
+				GameMenu.getInstance().runSelectBuilding(x, y);
+			else if (event.isShiftDown())
+				selectArea(x, y, x, y);
 		});
 		group.setOnDragDetected(event -> {
 			if (!event.isShiftDown()) return;
@@ -111,7 +113,7 @@ public class MapScreen {
 			else if (event.getGestureSource() instanceof ImageView) {	// building creation
 				LoginMenu.getStage().getScene().setCursor(Cursor.DEFAULT);
 				GameMenuMessage message = GameMenuController.dropBuilding(x, y, GameMenuController.getDraggedBuildingName());
-				if (message != GameMenuMessage.CONSTRUCTION_FAILED && message != GameMenuMessage.SUCCESS)
+				if (message != GameMenuMessage.CONSTRUCTION_FAILED)
 					GameMenu.getInstance().showErrorText(message.getErrorString());
 				if (message == GameMenuMessage.SUCCESS)
 					refreshMapCell(x, y);
