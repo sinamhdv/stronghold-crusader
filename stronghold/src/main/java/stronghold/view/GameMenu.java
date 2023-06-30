@@ -1,9 +1,9 @@
 package stronghold.view;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -37,13 +38,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
-import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.DefensiveStructure;
-import stronghold.model.buildings.Stockpile;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
 import stronghold.utils.PopularityFormulas;
@@ -89,6 +89,8 @@ public class GameMenu extends Application {
 	private HBox buildingCategoryButtonsBox;
 	@FXML
 	private Label errorText;
+	@FXML
+	private CheckBox gateOpenCheckBox;
 
 	// Main Pane Boxes
 	@FXML
@@ -349,11 +351,34 @@ public class GameMenu extends Application {
 		else if (game.getSelectedBuilding() instanceof DefensiveStructure) {
 			repairBox.setVisible(true);
 			repairBox.setManaged(true);
+			if (((DefensiveStructure)game.getSelectedBuilding()).getType() == DefensiveStructureType.GATE) {
+				gateOpenCheckBox.setVisible(true);
+				gateOpenCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+					if (newValue.booleanValue()) runOpenGate();
+					else runCloseGate();
+				});
+			}
+			else
+				gateOpenCheckBox.setVisible(false);
 		}
 	}
 
 	public void runRepair() {
 		showErrorText(GameMenuController.repair().getErrorString());
+	}
+
+	private void runOpenGate() {
+		GameMenuMessage message = GameMenuController.changeGateState(false);
+		showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.SUCCESS)
+			MapScreen.refreshMapCell(game.getSelectedBuilding().getX(), game.getSelectedBuilding().getY());
+	}
+
+	private void runCloseGate() {
+		GameMenuMessage message = GameMenuController.changeGateState(true);
+		showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.SUCCESS)
+			MapScreen.refreshMapCell(game.getSelectedBuilding().getX(), game.getSelectedBuilding().getY());
 	}
 
 	// public Group getGridCell(int x, int y) {
@@ -566,14 +591,6 @@ public class GameMenu extends Application {
 		System.out.println(GameMenuController.patrolUnit(
 				Integer.parseInt(matcher.get("x")),
 				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
-
-	private static void runOpenGate() {
-		System.out.println(GameMenuController.changeGateState(false).getErrorString());
-	}
-
-	private static void runCloseGate() {
-		System.out.println(GameMenuController.changeGateState(true).getErrorString());
 	}
 
 	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {

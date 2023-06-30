@@ -7,7 +7,7 @@ drop unit -t archer -x 1 -y 4 -c 2
 drop unit -t knight -x 2 -y 4 -c 2
 select government -g 1
 drop building -t keep -x 0 -y 50
-drop building -t "vertical large gate" -x 50 -y 0
+drop building -t "horizontal large gate" -x 50 -y 0
 drop unit -t swordsman -c 1 -x 54 -y 5
 back
 back

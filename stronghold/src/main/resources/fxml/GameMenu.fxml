@@ -28,9 +28,9 @@
 					<ScrollPane fx:id="mainScrollPane" styleClass="toolbar-main-pane">
 						<StackPane fx:id="mainPane">
 							<HBox fx:id="governmentReportBox" visible="false" managed="false"></HBox>
-							<HBox fx:id="repairBox" visible="false" managed="false" style="-fx-padding: 20px">
+							<HBox fx:id="repairBox" visible="false" managed="false" style="-fx-padding: 20px" spacing="20">
 								<Button text="Repair" onMouseClicked="#runRepair"/>
-								<CheckBox text="open" visible="false" managed="false"/>
+								<CheckBox text="open" visible="false" fx:id="gateOpenCheckBox"/>
 							</HBox>
 						</StackPane>
 					</ScrollPane>
