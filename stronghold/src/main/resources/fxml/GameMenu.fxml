@@ -12,7 +12,7 @@
 			stylesheets="@../css/style.css"
 			fx:controller="stronghold.view.GameMenu"
 			prefHeight="400.0" prefWidth="600.0"
-			fx:id="borderPane">
+			fx:id="borderPane" style="-fx-background: black;">
 
 	<center>
 		<ScrollPane fx:id="scrollPane">
@@ -22,20 +22,27 @@
 	</center>
 
 	<bottom>
-		<ToolBar fx:id="toolBar">
+		<Pane fx:id="toolBar">
 			<HBox spacing="20">
 				<VBox>
 					<ScrollPane fx:id="mainScrollPane" styleClass="toolbar-main-pane">
 						<StackPane fx:id="mainPane">
 							<HBox fx:id="governmentReportBox" visible="false" managed="false"></HBox>
+							<HBox fx:id="repairBox" visible="false" managed="false" style="-fx-padding: 20px" spacing="20">
+								<Button text="Repair" onMouseClicked="#runRepair"/>
+								<CheckBox text="open" visible="false" fx:id="gateOpenCheckBox"/>
+							</HBox>
+							<HBox fx:id="stockpileReportBox" spacing="10"></HBox>
+							<HBox fx:id="unitCreationBox" spacing="10"></HBox>
 						</StackPane>
 					</ScrollPane>
-					<HBox fx:id="buildingCategoryButtonsBox">
+					<HBox fx:id="buildingCategoryButtonsBox" spacing="10">
 						<Button text="Castle"/>
 						<Button text="Military"/>
 						<Button text="Production"/>
 						<Button text="Weapons"/>
 						<Button text="City"/>
+						<Label text="" fx:id="errorText" styleClass="error-text"/>
 					</HBox>
 				</VBox>
 				<VBox alignment="CENTER" spacing="10">
@@ -48,14 +55,17 @@
 				<ImageView fx:id="minimap"/>
 				<VBox alignment="CENTER" spacing="10">
 					<ImageView fx:id="popularityFace" fitWidth="50" fitHeight="50"/>
-					<Label text="Popularity" fx:id="popularityLabel"/>
-					<Label text="Gold" fx:id="goldLabel"/>
-					<Label text="Population/Max" fx:id="populationLabel"/>
+					<Label text="Popularity" fx:id="popularityLabel" styleClass="toolbar-report-label"/>
+					<Label text="Gold" fx:id="goldLabel" styleClass="toolbar-report-label"/>
+					<Label text="Population/Max" fx:id="populationLabel" styleClass="toolbar-report-label"/>
 					<Button text="Report" onMouseClicked="#reportButtonHandler"/>
 				</VBox>
-				<HBox alignment="CENTER"><Button text="Next Turn"/></HBox>
+				<VBox alignment="CENTER">
+					<Button text="Next Turn" maxWidth="100" minWidth="100"/>
+					<Button text="Trade" maxWidth="100" minWidth="100"/>
+				</VBox>
 			</HBox>
-		</ToolBar>
+		</Pane>
 	</bottom>
 
 </BorderPane>

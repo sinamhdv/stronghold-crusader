@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"resources":{"CHEESE":0,"APPLE":0,"MEAT":0,"BREAD":0},"capacity":50,"maxHp":200,"name":"granary","neededWorkers":0,"width":1,"height":1,"verticalHeight":999,"isSelectable":true,"residentsCapacity":0,"hp":200,"x":0,"y":0,"residents":0,"hasWorkers":false,"ownerIndex":0,"turnOfBuild":0}
+=======
+{"resources":{"APPLE":0,"MEAT":0,"CHEESE":0,"BREAD":0},"capacity":50,"maxHp":200,"name":"granary","neededWorkers":0,"width":1,"height":1,"verticalHeight":999,"isSelectable":true,"residentsCapacity":0,"hp":200,"x":0,"y":0,"residents":0,"hasWorkers":false,"ownerIndex":0,"turnOfBuild":0}
+>>>>>>> 133a841b37672e2df80c6d17aa465cd7ae36a659

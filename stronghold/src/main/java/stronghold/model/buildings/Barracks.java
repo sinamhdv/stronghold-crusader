@@ -27,10 +27,14 @@ public class Barracks extends Building {
 	public int getPopularityBoost() {
 		return popularityBoost;
 	}
-	public boolean canBuildTroop(String troopName) {
-		for (String name : troopNames)
-			if (name.equals(troopName))
-				return true;
-		return false;
+	// public boolean canBuildTroop(String troopName) {
+	// 	for (String name : troopNames)
+	// 		if (name.equals(troopName))
+	// 			return true;
+	// 	return false;
+	// }
+
+	public String[] getTroopNames() {
+		return troopNames;
 	}
 }

@@ -3,6 +3,7 @@ package stronghold.view;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -10,8 +11,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import stronghold.controller.GameMenuController;
+import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
+import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.environment.EnvironmentItem;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
@@ -49,7 +53,13 @@ public class MapScreen {
 	private static void addBuildingImage(MapTile tile, Group group, double width, double height) {
 		Building building = tile.getBuilding();
 		if (building == null || !building.isVisible()) return;
-		ImageView image = new ImageView(AssetImageLoader.getAssetImage(building.getName()));
+		ImageView image;
+		if ((building instanceof DefensiveStructure) &&
+			((DefensiveStructure)building).getType() == DefensiveStructureType.GATE &&
+			building.getVerticalHeight() == 1)
+				image = new ImageView(AssetImageLoader.getAssetImage("open " + building.getName()));
+		else
+			image = new ImageView(AssetImageLoader.getAssetImage(building.getName()));
 		image.setFitHeight(height);
 		image.setFitWidth(width);
 		group.getChildren().add(image);
@@ -88,8 +98,10 @@ public class MapScreen {
 
 	private static void addMouseHandlers(Group group, int x, int y) {
 		group.setOnMouseClicked(event -> {
-			if (!event.isShiftDown()) return;
-			selectArea(x, y, x, y);
+			if (event.isControlDown())	// select building
+				GameMenu.getInstance().runSelectBuilding(x, y);
+			else if (event.isShiftDown())
+				selectArea(x, y, x, y);
 		});
 		group.setOnDragDetected(event -> {
 			if (!event.isShiftDown()) return;
@@ -99,10 +111,19 @@ public class MapScreen {
 			dragStartY = y;
 		});
 		group.setOnMouseDragReleased(event -> {
-			if (!event.isShiftDown()) return;
-			GameMenu.getInstance().getScrollPane().setPannable(true);
-			selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
-				Math.max(x, dragStartX), Math.max(y, dragStartY));
+			if (event.getGestureSource() instanceof Group) {
+				if (!event.isShiftDown()) return;
+				GameMenu.getInstance().getScrollPane().setPannable(true);
+				selectArea(Math.min(x, dragStartX), Math.min(y, dragStartY),
+					Math.max(x, dragStartX), Math.max(y, dragStartY));
+			}
+			else if (event.getGestureSource() instanceof ImageView) {	// building creation
+				GameMenuMessage message = GameMenuController.dropBuilding(x, y, GameMenuController.getDraggedBuildingName());
+				if (message != GameMenuMessage.CONSTRUCTION_FAILED)
+					GameMenu.getInstance().showErrorText(message.getErrorString());
+				if (message == GameMenuMessage.SUCCESS)
+					refreshMapCell(x, y);
+			}
 		});
 	}
 
@@ -119,6 +140,15 @@ public class MapScreen {
 		selectionRectangle.setX(y1 * (CELL_DIMENTIONS + GRID_GAPS));
 		selectionRectangle.setY(x1 * (CELL_DIMENTIONS + GRID_GAPS));
 		GameMenuController.setSelectedArea(x1, y1, x2, y2);
+		GameToolBar.clearMainPane();
+		// TODO: load unit info and commands
+	}
+
+	public static void clearAreaSelection() {	// TODO: call this in runNextTurn
+		GridPane grid = GameMenu.getInstance().getGrid();
+		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
+		selectionRectangle = null;
+		// TODO: clear the list of selected units in Game
 	}
 
 	public static String getTileDetails(int x, int y) {
@@ -144,5 +174,16 @@ public class MapScreen {
 		GridPane grid = GameMenu.getInstance().getGrid();
 		grid.setScaleX(currentZoomLevel);
 		grid.setScaleY(currentZoomLevel);
+	}
+
+	public static void refreshMapCell(int x, int y) {
+		GridPane grid = GameMenu.getInstance().getGrid();
+		for (Node node : grid.getChildren()) {
+			if (!(node instanceof Group)) continue;	// XXX: all map grid children of type Group must be grid cells
+			if (GridPane.getRowIndex(node) != x || GridPane.getColumnIndex(node) != y) continue;
+			grid.getChildren().remove(node);
+			break;
+		}
+		grid.add(getTileRepresentation(x, y), y, x);
 	}
 }

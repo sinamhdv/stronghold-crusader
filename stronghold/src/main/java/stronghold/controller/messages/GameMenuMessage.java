@@ -21,7 +21,6 @@ public enum GameMenuMessage {
 	CANT_REPAIR("You can't repair this building"),
 	THERE_ARE_ENEMY_SOLDIERS("Repair faild: there are enemy soldiers near you"),
 	NOT_HAVINT_ENOUGH_RESURCE("You don't have enough resource to repair building"),
-	SUCCESSFULL_REPAIR("Ripaired this building successfully"),
 
 	// select building
 	BUILDING_NOT_YOURS("Error: the requested building is not yours"),
@@ -52,7 +51,6 @@ public enum GameMenuMessage {
 	// dig tunnel
 	THIS_UNIT_CANT_DIG_TUNNEL("Erorr: this unit can't dig tunnel"),
 	NOTHING_FOUND("Erorr: nothing found"),
-	DIG_TUNNEL_SUCCESSFULLY("Dig tunnel successfully"),
 	;
 
 	private final String errorString;

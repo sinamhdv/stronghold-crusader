@@ -28,12 +28,22 @@ public class GameMenuController {
 	public static final int MAX_TUNNEL_DISTANCE = 8;
 	private static boolean debugMode = false;
 
+	private static String draggedBuildingName = null;
+
 	private static int selectedX1 = -1, selectedY1 = -1, selectedX2 = -1, selectedY2 = -1;
 	public static void setSelectedArea(int x1, int y1, int x2, int y2) {
 		selectedX1 = x1;
 		selectedY1 = y1;
 		selectedX2 = x2;
 		selectedY2 = y2;
+	}
+
+	public static String getDraggedBuildingName() {
+		return draggedBuildingName;
+	}
+	
+	public static void setDraggedBuildingName(String draggedBuildingName) {
+		GameMenuController.draggedBuildingName = draggedBuildingName;
 	}
 
 	public static void setDebugMode(boolean debugMode) {
@@ -54,19 +64,18 @@ public class GameMenuController {
 		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
 		MapEditorMenuMessage message = MapEditorMenuController.dropBuilding(x, y, type);
 		if (message != MapEditorMenuMessage.SUCCESS) {
-			GameMenu.showMapEditorError(message);
+			GameMenu.getInstance().showErrorText(message.getErrorString());
 			return GameMenuMessage.CONSTRUCTION_FAILED;
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
 		game.getCurrentPlayer().addBuilding(game.getMap().getGrid()[x][y].getBuilding());
+		GameMenu.getInstance().updateToolBarReport();
 		return GameMenuMessage.SUCCESS;
 	}
 
 	public static GameMenuMessage createSingleUnit(String type) {
 		if (!(game.getSelectedBuilding() instanceof Barracks))
 			return GameMenuMessage.BAD_SELECTED_BUILDING;
-		if (!((Barracks) game.getSelectedBuilding()).canBuildTroop(type))
-			return GameMenuMessage.INCORRECT_UNIT_NAME;
 		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
 			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
 		if (game.getCurrentPlayer().getPopulation() - game.getCurrentPlayer().getWorkersCount() < 1)
@@ -76,7 +85,7 @@ public class GameMenuController {
 		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
 		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, 1);
 		if (message != MapEditorMenuMessage.SUCCESS) {
-			GameMenu.showMapEditorError(message);
+			GameMenu.getInstance().showErrorText(message.getErrorString());
 			return GameMenuMessage.CONSTRUCTION_FAILED;
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
@@ -366,7 +375,7 @@ public class GameMenuController {
 				decreaseObjectsResources(building.getName(), currentPlayer, building.getMaxHp() - building.getHp(),
 						building.getMaxHp());
 				building.setHp(building.getMaxHp());
-				return GameMenuMessage.SUCCESSFULL_REPAIR;
+				return GameMenuMessage.SUCCESS;
 			}
 		} else
 			return GameMenuMessage.CANT_REPAIR;

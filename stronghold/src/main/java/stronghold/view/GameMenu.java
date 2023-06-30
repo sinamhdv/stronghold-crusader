@@ -2,6 +2,7 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +11,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,16 +28,22 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
-import stronghold.controller.messages.MapEditorMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Barracks;
+import stronghold.model.buildings.DefensiveStructure;
+import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.Stockpile;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
 import stronghold.utils.PopularityFormulas;
@@ -60,7 +68,7 @@ public class GameMenu extends Application {
 	@FXML
 	private BorderPane borderPane;
 	@FXML
-	private ToolBar toolBar;
+	private Pane toolBar;
 	@FXML
 	private ScrollPane mainScrollPane;
 	@FXML
@@ -79,10 +87,20 @@ public class GameMenu extends Application {
 	private Label attackLabel;
 	@FXML
 	private HBox buildingCategoryButtonsBox;
+	@FXML
+	private Label errorText;
+	@FXML
+	private CheckBox gateOpenCheckBox;
 
 	// Main Pane Boxes
 	@FXML
 	private HBox governmentReportBox;
+	@FXML
+	private HBox repairBox;
+	@FXML
+	private HBox stockpileReportBox;
+	@FXML
+	private HBox unitCreationBox;
 	private HBox[] buildingCategoryBoxes;
 
 	public GameMenu() {
@@ -125,11 +143,10 @@ public class GameMenu extends Application {
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(MapScreen.GRID_GAPS);
 		grid.setVgap(MapScreen.GRID_GAPS);
-		grid.setGridLinesVisible(true);
 		displayFullMap();
-		addKeyListeners();
 		setupToolBar();
-		scrollPane.requestFocus();
+		addKeyListeners();
+		borderPane.requestFocus();
 	}
 
 	private void displayFullMap() {
@@ -141,7 +158,7 @@ public class GameMenu extends Application {
 	}
 
 	private void addKeyListeners() {
-		scrollPane.setOnKeyPressed(event -> {
+		borderPane.setOnKeyPressed(event -> {
 			switch (event.getCode()) {
 				case EQUALS:
 					MapScreen.zoomHandler(1.02);
@@ -165,7 +182,7 @@ public class GameMenu extends Application {
 			false, false, false, false))));
 		mainScrollPane.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
 		mainScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
-		mainScrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		mainScrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 		minimap.setImage(GameToolBar.getMinimapImage(game.getMap()));
 		minimap.setFitHeight(mainScrollPane.getPrefHeight());
 		minimap.setFitWidth(minimap.getFitHeight());
@@ -176,6 +193,7 @@ public class GameMenu extends Application {
 
 	public void reportButtonHandler(MouseEvent event) {
 		refreshGovernmentReport();
+		MapScreen.clearAreaSelection();
 		GameToolBar.clearMainPane();
 		governmentReportBox.setVisible(true);
 		governmentReportBox.setManaged(true);
@@ -264,7 +282,8 @@ public class GameMenu extends Application {
 
 	private void setupBuildingCategories() {
 		int index = 0;
-		for (Node node : buildingCategoryButtonsBox.getChildren()) {	// XXX: no children except category buttons
+		for (Node node : buildingCategoryButtonsBox.getChildren()) {	// XXX: no button children except category buttons
+			if (!(node instanceof Button)) continue;
 			int tempIndex = index;
 			((Button)node).setOnMouseClicked(event -> { loadBuildingsCategory(tempIndex); });
 			index++;
@@ -291,6 +310,7 @@ public class GameMenu extends Application {
 	}
 
 	private void loadBuildingsCategory(int index) {
+		MapScreen.clearAreaSelection();
 		GameToolBar.clearMainPane();
 		buildingCategoryBoxes[index].setVisible(true);
 		buildingCategoryBoxes[index].setManaged(true);
@@ -301,8 +321,117 @@ public class GameMenu extends Application {
 			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
 			image.setFitWidth(MapScreen.CELL_DIMENTIONS);
 			image.setFitHeight(MapScreen.CELL_DIMENTIONS);
+			image.setOnDragDetected(event -> {
+				image.startFullDrag();
+				GameMenuController.setDraggedBuildingName(name);
+			});
+			Tooltip tooltip = new Tooltip(name);
+			Tooltip.install(image, tooltip);
 			buildingCategoryBoxes[index].getChildren().add(image);
 		}
+	}
+
+	private PauseTransition errorTextEraseDelay;
+	public void showErrorText(String error) {
+		if (errorTextEraseDelay != null) errorTextEraseDelay.stop();
+		errorText.setText(error);
+		if (error.equals(GameMenuMessage.SUCCESS.getErrorString()))
+			errorText.setTextFill(Color.GREEN);
+		else
+			errorText.setTextFill(Color.RED);
+		errorTextEraseDelay = new PauseTransition(Duration.seconds(2));
+		errorTextEraseDelay.setOnFinished(event -> { errorText.setText(""); });
+		errorTextEraseDelay.play();
+	}
+
+	public void runSelectBuilding(int x, int y) {
+		MapScreen.clearAreaSelection();
+		GameToolBar.clearMainPane();
+		GameMenuMessage message = GameMenuController.selectBuilding(x, y);
+		showErrorText(message.getErrorString());
+		if (message != GameMenuMessage.SUCCESS) return;
+		if (game.getSelectedBuilding() == null) return;
+		else if (game.getSelectedBuilding().getName().equals("market")) {
+			try {
+				new MarketMenu().start(LoginMenu.getStage());
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		else if (game.getSelectedBuilding() instanceof DefensiveStructure)
+			showRepairBox();
+		else if (game.getSelectedBuilding() instanceof Stockpile)
+			showStockpileReport();
+		else if (game.getSelectedBuilding() instanceof Barracks)
+			showUnitCreationPanel();
+	}
+
+	private void showRepairBox() {
+		repairBox.setVisible(true);
+		repairBox.setManaged(true);
+		if (((DefensiveStructure)game.getSelectedBuilding()).getType() == DefensiveStructureType.GATE) {
+			gateOpenCheckBox.setVisible(true);
+			gateOpenCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue.booleanValue()) runOpenGate();
+				else runCloseGate();
+			});
+		}
+		else
+			gateOpenCheckBox.setVisible(false);
+	}
+
+	private void showStockpileReport() {
+		stockpileReportBox.setVisible(true);
+		stockpileReportBox.setManaged(true);
+		stockpileReportBox.getChildren().clear();
+		Stockpile stockpile = (Stockpile) game.getSelectedBuilding();
+		for (ResourceType resourceType : stockpile.getResources().keySet()) {
+			ImageView image = new ImageView(resourceType.getImage());
+			image.setFitWidth(50);
+			image.setFitHeight(50);
+			VBox vBox = new VBox(10, image,
+				new Label(Integer.toString(stockpile.getResources().get(resourceType))));
+			vBox.setAlignment(Pos.CENTER);
+			stockpileReportBox.getChildren().add(vBox);
+		}
+	}
+
+	private void showUnitCreationPanel() {
+		unitCreationBox.setVisible(true);
+		unitCreationBox.setManaged(true);
+		unitCreationBox.getChildren().clear();
+		Barracks barracks = (Barracks) game.getSelectedBuilding();
+		for (String name : barracks.getTroopNames()) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitWidth(100);
+			image.setFitHeight(140);
+			unitCreationBox.getChildren().add(image);
+			image.setOnMouseClicked(event -> { runCreateUnit(name); });
+		}
+	}
+
+	public void runRepair() {
+		showErrorText(GameMenuController.repair().getErrorString());
+	}
+
+	private void runOpenGate() {
+		GameMenuMessage message = GameMenuController.changeGateState(false);
+		showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.SUCCESS)
+			MapScreen.refreshMapCell(game.getSelectedBuilding().getX(), game.getSelectedBuilding().getY());
+	}
+
+	private void runCloseGate() {
+		GameMenuMessage message = GameMenuController.changeGateState(true);
+		showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.SUCCESS)
+			MapScreen.refreshMapCell(game.getSelectedBuilding().getX(), game.getSelectedBuilding().getY());
+	}
+
+	private void runCreateUnit(String type) {
+		showErrorText(GameMenuController.createUnit(type, 1).getErrorString());
+		int[] keep = game.getCurrentPlayer().findKeep();
+		MapScreen.refreshMapCell(keep[0], keep[1]);
 	}
 
 	// public Group getGridCell(int x, int y) {
@@ -407,76 +536,70 @@ public class GameMenu extends Application {
 	// 	System.out.println("Sum of your influencing : " + sumOfInfluencing);
 	// }
 
-	private static void runDropBuilding(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.dropBuilding(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y")),
-				matcher.get("type")).getErrorString());
-	}
+	// private static void runDropBuilding(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.dropBuilding(
+	// 			Integer.parseInt(matcher.get("x")),
+	// 			Integer.parseInt(matcher.get("y")),
+	// 			matcher.get("type")).getErrorString());
+	// }
 
-	public static void showMapEditorError(MapEditorMenuMessage message) {
-		System.out.println(message.getErrorString());
-	}
+	// public static void showMapEditorError(MapEditorMenuMessage message) {
+	// 	System.out.println(message.getErrorString());
+	// }
 
-	private static void showFoodList() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		ResourceType[] foodTypes = ResourceType.foodTypes;
-		for (int i = 0; i < foodTypes.length; i++) {
-			System.out.println(
-					"your " + foodTypes[i].getName() + " property: " + currentPlayer.getResourceCount(foodTypes[i]));
-		}
-	}
+	// private static void showFoodList() {
+	// 	Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+	// 	ResourceType[] foodTypes = ResourceType.foodTypes;
+	// 	for (int i = 0; i < foodTypes.length; i++) {
+	// 		System.out.println(
+	// 				"your " + foodTypes[i].getName() + " property: " + currentPlayer.getResourceCount(foodTypes[i]));
+	// 	}
+	// }
 
-	private static void runSetFearRate(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.setFearRate(
-				Integer.parseInt(matcher.get("rate"))).getErrorString());
-	}
+	// private static void runSetFearRate(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.setFearRate(
+	// 			Integer.parseInt(matcher.get("rate"))).getErrorString());
+	// }
 
-	private static void runSetFoodRate(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.setFoodRate(
-				Integer.parseInt(matcher.get("rate"))).getErrorString());
-	}
+	// private static void runSetFoodRate(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.setFoodRate(
+	// 			Integer.parseInt(matcher.get("rate"))).getErrorString());
+	// }
 
-	private static void runSetTaxRate(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.setTaxRate(
-				Integer.parseInt(matcher.get("rate"))).getErrorString());
-	}
+	// private static void runSetTaxRate(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.setTaxRate(
+	// 			Integer.parseInt(matcher.get("rate"))).getErrorString());
+	// }
 
-	private static void foodRateShow() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your food rate: " + currentPlayer.getFoodRate());
-	}
+	// private static void foodRateShow() {
+	// 	Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+	// 	System.out.println("your food rate: " + currentPlayer.getFoodRate());
+	// }
 
-	private static void taxRateShow() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your tax rate: " + currentPlayer.getTaxRate());
-	}
+	// private static void taxRateShow() {
+	// 	Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+	// 	System.out.println("your tax rate: " + currentPlayer.getTaxRate());
+	// }
 
-	private static void fearRateShow() {
-		Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-		System.out.println("your fear rate: " + currentPlayer.getFearFactor());
-	}
+	// private static void fearRateShow() {
+	// 	Government currentPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
+	// 	System.out.println("your fear rate: " + currentPlayer.getFearFactor());
+	// }
 
-	private static void runSelectBuilding(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.selectBuilding(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
+	// private static void showSelectedBuilding() {
+	// 	if (game.getSelectedBuilding() == null) {
+	// 		System.out.println("No building is selected");
+	// 		return;
+	// 	}
+	// 	System.out.println(game.getSelectedBuilding());
+	// }
 
-	private static void showSelectedBuilding() {
-		if (game.getSelectedBuilding() == null) {
-			System.out.println("No building is selected");
-			return;
-		}
-		System.out.println(game.getSelectedBuilding());
-	}
-
-	private static void showResourcesAmount() {
-		System.out.println("Resources report:");
-		for (ResourceType resourceType : ResourceType.values())
-			System.out
-					.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
-	}
+	// private static void showResourcesAmount() {
+	// 	System.out.println("Resources report:");
+	// 	for (ResourceType resourceType : ResourceType.values())
+	// 		System.out
+	// 				.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
+	// }
 
 	private static void runSelectUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.selectUnit(
@@ -511,24 +634,10 @@ public class GameMenu extends Application {
 			System.out.println(person);
 	}
 
-	private static void runCreateUnit(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.createUnit(
-				matcher.get("type"),
-				Integer.parseInt(matcher.get("count"))).getErrorString());
-	}
-
 	private static void runPatrolUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.patrolUnit(
 				Integer.parseInt(matcher.get("x")),
 				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
-
-	private static void runOpenGate() {
-		System.out.println(GameMenuController.changeGateState(false).getErrorString());
-	}
-
-	private static void runCloseGate() {
-		System.out.println(GameMenuController.changeGateState(true).getErrorString());
 	}
 
 	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
@@ -557,10 +666,6 @@ public class GameMenu extends Application {
 			System.out.println("The game didn't have a winner");
 		else
 			System.out.println("The winner is: " + winner.getUser().getUserName());
-	}
-
-	private static void runRepair() {
-		System.out.println(GameMenuController.repair().getErrorString());
 	}
 
 	private static void runDisband() {
