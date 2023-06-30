@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
@@ -190,11 +191,9 @@ public class GameMenu extends Application {
 		else popularityFace.setImage(popularityFaceEmojies[2]);
 	}
 
-	public void refreshGovernmentReport() {
+	private void refreshInfoBox(VBox infoBox) {
 		Government currentPlayer = game.getCurrentPlayer();
-		governmentReportBox.getChildren().clear();
-		VBox infoBox = new VBox(10);
-		infoBox.setPadding(new Insets(20));
+		infoBox.getChildren().clear();
 		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
 			"Food influence: ", currentPlayer.getFoodPopularityInfluence()));
 		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
@@ -209,7 +208,57 @@ public class GameMenu extends Application {
 				currentPlayer.getFearFactor();
 		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
 			"Total: ", sumOfInfluencing));
+	}
+
+	public void refreshGovernmentReport() {
+		Government currentPlayer = game.getCurrentPlayer();
+		governmentReportBox.getChildren().clear();
+		VBox infoBox = new VBox(10);
+		infoBox.setPadding(new Insets(20));
+		refreshInfoBox(infoBox);
 		governmentReportBox.getChildren().add(infoBox);
+		HBox optionsBox = new HBox(20);
+		optionsBox.setPadding(new Insets(20));
+		Slider foodSlider = new Slider(-2, 2, currentPlayer.getFoodRate());
+		foodSlider.setShowTickLabels(true);
+		foodSlider.setShowTickMarks(true);
+		foodSlider.setMinorTickCount(0);
+		foodSlider.setMajorTickUnit(1);
+		foodSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getFoodRate()) {
+				currentPlayer.setFoodRate(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Food rate:"), foodSlider));
+		Slider taxSlider = new Slider(-3, 8, currentPlayer.getTaxRate());
+		taxSlider.setShowTickLabels(true);
+		taxSlider.setShowTickMarks(true);
+		taxSlider.setMinorTickCount(0);
+		taxSlider.setMajorTickUnit(1);
+		taxSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getTaxRate()) {
+				currentPlayer.setTaxRate(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Tax rate:"), taxSlider));
+		Slider fearSlider = new Slider(-5, 5, currentPlayer.getFearFactor());
+		fearSlider.setShowTickLabels(true);
+		fearSlider.setShowTickMarks(true);
+		fearSlider.setMinorTickCount(0);
+		fearSlider.setMajorTickUnit(1);
+		fearSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getFearFactor()) {
+				currentPlayer.setFearFactor(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Fear factor:"), fearSlider));
+		governmentReportBox.getChildren().add(optionsBox);
 	}
 
 	private void setupBuildingCategories() {
@@ -324,19 +373,19 @@ public class GameMenu extends Application {
 	// 	System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
 	// }
 
-	private static void showPopularityFactors() {
-		Government currentPlayer = game.getCurrentPlayer();
-		System.out.println("Popularity factors:");
-		System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
-		System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
-		System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
-		System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
-		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
-				PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
-				currentPlayer.getReligionPopularityInfluence() +
-				currentPlayer.getFearFactor();
-		System.out.println("Sum of your influencing : " + sumOfInfluencing);
-	}
+	// private static void showPopularityFactors() {
+	// 	Government currentPlayer = game.getCurrentPlayer();
+	// 	System.out.println("Popularity factors:");
+	// 	System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
+	// 	System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
+	// 	System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
+	// 	System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
+	// 	int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
+	// 			PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+	// 			currentPlayer.getReligionPopularityInfluence() +
+	// 			currentPlayer.getFearFactor();
+	// 	System.out.println("Sum of your influencing : " + sumOfInfluencing);
+	// }
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.dropBuilding(
