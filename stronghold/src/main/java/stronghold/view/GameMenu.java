@@ -434,6 +434,27 @@ public class GameMenu extends Application {
 		MapScreen.refreshMapCell(keep[0], keep[1]);
 	}
 
+	public void runNextTurn() throws Exception {
+		GameToolBar.clearMainPane();
+		MapScreen.clearAreaSelection();
+		GameMenuMessage message = GameMenuController.nextTurn();
+		showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.END_GAME) {
+			endGame();
+			return;
+		}
+		else if (message != GameMenuMessage.SUCCESS) return;
+		int[] keep = game.getCurrentPlayer().findKeep();
+		scrollPane.setVvalue(keep[0] / (double)game.getMap().getHeight());
+		scrollPane.setHvalue(keep[1] / (double)game.getMap().getWidth());
+		updateToolBarReport();
+	}
+
+	private void endGame() throws Exception {
+		System.out.println("Game Has Ended!!!");
+		new MainMenu().start(LoginMenu.getStage());
+	}
+
 	// public Group getGridCell(int x, int y) {
 	// 	return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
 	// }
@@ -611,18 +632,6 @@ public class GameMenu extends Application {
 		System.out.println(GameMenuController.moveUnit(
 				Integer.parseInt(matcher.get("x")),
 				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
-
-	private static boolean runNextTurn() {
-		GameMenuMessage message = GameMenuController.nextTurn();
-		System.out.println(message.getErrorString());
-		if (message == GameMenuMessage.END_GAME) return true;
-		else if (message != GameMenuMessage.SUCCESS) return false;
-		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.CYAN);
-		System.out.print("======[Player #" + game.getCurrentPlayerIndex() + "]======");
-		TerminalColor.resetColor();
-		System.out.println();
-		return false;
 	}
 
 	private static void showSelectedUnits() {
