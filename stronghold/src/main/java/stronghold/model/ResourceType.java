@@ -1,5 +1,7 @@
 package stronghold.model;
 
+import javafx.scene.image.Image;
+
 public enum ResourceType {
 	WINE(10, 8, "Wine", true),
 	MEAT(20, 15, "Meat", true),
@@ -38,12 +40,14 @@ public enum ResourceType {
 	private final int buyPrice;
 	private final int sellprice;
 	private final String name;
+	private final transient Image image;
 
 	private ResourceType(int buyPrice, int sellprice, String name, boolean isTradable) {
 		this.buyPrice = buyPrice;
 		this.sellprice = sellprice;
 		this.name = name;
 		this.isTradable = isTradable;
+		this.image = new Image(ResourceType.class.getResource(getImagePath()).toExternalForm());
 	}
 
 	public int getBuyPrice() {
@@ -65,5 +69,13 @@ public enum ResourceType {
 				return resourceType;
 		}
 		return null;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	private String getImagePath() {
+		return "/images/resourcetypes/" + name + ".png";
 	}
 }
