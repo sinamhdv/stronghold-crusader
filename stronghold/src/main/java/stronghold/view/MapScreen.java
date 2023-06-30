@@ -23,7 +23,7 @@ public class MapScreen {
 	public static final int SHOW_MAP_WIDTH = 16;
 	public static final int SHOW_MAP_HEIGHT = SHOW_MAP_WIDTH / 16 * 9;
 	public static final double GRID_GAPS = 0.5;
-	private static double cellDimentions = ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT;
+	public static final double CELL_DIMENTIONS = ViewUtils.getScreenHeight() / (double)SHOW_MAP_HEIGHT;
 
 	private static int dragStartX, dragStartY;
 	private static Rectangle selectionRectangle;
@@ -33,8 +33,8 @@ public class MapScreen {
 	public static Group getTileRepresentation(int x, int y) {
 		MapTile tile = StrongHold.getCurrentGame().getMap().getGrid()[x][y];
 		ImageView groundImage = new ImageView(tile.getGroundType().getImage());
-		double height = cellDimentions;
-		double width = cellDimentions;
+		double height = CELL_DIMENTIONS;
+		double width = CELL_DIMENTIONS;
 		groundImage.setFitHeight(height);
 		groundImage.setFitWidth(width);
 		Group group = new Group(groundImage);
@@ -109,15 +109,15 @@ public class MapScreen {
 	private static void selectArea(int x1, int y1, int x2, int y2) {
 		GridPane grid = GameMenu.getInstance().getGrid();
 		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
-		selectionRectangle = new Rectangle((y2 - y1 + 1) * (cellDimentions + GRID_GAPS), (x2 - x1 + 1) * (cellDimentions + GRID_GAPS));
+		selectionRectangle = new Rectangle((y2 - y1 + 1) * (CELL_DIMENTIONS + GRID_GAPS), (x2 - x1 + 1) * (CELL_DIMENTIONS + GRID_GAPS));
 		selectionRectangle.setFill(Color.PURPLE);
 		selectionRectangle.setStroke(Color.PURPLE);
 		selectionRectangle.setOpacity(0.2);
 		selectionRectangle.setManaged(false);
 		selectionRectangle.setMouseTransparent(true);
 		grid.add(selectionRectangle, x1, y1);
-		selectionRectangle.setX(y1 * (cellDimentions + GRID_GAPS));
-		selectionRectangle.setY(x1 * (cellDimentions + GRID_GAPS));
+		selectionRectangle.setX(y1 * (CELL_DIMENTIONS + GRID_GAPS));
+		selectionRectangle.setY(x1 * (CELL_DIMENTIONS + GRID_GAPS));
 		GameMenuController.setSelectedArea(x1, y1, x2, y2);
 	}
 

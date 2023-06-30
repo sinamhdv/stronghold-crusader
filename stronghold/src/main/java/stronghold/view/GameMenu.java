@@ -37,6 +37,7 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
+import stronghold.utils.AssetImageLoader;
 import stronghold.utils.PopularityFormulas;
 import stronghold.utils.ViewUtils;
 
@@ -276,13 +277,32 @@ public class GameMenu extends Application {
 			buildingCategoryBoxes[i].setAlignment(Pos.CENTER_LEFT);
 			mainPane.getChildren().add(buildingCategoryBoxes[i]);
 		}
-		buildingCategoryBoxes[0].getChildren().add(new Label("castle"));
+		fillCategoryList(0, new String[] {"keep", "stockpile", "low wall", "stairs",
+			"horizontal small gate", "horizontal large gate", "small turret", "large turret",
+			"lookout tower", "square tower", "round tower", "killing pit", "draw bridge"});
+		fillCategoryList(1, new String[] {"european barracks", "arabian barracks",
+			"armory", "engineers guild", "stable"});
+		fillCategoryList(2, new String[] {"apple farm", "dairy farm", "wheat farm",
+			"grape farm", "hunter", "woodcutter", "iron mine", "stone mine", "ox tether"});
+		fillCategoryList(3, new String[] {"armorer", "bow fletcher", "crossbow fletcher",
+			"mace blacksmith", "sword blacksmith", "pike poleturner", "spear poleturner", "tanner"});
+		fillCategoryList(4, new String[] {"bakery", "brewery", "granary", "inn", "market",
+			"house", "chapel", "church", "mill"});
 	}
 
 	private void loadBuildingsCategory(int index) {
 		GameToolBar.clearMainPane();
 		buildingCategoryBoxes[index].setVisible(true);
 		buildingCategoryBoxes[index].setManaged(true);
+	}
+
+	private void fillCategoryList(int index, String[] names) {
+		for (String name : names) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitWidth(MapScreen.CELL_DIMENTIONS);
+			image.setFitHeight(MapScreen.CELL_DIMENTIONS);
+			buildingCategoryBoxes[index].getChildren().add(image);
+		}
 	}
 
 	// public Group getGridCell(int x, int y) {

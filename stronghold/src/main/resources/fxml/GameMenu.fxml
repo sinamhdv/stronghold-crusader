@@ -32,6 +32,10 @@
 					</ScrollPane>
 					<HBox fx:id="buildingCategoryButtonsBox">
 						<Button text="Castle"/>
+						<Button text="Military"/>
+						<Button text="Production"/>
+						<Button text="Weapons"/>
+						<Button text="City"/>
 					</HBox>
 				</VBox>
 				<VBox alignment="CENTER" spacing="10">
