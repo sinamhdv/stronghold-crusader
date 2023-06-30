@@ -142,6 +142,15 @@ public class MapScreen {
 		selectionRectangle.setX(y1 * (CELL_DIMENTIONS + GRID_GAPS));
 		selectionRectangle.setY(x1 * (CELL_DIMENTIONS + GRID_GAPS));
 		GameMenuController.setSelectedArea(x1, y1, x2, y2);
+		GameToolBar.clearMainPane();
+		// TODO: load unit info and commands
+	}
+
+	public static void clearAreaSelection() {	// TODO: call this in runNextTurn
+		GridPane grid = GameMenu.getInstance().getGrid();
+		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
+		selectionRectangle = null;
+		// TODO: clear the list of selected units in Game
 	}
 
 	public static String getTileDetails(int x, int y) {

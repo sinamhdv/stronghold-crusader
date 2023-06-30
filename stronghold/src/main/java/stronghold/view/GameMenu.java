@@ -42,8 +42,10 @@ import stronghold.model.Game;
 import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
+import stronghold.model.buildings.Barracks;
 import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
+import stronghold.model.buildings.Stockpile;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
 import stronghold.utils.PopularityFormulas;
@@ -97,6 +99,10 @@ public class GameMenu extends Application {
 	private HBox governmentReportBox;
 	@FXML
 	private HBox repairBox;
+	@FXML
+	private HBox stockpileReportBox;
+	@FXML
+	private HBox unitCreationBox;
 	private HBox[] buildingCategoryBoxes;
 
 	public GameMenu() {
@@ -189,6 +195,7 @@ public class GameMenu extends Application {
 
 	public void reportButtonHandler(MouseEvent event) {
 		refreshGovernmentReport();
+		MapScreen.clearAreaSelection();
 		GameToolBar.clearMainPane();
 		governmentReportBox.setVisible(true);
 		governmentReportBox.setManaged(true);
@@ -305,6 +312,7 @@ public class GameMenu extends Application {
 	}
 
 	private void loadBuildingsCategory(int index) {
+		MapScreen.clearAreaSelection();
 		GameToolBar.clearMainPane();
 		buildingCategoryBoxes[index].setVisible(true);
 		buildingCategoryBoxes[index].setManaged(true);
@@ -340,27 +348,52 @@ public class GameMenu extends Application {
 	}
 
 	public void runSelectBuilding(int x, int y) {
+		MapScreen.clearAreaSelection();
 		GameToolBar.clearMainPane();
 		GameMenuMessage message = GameMenuController.selectBuilding(x, y);
 		showErrorText(message.getErrorString());
 		if (message != GameMenuMessage.SUCCESS) return;
 		if (game.getSelectedBuilding() == null) return;
 		else if (game.getSelectedBuilding().getName().equals("market")) {
-			// TODO: open market menu
+			// new MarketMenu().start(LoginMenu.getStage());
 		}
-		else if (game.getSelectedBuilding() instanceof DefensiveStructure) {
-			repairBox.setVisible(true);
-			repairBox.setManaged(true);
-			if (((DefensiveStructure)game.getSelectedBuilding()).getType() == DefensiveStructureType.GATE) {
-				gateOpenCheckBox.setVisible(true);
-				gateOpenCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-					if (newValue.booleanValue()) runOpenGate();
-					else runCloseGate();
-				});
-			}
-			else
-				gateOpenCheckBox.setVisible(false);
+		else if (game.getSelectedBuilding() instanceof DefensiveStructure)
+			showRepairBox();
+		else if (game.getSelectedBuilding() instanceof Stockpile)
+			showStockpileReport();
+		else if (game.getSelectedBuilding() instanceof Barracks)
+			showUnitCreationPanel();
+	}
+
+	private void showRepairBox() {
+		repairBox.setVisible(true);
+		repairBox.setManaged(true);
+		if (((DefensiveStructure)game.getSelectedBuilding()).getType() == DefensiveStructureType.GATE) {
+			gateOpenCheckBox.setVisible(true);
+			gateOpenCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue.booleanValue()) runOpenGate();
+				else runCloseGate();
+			});
 		}
+		else
+			gateOpenCheckBox.setVisible(false);
+	}
+
+	private void showStockpileReport() {
+		stockpileReportBox.setVisible(true);
+		stockpileReportBox.setManaged(true);
+		stockpileReportBox.getChildren().clear();
+		Stockpile stockpile = (Stockpile) game.getSelectedBuilding();
+		for (ResourceType resourceType : stockpile.getResources().keySet()) {
+			VBox vBox = new VBox(10, new Label(resourceType.getName()),
+				new Label(Integer.toString(stockpile.getResources().get(resourceType))));
+			vBox.setAlignment(Pos.CENTER);
+			stockpileReportBox.getChildren().add(vBox);
+		}
+	}
+
+	private void showUnitCreationPanel() {
+
 	}
 
 	public void runRepair() {

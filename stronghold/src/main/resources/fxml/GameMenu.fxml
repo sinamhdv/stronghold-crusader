@@ -32,6 +32,8 @@
 								<Button text="Repair" onMouseClicked="#runRepair"/>
 								<CheckBox text="open" visible="false" fx:id="gateOpenCheckBox"/>
 							</HBox>
+							<HBox fx:id="stockpileReportBox" spacing="10"></HBox>
+							<HBox fx:id="unitCreationBox" spacing="10"></HBox>
 						</StackPane>
 					</ScrollPane>
 					<HBox fx:id="buildingCategoryButtonsBox" spacing="10">
