@@ -30,7 +30,7 @@ public class MainMenu extends Application {
 	public void start(Stage stage) throws Exception {
 		BorderPane borderPane = FXMLLoader.load(CaptchaMenu.class.getResource("/fxml/MainMenu.fxml"));
 		borderPane.setPrefSize(800, 600);
-		Image image = new Image(getClass().getResource("/pictures/background/SC2Gold_Screenshots_6.png").toExternalForm());
+		Image image = new Image(getClass().getResource("/pictures/background/wp5298309.jpg").toExternalForm());
 		Background background = new Background(ViewUtils.setBackGround(image));
 		borderPane.setBackground(background);
 		scene = new Scene(borderPane);

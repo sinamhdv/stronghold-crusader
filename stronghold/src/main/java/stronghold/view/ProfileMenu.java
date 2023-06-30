@@ -3,6 +3,7 @@ package stronghold.view;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -317,7 +318,8 @@ public class ProfileMenu extends Application {
 		TableColumn<User, String> nameColumn = new TableColumn<>("Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
 		TableColumn<User, Integer> rankColumn = new TableColumn<>("Rank");
-		rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		rankColumn.setCellValueFactory(cell ->
+			new SimpleIntegerProperty(StrongHold.getRank(cell.getValue())).asObject());
 		TableColumn<User, Integer> scoreColumn = new TableColumn<>("High Score");
 		scoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
 		scoreBoard.getColumns().addAll(nameColumn, scoreColumn, rankColumn);

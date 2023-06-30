@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane layoutX="96.0" layoutY="80.0" prefHeight="264.0" prefWidth="407.0" />
+    <AnchorPane layoutX="113.0" layoutY="85.0" minHeight="0.0" minWidth="0.0" prefHeight="1092.0" prefWidth="380.0">
+         <children>
+            <ImageView layoutX="14.0" layoutY="14.0">
+               <image>
+                  <Image url="@../pictures/market/items/apple.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="18.0" layoutY="60.0">
+               <image>
+                  <Image url="@../pictures/market/items/cheese.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="16.0" layoutY="104.0">
+               <image>
+                  <Image url="@../pictures/market/items/meat.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="21.0" layoutY="143.0">
+               <image>
+                  <Image url="@../pictures/market/items/wheat.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="13.0" layoutY="200.0">
+               <image>
+                  <Image url="@../pictures/market/items/hops.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="12.0" layoutY="249.0">
+               <image>
+                  <Image url="@../pictures/market/items/bread.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="17.0" layoutY="297.0">
+               <image>
+                  <Image url="@../pictures/market/items/flour.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="22.0" layoutY="353.0">
+               <image>
+                  <Image url="@../pictures/market/items/pitch.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="23.0" layoutY="411.0">
+               <image>
+                  <Image url="@../pictures/market/items/ale.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="17.0" layoutY="454.0">
+               <image>
+                  <Image url="@../pictures/market/items/stone.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="20.0" layoutY="507.0">
+               <image>
+                  <Image url="@../pictures/market/items/iron.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="21.0" layoutY="556.0">
+               <image>
+                  <Image url="@../pictures/market/items/bow.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="18.0" layoutY="608.0">
+               <image>
+                  <Image url="@../pictures/market/items/sword.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="22.0" layoutY="668.0">
+               <image>
+                  <Image url="@../pictures/market/items/mace.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="21.0" layoutY="724.0">
+               <image>
+                  <Image url="@../pictures/market/items/crossBow.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="21.0" layoutY="770.0">
+               <image>
+                  <Image url="@../pictures/market/items/spear.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="24.0" layoutY="833.0">
+               <image>
+                  <Image url="@../pictures/market/items/pike.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="24.0" layoutY="895.0">
+               <image>
+                  <Image url="@../pictures/market/items/metal%20armor.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="19.0" layoutY="1017.0">
+               <image>
+                  <Image url="@../pictures/market/items/wood.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="32.0" layoutY="955.0">
+               <image>
+                  <Image url="@../pictures/market/items/leather%20armor.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="225.0" layoutY="33.0" text="Market Menu">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
