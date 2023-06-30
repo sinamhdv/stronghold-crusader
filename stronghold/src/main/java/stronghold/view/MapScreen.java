@@ -2,7 +2,6 @@ package stronghold.view;
 
 import java.util.ArrayList;
 
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;

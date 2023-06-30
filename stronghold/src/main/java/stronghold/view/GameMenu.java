@@ -352,7 +352,11 @@ public class GameMenu extends Application {
 		if (message != GameMenuMessage.SUCCESS) return;
 		if (game.getSelectedBuilding() == null) return;
 		else if (game.getSelectedBuilding().getName().equals("market")) {
-			// new MarketMenu().start(LoginMenu.getStage());
+			try {
+				new MarketMenu().start(LoginMenu.getStage());
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		else if (game.getSelectedBuilding() instanceof DefensiveStructure)
 			showRepairBox();
