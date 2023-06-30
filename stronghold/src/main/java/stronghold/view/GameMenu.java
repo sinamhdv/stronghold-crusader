@@ -385,7 +385,10 @@ public class GameMenu extends Application {
 		stockpileReportBox.getChildren().clear();
 		Stockpile stockpile = (Stockpile) game.getSelectedBuilding();
 		for (ResourceType resourceType : stockpile.getResources().keySet()) {
-			VBox vBox = new VBox(10, new Label(resourceType.getName()),
+			ImageView image = new ImageView(resourceType.getImage());
+			image.setFitWidth(50);
+			image.setFitHeight(50);
+			VBox vBox = new VBox(10, image,
 				new Label(Integer.toString(stockpile.getResources().get(resourceType))));
 			vBox.setAlignment(Pos.CENTER);
 			stockpileReportBox.getChildren().add(vBox);
