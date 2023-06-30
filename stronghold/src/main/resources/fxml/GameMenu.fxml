@@ -22,7 +22,7 @@
 	</center>
 
 	<bottom>
-		<ToolBar fx:id="toolBar">
+		<Pane fx:id="toolBar">
 			<HBox spacing="20">
 				<VBox>
 					<ScrollPane fx:id="mainScrollPane" styleClass="toolbar-main-pane">
@@ -65,7 +65,7 @@
 					<Button text="Trade" maxWidth="100" minWidth="100"/>
 				</VBox>
 			</HBox>
-		</ToolBar>
+		</Pane>
 	</bottom>
 
 </BorderPane>
