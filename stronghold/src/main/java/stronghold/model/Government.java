@@ -12,6 +12,7 @@ import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.Person;
 import stronghold.utils.PopularityFormulas;
+import stronghold.view.GameMenu;
 
 public class Government {
 	private static final int MAX_POPULARITY = 100;
@@ -128,6 +129,8 @@ public class Government {
 
 	public void setGold(int gold) {
 		this.gold = gold;
+		if (this == StrongHold.getCurrentGame().getCurrentPlayer())
+			GameMenu.getInstance().updateToolBarReport();
 	}
 
 	public int getWineUsageCycleTurns() {
@@ -186,7 +189,7 @@ public class Government {
 
 	public int increaseResource(ResourceType resourceType, int count) {
 		if (resourceType == ResourceType.GOLD) {
-			this.gold += count;
+			setGold(getGold() + count);
 			return count;
 		}
 		if (resourceType == ResourceType.POPULATION)
@@ -210,7 +213,7 @@ public class Government {
 	public int decreaseResource(ResourceType resourceType, int count) {
 		if (resourceType == ResourceType.GOLD) {
 			if (count > this.gold) count = this.gold;
-			this.gold -= count;
+			setGold(getGold() - count);
 			return count;
 		}
 		if (resourceType == ResourceType.POPULATION)
@@ -367,6 +370,8 @@ public class Government {
 				canDecrease++;
 			}
 		}
+		if (this == StrongHold.getCurrentGame().getCurrentPlayer())
+			GameMenu.getInstance().updateToolBarReport();
 		return canDecrease;
 	}
 

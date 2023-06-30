@@ -325,7 +325,6 @@ public class GameMenu extends Application {
 			image.setFitHeight(MapScreen.CELL_DIMENTIONS);
 			image.setOnDragDetected(event -> {
 				image.startFullDrag();
-				LoginMenu.getStage().getScene().setCursor(Cursor.CROSSHAIR);
 				GameMenuController.setDraggedBuildingName(name);
 			});
 			Tooltip tooltip = new Tooltip(name);
@@ -396,7 +395,17 @@ public class GameMenu extends Application {
 	}
 
 	private void showUnitCreationPanel() {
-
+		unitCreationBox.setVisible(true);
+		unitCreationBox.setManaged(true);
+		unitCreationBox.getChildren().clear();
+		Barracks barracks = (Barracks) game.getSelectedBuilding();
+		for (String name : barracks.getTroopNames()) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitWidth(100);
+			image.setFitHeight(140);
+			unitCreationBox.getChildren().add(image);
+			image.setOnMouseClicked(event -> { runCreateUnit(name); });
+		}
 	}
 
 	public void runRepair() {
@@ -415,6 +424,12 @@ public class GameMenu extends Application {
 		showErrorText(message.getErrorString());
 		if (message == GameMenuMessage.SUCCESS)
 			MapScreen.refreshMapCell(game.getSelectedBuilding().getX(), game.getSelectedBuilding().getY());
+	}
+
+	private void runCreateUnit(String type) {
+		showErrorText(GameMenuController.createUnit(type, 1).getErrorString());
+		int[] keep = game.getCurrentPlayer().findKeep();
+		MapScreen.refreshMapCell(keep[0], keep[1]);
 	}
 
 	// public Group getGridCell(int x, int y) {
@@ -577,12 +592,12 @@ public class GameMenu extends Application {
 	// 	System.out.println(game.getSelectedBuilding());
 	// }
 
-	private static void showResourcesAmount() {
-		System.out.println("Resources report:");
-		for (ResourceType resourceType : ResourceType.values())
-			System.out
-					.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
-	}
+	// private static void showResourcesAmount() {
+	// 	System.out.println("Resources report:");
+	// 	for (ResourceType resourceType : ResourceType.values())
+	// 		System.out
+	// 				.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
+	// }
 
 	private static void runSelectUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.selectUnit(
@@ -615,12 +630,6 @@ public class GameMenu extends Application {
 		}
 		for (Person person : game.getSelectedUnits())
 			System.out.println(person);
-	}
-
-	private static void runCreateUnit(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.createUnit(
-				matcher.get("type"),
-				Integer.parseInt(matcher.get("count"))).getErrorString());
 	}
 
 	private static void runPatrolUnit(HashMap<String, String> matcher) {

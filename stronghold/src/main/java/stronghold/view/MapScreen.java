@@ -119,7 +119,6 @@ public class MapScreen {
 					Math.max(x, dragStartX), Math.max(y, dragStartY));
 			}
 			else if (event.getGestureSource() instanceof ImageView) {	// building creation
-				LoginMenu.getStage().getScene().setCursor(Cursor.DEFAULT);
 				GameMenuMessage message = GameMenuController.dropBuilding(x, y, GameMenuController.getDraggedBuildingName());
 				if (message != GameMenuMessage.CONSTRUCTION_FAILED)
 					GameMenu.getInstance().showErrorText(message.getErrorString());

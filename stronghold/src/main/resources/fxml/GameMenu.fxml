@@ -60,7 +60,10 @@
 					<Label text="Population/Max" fx:id="populationLabel" styleClass="toolbar-report-label"/>
 					<Button text="Report" onMouseClicked="#reportButtonHandler"/>
 				</VBox>
-				<HBox alignment="CENTER"><Button text="Next Turn"/></HBox>
+				<VBox alignment="CENTER">
+					<Button text="Next Turn" maxWidth="100" minWidth="100"/>
+					<Button text="Trade" maxWidth="100" minWidth="100"/>
+				</VBox>
 			</HBox>
 		</ToolBar>
 	</bottom>

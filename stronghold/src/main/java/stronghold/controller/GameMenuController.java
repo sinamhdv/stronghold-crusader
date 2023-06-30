@@ -76,8 +76,6 @@ public class GameMenuController {
 	public static GameMenuMessage createSingleUnit(String type) {
 		if (!(game.getSelectedBuilding() instanceof Barracks))
 			return GameMenuMessage.BAD_SELECTED_BUILDING;
-		if (!((Barracks) game.getSelectedBuilding()).canBuildTroop(type))
-			return GameMenuMessage.INCORRECT_UNIT_NAME;
 		if (!hasEnoughResourcesForObject(type, game.getCurrentPlayer()))
 			return GameMenuMessage.NOT_ENOUGH_RESOURCES;
 		if (game.getCurrentPlayer().getPopulation() - game.getCurrentPlayer().getWorkersCount() < 1)
@@ -87,7 +85,7 @@ public class GameMenuController {
 		MapEditorMenuController.setSelectedGovernment(game.getCurrentPlayerIndex());
 		MapEditorMenuMessage message = MapEditorMenuController.dropUnit(keep[0], keep[1], type, 1);
 		if (message != MapEditorMenuMessage.SUCCESS) {
-			// GameMenu.showMapEditorError(message);	// TODO
+			GameMenu.getInstance().showErrorText(message.getErrorString());
 			return GameMenuMessage.CONSTRUCTION_FAILED;
 		}
 		decreaseObjectsResources(type, game.getCurrentPlayer());
