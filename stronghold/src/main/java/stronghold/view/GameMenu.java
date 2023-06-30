@@ -144,9 +144,9 @@ public class GameMenu extends Application {
 		grid.setHgap(MapScreen.GRID_GAPS);
 		grid.setVgap(MapScreen.GRID_GAPS);
 		displayFullMap();
-		addKeyListeners();
 		setupToolBar();
-		scrollPane.requestFocus();
+		addKeyListeners();
+		borderPane.requestFocus();
 	}
 
 	private void displayFullMap() {
@@ -158,7 +158,7 @@ public class GameMenu extends Application {
 	}
 
 	private void addKeyListeners() {
-		scrollPane.setOnKeyPressed(event -> {
+		borderPane.setOnKeyPressed(event -> {
 			switch (event.getCode()) {
 				case EQUALS:
 					MapScreen.zoomHandler(1.02);

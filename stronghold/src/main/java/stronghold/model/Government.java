@@ -359,6 +359,8 @@ public class Government {
 				canAdd++;
 			}
 		}
+		if (this == StrongHold.getCurrentGame().getCurrentPlayer())
+			GameMenu.getInstance().updateToolBarReport();
 		return canAdd;
 	}
 
