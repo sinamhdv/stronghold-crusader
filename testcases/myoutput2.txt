@@ -1,8 +1,5 @@
-======[Login Menu]======
-Checking for auto-login...
-Auto-login successful
-======[Main Menu]======
 ======[Map Management Menu]======
+Invalid command
 Successfully deleted the map
 New map created successfully
 Successfully loaded the map
@@ -22,4 +19,3 @@ Success!
 Success!
 ======[Map Management Menu]======
 ======[Main Menu]======
-Exitting...

@@ -1,7 +1,3 @@
-======[Login Menu]======
-Checking for auto-login...
-Auto-login successful
-======[Main Menu]======
 ======[Map Management Menu]======
 Successfully deleted the map
 New map created successfully
@@ -41,4 +37,3 @@ Success!
 Success!
 ======[Map Management Menu]======
 ======[Main Menu]======
-Exitting...

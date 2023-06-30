@@ -50,11 +50,9 @@ public class MainMenu extends Application {
 			errorText.setText("Please enter a mapname");
 		else {
 			MainMenuMessage result = MainMenuController.startGame(mapName.get());
-			if(result.getErrorString().equals("Success!")) {
-				//TODO: GameMenu.start
-				System.out.println("game started");
-			}	
-			else 
+			if(result == MainMenuMessage.SUCCESS)
+				new GameMenu().start(LoginMenu.getStage());
+			else
 				errorText.setText(result.getErrorString());
 		}
 	}

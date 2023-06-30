@@ -44,7 +44,7 @@ public class MapEditorMenu {
 			else if ((matcher = CommandParser.getMatcher(input, Command.BACK)) != null)
 				return;
 			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null) {
-				MapMenu.run(MapEditorMenuController.getMap());
+				// MapMenu.run(MapEditorMenuController.getMap());
 				System.out.println("======[Map Editor]======");
 			}
 			else

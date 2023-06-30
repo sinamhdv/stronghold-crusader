@@ -2,6 +2,33 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MapEditorMenuMessage;
@@ -10,116 +37,375 @@ import stronghold.model.Government;
 import stronghold.model.ResourceType;
 import stronghold.model.StrongHold;
 import stronghold.model.people.Person;
+import stronghold.utils.AssetImageLoader;
 import stronghold.utils.PopularityFormulas;
-import stronghold.view.parser.Command;
-import stronghold.view.parser.CommandParser;
+import stronghold.utils.ViewUtils;
 
-public class GameMenu {
+public class GameMenu extends Application {
 	private static Game game;
+	private static GameMenu instance;
 
-	private static void printMenuPrompt() {
-		TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.GREEN);
-		System.out.print("game menu(" + game.getCurrentPlayerIndex() + ")> ");
-		TerminalColor.resetColor();
-	}
+	public static final Image[] popularityFaceEmojies = new Image[] {
+		new Image(GameMenu.class.getResource("/images/ui/sad.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/poker.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/smile.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/sad-red.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/smile-green.png").toExternalForm())
+	};
 
-	public static void run() {
+	@FXML
+	private GridPane grid;
+	@FXML
+	private ScrollPane scrollPane;
+	@FXML
+	private BorderPane borderPane;
+	@FXML
+	private ToolBar toolBar;
+	@FXML
+	private ScrollPane mainScrollPane;
+	@FXML
+	private StackPane mainPane;
+	@FXML
+	private ImageView minimap;
+	@FXML
+	private ImageView popularityFace;
+	@FXML
+	private Label popularityLabel;
+	@FXML
+	private Label goldLabel;
+	@FXML
+	private Label populationLabel;
+	@FXML
+	private Label attackLabel;
+	@FXML
+	private HBox buildingCategoryButtonsBox;
+
+	// Main Pane Boxes
+	@FXML
+	private HBox governmentReportBox;
+	private HBox[] buildingCategoryBoxes;
+
+	public GameMenu() {
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
+		instance = this;
+	}
 
-		HashMap<String, String> matcher;
-		while (true) {
-			printMenuPrompt();
-			String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
+	public static GameMenu getInstance() {
+		return instance;
+	}
 
-			if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
-				showPopularity();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
-				showPopularityFactors();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_LIST)) != null)
-				showFoodList();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_RATE)) != null)
-				foodRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FOOD_RATE)) != null)
-				runSetFoodRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TAX_RATE)) != null)
-				taxRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_TAX_RATE)) != null)
-				runSetTaxRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FEAR_RATE)) != null)
-				fearRateShow();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_FEAR_RATE)) != null)
-				runSetFearRate(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
-				runDropBuilding(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
-				runCreateUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
-				runSelectBuilding(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
-				showSelectedBuilding();
-			else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
-				runOpenGate();
-			else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
-				runCloseGate();
-			else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
-				runRepair();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
-				showResourcesAmount();
-			else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
-				runSelectUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
-				showSelectedUnits();
-			else if ((matcher = CommandParser.getMatcher(input, Command.DIG_TUNNEL)) != null)
-				runDigTunnel();
-			else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
-				runMoveUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
-				runPatrolUnit(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
-				runStopUnit();
-			else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
-				runAttack(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
-				runSetStance(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DISBAND)) != null)
-				runDisband();
-			else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
-				if (runNextTurn()) return;
-			} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
-				runBuildSiegeEquipment(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
-				runCheatGold(matcher);
-			else if ((matcher = CommandParser.getMatcher(input, Command.DEBUG_MODE)) != null)
-				runToggleDebugMode();
-			else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
-				MapMenu.run(game.getMap());
-			else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
-				MarketMenu.run();
-			else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
-				TradeMenu.run();
-			else
-				System.out.println("Error: Invalid command");
+	ScrollPane getScrollPane() {
+		return scrollPane;
+	}
+	BorderPane getBorderPane() {
+		return borderPane;
+	}
+	GridPane getGrid() {
+		return grid;
+	}
+	StackPane getMainPane() {
+		return mainPane;
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		borderPane = FXMLLoader.load(GameMenu.class.getResource("/fxml/GameMenu.fxml"));
+		Scene scene = new Scene(borderPane);
+		stage.setScene(scene);
+		stage.setFullScreen(true);
+		stage.show();
+	}
+
+	@FXML
+	private void initialize() {
+		scrollPane.setPannable(true);
+		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(MapScreen.GRID_GAPS);
+		grid.setVgap(MapScreen.GRID_GAPS);
+		grid.setGridLinesVisible(true);
+		displayFullMap();
+		addKeyListeners();
+		setupToolBar();
+		scrollPane.requestFocus();
+	}
+
+	private void displayFullMap() {
+		for (int i = 0; i < game.getMap().getHeight(); i++) {
+			for (int j = 0; j < game.getMap().getWidth(); j++) {
+				grid.add(MapScreen.getTileRepresentation(i, j), j, i);
+			}
 		}
 	}
 
-	private static void showPopularity() {
-		System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
+	private void addKeyListeners() {
+		scrollPane.setOnKeyPressed(event -> {
+			switch (event.getCode()) {
+				case EQUALS:
+					MapScreen.zoomHandler(1.02);
+					break;
+				case MINUS:
+					MapScreen.zoomHandler(1/1.02);
+					break;
+				default:
+					break;
+			}
+		});
 	}
 
-	private static void showPopularityFactors() {
+	private void setupToolBar() {
+		toolBar.setPrefSize(ViewUtils.getScreenWidth(), ViewUtils.getScreenHeight() / 5.0);
+		toolBar.setBackground(new Background(new BackgroundImage(
+			new Image(GameMenu.class.getResource("/images/ui/toolbar.png").toExternalForm()),
+			BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+			BackgroundPosition.CENTER,
+			new BackgroundSize(toolBar.getPrefWidth(), toolBar.getPrefHeight(),
+			false, false, false, false))));
+		mainScrollPane.setPrefSize(toolBar.getPrefWidth() * 0.7, toolBar.getPrefHeight() * 0.8);
+		mainScrollPane.setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+		mainScrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		minimap.setImage(GameToolBar.getMinimapImage(game.getMap()));
+		minimap.setFitHeight(mainScrollPane.getPrefHeight());
+		minimap.setFitWidth(minimap.getFitHeight());
+		GameToolBar.setMinimapMouseHandler(minimap, scrollPane);
+		updateToolBarReport();
+		setupBuildingCategories();
+	}
+
+	public void reportButtonHandler(MouseEvent event) {
+		refreshGovernmentReport();
+		GameToolBar.clearMainPane();
+		governmentReportBox.setVisible(true);
+		governmentReportBox.setManaged(true);
+	}
+
+	public void updateToolBarReport() {
+		Government player = game.getCurrentPlayer();
+		popularityLabel.setText("Popularity: " + player.getPopularity());
+		goldLabel.setText("Gold: " + player.getGold());
+		populationLabel.setText("Population: " +
+			player.getPopulation() + "/" + player.getMaxPopulation());
+		if (player.getPopularity() < 30) popularityFace.setImage(popularityFaceEmojies[0]);
+		else if (player.getPopularity() < 50) popularityFace.setImage(popularityFaceEmojies[1]);
+		else popularityFace.setImage(popularityFaceEmojies[2]);
+	}
+
+	private void refreshInfoBox(VBox infoBox) {
 		Government currentPlayer = game.getCurrentPlayer();
-		System.out.println("Popularity factors:");
-		System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
-		System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
-		System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
-		System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
+		infoBox.getChildren().clear();
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Food influence: ", currentPlayer.getFoodPopularityInfluence()));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Tax influence: ", PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate())));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Religion influence: ", currentPlayer.getReligionPopularityInfluence()));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Fear influence: ", currentPlayer.getFearFactor()));
 		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
 				PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
 				currentPlayer.getReligionPopularityInfluence() +
 				currentPlayer.getFearFactor();
-		System.out.println("Sum of your influencing : " + sumOfInfluencing);
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Total: ", sumOfInfluencing));
 	}
+
+	public void refreshGovernmentReport() {
+		Government currentPlayer = game.getCurrentPlayer();
+		governmentReportBox.getChildren().clear();
+		VBox infoBox = new VBox(10);
+		infoBox.setPadding(new Insets(20));
+		refreshInfoBox(infoBox);
+		governmentReportBox.getChildren().add(infoBox);
+		HBox optionsBox = new HBox(20);
+		optionsBox.setPadding(new Insets(20));
+		Slider foodSlider = new Slider(-2, 2, currentPlayer.getFoodRate());
+		foodSlider.setShowTickLabels(true);
+		foodSlider.setShowTickMarks(true);
+		foodSlider.setMinorTickCount(0);
+		foodSlider.setMajorTickUnit(1);
+		foodSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getFoodRate()) {
+				currentPlayer.setFoodRate(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Food rate:"), foodSlider));
+		Slider taxSlider = new Slider(-3, 8, currentPlayer.getTaxRate());
+		taxSlider.setShowTickLabels(true);
+		taxSlider.setShowTickMarks(true);
+		taxSlider.setMinorTickCount(0);
+		taxSlider.setMajorTickUnit(1);
+		taxSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getTaxRate()) {
+				currentPlayer.setTaxRate(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Tax rate:"), taxSlider));
+		Slider fearSlider = new Slider(-5, 5, currentPlayer.getFearFactor());
+		fearSlider.setShowTickLabels(true);
+		fearSlider.setShowTickMarks(true);
+		fearSlider.setMinorTickCount(0);
+		fearSlider.setMajorTickUnit(1);
+		fearSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			int value = (int)(newValue.doubleValue() + 0.5 * (newValue.doubleValue() > 0 ? 1 : -1));
+			if (value != currentPlayer.getFearFactor()) {
+				currentPlayer.setFearFactor(value);
+				refreshInfoBox(infoBox);
+			}
+		});
+		optionsBox.getChildren().add(new VBox(10, new Label("Fear factor:"), fearSlider));
+		governmentReportBox.getChildren().add(optionsBox);
+	}
+
+	private void setupBuildingCategories() {
+		int index = 0;
+		for (Node node : buildingCategoryButtonsBox.getChildren()) {	// XXX: no children except category buttons
+			int tempIndex = index;
+			((Button)node).setOnMouseClicked(event -> { loadBuildingsCategory(tempIndex); });
+			index++;
+		}
+		buildingCategoryBoxes = new HBox[buildingCategoryButtonsBox.getChildren().size()];
+		for (int i = 0; i < buildingCategoryBoxes.length; i++) {
+			buildingCategoryBoxes[i] = new HBox(20);
+			buildingCategoryBoxes[i].setVisible(false);
+			buildingCategoryBoxes[i].setManaged(false);
+			buildingCategoryBoxes[i].setAlignment(Pos.CENTER_LEFT);
+			mainPane.getChildren().add(buildingCategoryBoxes[i]);
+		}
+		fillCategoryList(0, new String[] {"keep", "stockpile", "low wall", "stairs",
+			"horizontal small gate", "horizontal large gate", "small turret", "large turret",
+			"lookout tower", "square tower", "round tower", "killing pit", "draw bridge"});
+		fillCategoryList(1, new String[] {"european barracks", "arabian barracks",
+			"armory", "engineers guild", "stable"});
+		fillCategoryList(2, new String[] {"apple farm", "dairy farm", "wheat farm",
+			"grape farm", "hunter", "woodcutter", "iron mine", "stone mine", "ox tether"});
+		fillCategoryList(3, new String[] {"armorer", "bow fletcher", "crossbow fletcher",
+			"mace blacksmith", "sword blacksmith", "pike poleturner", "spear poleturner", "tanner"});
+		fillCategoryList(4, new String[] {"bakery", "brewery", "granary", "inn", "market",
+			"house", "chapel", "church", "mill"});
+	}
+
+	private void loadBuildingsCategory(int index) {
+		GameToolBar.clearMainPane();
+		buildingCategoryBoxes[index].setVisible(true);
+		buildingCategoryBoxes[index].setManaged(true);
+	}
+
+	private void fillCategoryList(int index, String[] names) {
+		for (String name : names) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitWidth(MapScreen.CELL_DIMENTIONS);
+			image.setFitHeight(MapScreen.CELL_DIMENTIONS);
+			buildingCategoryBoxes[index].getChildren().add(image);
+		}
+	}
+
+	// public Group getGridCell(int x, int y) {
+	// 	return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
+	// }
+
+	// public static void run() {
+	// 	game = StrongHold.getCurrentGame();
+	// 	GameMenuController.setGame(game);
+
+	// 	HashMap<String, String> matcher;
+	// 	while (true) {
+	// 		printMenuPrompt();
+	// 		String[] input = CommandParser.splitTokens(MainMenu.getScanner().nextLine());
+
+	// 		if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY)) != null)
+	// 			showPopularity();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_POPULARITY_FACTORS)) != null)
+	// 			showPopularityFactors();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_LIST)) != null)
+	// 			showFoodList();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FOOD_RATE)) != null)
+	// 			foodRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_FOOD_RATE)) != null)
+	// 			runSetFoodRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_TAX_RATE)) != null)
+	// 			taxRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_TAX_RATE)) != null)
+	// 			runSetTaxRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_FEAR_RATE)) != null)
+	// 			fearRateShow();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_FEAR_RATE)) != null)
+	// 			runSetFearRate(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DROP_BUILDING)) != null)
+	// 			runDropBuilding(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CREATE_UNIT)) != null)
+	// 			runCreateUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_BUILDING)) != null)
+	// 			runSelectBuilding(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_BUILDING)) != null)
+	// 			showSelectedBuilding();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.OPEN_GATE)) != null)
+	// 			runOpenGate();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CLOSE_GATE)) != null)
+	// 			runCloseGate();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.REPAIR)) != null)
+	// 			runRepair();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_RESOURCES_AMOUNT)) != null)
+	// 			showResourcesAmount();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SELECT_UNIT)) != null)
+	// 			runSelectUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SHOW_SELECTED_UNITS)) != null)
+	// 			showSelectedUnits();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DIG_TUNNEL)) != null)
+	// 			runDigTunnel();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MOVE_UNIT)) != null)
+	// 			runMoveUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.PATROL_UNIT)) != null)
+	// 			runPatrolUnit(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.STOP_UNIT)) != null)
+	// 			runStopUnit();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.ATTACK)) != null)
+	// 			runAttack(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.SET_STANCE)) != null)
+	// 			runSetStance(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DISBAND)) != null)
+	// 			runDisband();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.NEXT_TURN)) != null) {
+	// 			if (runNextTurn()) return;
+	// 		} else if ((matcher = CommandParser.getMatcher(input, Command.BUILD_SIEGE_EQUIPMENT)) != null)
+	// 			runBuildSiegeEquipment(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.CHEAT_GOLD)) != null)
+	// 			runCheatGold(matcher);
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.DEBUG_MODE)) != null)
+	// 			runToggleDebugMode();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MAP_MENU)) != null)
+	// 			MapMenu.run(game.getMap());
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.MARKET_MENU)) != null)
+	// 			MarketMenu.run();
+	// 		else if ((matcher = CommandParser.getMatcher(input, Command.TRADE_MENU)) != null)
+	// 			TradeMenu.run();
+	// 		else
+	// 			System.out.println("Error: Invalid command");
+	// 	}
+	// }
+
+	// private static void showPopularity() {
+	// 	System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
+	// }
+
+	// private static void showPopularityFactors() {
+	// 	Government currentPlayer = game.getCurrentPlayer();
+	// 	System.out.println("Popularity factors:");
+	// 	System.out.println("Food influencing: " + currentPlayer.getFoodPopularityInfluence());
+	// 	System.out.println("Tax influencing: " + PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()));
+	// 	System.out.println("Religion influencing: " + currentPlayer.getReligionPopularityInfluence());
+	// 	System.out.println("Fear influencing: " + currentPlayer.getFearFactor());
+	// 	int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
+	// 			PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+	// 			currentPlayer.getReligionPopularityInfluence() +
+	// 			currentPlayer.getFearFactor();
+	// 	System.out.println("Sum of your influencing : " + sumOfInfluencing);
+	// }
 
 	private static void runDropBuilding(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.dropBuilding(
