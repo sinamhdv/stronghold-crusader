@@ -38,4 +38,12 @@ public class GameToolBar {
 			node.setManaged(false);
 		}
 	}
+
+	static HBox getPopularityFactorLine(String text, int value) {
+		ImageView face = new ImageView(GameMenu.popularityFaceEmojies[value < 0 ? 3 : (value == 0 ? 1 : 4)]);
+		face.setFitHeight(20);
+		face.setFitWidth(20);
+		Label label = new Label(text + value);
+		return new HBox(10, face, label);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -42,10 +43,12 @@ public class GameMenu extends Application {
 	private static Game game;
 	private static GameMenu instance;
 
-	private static final Image[] popularityFaceEmojies = new Image[] {
+	public static final Image[] popularityFaceEmojies = new Image[] {
 		new Image(GameMenu.class.getResource("/images/ui/sad.png").toExternalForm()),
 		new Image(GameMenu.class.getResource("/images/ui/poker.png").toExternalForm()),
-		new Image(GameMenu.class.getResource("/images/ui/smile.png").toExternalForm())
+		new Image(GameMenu.class.getResource("/images/ui/smile.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/sad-red.png").toExternalForm()),
+		new Image(GameMenu.class.getResource("/images/ui/smile-green.png").toExternalForm())
 	};
 
 	@FXML
@@ -188,9 +191,24 @@ public class GameMenu extends Application {
 	}
 
 	public void refreshGovernmentReport() {
+		Government currentPlayer = game.getCurrentPlayer();
 		governmentReportBox.getChildren().clear();
 		VBox infoBox = new VBox(10);
-		
+		infoBox.setPadding(new Insets(20));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Food influence: ", currentPlayer.getFoodPopularityInfluence()));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Tax influence: ", PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate())));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Religion influence: ", currentPlayer.getReligionPopularityInfluence()));
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Fear influence: ", currentPlayer.getFearFactor()));
+		int sumOfInfluencing = currentPlayer.getFoodPopularityInfluence() +
+				PopularityFormulas.taxRate2Popularity(currentPlayer.getTaxRate()) +
+				currentPlayer.getReligionPopularityInfluence() +
+				currentPlayer.getFearFactor();
+		infoBox.getChildren().add(GameToolBar.getPopularityFactorLine(
+			"Total: ", sumOfInfluencing));
 		governmentReportBox.getChildren().add(infoBox);
 	}
 
@@ -302,9 +320,9 @@ public class GameMenu extends Application {
 	// 	}
 	// }
 
-	private static void showPopularity() {
-		System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
-	}
+	// private static void showPopularity() {
+	// 	System.out.println("Your popularity is: " + game.getCurrentPlayer().getPopularity());
+	// }
 
 	private static void showPopularityFactors() {
 		Government currentPlayer = game.getCurrentPlayer();
