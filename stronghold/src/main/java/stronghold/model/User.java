@@ -99,7 +99,7 @@ public class User implements Comparable<User> {
 		int thiRank = StrongHold.getRank(this);
 		int otherRank = StrongHold.getRank(other);
 		if(thiRank != otherRank)
-			return (int)(otherRank - thiRank);
+			return (int)(thiRank - otherRank);
 		else
 			return this.userName.compareTo(other.userName);
 	}
