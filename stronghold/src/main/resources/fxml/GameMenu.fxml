@@ -12,7 +12,7 @@
 			stylesheets="@../css/style.css"
 			fx:controller="stronghold.view.GameMenu"
 			prefHeight="400.0" prefWidth="600.0"
-			fx:id="borderPane">
+			fx:id="borderPane" style="-fx-background: black;">
 
 	<center>
 		<ScrollPane fx:id="scrollPane">
@@ -30,12 +30,13 @@
 							<HBox fx:id="governmentReportBox" visible="false" managed="false"></HBox>
 						</StackPane>
 					</ScrollPane>
-					<HBox fx:id="buildingCategoryButtonsBox">
+					<HBox fx:id="buildingCategoryButtonsBox" spacing="10">
 						<Button text="Castle"/>
 						<Button text="Military"/>
 						<Button text="Production"/>
 						<Button text="Weapons"/>
 						<Button text="City"/>
+						<Label text="" fx:id="errorText" styleClass="error-text"/>
 					</HBox>
 				</VBox>
 				<VBox alignment="CENTER" spacing="10">
