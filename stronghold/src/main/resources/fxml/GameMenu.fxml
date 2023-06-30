@@ -61,7 +61,7 @@
 					<Button text="Report" onMouseClicked="#reportButtonHandler"/>
 				</VBox>
 				<VBox alignment="CENTER">
-					<Button text="Next Turn" maxWidth="100" minWidth="100"/>
+					<Button text="Next Turn" maxWidth="100" minWidth="100" onMouseClicked="#runNextTurn"/>
 					<Button text="Trade" maxWidth="100" minWidth="100"/>
 				</VBox>
 			</HBox>

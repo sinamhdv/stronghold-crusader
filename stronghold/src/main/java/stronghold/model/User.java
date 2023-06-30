@@ -1,7 +1,5 @@
 package stronghold.model;
 
-
-
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 
@@ -14,8 +12,7 @@ public class User implements Comparable<User> {
 	private int highScore;
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
-	private int indexOfOvatar = 1 ;
-
+	private int indexOfOvatar = 1;
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
 			int securityQuestionNumber, String securityQuestionAnswer) {
@@ -91,6 +88,7 @@ public class User implements Comparable<User> {
 
 	public void setIndexOfOvatar(int indexOfOvatar) {
 		this.indexOfOvatar = indexOfOvatar;
+		DatabaseManager.updateUser(this);
 	}
 
 	@Override
