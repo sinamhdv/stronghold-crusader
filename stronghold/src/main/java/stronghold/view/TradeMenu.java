@@ -82,6 +82,7 @@ public class TradeMenu extends Application {
 	}
 
 	private void handleReceivedRequest() {
+		cleanScreen();
 		VBox vBox = new VBox();
 		vBox.setSpacing(40);
 		nodes.add(vBox);
@@ -115,19 +116,30 @@ public class TradeMenu extends Application {
 					hBox.getChildren().add(accept);
 					hBox.getChildren().add(reject);
 				}
+				vBox.getChildren().add(hBox);
 			}
 		}
+		mainPane.getChildren().add(vBox);
 	}
 
 	private void handleReject(TradeRequest trade) {
+		TradeMenuMessage error = TradeMenuController.tradeReject(trade.getId());
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText("Reject error");
+		alert.setContentText(error.getErrorMessage());
+		alert.showAndWait();
 	}
 
 	private void acceptHandler(TradeRequest trade) {
+		TradeMenuMessage error = TradeMenuController.tradeAccept(trade.getId());
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText("Accept error");
+		alert.setContentText(error.getErrorMessage());
+		alert.showAndWait();
 	}
 
-	private void handleSubmittedRequest() {
-
-	}
 
 	private void handlePrsonalTrade(Government governmentTotrade) {
 		cleanScreen();
@@ -201,11 +213,12 @@ public class TradeMenu extends Application {
 		cleanScreen();
 		VBox vBox = new VBox();
 		TextField textField = new TextField("Trade Message");
+		TextField price = new TextField("price");
 		Button submit = new Button("Submit");
 		submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-			TradeMenuMessage error = TradeMenuController.tradeRequest(resourceType.getName(), amount,0, textField.getText(), StrongHold.getCurrentGame().getGovernmentIndex(reciver));
+			TradeMenuMessage error = TradeMenuController.tradeRequest(resourceType.getName(), amount, Integer.parseInt(price.getText()), textField.getText(), StrongHold.getCurrentGame().getGovernmentIndex(reciver));
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Error");
 				alert.setHeaderText("submit error");
@@ -213,10 +226,53 @@ public class TradeMenu extends Application {
 				alert.showAndWait();
 			}
 		});
+		Button button =new Button("back first");
+		button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				cleanScreen();
+				creating.setVisible(true);
+				creating.setManaged(true);
+				view.setVisible(true);
+				view.setManaged(true);
+			}
+		});
+		vBox.getChildren().add(button);
 		vBox.getChildren().add(textField);
+		vBox.getChildren().add(price);
 		vBox.getChildren().add(submit);
 		nodes.add(vBox);
 		mainPane.getChildren().add(vBox);
+	}
+
+	private void handleSubmittedRequest() {
+		cleanScreen();
+		VBox vBox = new VBox();
+		vBox.setSpacing(40);
+		nodes.add(vBox);
+		Game currentGame = StrongHold.getCurrentGame();
+		Government currentGovernment = currentGame.getCurrentPlayer();
+		for(TradeRequest trade: currentGame.getAllTrades()) {
+			if(trade.getSenderIndex() == currentGame.getGovernmentIndex(currentGovernment)) {
+				HBox hBox = new HBox();
+				hBox.setSpacing(40);
+				Text state = new Text(trade.getState().getStateString());
+				Text reciver = new Text(currentGame.getGovernments()[trade.getReceiverIndex()].getUser().getUserName());
+				Text resourceType = new Text(trade.getResourceType().getName());
+				Text amount = new Text(trade.getAmount() +"");
+				Text messege = new Text(trade.getMessage());
+				Text id = new Text(trade.getId() +"");
+				hBox.getChildren().add(state);
+				hBox.getChildren().add(reciver);
+				hBox.getChildren().add(resourceType);
+				hBox.getChildren().add(amount);
+				hBox.getChildren().add(messege);
+				hBox.getChildren().add(id);
+				vBox.getChildren().add(hBox);
+			}
+		}
+		mainPane.getChildren().add(vBox);
+
 	}
 
 	private void handleCreatingMenu() {
@@ -252,43 +308,5 @@ public class TradeMenu extends Application {
 			node.setManaged(false);
 		}
 	}
-
-
-	private static void printNotifications() {
-		System.out.println("======[Trade Menu]======");
-		System.out.println("New trade requests to you: ");
-		for (TradeRequest request : StrongHold.getCurrentGame().getAllTrades()) {
-			if (request.getReceiverIndex() == StrongHold.getCurrentGame().getCurrentPlayerIndex() &&
-					!request.isSeen()) {
-				System.out.println(request);
-				request.setSeen(true);
-			}
-		}
-	}
-
-	private static void showTradeHistory() {
-		System.out.println("====== Requests Sent By You ======");
-		int myIndex = StrongHold.getCurrentGame().getCurrentPlayerIndex();
-		for (TradeRequest request : StrongHold.getCurrentGame().getAllTrades())
-			if (request.getSenderIndex() == myIndex)
-				System.out.println(request);
-		System.out.println();
-		System.out.println("====== Requests You've Accepted or Rejected ======");
-		for (TradeRequest request : StrongHold.getCurrentGame().getAllTrades())
-			if (request.getState() != TradeRequestState.PENDING && request.getReceiverIndex() == myIndex)
-				System.out.println(request);
-		System.out.println();
-	}
-
-	private static void showTradeList() {
-		System.out.println("====== Active Trade Requests ======");
-		int myIndex = StrongHold.getCurrentGame().getCurrentPlayerIndex();
-		for (TradeRequest request : StrongHold.getCurrentGame().getAllTrades())
-			if (request.getReceiverIndex() == myIndex && request.getState() == TradeRequestState.PENDING)
-				System.out.println(request);
-		System.out.println();
-	}
-
-	
 
 }
