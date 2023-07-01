@@ -100,6 +100,8 @@ public class GameMenu extends Application {
 	private TextField unitXInput;
 	@FXML
 	private TextField unitYInput;
+	@FXML
+	private ComboBox<String> unitStanceCombo;
 
 	// Main Pane Boxes
 	@FXML
@@ -186,6 +188,15 @@ public class GameMenu extends Application {
 				case C:
 					runCheatGold();
 					break;
+				case A:
+					runAttack(null);
+					break;
+				case P:
+					runPatrolUnit(null);
+					break;
+				case M:
+					runMoveUnit(null);
+					break;
 				default:
 					break;
 			}
@@ -209,7 +220,17 @@ public class GameMenu extends Application {
 		GameToolBar.setMinimapMouseHandler(minimap, scrollPane);
 		updateToolBarReport();
 		setupBuildingCategories();
+		setupUnitCommandBox();
 		GameToolBar.clearMainPane();
+	}
+
+	private void setupUnitCommandBox() {
+		unitStanceCombo.getItems().addAll("STANDING", "OFFENSIVE", "DEFENSIVE");
+		unitStanceCombo.getSelectionModel().select(0);
+		unitStanceCombo.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+			if (unitStanceCombo.getSelectionModel().getSelectedItem() == null) return;
+			runSetStance(unitStanceCombo.getSelectionModel().getSelectedItem());
+		});
 	}
 
 	public void reportButtonHandler(MouseEvent event) {
@@ -454,9 +475,7 @@ public class GameMenu extends Application {
 			unitsList.getChildren().add(new VBox(5,
 				image, new HBox(5, minusButton, countLabel)));
 		}
-		VBox commandBox = (VBox) unitCommandsBox.getChildren().get(1);
-		@SuppressWarnings("unchecked")
-		ComboBox<String> stanceCombo = (ComboBox<String>) commandBox.getChildren().get(commandBox.getChildren().size() - 1);
+		unitStanceCombo.getSelectionModel().clearSelection();
 	}
 
 	public void runRepair() {
@@ -527,14 +546,20 @@ public class GameMenu extends Application {
 	}
 
 	public void runMoveUnit(MouseEvent event) {
-		if (!checkInputXY()) return;
+		if (!checkInputXY()) {
+			showErrorText("Error: Invalid coordinates");
+			return;
+		}
 		showErrorText(GameMenuController.moveUnit(
 				Integer.parseInt(unitXInput.getText()),
 				Integer.parseInt(unitYInput.getText())).getErrorString());
 	}
 
 	public void runPatrolUnit(MouseEvent event) {
-		if (!checkInputXY()) return;
+		if (!checkInputXY()) {
+			showErrorText("Error: Invalid coordinates");
+			return;
+		}
 		showErrorText(GameMenuController.patrolUnit(
 				Integer.parseInt(unitXInput.getText()),
 				Integer.parseInt(unitYInput.getText())).getErrorString());
@@ -542,14 +567,17 @@ public class GameMenu extends Application {
 
 
 	public void runAttack(MouseEvent event) {
-		if (!checkInputXY()) return;
+		if (!checkInputXY()) {
+			showErrorText("Error: Invalid coordinates");
+			return;
+		}
 		showErrorText(GameMenuController.attack(
 				Integer.parseInt(unitXInput.getText()),
 				Integer.parseInt(unitYInput.getText())).getErrorString());
 	}
 
-	private static void runSetStance(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.setStance(matcher.get("stanceType")).getErrorString());
+	private void runSetStance(String name) {
+		showErrorText(GameMenuController.setStance(name).getErrorString());
 	}
 
 	// public Group getGridCell(int x, int y) {

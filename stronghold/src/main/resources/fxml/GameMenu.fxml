@@ -48,7 +48,7 @@
 										<Button text="Stop" onMouseClicked="#runStopUnit"/>
 										<Button text="Disband" onMouseClicked="#runDisband"/>
 									</HBox>
-									<ComboBox/>
+									<ComboBox fx:id="unitStanceCombo"/>
 								</VBox>
 							</HBox>
 						</StackPane>
