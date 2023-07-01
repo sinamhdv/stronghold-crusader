@@ -50,6 +50,7 @@ import stronghold.model.buildings.Stockpile;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
 import stronghold.utils.FormatValidation;
+import stronghold.utils.Miscellaneous;
 import stronghold.utils.PopularityFormulas;
 import stronghold.utils.ViewUtils;
 
@@ -435,7 +436,24 @@ public class GameMenu extends Application {
 		unitCommandsBox.setManaged(true);
 		HBox unitsList = (HBox) unitCommandsBox.getChildren().get(0);
 		unitsList.getChildren().clear();
-
+		HashMap<String, Integer> unitsCount = Miscellaneous.countPeopleFromArray(game.getSelectedUnits());
+		for (String name : unitsCount.keySet()) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitWidth(60);
+			image.setFitHeight(80);
+			Label countLabel = new Label(Integer.toString(unitsCount.get(name)));
+			Button minusButton = new Button("-");
+			minusButton.setOnMouseClicked(event -> {
+				GameMenuMessage message = GameMenuController.deleteSingleSelectedUnit(name);
+				if (message != GameMenuMessage.SUCCESS) {
+					showErrorText(message.getErrorString());
+					return;
+				}
+				countLabel.setText(Integer.toString(Integer.parseInt(countLabel.getText()) - 1));
+			});
+			unitsList.getChildren().add(new VBox(5,
+				image, new HBox(5, minusButton, countLabel)));
+		}
 		VBox commandBox = (VBox) unitCommandsBox.getChildren().get(1);
 		@SuppressWarnings("unchecked")
 		ComboBox<String> stanceCombo = (ComboBox<String>) commandBox.getChildren().get(commandBox.getChildren().size() - 1);

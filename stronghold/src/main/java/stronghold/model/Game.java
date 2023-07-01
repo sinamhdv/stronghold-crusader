@@ -48,6 +48,9 @@ public class Game {
 	public void addSelectedUnit(Person person) {
 		selectedUnits.add(person);
 	}
+	public void removeSelectedUnit(Person person) {
+		selectedUnits.remove(person);
+	}
 
 	public Building getSelectedBuilding() {
 		return selectedBuilding;

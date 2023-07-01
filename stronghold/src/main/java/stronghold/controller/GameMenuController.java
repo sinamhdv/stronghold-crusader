@@ -190,6 +190,16 @@ public class GameMenuController {
 		return GameMenuMessage.SUCCESS;
 	}
 
+	public static GameMenuMessage deleteSingleSelectedUnit(String name) {
+		for (Person person : game.getSelectedUnits()) {
+			if (person.getName().equals(name)) {
+				game.removeSelectedUnit(person);
+				return GameMenuMessage.SUCCESS;
+			}
+		}
+		return GameMenuMessage.NOTHING_FOUND;
+	}
+
 	public static void setSelectedArea(int x1, int y1, int x2, int y2) {
 		game.clearSelectedUnits();
 		for (int i = x1; i <= x2; i++) {
