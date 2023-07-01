@@ -6,14 +6,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1488.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stronghold.view.MarketMenu">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1488.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="stronghold.view.MarketMenu">
    <children>
-      <ScrollPane style ="-fx-background:rgba(222, 184, 135)" fx:id="scroll" layoutX="202.0" layoutY="129.0" prefHeight="643.0" prefWidth="622.0">
+      <ScrollPane style ="-fx-background:rgba(222, 184, 135)" fx:id="scroll" layoutX="202.0" layoutY="129.0" prefHeight="643.0" prefWidth="650.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2358.0" prefWidth="606.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2358.0" prefWidth="650.0">
                <children>
-                  <VBox fx:id="vBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="962.0" prefWidth="602.0" />
+                  <VBox fx:id="vBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="962.0" prefWidth="650.0" />
                </children></AnchorPane>
         </content>
       </ScrollPane>
@@ -57,5 +63,6 @@
             <Font name="MV Boli" size="16.0" />
          </font>
       </Label>
+      <Button layoutX="1092" layoutY="500" text="Back" onMouseClicked="#backHandler"/>
    </children>
 </Pane>

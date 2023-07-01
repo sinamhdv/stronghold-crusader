@@ -171,6 +171,15 @@ public class GameMenu extends Application {
 		borderPane.requestFocus();
 	}
 
+	private Scene savedScene;
+	public void showSavedScene() {
+		Stage stage = LoginMenu.getStage();
+		stage.setScene(savedScene);
+		stage.setFullScreen(true);
+		stage.show();
+		borderPane.requestFocus();
+	}
+
 	private void displayFullMap() {
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
@@ -404,6 +413,7 @@ public class GameMenu extends Application {
 		if (game.getSelectedBuilding() == null) return;
 		else if (game.getSelectedBuilding().getName().equals("market")) {
 			try {
+				savedScene = LoginMenu.getStage().getScene();
 				new MarketMenu().start(LoginMenu.getStage());
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -441,7 +451,8 @@ public class GameMenu extends Application {
 			image.setFitWidth(50);
 			image.setFitHeight(50);
 			VBox vBox = new VBox(10, image,
-				new Label(Integer.toString(stockpile.getResources().get(resourceType))));
+				new Label(stockpile.getResources().get(resourceType) + "/" +
+				game.getCurrentPlayer().getResourceCount(resourceType)));
 			vBox.setAlignment(Pos.CENTER);
 			stockpileReportBox.getChildren().add(vBox);
 		}
