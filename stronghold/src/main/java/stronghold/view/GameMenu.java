@@ -222,7 +222,7 @@ public class GameMenu extends Application {
 
 	public void updateToolBarReport() {
 		Government player = game.getCurrentPlayer();
-		popularityLabel.setText("Popularity: " + player.getPopularity());
+		popularityLabel.setText("Popularity(" + game.getCurrentPlayerIndex() + "): " + player.getPopularity());
 		goldLabel.setText("Gold: " + player.getGold());
 		populationLabel.setText("Population: " +
 			player.getPopulation() + "/" + player.getMaxPopulation());
@@ -493,9 +493,10 @@ public class GameMenu extends Application {
 			return;
 		}
 		else if (message != GameMenuMessage.SUCCESS) return;
-		int[] keep = game.getCurrentPlayer().findKeep();
-		scrollPane.setVvalue(keep[0] / (double)game.getMap().getHeight());
-		scrollPane.setHvalue(keep[1] / (double)game.getMap().getWidth());
+		// set the map view to the next players keep
+		// int[] keep = game.getCurrentPlayer().findKeep();
+		// scrollPane.setVvalue(keep[0] / (double)game.getMap().getHeight());
+		// scrollPane.setHvalue(keep[1] / (double)game.getMap().getWidth());
 		updateToolBarReport();
 	}
 

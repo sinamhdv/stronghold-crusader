@@ -13,6 +13,7 @@ import stronghold.model.map.Map;
 import stronghold.model.map.MapTile;
 import stronghold.model.people.PersonGenerator;
 import stronghold.utils.Miscellaneous;
+import stronghold.view.MapScreen;
 
 public class MapEditorMenuController {
 	private static Map map;
@@ -87,6 +88,7 @@ public class MapEditorMenuController {
 				map.getGrid()[i][j].setBuilding(null);
 			}
 		}
+		MapScreen.refreshMapCell(building.getX(), building.getY());
 	}
 
 	public static MapEditorMenuMessage dropRock(int x, int y, String directionString) {

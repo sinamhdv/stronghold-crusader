@@ -16,6 +16,7 @@ import stronghold.model.map.Path;
 import stronghold.model.map.Pathfinding;
 import stronghold.utils.Miscellaneous;
 import stronghold.utils.PopularityFormulas;
+import stronghold.view.MapScreen;
 
 public class Person implements Serializable {
 	private final String name;
@@ -233,6 +234,7 @@ public class Person implements Serializable {
 		tile.getPeople().remove(this);
 		getOwner().getPeople().remove(this);
 		StrongHold.getCurrentGame().getSelectedUnits().remove(this);
+		MapScreen.refreshMapCell(x, y);
 		if (this.type == PersonType.LORD)
 			getOwner().lose();
 	}
@@ -270,9 +272,11 @@ public class Person implements Serializable {
 			}
 		}
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].getPeople().remove(this);
+		MapScreen.refreshMapCell(x, y);
 		setX(cells[cells.length - 1][0]);
 		setY(cells[cells.length - 1][1]);
 		StrongHold.getCurrentGame().getMap().getGrid()[x][y].addPerson(this);
+		MapScreen.refreshMapCell(x, y);
 
 		if (x == destX && y == destY) { // reached destination
 			if (action == PersonAction.MOVE)
