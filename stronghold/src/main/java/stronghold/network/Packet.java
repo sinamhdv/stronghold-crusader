@@ -2,15 +2,17 @@ package stronghold.network;
 
 import com.google.gson.Gson;
 
+import stronghold.utils.Cryptography;
+
 public class Packet {
 	private final PacketType type;
 	private final String data;
 	private final String jwt;
 	
-	public Packet(PacketType type, String data, String jwt) {
+	public Packet(PacketType type, String data, String username) {
 		this.type = type;
 		this.data = data;
-		this.jwt = jwt;
+		this.jwt = Cryptography.generateJWT(username);
 	}
 
 	public PacketType getType() {
