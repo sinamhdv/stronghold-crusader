@@ -13,7 +13,7 @@ public class Main extends Application {
 
 	private static boolean serverMode = false;
 
-	public boolean isServerMode() {
+	public static boolean isServerMode() {
 		return serverMode;
 	}
 

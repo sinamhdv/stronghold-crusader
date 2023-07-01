@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
@@ -40,5 +41,9 @@ public class SendRequests {
 		Packet response = ClientMain.receive();
 		if (response.getType() == PacketType.ERROR) return null;
 		return new Gson().fromJson(response.getDataList().get(0), User.class);
+	}
+
+	public static void requestUpdateUser() {
+		ClientMain.send(new Packet(PacketType.UPDATE_USER, jwt, new Gson().toJson(StrongHold.getCurrentUser())));
 	}
 }

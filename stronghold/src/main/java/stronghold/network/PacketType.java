@@ -5,6 +5,7 @@ public enum PacketType {
 	LOGIN,
 	LOGOUT,
 	GET_USER,
+	UPDATE_USER,
 
 	RESPONSE,
 	ERROR,

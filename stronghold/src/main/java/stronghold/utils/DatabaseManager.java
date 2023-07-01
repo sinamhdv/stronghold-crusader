@@ -16,6 +16,8 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.gson.Gson;
 
+import stronghold.Main;
+import stronghold.client.SendRequests;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.model.map.Map;
@@ -85,7 +87,10 @@ public class DatabaseManager {
 		StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
 	}
 	public static void updateUser(User user) {
-		saveUsers();
+		if (Main.isServerMode())
+			saveUsers();
+		else
+			SendRequests.requestUpdateUser();
 	}
 	private static void saveUsers() {
 		String jsonData = new Gson().toJson(StrongHold.getUsers());

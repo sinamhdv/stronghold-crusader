@@ -72,6 +72,10 @@ public class ClientHandler implements Runnable {
 					break;
 				case GET_USER:
 					handleGetUser(request.getDataList().get(0));
+					break;
+				case UPDATE_USER:
+					handleUpdateUser(request.getDataList().get(0));
+					break;
 				default:
 					break;
 			}
@@ -116,5 +120,11 @@ public class ClientHandler implements Runnable {
 			send(new Packet(PacketType.ERROR, ""));
 		else
 			send(new Packet(PacketType.RESPONSE, "", new Gson().toJson(user)));
+	}
+
+	private void handleUpdateUser(String jsonData) {
+		User user = new Gson().fromJson(jsonData, User.class);
+		StrongHold.getUsers().remove(StrongHold.getUserByName(user.getUserName()));
+		StrongHold.addUser(user);
 	}
 }
