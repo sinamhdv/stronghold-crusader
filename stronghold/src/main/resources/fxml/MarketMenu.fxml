@@ -64,5 +64,10 @@
          </font>
       </Label>
       <Button layoutX="1092" layoutY="500" text="Back" onMouseClicked="#backHandler"/>
+      <ImageView layoutX="14.0" layoutY="14.0" onMouseClicked="#tradeButtonHandler">
+         <image >
+            <Image url="@../pictures/market/trade%20hovered.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

@@ -2,6 +2,7 @@ package stronghold.view;
 
 import java.util.HashMap;
 
+import javafx.stage.Stage;
 import stronghold.controller.TradeMenuController;
 import stronghold.model.StrongHold;
 import stronghold.model.TradeRequest;
@@ -98,5 +99,8 @@ public class TradeMenu {
 			if (request.getReceiverIndex() == myIndex && request.getState() == TradeRequestState.PENDING)
 				System.out.println(request);
 		System.out.println();
+	}
+
+	public void start(Stage stage) {
 	}
 }
