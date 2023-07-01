@@ -7,13 +7,17 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import stronghold.client.ClientMain;
 import stronghold.server.ServerMain;
-import stronghold.utils.DatabaseManager;
 import stronghold.view.MapManagementMenu;
 
 public class Main extends Application {
 
+	private static boolean serverMode = false;
+
+	public boolean isServerMode() {
+		return serverMode;
+	}
+
 	public static void main(String[] args) {
-		DatabaseManager.loadUsers();
 		GenerateConfig.run();
 		launch(args);
 		// MapManagementMenu.run(); Platform.exit();
@@ -24,8 +28,10 @@ public class Main extends Application {
 		System.out.println("1)server / 2)client");
 		Scanner scanner = new Scanner(System.in);
 		String choice = scanner.nextLine();
-		if (choice.equals("1"))
+		if (choice.equals("1")) {
+			serverMode = true;
 			ServerMain.run();
+		}
 		else
 			new ClientMain().start(stage);
 		scanner.close();

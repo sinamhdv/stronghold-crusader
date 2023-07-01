@@ -71,6 +71,7 @@ public class MainMenu extends Application {
 	}
 
 	public void exitButtonHandler(MouseEvent mouseEvent) throws Exception {
+		MainMenuController.logout();
 		Platform.exit();
 	}
 

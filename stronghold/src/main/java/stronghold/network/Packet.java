@@ -5,26 +5,30 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import stronghold.utils.Cryptography;
-
 public class Packet {
 	private final PacketType type;
 	private final ArrayList<String> dataList = new ArrayList<>();
 	private final String jwt;
 
-	public Packet(PacketType type, String username) {
+	public Packet(PacketType type, String jwt) {
 		this.type = type;
-		this.jwt = Cryptography.generateJWT(username);
+		this.jwt = jwt;
 	}
 
-	public Packet(PacketType type, String username, String data) {
-		this(type, username);
+	public Packet(PacketType type, String jwt, String data) {
+		this(type, jwt);
 		this.dataList.add(data);
 	}
 
-	public Packet(PacketType type, String username, List<String> dataList) {
-		this(type, username);
+	public Packet(PacketType type, String jwt, List<String> dataList) {
+		this(type, jwt);
 		this.dataList.addAll(dataList);
+	}
+
+	public Packet(PacketType type, String jwt, String[] dataList) {
+		this(type, jwt);
+		for (String data : dataList)
+			this.dataList.add(data);
 	}
 
 	public void addData(String data) {

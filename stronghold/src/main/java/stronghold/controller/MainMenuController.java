@@ -1,5 +1,6 @@
 package stronghold.controller;
 
+import stronghold.client.SendRequests;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.StrongHold;
@@ -11,6 +12,7 @@ import stronghold.view.MainMenu;
 public class MainMenuController {
 	public static void logout() {
 		DatabaseManager.clearStayLoggedIn(StrongHold.getCurrentUser());
+		SendRequests.requestLogout();
 	}
 
 	public static MainMenuMessage startGame(String mapName) {

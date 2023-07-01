@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import stronghold.client.SendRequests;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
@@ -74,7 +75,7 @@ public class LoginMenu extends Application {
 	}
 
 	public void loginButtonHandler(MouseEvent mouseEvent) throws Exception {
-		LoginMenuMessage message = LoginMenuController.login(
+		LoginMenuMessage message = SendRequests.requestLogin(
 			usernameTextField.getText(),
 			passwordMaskedField.getText(),
 			stayLoggedInCheckBox.isSelected()
@@ -83,6 +84,7 @@ public class LoginMenu extends Application {
 			errorText.setText(message.getErrorString());
 			return;
 		}
+		StrongHold.setCurrentUser(SendRequests.getUserFromServer(usernameTextField.getText()));
 		CaptchaMenu.setNextMenu(new MainMenu());
 		new CaptchaMenu().start(stage);
 	}
