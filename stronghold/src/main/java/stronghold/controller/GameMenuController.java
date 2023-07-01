@@ -16,7 +16,6 @@ import stronghold.model.buildings.DefensiveStructure;
 import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.map.Pathfinding;
 import stronghold.model.people.Person;
-import stronghold.model.people.PersonAction;
 import stronghold.model.people.PersonType;
 import stronghold.model.people.StanceType;
 import stronghold.utils.ConfigManager;

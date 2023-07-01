@@ -51,6 +51,7 @@
 									<ComboBox fx:id="unitStanceCombo"/>
 								</VBox>
 							</HBox>
+							<HBox fx:id="clipboardBox" spacing="10"></HBox>
 						</StackPane>
 					</ScrollPane>
 					<HBox fx:id="buildingCategoryButtonsBox" spacing="10">
@@ -79,7 +80,8 @@
 				</VBox>
 				<VBox alignment="CENTER">
 					<Button text="Next Turn" maxWidth="100" minWidth="100" onMouseClicked="#runNextTurn"/>
-					<Button text="Trade" maxWidth="100" minWidth="100"/>
+					<Button text="Copy" minWidth="100" maxWidth="100" onMouseClicked="#copyBuilding"/>
+					<Button text="Clipboard" minWidth="100" maxWidth="100" onMouseClicked="#showClipboard"/>
 				</VBox>
 			</HBox>
 		</Pane>

@@ -22,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -114,7 +116,12 @@ public class GameMenu extends Application {
 	private HBox unitCreationBox;
 	@FXML
 	private HBox unitCommandsBox;
+	@FXML
+	private HBox clipboardBox;
 	private HBox[] buildingCategoryBoxes;
+
+	private final Clipboard clipboard = Clipboard.getSystemClipboard();
+	private final ClipboardContent clipboardContent = new ClipboardContent();
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
@@ -150,6 +157,7 @@ public class GameMenu extends Application {
 
 	@FXML
 	private void initialize() {
+		clipboard.setContent(clipboardContent);
 		scrollPane.setPannable(true);
 		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
@@ -478,6 +486,54 @@ public class GameMenu extends Application {
 		unitStanceCombo.getSelectionModel().clearSelection();
 	}
 
+	public void showClipboard(MouseEvent mouseEvent) {
+		GameToolBar.clearMainPane();
+		MapScreen.clearAreaSelection();
+		clipboardBox.setVisible(true);
+		clipboardBox.setManaged(true);
+		clipboardBox.getChildren().clear();
+		if (!clipboard.hasString()) return;
+		TextField pasteXInput = new TextField();
+		TextField pasteYInput = new TextField();
+		pasteXInput.setPromptText("paste X");
+		pasteYInput.setPromptText("paste Y");
+		HBox imagesBox = new HBox(10);
+		String[] names = clipboard.getString().split("/");
+		for (String name : names) {
+			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
+			image.setFitHeight(60);
+			image.setFitWidth(60);
+			image.setOnMouseClicked(event -> {
+				if (!checkInputXY(pasteXInput, pasteYInput)) {
+					showErrorText("Error: Invalid coordinates");
+					return;
+				}
+				runDropBuilding(Integer.parseInt(pasteXInput.getText()),
+					Integer.parseInt(pasteYInput.getText()), name);
+			});
+			imagesBox.getChildren().add(image);
+		}
+		clipboardBox.getChildren().add(new VBox(10,
+			new HBox(10, pasteXInput, pasteYInput), imagesBox));
+	}
+
+	public void copyBuilding(MouseEvent event) {
+		if (game.getSelectedBuilding() == null) {
+			showErrorText("No selected building");
+			return;
+		}
+		clipboardContent.putString("/" + game.getSelectedBuilding().getName());
+		showErrorText(GameMenuMessage.SUCCESS.getErrorString());
+	}
+
+	void runDropBuilding(int x, int y, String name) {
+		GameMenuMessage message = GameMenuController.dropBuilding(x, y, name);
+		if (message != GameMenuMessage.CONSTRUCTION_FAILED)
+			showErrorText(message.getErrorString());
+		if (message == GameMenuMessage.SUCCESS)
+			MapScreen.refreshMapCell(x, y);
+	}
+
 	public void runRepair() {
 		showErrorText(GameMenuController.repair().getErrorString());
 	}
@@ -541,12 +597,12 @@ public class GameMenu extends Application {
 		showErrorText(GameMenuController.stopUnit().getErrorString());
 	}
 
-	private boolean checkInputXY() {
-		return (FormatValidation.isNumber(unitXInput.getText()) && FormatValidation.isNumber(unitYInput.getText()));
+	private boolean checkInputXY(TextField inputX, TextField inputY) {
+		return (FormatValidation.isNumber(inputX.getText()) && FormatValidation.isNumber(inputY.getText()));
 	}
 
 	public void runMoveUnit(MouseEvent event) {
-		if (!checkInputXY()) {
+		if (!checkInputXY(unitXInput, unitYInput)) {
 			showErrorText("Error: Invalid coordinates");
 			return;
 		}
@@ -556,7 +612,7 @@ public class GameMenu extends Application {
 	}
 
 	public void runPatrolUnit(MouseEvent event) {
-		if (!checkInputXY()) {
+		if (!checkInputXY(unitXInput, unitYInput)) {
 			showErrorText("Error: Invalid coordinates");
 			return;
 		}
@@ -567,7 +623,7 @@ public class GameMenu extends Application {
 
 
 	public void runAttack(MouseEvent event) {
-		if (!checkInputXY()) {
+		if (!checkInputXY(unitXInput, unitYInput)) {
 			showErrorText("Error: Invalid coordinates");
 			return;
 		}

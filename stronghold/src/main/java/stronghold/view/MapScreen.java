@@ -118,11 +118,7 @@ public class MapScreen {
 					Math.max(x, dragStartX), Math.max(y, dragStartY));
 			}
 			else if (event.getGestureSource() instanceof ImageView) {	// building creation
-				GameMenuMessage message = GameMenuController.dropBuilding(x, y, GameMenuController.getDraggedBuildingName());
-				if (message != GameMenuMessage.CONSTRUCTION_FAILED)
-					GameMenu.getInstance().showErrorText(message.getErrorString());
-				if (message == GameMenuMessage.SUCCESS)
-					refreshMapCell(x, y);
+				GameMenu.getInstance().runDropBuilding(x, y, GameMenuController.getDraggedBuildingName());
 			}
 		});
 	}
