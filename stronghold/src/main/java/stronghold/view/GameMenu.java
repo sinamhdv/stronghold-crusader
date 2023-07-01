@@ -510,7 +510,7 @@ public class GameMenu extends Application {
 		pasteXInput.setPromptText("paste X");
 		pasteYInput.setPromptText("paste Y");
 		HBox imagesBox = new HBox(10);
-		String[] names = clipboardContent.getString().split("/");
+		String[] names = clipboardContent.getState().split("/");
 		for (String name : names) {
 			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
 			image.setFitHeight(60);
@@ -534,7 +534,7 @@ public class GameMenu extends Application {
 			showErrorText("No selected building");
 			return;
 		}
-		String previousContent = (clipboardContent.hasString() ? clipboardContent.getString() : "");
+		String previousContent = (clipboardContent.hasString() ? clipboardContent.getState() : "");
 		clipboardContent.putString(previousContent + "/" + game.getSelectedBuilding().getName());
 		showErrorText(GameMenuMessage.SUCCESS.getErrorString());
 	}

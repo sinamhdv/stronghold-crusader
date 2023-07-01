@@ -2,7 +2,6 @@ package stronghold.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -19,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -70,7 +68,65 @@ public class TradeMenu extends Application {
 	
 	private void handleViewMenu() {
 		cleanScreen();
-		
+		VBox vBox = new VBox();
+		nodes.add(vBox);
+		Label label1 = new Label("Submitted request");
+		label1.setOnMouseClicked(event -> {
+			handleSubmittedRequest();});
+		Label label2 = new Label("Received Request");
+		label2.setOnMouseClicked(event -> {
+			handleReceivedRequest();});
+		vBox.getChildren().add(label2);
+		vBox.getChildren().add(label1);
+		mainPane.getChildren().add(vBox);
+	}
+
+	private void handleReceivedRequest() {
+		VBox vBox = new VBox();
+		vBox.setSpacing(40);
+		nodes.add(vBox);
+		Game currentGame = StrongHold.getCurrentGame();
+		Government currentGovernment = currentGame.getCurrentPlayer();
+		for(TradeRequest trade: currentGame.getAllTrades()) {
+			if(trade.getReceiverIndex() == currentGame.getGovernmentIndex(currentGovernment)) {
+				HBox hBox = new HBox();
+				hBox.setSpacing(40);
+				Text state = new Text(trade.getState().getStateString());
+				Text reciver = new Text(currentGame.getGovernments()[trade.getReceiverIndex()].getUser().getUserName());
+				Text resourceType = new Text(trade.getResourceType().getName());
+				Text amount = new Text(trade.getAmount() +"");
+				Text messege = new Text(trade.getMessage());
+				Text id = new Text(trade.getId() +"");
+				hBox.getChildren().add(state);
+				hBox.getChildren().add(reciver);
+				hBox.getChildren().add(resourceType);
+				hBox.getChildren().add(amount);
+				hBox.getChildren().add(messege);
+				hBox.getChildren().add(id);
+				if (trade.getState() == TradeRequestState.PENDING) {
+					Button accept = new Button("Accept");
+					accept.setOnMouseClicked(event -> {
+						acceptHandler(trade);
+					});
+					Button reject = new Button("Reject");
+					reject.setOnMouseClicked(event -> {
+						handleReject(trade);
+					});
+					hBox.getChildren().add(accept);
+					hBox.getChildren().add(reject);
+				}
+			}
+		}
+	}
+
+	private void handleReject(TradeRequest trade) {
+	}
+
+	private void acceptHandler(TradeRequest trade) {
+	}
+
+	private void handleSubmittedRequest() {
+
 	}
 
 	private void handlePrsonalTrade(Government governmentTotrade) {

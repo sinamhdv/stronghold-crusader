@@ -1,7 +1,19 @@
 package stronghold.model;
 
 public enum TradeRequestState {
-	PENDING,
-	ACCEPTED,
-	REJECTED
+	PENDING("pending"),
+	ACCEPTED("Accepted"),
+	REJECTED("Rejected");
+
+	private String stateString;
+
+	private TradeRequestState(String string) {
+		this.stateString = string;
+	}
+
+	public String getStateString() {
+		return stateString;
+	}
+
+	
 }
