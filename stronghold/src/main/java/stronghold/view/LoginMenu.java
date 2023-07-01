@@ -52,8 +52,8 @@ public class LoginMenu extends Application {
 		stage.setFullScreenExitHint("");
 		stage.setFullScreen(true);
 		stage.show();
-		if (LoginMenuController.checkAutoLogin() == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
-			new MainMenu().start(stage);
+		// if (LoginMenuController.checkAutoLogin() == LoginMenuMessage.AUTO_LOGIN_SUCCESS)
+		// 	new MainMenu().start(stage);
 	}
 
 	@FXML

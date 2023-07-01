@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import stronghold.client.SendRequests;
 import stronghold.controller.CentralController;
 import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
@@ -108,7 +109,7 @@ public class SignupMenu extends Application {
 	}
 
 	public void signupButtonHandler(MouseEvent mouseEvent) throws Exception {
-		SignupAndProfileMenuMessage message = SignupMenuController.signup(
+		SignupAndProfileMenuMessage message = SendRequests.requestSignup(
 			usernameTextField.getText(),
 			nicknameTextField.getText(),
 			passwordMaskedField.getText(),

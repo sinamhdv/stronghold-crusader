@@ -6,6 +6,7 @@ module stronghold {
 	requires transitive org.apache.commons.io;
 	requires transitive org.apache.commons.codec;
 
+	exports stronghold;
 	exports stronghold.view;
 	exports stronghold.controller.messages;
 	exports stronghold.model.map;

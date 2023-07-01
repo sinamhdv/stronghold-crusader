@@ -5,9 +5,14 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import stronghold.controller.LoginMenuController;
+import stronghold.controller.SignupMenuController;
+import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.network.Packet;
+import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
 
 public class ClientHandler implements Runnable {
@@ -58,10 +63,27 @@ public class ClientHandler implements Runnable {
 	}
 
 	private void handleSignup(ArrayList<String> data) {
-		SignupAndProfileMenuMessage message;
+		SignupAndProfileMenuMessage message = SignupMenuController.signup(data.get(0), data.get(1),
+			data.get(2), data.get(3), data.get(4),
+			Integer.parseInt(data.get(5)), data.get(6));
+		Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
+		send(response);
 	}
 
 	private void handleLogin(ArrayList<String> data) {
-
+		try {
+			LoginMenuMessage message = LoginMenuController.login(data.get(0), data.get(1), false);
+			if (message == LoginMenuMessage.LOGIN_SUCCESS) {
+				Packet response = new Packet(PacketType.RESPONSE, data.get(0), message.toString());
+				send(response);
+				user = StrongHold.getUserByName(data.get(0));
+			}
+			else {
+				Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
+				send(response);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

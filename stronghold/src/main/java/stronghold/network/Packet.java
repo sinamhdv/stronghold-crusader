@@ -1,6 +1,7 @@
 package stronghold.network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -10,16 +11,20 @@ public class Packet {
 	private final PacketType type;
 	private final ArrayList<String> dataList = new ArrayList<>();
 	private final String jwt;
-	
-	public Packet(PacketType type, String data, String username) {
-		this.type = type;
-		this.dataList.add(data);
-		this.jwt = Cryptography.generateJWT(username);
-	}
 
 	public Packet(PacketType type, String username) {
 		this.type = type;
 		this.jwt = Cryptography.generateJWT(username);
+	}
+
+	public Packet(PacketType type, String username, String data) {
+		this(type, username);
+		this.dataList.add(data);
+	}
+
+	public Packet(PacketType type, String username, List<String> dataList) {
+		this(type, username);
+		this.dataList.addAll(dataList);
 	}
 
 	public void addData(String data) {
