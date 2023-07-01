@@ -580,6 +580,10 @@ public class GameMenu extends Application {
 		showErrorText(GameMenuController.setStance(name).getErrorString());
 	}
 
+	public void showAttackBanner(boolean status) {
+		attackLabel.setVisible(status);
+	}
+
 	// public Group getGridCell(int x, int y) {
 	// 	return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
 	// }
