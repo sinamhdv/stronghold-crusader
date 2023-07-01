@@ -46,6 +46,8 @@
 				<Label text="" fx:id="passwordLabel" textFill="white"/>
 				<Label text="" fx:id="nicknameLabel" textFill="white"/>
 				<Label text="" fx:id="emailLabel" textFill="white"/>
+				<Label text="" fx:id="sloganLabel" textFill="white"/>
+				<Button text="Back" onMouseClicked="#backButtonHandler"/>
 			</VBox>
 			<VBox alignment="CENTER" spacing="10">
 				<TextField promptText="new username" maxWidth="300" fx:id="newUsernameField"/>

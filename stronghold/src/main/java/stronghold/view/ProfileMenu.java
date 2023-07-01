@@ -59,6 +59,8 @@ public class ProfileMenu extends Application {
 	private Label passwordLabel;
 	@FXML
 	private Label emailLabel;
+	@FXML
+	private Label sloganLabel;
 
 	// Change Username
 	@FXML
@@ -173,6 +175,14 @@ public class ProfileMenu extends Application {
 		passwordLabel.setText("password(SHA256): " + user.getPassword());
 		nicknameLabel.setText("nickname: " + user.getNickName());
 		emailLabel.setText("email: " + user.getEmail());
+		if (user.getSlogan() != null && user.getSlogan().length() > 0)
+			sloganLabel.setText("slogan: " + user.getSlogan());
+		else
+			sloganLabel.setText("");
+	}
+
+	public void backButtonHandler() throws Exception {
+		new MainMenu().start(LoginMenu.getStage());
 	}
 
 	private void activateTab(int index) {
