@@ -22,6 +22,7 @@ import stronghold.model.people.StanceType;
 import stronghold.utils.ConfigManager;
 import stronghold.utils.Miscellaneous;
 import stronghold.view.GameMenu;
+import stronghold.view.MapScreen;
 
 public class GameMenuController {
 	private static Game game;
@@ -259,9 +260,16 @@ public class GameMenuController {
 			game.setPassedTurns(game.getPassedTurns() + 1);
 		}
 		if (checkGameEnding()) return GameMenuMessage.END_GAME;
+		Government previousPlayer = game.getCurrentPlayer();
 		do {
 			game.setCurrentPlayerIndex((game.getCurrentPlayerIndex() + 1) % game.getMap().getGovernmentsCount());
 		} while (game.getCurrentPlayer().hasLost());
+		for (Person person : previousPlayer.getPeople())
+			if (person.getType() == PersonType.ASSASSIN)
+				MapScreen.refreshMapCell(person.getX(), person.getY());
+		for (Person person : game.getCurrentPlayer().getPeople())
+			if (person.getType() == PersonType.ASSASSIN)
+				MapScreen.refreshMapCell(person.getX(), person.getY());
 		return GameMenuMessage.SUCCESS;
 	}
 
