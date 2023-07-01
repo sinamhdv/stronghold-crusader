@@ -1,6 +1,7 @@
 package stronghold.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
@@ -492,13 +493,13 @@ public class GameMenu extends Application {
 		clipboardBox.setVisible(true);
 		clipboardBox.setManaged(true);
 		clipboardBox.getChildren().clear();
-		if (!clipboard.hasString()) return;
+		if (!clipboardContent.hasString()) return;
 		TextField pasteXInput = new TextField();
 		TextField pasteYInput = new TextField();
 		pasteXInput.setPromptText("paste X");
 		pasteYInput.setPromptText("paste Y");
 		HBox imagesBox = new HBox(10);
-		String[] names = clipboard.getString().split("/");
+		String[] names = clipboardContent.getString().split("/");
 		for (String name : names) {
 			ImageView image = new ImageView(AssetImageLoader.getAssetImage(name));
 			image.setFitHeight(60);
@@ -522,7 +523,8 @@ public class GameMenu extends Application {
 			showErrorText("No selected building");
 			return;
 		}
-		clipboardContent.putString("/" + game.getSelectedBuilding().getName());
+		String previousContent = (clipboardContent.hasString() ? clipboardContent.getString() : "");
+		clipboardContent.putString(previousContent + "/" + game.getSelectedBuilding().getName());
 		showErrorText(GameMenuMessage.SUCCESS.getErrorString());
 	}
 
