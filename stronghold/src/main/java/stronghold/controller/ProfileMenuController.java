@@ -5,8 +5,6 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.utils.DatabaseManager;
 import stronghold.utils.FormatValidation;
-import stronghold.view.ProfileMenu;
-import stronghold.view.captcha.CaptchaLoop;
 
 public class ProfileMenuController {
 	public static SignupAndProfileMenuMessage changeUserName(String newUsername) {
@@ -42,13 +40,7 @@ public class ProfileMenuController {
 		else if (!FormatValidation.checkPasswordStrength(newPassword)
 				.equals(SignupAndProfileMenuMessage.PASSWORD_IS_STRONG))
 			return FormatValidation.checkPasswordStrength(newPassword);
-
-		CaptchaLoop.captchaManager();
-
-		String confirmation = ProfileMenu.askNewPasswordConfirmation();
-		if (!confirmation.equals(newPassword))
-			return SignupAndProfileMenuMessage.PASSWORD_IS_SHORT;
-
+		// captcha?
 		StrongHold.getCurrentUser().setPassword(newPassword);
 		return SignupAndProfileMenuMessage.SUCCESS;
 	}
@@ -72,9 +64,7 @@ public class ProfileMenuController {
 		return SignupAndProfileMenuMessage.SUCCESS;
 	}
 
-	public static void changeAvatar(int indexOfOvatar) {
-		StrongHold.getCurrentUser().setIndexOfOvatar(indexOfOvatar);
+	public static void changeAvatar(String url) {
+		StrongHold.getCurrentUser().setAvatarURL(url);
 	}
-
-	
 }

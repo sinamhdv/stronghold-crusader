@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -29,6 +30,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import stronghold.controller.ProfileMenuController;
 import stronghold.controller.SignupMenuController;
@@ -125,24 +127,32 @@ public class ProfileMenu extends Application {
 		fillSloganInputFields();
 		SignupMenu.addUsernameErrorsListener(newUsernameField, errorText);
 		for (int i = 1; i < 5; i++) {
-			final int avatarIndex = i - 1; // subtract 1 to convert from 1-based to 0-based indexing
-			ImageView avatar = new ImageView(getClass().getResource("/pictures/avatar/" + i + ".png").toExternalForm());
+			final int avatarIndex = i;
+			ImageView avatar = new ImageView(getAvatarURLByIndex(i));
 			avatar.setOnMouseClicked(new EventHandler<Event>() {
 				@Override
 				public void handle(Event event) {
 					changeAvatarHandler(avatarIndex);
 				}
 			});
-
 			avatars.add(avatar);
 		}
 		for (int j = 0; j <= 3; j++) {
 			avatarBox1.getChildren().add(avatars.get(j));
 		}
+		Button systemButton = new Button("Pick from System");
+		systemButton.setOnMouseClicked(this::chooseAvatarFromSystem);
+		avatarBox1.getChildren().add(systemButton);
 		activateTab(0);
 		initProfileInfo();
 		showScoreBoard();
+	}
 
+	private void chooseAvatarFromSystem(MouseEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(LoginMenu.getStage());
+		if (file != null)
+			ProfileMenuController.changeAvatar("file:" + file.getAbsolutePath());
 	}
 
 	private void fillSloganInputFields() {
@@ -168,9 +178,7 @@ public class ProfileMenu extends Application {
 	}
 
 	private void initProfileInfo() {
-		int avatarIndex = StrongHold.getCurrentUser().getIndexOfOvatar();
-		Image avatar = avatars.get(avatarIndex).getImage();
-		avatarImage.setImage(avatar);
+		avatarImage.setImage(new Image(user.getAvatarURL()));
 		usernameLabel.setText("username: " + user.getUserName());
 		passwordLabel.setText("password(SHA256): " + user.getPassword());
 		nicknameLabel.setText("nickname: " + user.getNickName());
@@ -311,14 +319,17 @@ public class ProfileMenu extends Application {
 	// user.getSlogan()));
 	// }
 
-	public static String askNewPasswordConfirmation() {
-		System.out.print("Please enter the new password again: ");
-		return MainMenu.getScanner().nextLine();
-	}
+	// public static String askNewPasswordConfirmation() {
+	// 	System.out.print("Please enter the new password again: ");
+	// 	return MainMenu.getScanner().nextLine();
+	// }
 
 	public static void changeAvatarHandler(int indexOfPicture) {
-		ProfileMenuController.changeAvatar(indexOfPicture);
-		;
+		ProfileMenuController.changeAvatar(getAvatarURLByIndex(indexOfPicture));
+	}
+
+	public static String getAvatarURLByIndex(int index) {
+		return ProfileMenu.class.getResource("/pictures/avatar/" + index + ".png").toExternalForm();
 	}
 
 	public  void showScoreBoard() {
