@@ -92,4 +92,12 @@ public class Game {
 			if (!government.hasLost())
 				government.updateStats();
 	}
+
+	public int getGovernmentIndex(Government government) {
+		for(int i=0; i < governments.length; i++) {
+			if(governments[i] == government)
+				return  i;
+		}
+		return 99999;
+	}
 }

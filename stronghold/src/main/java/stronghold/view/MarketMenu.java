@@ -1,5 +1,7 @@
 package stronghold.view;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -132,8 +134,8 @@ public class MarketMenu extends Application {
 		GameMenu.getInstance().showSavedScene();
 	}
 
-	public void tradeButtonHandler(MouseEvent mouseEvent) {
-    new TradeMenu().start(LoginMenu.getStage());
+	public void tradeButtonHandler(MouseEvent mouseEvent) throws IOException {
+  	  new TradeMenu().start(LoginMenu.getStage());
  	}
 
 	// private static void printMenuPrompt() {

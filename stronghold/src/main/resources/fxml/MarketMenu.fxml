@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1488.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="stronghold.view.MarketMenu">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="1488.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stronghold.view.MarketMenu">
    <children>
-      <ScrollPane style ="-fx-background:rgba(222, 184, 135)" fx:id="scroll" layoutX="202.0" layoutY="129.0" prefHeight="643.0" prefWidth="650.0">
+      <ScrollPane fx:id="scroll" layoutX="202.0" layoutY="129.0" prefHeight="643.0" prefWidth="650.0" style="-fx-background:rgba(222, 184, 135)">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2358.0" prefWidth="650.0">
                <children>
@@ -63,11 +58,7 @@
             <Font name="MV Boli" size="16.0" />
          </font>
       </Label>
-      <Button layoutX="1092" layoutY="500" text="Back" onMouseClicked="#backHandler"/>
-      <ImageView layoutX="14.0" layoutY="14.0" onMouseClicked="#tradeButtonHandler">
-         <image >
-            <Image url="@../pictures/market/trade%20hovered.png" />
-         </image>
-      </ImageView>
+      <Button layoutX="1092" layoutY="500" onMouseClicked="#backHandler" text="Back" />
+      <Button layoutX="1159.0" layoutY="500.0" mnemonicParsing="false" text="trade" onMouseClicked="#tradeButtonHandler" />
    </children>
 </Pane>
