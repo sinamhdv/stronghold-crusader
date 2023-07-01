@@ -2,12 +2,16 @@ package stronghold.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+
 import stronghold.utils.DatabaseManager;
 
 public class StrongHold {
 	private static ArrayList<User> users = new ArrayList<>();
 	private static User currentUser;
 	private static Game currentGame;
+	private static HashMap<String, Game> pendingGames = new HashMap<>();
+	private static int myPlayerIndex;
 
 	public static User getUserByName(String userName) {
 		for (User user : users) {
@@ -69,4 +73,15 @@ public class StrongHold {
 		return sortedList;
 	}
 
+	public static void addPendingGame(User admin, Game game) {
+		pendingGames.put(admin.getUserName(), game);
+	}
+
+	public static int getMyPlayerIndex() {
+		return myPlayerIndex;
+	}
+
+	public static void setMyPlayerIndex(int myPlayerIndex) {
+		StrongHold.myPlayerIndex = myPlayerIndex;
+	}
 }

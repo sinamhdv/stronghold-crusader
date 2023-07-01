@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import stronghold.controller.messages.LoginMenuMessage;
+import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
@@ -45,5 +46,23 @@ public class SendRequests {
 
 	public static void requestUpdateUser() {
 		ClientMain.send(new Packet(PacketType.UPDATE_USER, jwt, new Gson().toJson(StrongHold.getCurrentUser())));
+	}
+
+	public static MainMenuMessage createGame(String mapName) {
+		ClientMain.send(new Packet(PacketType.CREATE_GAME, jwt, mapName));
+		Packet response = ClientMain.receive();
+		MainMenuMessage message = MainMenuMessage.valueOf(response.getDataList().get(0));
+		if (message != MainMenuMessage.SUCCESS) return message;
+		StrongHold.setMyPlayerIndex(Integer.parseInt(response.getDataList().get(1)));
+		return message;
+	}
+
+	public static MainMenuMessage joinGame(String adminName) {
+		ClientMain.send(new Packet(PacketType.JOIN_GAME, jwt, adminName));
+		Packet response = ClientMain.receive();
+		MainMenuMessage message = MainMenuMessage.valueOf(response.getDataList().get(0));
+		if (message != MainMenuMessage.SUCCESS) return message;
+		StrongHold.setMyPlayerIndex(Integer.parseInt(response.getDataList().get(1)));
+		return message;
 	}
 }

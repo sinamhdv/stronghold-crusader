@@ -17,6 +17,8 @@
 		<VBox alignment="CENTER" spacing="20">
 			<Label text="Main Menu" styleClass="menu-label" textFill="white"/>
 			<Button text="Start Game" onMouseClicked="#startGameButtonHandler"/>
+			<Button text="Join Game" onMouseClicked="#joinGameButtonHandler"/>
+			<Button text="Chat" onMouseClicked="#chatButtonHandler"/>
 			<Button text="Profile" onMouseClicked="#profileButtonHandler"/>
 			<Button text="Map Management" onMouseClicked="#mapManagementButtonHandler"/>
 			<Button text="Logout" onMouseClicked="#logoutButtonHandler"/>

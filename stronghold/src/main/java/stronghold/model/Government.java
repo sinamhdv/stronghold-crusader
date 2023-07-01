@@ -18,7 +18,7 @@ public class Government {
 	private static final int MAX_POPULARITY = 100;
 	private static final int MIN_POPULARITY = 0;
 
-	private final User user;
+	private User user;
 	private final ArrayList<Building> buildings = new ArrayList<>();
 	private final int index;
 	private int popularity = 50;
@@ -54,6 +54,10 @@ public class Government {
 
 	public User getUser() {
 		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public ArrayList<Building> getBuildings() {

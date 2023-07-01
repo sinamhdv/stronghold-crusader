@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import stronghold.client.SendRequests;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.utils.ViewUtils;
@@ -49,12 +50,34 @@ public class MainMenu extends Application {
 		if (!mapName.isPresent())
 			errorText.setText("Please enter a mapname");
 		else {
-			MainMenuMessage result = MainMenuController.startGame(mapName.get());
+			MainMenuMessage result = SendRequests.createGame(mapName.get());
 			if(result == MainMenuMessage.SUCCESS)
-				new GameMenu().start(LoginMenu.getStage());
+				new GameWaitingRoom().start(LoginMenu.getStage());
 			else
 				errorText.setText(result.getErrorString());
 		}
+	}
+
+	public void joinGameButtonHandler(MouseEvent event) throws Exception {
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setHeaderText("Enter the game ID (admin userame):");
+		dialog.initOwner(LoginMenu.getStage());
+		// LoginMenu.getStage().setFullScreen(false);
+		// LoginMenu.getStage().setFullScreen(true);
+		Optional<String> adminName = dialog.showAndWait();
+		if (!adminName.isPresent())
+			errorText.setText("Please enter a game ID");
+		else {
+			MainMenuMessage result = SendRequests.joinGame(adminName.get());
+			if (result == MainMenuMessage.SUCCESS)
+				new GameWaitingRoom().start(LoginMenu.getStage());
+			else
+				errorText.setText(result.getErrorString());
+		}
+	}
+
+	public void chatButtonHandler(MouseEvent mouseEvent) throws Exception {
+		System.out.println("chat");
 	}
 
 	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {

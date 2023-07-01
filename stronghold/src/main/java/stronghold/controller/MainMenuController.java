@@ -15,28 +15,16 @@ public class MainMenuController {
 		SendRequests.requestLogout();
 	}
 
-	public static MainMenuMessage startGame(String mapName) {
+	public static MainMenuMessage startGame(String mapName, User admin) {
 		if (!DatabaseManager.mapExists(mapName))
 			return MainMenuMessage.MAP_DOESNT_EXIST;
 		Map map = DatabaseManager.loadMapByName(mapName);
 		MainMenuMessage message = checkKeeps(map);
 		if (message != null) return message;
-		String[] usernames = MainMenu.askPlayersNames(map.getGovernmentsCount());
-		if (hasRepetitiveName(usernames))
-			return MainMenuMessage.REPETITIVE_USERNAME;
-		User[] users = new User[usernames.length];
-		boolean currentUserFound = false;
-		for (int i = 0; i < users.length; i++) {
-			users[i] = StrongHold.getUserByName(usernames[i]);
-			if (users[i] == null)
-				return MainMenuMessage.USERNAME_NOT_FOUND;
-			if (usernames[i].equals(StrongHold.getCurrentUser().getUserName()))
-				currentUserFound = true;
-		}
-		if (!currentUserFound)
-			return MainMenuMessage.CURRENT_USER_NOT_FOUND;
+		User[] users = new User[map.getGovernmentsCount()];
+		users[0] = admin;
 		Game game = new Game(map, users);
-		StrongHold.setCurrentGame(game);
+		StrongHold.addPendingGame(admin, game);
 		return MainMenuMessage.SUCCESS;
 	}
 
