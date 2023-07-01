@@ -54,12 +54,12 @@ public class StrongHold {
 		return users;
 	}
 
-	public static void addUser(User newUser) {
+	public static synchronized void addUser(User newUser) {
 		users.add(newUser);
 		DatabaseManager.updateUser(newUser);
 	}
 
-	public static void setUsers(ArrayList<User> users) {
+	public synchronized static void setUsers(ArrayList<User> users) {
 		StrongHold.users = users;
 	}
 

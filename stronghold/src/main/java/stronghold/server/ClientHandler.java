@@ -124,7 +124,9 @@ public class ClientHandler implements Runnable {
 
 	private void handleUpdateUser(String jsonData) {
 		User user = new Gson().fromJson(jsonData, User.class);
-		StrongHold.getUsers().remove(StrongHold.getUserByName(user.getUserName()));
+		synchronized (StrongHold.getUsers()) {
+			StrongHold.getUsers().remove(StrongHold.getUserByName(user.getUserName()));
+		}
 		StrongHold.addUser(user);
 	}
 }

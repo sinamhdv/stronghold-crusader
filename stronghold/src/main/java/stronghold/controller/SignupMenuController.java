@@ -9,7 +9,7 @@ import stronghold.utils.FormatValidation;
 import stronghold.utils.Miscellaneous;
 
 public class SignupMenuController {
-	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
+	public static synchronized SignupAndProfileMenuMessage signup(String username, String nickName, String password,
 			String email, String slogan, int securityQuestionIndex, String securityQuestionAnswer) {
 		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, email, slogan,
 			securityQuestionIndex, securityQuestionAnswer);

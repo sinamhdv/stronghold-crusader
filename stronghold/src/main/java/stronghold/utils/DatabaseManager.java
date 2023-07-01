@@ -86,13 +86,13 @@ public class DatabaseManager {
 		User[] usersArray = (jsonData == null ? new User[0] : new Gson().fromJson(jsonData, User[].class));
 		StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
 	}
-	public static void updateUser(User user) {
+	public static synchronized void updateUser(User user) {
 		if (Main.isServerMode())
 			saveUsers();
 		else
 			SendRequests.requestUpdateUser();
 	}
-	private static void saveUsers() {
+	private static synchronized void saveUsers() {
 		String jsonData = new Gson().toJson(StrongHold.getUsers());
 		writeToFile(USERS_DATABASE_FILENAME, jsonData);
 	}
