@@ -3,7 +3,6 @@ package stronghold.view;
 import java.util.Optional;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,11 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import stronghold.GenerateConfig;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
-import stronghold.utils.DatabaseManager;
 import stronghold.utils.ViewUtils;
 
 public class LoginMenu extends Application {
@@ -41,13 +38,6 @@ public class LoginMenu extends Application {
 	private static Stage stage;
 	public static Stage getStage() {
 		return stage;
-	}
-
-	public static void main(String[] args) {
-		DatabaseManager.loadUsers();
-		GenerateConfig.run();
-		launch(args);
-		// MapManagementMenu.run(); Platform.exit();
 	}
 
 	@Override

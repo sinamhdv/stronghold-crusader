@@ -3,7 +3,9 @@ package stronghold.server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
+import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.User;
 import stronghold.network.Packet;
 import stronghold.utils.Cryptography;
@@ -44,12 +46,22 @@ public class ClientHandler implements Runnable {
 			if (user != null && !Cryptography.verifyJWT(request.getJwt())) continue;
 			switch (request.getType()) {
 				case SIGNUP:
+					handleSignup(request.getDataList());
 					break;
 				case LOGIN:
+					handleLogin(request.getDataList());
 					break;
 				default:
 					break;
 			}
 		}
+	}
+
+	private void handleSignup(ArrayList<String> data) {
+		SignupAndProfileMenuMessage message;
+	}
+
+	private void handleLogin(ArrayList<String> data) {
+
 	}
 }
