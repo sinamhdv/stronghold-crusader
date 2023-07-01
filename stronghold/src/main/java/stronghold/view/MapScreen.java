@@ -144,11 +144,11 @@ public class MapScreen {
 		// TODO: load unit info and commands
 	}
 
-	public static void clearAreaSelection() {	// TODO: call this in runNextTurn
+	public static void clearAreaSelection() {
 		GridPane grid = GameMenu.getInstance().getGrid();
 		if (selectionRectangle != null) grid.getChildren().remove(selectionRectangle);
 		selectionRectangle = null;
-		// TODO: clear the list of selected units in Game
+		StrongHold.getCurrentGame().clearSelectedUnits();
 	}
 
 	public static String getTileDetails(int x, int y) {

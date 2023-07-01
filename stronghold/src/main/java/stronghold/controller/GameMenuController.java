@@ -30,14 +30,6 @@ public class GameMenuController {
 
 	private static String draggedBuildingName = null;
 
-	private static int selectedX1 = -1, selectedY1 = -1, selectedX2 = -1, selectedY2 = -1;
-	public static void setSelectedArea(int x1, int y1, int x2, int y2) {
-		selectedX1 = x1;
-		selectedY1 = y1;
-		selectedX2 = x2;
-		selectedY2 = y2;
-	}
-
 	public static String getDraggedBuildingName() {
 		return draggedBuildingName;
 	}
@@ -196,6 +188,18 @@ public class GameMenuController {
 		if (game.getSelectedUnits().isEmpty())
 			return GameMenuMessage.NO_UNIT_SELECTED;
 		return GameMenuMessage.SUCCESS;
+	}
+
+	public static void setSelectedArea(int x1, int y1, int x2, int y2) {
+		game.clearSelectedUnits();
+		for (int i = x1; i <= x2; i++) {
+			for (int j = y1; j <= y2; j++) {
+				ArrayList<Person> units = Miscellaneous.getPeopleByOwner(
+					game.getMap().getGrid()[i][j].getPeople(), game.getCurrentPlayerIndex());
+				for (Person person : units)
+					game.addSelectedUnit(person);
+			}
+		}
 	}
 
 	public static GameMenuMessage moveUnit(int x, int y) {

@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
@@ -165,6 +166,15 @@ public class GameMenu extends Application {
 					break;
 				case MINUS:
 					MapScreen.zoomHandler(1/1.02);
+					break;
+				case D:
+					runDisband();
+					break;
+				case S:
+					runStopUnit();
+					break;
+				case C:
+					runCheatGold();
 					break;
 				default:
 					break;
@@ -455,6 +465,23 @@ public class GameMenu extends Application {
 		new MainMenu().start(LoginMenu.getStage());
 	}
 
+	private void runCheatGold() {
+		game.getCurrentPlayer().setGold(game.getCurrentPlayer().getGold() + 1000);
+	}
+
+	private void runDisband() {
+		ArrayList<Person> backupSelected = new ArrayList<>(game.getSelectedUnits());
+		showErrorText(GameMenuController.disbandUnit().getErrorString());
+		MapScreen.clearAreaSelection();
+		GameToolBar.clearMainPane();
+		for (Person person : backupSelected)
+			MapScreen.refreshMapCell(person.getX(), person.getY());
+	}
+
+	private void runStopUnit() {
+		showErrorText(GameMenuController.stopUnit().getErrorString());
+	}
+
 	// public Group getGridCell(int x, int y) {
 	// 	return (Group) grid.getChildren().get(x * game.getMap().getWidth() + y);
 	// }
@@ -622,11 +649,11 @@ public class GameMenu extends Application {
 	// 				.println(resourceType.getName() + " => " + game.getCurrentPlayer().getResourceCount(resourceType));
 	// }
 
-	private static void runSelectUnit(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.selectUnit(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
+	// private static void runSelectUnit(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.selectUnit(
+	// 			Integer.parseInt(matcher.get("x")),
+	// 			Integer.parseInt(matcher.get("y"))).getErrorString());
+	// }
 
 	private static void runMoveUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.moveUnit(
@@ -634,14 +661,14 @@ public class GameMenu extends Application {
 				Integer.parseInt(matcher.get("y"))).getErrorString());
 	}
 
-	private static void showSelectedUnits() {
-		if (game.getSelectedUnits().isEmpty()) {
-			System.out.println("No unit is selected");
-			return;
-		}
-		for (Person person : game.getSelectedUnits())
-			System.out.println(person);
-	}
+	// private static void showSelectedUnits() {
+	// 	if (game.getSelectedUnits().isEmpty()) {
+	// 		System.out.println("No unit is selected");
+	// 		return;
+	// 	}
+	// 	for (Person person : game.getSelectedUnits())
+	// 		System.out.println(person);
+	// }
 
 	private static void runPatrolUnit(HashMap<String, String> matcher) {
 		System.out.println(GameMenuController.patrolUnit(
@@ -666,10 +693,6 @@ public class GameMenu extends Application {
 		).getErrorString());
 	}
 
-	private static void runStopUnit() {
-		System.out.println(GameMenuController.stopUnit().getErrorString());
-	}
-
 	public static void showWinner(Government winner) {
 		if (winner == null)
 			System.out.println("The game didn't have a winner");
@@ -677,16 +700,8 @@ public class GameMenu extends Application {
 			System.out.println("The winner is: " + winner.getUser().getUserName());
 	}
 
-	private static void runDisband() {
-		System.out.println(GameMenuController.disbandUnit().getErrorString());
-	}
-
 	private static void runDigTunnel() {
 		System.out.println(GameMenuController.digTunnel().getErrorString());
-	}
-
-	private static void runCheatGold(HashMap<String, String> matcher) {
-		game.getCurrentPlayer().setGold(Integer.parseInt(matcher.get("gold")));
 	}
 
 	private static void runToggleDebugMode() {
