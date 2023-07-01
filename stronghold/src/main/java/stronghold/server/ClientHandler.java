@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 import javafx.application.Platform;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.SignupMenuController;
@@ -110,6 +112,9 @@ public class ClientHandler implements Runnable {
 
 	private void handleGetUser(String username) {
 		User user = StrongHold.getUserByName(username);
-		
+		if (user == null)
+			send(new Packet(PacketType.ERROR, ""));
+		else
+			send(new Packet(PacketType.RESPONSE, "", new Gson().toJson(user)));
 	}
 }

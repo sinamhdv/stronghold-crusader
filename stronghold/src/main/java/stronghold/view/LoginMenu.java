@@ -17,7 +17,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import stronghold.client.SendRequests;
-import stronghold.controller.LoginMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.utils.ViewUtils;

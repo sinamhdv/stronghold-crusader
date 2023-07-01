@@ -2,9 +2,10 @@ package stronghold.client;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
-import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
@@ -36,6 +37,8 @@ public class SendRequests {
 
 	public static User getUserFromServer(String username) {
 		ClientMain.send(new Packet(PacketType.GET_USER, jwt, username));
-		
+		Packet response = ClientMain.receive();
+		if (response.getType() == PacketType.ERROR) return null;
+		return new Gson().fromJson(response.getDataList().get(0), User.class);
 	}
 }
