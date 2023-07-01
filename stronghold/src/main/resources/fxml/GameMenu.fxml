@@ -34,6 +34,23 @@
 							</HBox>
 							<HBox fx:id="stockpileReportBox" spacing="10"></HBox>
 							<HBox fx:id="unitCreationBox" spacing="10"></HBox>
+							<HBox fx:id="unitCommandsBox" spacing="10">
+								<HBox spacing="10"></HBox>
+								<VBox>
+									<TextField promptText="X" fx:id="unitXInput"/>
+									<TextField promptText="Y" fx:id="unitYInput"/>
+									<HBox>
+										<Button text="Move" onMouseClicked="#runMoveUnit"/>
+										<Button text="Attack" onMouseClicked="#runAttack"/>
+										<Button text="Patrol" onMouseClicked="#runPatrolUnit"/>
+									</HBox>
+									<HBox>
+										<Button text="Stop" onMouseClicked="#runStopUnit"/>
+										<Button text="Disband" onMouseClicked="#runDisband"/>
+									</HBox>
+									<ComboBox/>
+								</VBox>
+							</HBox>
 						</StackPane>
 					</ScrollPane>
 					<HBox fx:id="buildingCategoryButtonsBox" spacing="10">

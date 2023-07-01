@@ -141,7 +141,7 @@ public class MapScreen {
 		selectionRectangle.setY(x1 * (CELL_DIMENTIONS + GRID_GAPS));
 		GameMenuController.setSelectedArea(x1, y1, x2, y2);
 		GameToolBar.clearMainPane();
-		// TODO: load unit info and commands
+		GameMenu.getInstance().showUnitCommandsBox();
 	}
 
 	public static void clearAreaSelection() {

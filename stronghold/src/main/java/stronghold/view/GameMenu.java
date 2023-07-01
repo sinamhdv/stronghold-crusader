@@ -13,10 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +49,7 @@ import stronghold.model.buildings.DefensiveStructureType;
 import stronghold.model.buildings.Stockpile;
 import stronghold.model.people.Person;
 import stronghold.utils.AssetImageLoader;
+import stronghold.utils.FormatValidation;
 import stronghold.utils.PopularityFormulas;
 import stronghold.utils.ViewUtils;
 
@@ -92,6 +95,10 @@ public class GameMenu extends Application {
 	private Label errorText;
 	@FXML
 	private CheckBox gateOpenCheckBox;
+	@FXML
+	private TextField unitXInput;
+	@FXML
+	private TextField unitYInput;
 
 	// Main Pane Boxes
 	@FXML
@@ -102,6 +109,8 @@ public class GameMenu extends Application {
 	private HBox stockpileReportBox;
 	@FXML
 	private HBox unitCreationBox;
+	@FXML
+	private HBox unitCommandsBox;
 	private HBox[] buildingCategoryBoxes;
 
 	public GameMenu() {
@@ -168,10 +177,10 @@ public class GameMenu extends Application {
 					MapScreen.zoomHandler(1/1.02);
 					break;
 				case D:
-					runDisband();
+					runDisband(null);
 					break;
 				case S:
-					runStopUnit();
+					runStopUnit(null);
 					break;
 				case C:
 					runCheatGold();
@@ -199,6 +208,7 @@ public class GameMenu extends Application {
 		GameToolBar.setMinimapMouseHandler(minimap, scrollPane);
 		updateToolBarReport();
 		setupBuildingCategories();
+		GameToolBar.clearMainPane();
 	}
 
 	public void reportButtonHandler(MouseEvent event) {
@@ -420,6 +430,17 @@ public class GameMenu extends Application {
 		}
 	}
 
+	void showUnitCommandsBox() {
+		unitCommandsBox.setVisible(true);
+		unitCommandsBox.setManaged(true);
+		HBox unitsList = (HBox) unitCommandsBox.getChildren().get(0);
+		unitsList.getChildren().clear();
+
+		VBox commandBox = (VBox) unitCommandsBox.getChildren().get(1);
+		@SuppressWarnings("unchecked")
+		ComboBox<String> stanceCombo = (ComboBox<String>) commandBox.getChildren().get(commandBox.getChildren().size() - 1);
+	}
+
 	public void runRepair() {
 		showErrorText(GameMenuController.repair().getErrorString());
 	}
@@ -469,7 +490,7 @@ public class GameMenu extends Application {
 		game.getCurrentPlayer().setGold(game.getCurrentPlayer().getGold() + 1000);
 	}
 
-	private void runDisband() {
+	public void runDisband(MouseEvent event) {
 		ArrayList<Person> backupSelected = new ArrayList<>(game.getSelectedUnits());
 		showErrorText(GameMenuController.disbandUnit().getErrorString());
 		MapScreen.clearAreaSelection();
@@ -478,8 +499,38 @@ public class GameMenu extends Application {
 			MapScreen.refreshMapCell(person.getX(), person.getY());
 	}
 
-	private void runStopUnit() {
+	public void runStopUnit(MouseEvent event) {
 		showErrorText(GameMenuController.stopUnit().getErrorString());
+	}
+
+	private boolean checkInputXY() {
+		return (FormatValidation.isNumber(unitXInput.getText()) && FormatValidation.isNumber(unitYInput.getText()));
+	}
+
+	public void runMoveUnit(MouseEvent event) {
+		if (!checkInputXY()) return;
+		showErrorText(GameMenuController.moveUnit(
+				Integer.parseInt(unitXInput.getText()),
+				Integer.parseInt(unitYInput.getText())).getErrorString());
+	}
+
+	public void runPatrolUnit(MouseEvent event) {
+		if (!checkInputXY()) return;
+		showErrorText(GameMenuController.patrolUnit(
+				Integer.parseInt(unitXInput.getText()),
+				Integer.parseInt(unitYInput.getText())).getErrorString());
+	}
+
+
+	public void runAttack(MouseEvent event) {
+		if (!checkInputXY()) return;
+		showErrorText(GameMenuController.attack(
+				Integer.parseInt(unitXInput.getText()),
+				Integer.parseInt(unitYInput.getText())).getErrorString());
+	}
+
+	private static void runSetStance(HashMap<String, String> matcher) {
+		System.out.println(GameMenuController.setStance(matcher.get("stanceType")).getErrorString());
 	}
 
 	// public Group getGridCell(int x, int y) {
@@ -655,12 +706,6 @@ public class GameMenu extends Application {
 	// 			Integer.parseInt(matcher.get("y"))).getErrorString());
 	// }
 
-	private static void runMoveUnit(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.moveUnit(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
-
 	// private static void showSelectedUnits() {
 	// 	if (game.getSelectedUnits().isEmpty()) {
 	// 		System.out.println("No unit is selected");
@@ -670,28 +715,11 @@ public class GameMenu extends Application {
 	// 		System.out.println(person);
 	// }
 
-	private static void runPatrolUnit(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.patrolUnit(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))).getErrorString());
-	}
-
-	private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.buildSiegeEquipment(
-			matcher.get("equipment")
-		).getErrorString());
-	}
-
-	private static void runSetStance(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.setStance(matcher.get("stanceType")).getErrorString());
-	}
-
-	private static void runAttack(HashMap<String, String> matcher) {
-		System.out.println(GameMenuController.attack(
-				Integer.parseInt(matcher.get("x")),
-				Integer.parseInt(matcher.get("y"))
-		).getErrorString());
-	}
+	// private static void runBuildSiegeEquipment(HashMap<String, String> matcher) {
+	// 	System.out.println(GameMenuController.buildSiegeEquipment(
+	// 		matcher.get("equipment")
+	// 	).getErrorString());
+	// }
 
 	public static void showWinner(Government winner) {
 		if (winner == null)
