@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -53,6 +55,7 @@ public class MainMenu extends Application {
 		else {
 			MainMenuMessage result = SendRequests.createGame(mapName.get());
 			if(result == MainMenuMessage.SUCCESS) {
+				showPopup(GameWaitingRoom.gameId);
 				Map map = SendRequests.receiveGameMap();
 				MainMenuController.clientStartGame(map);
 				new GameMenu().start(LoginMenu.getStage());
@@ -83,6 +86,14 @@ public class MainMenu extends Application {
 			else
 				errorText.setText(result.getErrorString());
 		}
+	}
+
+	private void showPopup(String message) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Game ID");
+		alert.setHeaderText("Game ID");
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	public void chatButtonHandler(MouseEvent mouseEvent) throws Exception {
