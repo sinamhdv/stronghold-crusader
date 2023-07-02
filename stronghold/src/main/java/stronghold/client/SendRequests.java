@@ -7,10 +7,13 @@ import com.google.gson.Gson;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.model.map.Map;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
+import stronghold.utils.TransferSerialization;
 import stronghold.view.GameWaitingRoom;
 
 public class SendRequests {
@@ -68,7 +71,26 @@ public class SendRequests {
 		return message;
 	}
 
+	public static PendingGame receiveGameMap() {
+		Packet contentLength = ClientMain.receive();
+		assert(contentLength.getType() == PacketType.CONTENT_LENGTH);
+		int length = Integer.parseInt(contentLength.getDataList().get(0));
+		try {
+			byte[] bytes = ClientMain.getSockin().readNBytes(length);
+			String gameData = new String(bytes);
+			return (PendingGame) TransferSerialization.deserialize(gameData);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	public static void sendGameMap() {
+
+	}
+
 	public static void waitForGame() {
-		Packet response = ClientMain.receive();
+		receiveGameMap();
+		System.out.println("game started");
 	}
 }

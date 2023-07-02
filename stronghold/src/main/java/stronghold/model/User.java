@@ -1,11 +1,13 @@
 package stronghold.model;
 
+import java.io.Serializable;
+
 import stronghold.server.ClientHandler;
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 import stronghold.view.ProfileMenu;
 
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, Serializable {
 	private String userName;
 	private String password;
 	private String nickName;

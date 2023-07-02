@@ -21,6 +21,7 @@ import stronghold.model.map.Map;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
+import stronghold.utils.TransferSerialization;
 
 public class ClientHandler implements Runnable {
 	private final Socket socket;
@@ -50,7 +51,7 @@ public class ClientHandler implements Runnable {
 		try {
 			sockout.writeUTF(packet.toJson());
 		} catch (Exception ex) {
-			// ex.printStackTrace();
+			ex.printStackTrace();
 			System.out.println("Disconnected: " + socket.getInetAddress() + ":" + socket.getPort());
 		}
 	}
@@ -88,7 +89,7 @@ public class ClientHandler implements Runnable {
 					handleJoinGame(request.getDataList().get(0));
 					break;
 				case SYNC_MAP:
-					receiveGameMap(request.getDataList().get(0));
+					receiveGameMap();
 					break;
 				default:
 					break;
@@ -171,15 +172,25 @@ public class ClientHandler implements Runnable {
 
 	public void sendGameMap() {
 		PendingGame game = StrongHold.getPendingGameById(currentGameId);
-		send(new Packet(PacketType.RESPONSE, "", new Gson().toJson(game.getMap())));
+		String gameData = TransferSerialization.serialize(game);
+		System.out.println("send map 1");
+		send(new Packet(PacketType.CONTENT_LENGTH, "", Integer.toString(gameData.length())));
+		System.out.println("send map 2");
+		try {
+			sockout.writeBytes(gameData);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Exception in sending map");
+		}
+		System.out.println("send map 3");
 	}
 
-	public void receiveGameMap(String jsonData) {
-		PendingGame game = StrongHold.getPendingGameById(currentGameId);
-		Map map = new Gson().fromJson(jsonData, Map.class);
-		game.setMap(map);
-		for (User user : game.getPlayers())
-			if (user != this.user)
-				user.getClientHandler().sendGameMap();
+	public void receiveGameMap() {
+		// PendingGame game = StrongHold.getPendingGameById(currentGameId);
+		// Map map = new Gson().fromJson(jsonData, Map.class);
+		// game.setMap(map);
+		// for (User user : game.getPlayers())
+		// 	if (user != this.user)
+		// 		user.getClientHandler().sendGameMap();
 	}
 }

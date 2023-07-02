@@ -1,10 +1,11 @@
 package stronghold.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import stronghold.model.map.Map;
 
-public class PendingGame {
+public class PendingGame implements Serializable {
 	private Map map;
 	private final ArrayList<User> players = new ArrayList<>();
 	

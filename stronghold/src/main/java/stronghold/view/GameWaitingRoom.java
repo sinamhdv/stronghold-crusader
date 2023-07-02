@@ -32,6 +32,6 @@ public class GameWaitingRoom extends Application {
 	private void initialize() {
 		mainLabel.setText("Waiting for Game " + gameId + " to be started. You are player #" +
 			StrongHold.getMyPlayerIndex());
-		SendRequests.waitForGame();
+		new Thread(SendRequests::waitForGame).start();
 	}
 }

@@ -44,15 +44,17 @@ public class MainMenu extends Application {
 		TextInputDialog dialog = new TextInputDialog("");
 		dialog.setHeaderText("Enter your mapname:");
 		dialog.initOwner(LoginMenu.getStage());
-		LoginMenu.getStage().setFullScreen(false);
-		LoginMenu.getStage().setFullScreen(true);
+		// LoginMenu.getStage().setFullScreen(false);
+		// LoginMenu.getStage().setFullScreen(true);
 		Optional<String> mapName = dialog.showAndWait();
 		if (!mapName.isPresent())
 			errorText.setText("Please enter a mapname");
 		else {
 			MainMenuMessage result = SendRequests.createGame(mapName.get());
-			if(result == MainMenuMessage.SUCCESS)
+			if(result == MainMenuMessage.SUCCESS) {
+				System.out.println(GameWaitingRoom.gameId);
 				new GameWaitingRoom().start(LoginMenu.getStage());
+			}
 			else
 				errorText.setText(result.getErrorString());
 		}

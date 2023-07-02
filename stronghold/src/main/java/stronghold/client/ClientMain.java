@@ -40,4 +40,12 @@ public class ClientMain extends Application {
 			ex.printStackTrace();
 		}
 	}
+
+	public static DataInputStream getSockin() {
+		return sockin;
+	}
+
+	public static DataOutputStream getSockout() {
+		return sockout;
+	}
 }

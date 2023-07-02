@@ -11,6 +11,9 @@ public enum PacketType {
 	JOIN_GAME,
 	SYNC_MAP,
 
+	CONTENT_LENGTH,
+	ACK,
+
 	RESPONSE,
 	ERROR,
 }
