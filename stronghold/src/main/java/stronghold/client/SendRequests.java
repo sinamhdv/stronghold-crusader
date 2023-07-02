@@ -74,14 +74,14 @@ public class SendRequests {
 		return message;
 	}
 
-	public static PendingGame receiveGameMap() {
+	public static Map receiveGameMap() {
 		Packet contentLength = ClientMain.receive();
 		assert(contentLength.getType() == PacketType.CONTENT_LENGTH);
 		int length = Integer.parseInt(contentLength.getDataList().get(0));
 		try {
 			byte[] bytes = ClientMain.getSockin().readNBytes(length);
 			String gameData = new String(bytes);
-			return (PendingGame) TransferSerialization.deserialize(gameData);
+			return (Map) TransferSerialization.deserialize(gameData);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -93,12 +93,10 @@ public class SendRequests {
 	}
 
 	public static void waitForGame() {
-		PendingGame game = receiveGameMap();
-		StrongHold.setCurrentGame(new Game(game.getMap(), game.getPlayers().toArray(new User[0])));
-		try {
-			new GameMenu().start(LoginMenu.getStage());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		Packet packet = ClientMain.receive();
+		User[] users = new Gson().fromJson(packet.getDataList().get(0), User[].class);
+		for (int i = 0; i < users.length; i++)
+			StrongHold.getCurrentGame().getGovernments()[i].setUser(users[i]);
+		System.out.println("game started");
 	}
 }

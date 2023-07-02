@@ -3,6 +3,7 @@ package stronghold.controller;
 import stronghold.client.SendRequests;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
+import stronghold.model.Game;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
@@ -52,6 +53,11 @@ public class MainMenuController {
 		if (game.getPlayers().size() != game.getMap().getGovernmentsCount()) return;
 		for (User user : game.getPlayers())
 			user.getClientHandler().sendGameMap();
+	}
+
+	public static void clientStartGame(Map map) {
+		Game game = new Game(map, new User[map.getGovernmentsCount()]);
+		StrongHold.setCurrentGame(game);
 	}
 
 	// private static boolean hasRepetitiveName(String[] array) {
