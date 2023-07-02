@@ -78,10 +78,11 @@
 					<Label text="Population/Max" fx:id="populationLabel" styleClass="toolbar-report-label"/>
 					<Button text="Report" onMouseClicked="#reportButtonHandler"/>
 				</VBox>
-				<VBox alignment="CENTER">
+				<VBox alignment="CENTER" spacing="10">
 					<Button text="Next Turn" maxWidth="100" minWidth="100" onMouseClicked="#runNextTurn"/>
 					<Button text="Copy" minWidth="100" maxWidth="100" onMouseClicked="#copyBuilding"/>
 					<Button text="Clipboard" minWidth="100" maxWidth="100" onMouseClicked="#showClipboard"/>
+					<Button text="Start Turn" minWidth="100" maxWidth="100" fx:id="startTurnButton" onMouseClicked="#startTurnButtonHandler"/>
 				</VBox>
 			</HBox>
 		</Pane>

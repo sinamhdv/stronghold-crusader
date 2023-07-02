@@ -109,6 +109,8 @@ public class GameMenu extends Application {
 	private TextField unitYInput;
 	@FXML
 	private ComboBox<String> unitStanceCombo;
+	@FXML
+	private Button startTurnButton;
 
 	// Main Pane Boxes
 	@FXML
@@ -128,7 +130,7 @@ public class GameMenu extends Application {
 	private final Clipboard clipboard = Clipboard.getSystemClipboard();
 	private final ClipboardContent clipboardContent = new ClipboardContent();
 
-	private Rectangle aboveAll;
+	private Rectangle[] aboveAll;
 
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
@@ -182,20 +184,47 @@ public class GameMenu extends Application {
 		displayFullMap();
 		setupToolBar();
 		addKeyListeners();
-		aboveAll = new Rectangle(0, 0, 10000, 10000);
-		aboveAll.setManaged(false);
-		aboveAll.setFill(Color.rgb(0, 250, 0));
-		aboveAll.setOpacity(0.2);
-		borderPane.getChildren().add(aboveAll);
-		aboveAll.toFront();
+		setupControlBlockers();
+		borderPane.requestFocus();
+	}
+
+	private void setupControlBlockers() {
+		aboveAll = new Rectangle[3];
+		aboveAll[0] = new Rectangle(0, 0,
+			ViewUtils.getScreenWidth() - 110, ViewUtils.getScreenHeight());
+		aboveAll[1] = new Rectangle(aboveAll[0].getWidth(), 0,
+			110, ViewUtils.getScreenHeight() - 80);
+		aboveAll[2] = new Rectangle(aboveAll[0].getWidth(), aboveAll[1].getHeight(),
+			110, 80);
+		for (Rectangle rectangle : aboveAll) {
+			rectangle.setManaged(false);
+			rectangle.setFill(Color.GREEN);
+			rectangle.setOpacity(0.2);
+			borderPane.getChildren().add(rectangle);
+			rectangle.toFront();
+		}
+		startTurnButton.setVisible(false);
 		isControllable.addListener((observable, oldValue, newValue) -> {
-			aboveAll.setMouseTransparent(newValue.booleanValue());
-			aboveAll.setOpacity(newValue.booleanValue() ? 0 : 0.2);
-			if (newValue.booleanValue() == true) {
-				MapScreen.refreshAll();
+			aboveAll[2].setMouseTransparent(newValue.booleanValue());
+			aboveAll[2].setOpacity(newValue.booleanValue() ? 0 : 0.2);
+			startTurnButton.setVisible(newValue.booleanValue());
+			if (!newValue.booleanValue()) {
+				for (int i = 0; i < 2; i++) {
+					aboveAll[i].setMouseTransparent(false);
+					aboveAll[i].setOpacity(0.2);
+				}
 			}
 		});
-		borderPane.requestFocus();
+	}
+
+	public void startTurnButtonHandler(MouseEvent event) {
+		System.out.println(game.getGovernments()[1].getUser());
+		for (Rectangle rectangle : aboveAll) {
+			rectangle.setMouseTransparent(true);
+			rectangle.setOpacity(0);
+		}
+		startTurnButton.setVisible(false);
+		MapScreen.refreshAll();
 	}
 
 	private Scene savedScene;
