@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.Game;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
@@ -14,7 +15,9 @@ import stronghold.model.map.Map;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.TransferSerialization;
+import stronghold.view.GameMenu;
 import stronghold.view.GameWaitingRoom;
+import stronghold.view.LoginMenu;
 
 public class SendRequests {
 	private static String jwt;
@@ -90,7 +93,12 @@ public class SendRequests {
 	}
 
 	public static void waitForGame() {
-		receiveGameMap();
-		System.out.println("game started");
+		PendingGame game = receiveGameMap();
+		StrongHold.setCurrentGame(new Game(game.getMap(), game.getPlayers().toArray(new User[0])));
+		try {
+			new GameMenu().start(LoginMenu.getStage());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }
