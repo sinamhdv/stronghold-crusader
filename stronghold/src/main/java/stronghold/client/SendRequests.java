@@ -113,6 +113,7 @@ public class SendRequests {
 	}
 
 	public static void waitForTurn() {
+		System.out.println("waiting for turn");
 		Map map = receiveGameMap();
 		StrongHold.getCurrentGame().setMap(map);
 		MapScreen.refreshAll();

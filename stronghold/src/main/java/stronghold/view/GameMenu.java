@@ -613,6 +613,7 @@ public class GameMenu extends Application {
 		updateToolBarReport();
 
 		setControllable(false);
+		SendRequests.sendGameMap();
 		new Thread(SendRequests::waitForTurn).start();
 	}
 

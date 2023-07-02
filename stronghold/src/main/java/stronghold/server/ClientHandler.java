@@ -194,6 +194,7 @@ public class ClientHandler implements Runnable {
 	}
 
 	public void receiveGameMap(int contentLength, String nextPlayer) {
+		System.out.println("next player: " + nextPlayer);
 		try {
 			byte[] bytes = sockin.readNBytes(contentLength);
 			String mapData = new String(bytes);
