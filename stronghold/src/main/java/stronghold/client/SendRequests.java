@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
@@ -92,7 +93,7 @@ public class SendRequests {
 	public static void sendGameMap() {
 		String mapData = TransferSerialization.serialize(StrongHold.getCurrentGame().getMap());
 		ClientMain.send(new Packet(PacketType.SYNC_MAP, jwt, List.of(Integer.toString(mapData.length()),
-			StrongHold.getCurrentGame().getCurrentPlayer().getUser().getUserName())));
+			GameMenuController.getNextPlayer().getUser().getUserName())));
 		try {
 			ClientMain.getSockout().writeBytes(mapData);
 		} catch (Exception ex) {

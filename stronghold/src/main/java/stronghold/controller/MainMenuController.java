@@ -57,6 +57,7 @@ public class MainMenuController {
 
 	public static void clientStartGame(Map map) {
 		Game game = new Game(map, new User[map.getGovernmentsCount()]);
+		game.setCurrentPlayerIndex(StrongHold.getMyPlayerIndex());
 		StrongHold.setCurrentGame(game);
 	}
 

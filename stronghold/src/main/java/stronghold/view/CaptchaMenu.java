@@ -50,6 +50,7 @@ public class CaptchaMenu extends Application {
 	}
 
 	public void submitButtonHandler(MouseEvent mouseEvent) throws Exception {
+		// nextMenu.start(LoginMenu.getStage());
 		if (answerField.getText().equals(Captcha.getNumber()))
 			nextMenu.start(LoginMenu.getStage());
 		else {

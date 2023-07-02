@@ -218,13 +218,13 @@ public class GameMenu extends Application {
 	}
 
 	public void startTurnButtonHandler(MouseEvent event) {
-		System.out.println(game.getGovernments()[1].getUser());
 		for (Rectangle rectangle : aboveAll) {
 			rectangle.setMouseTransparent(true);
 			rectangle.setOpacity(0);
 		}
 		startTurnButton.setVisible(false);
 		MapScreen.refreshAll();
+		updateToolBarReport();
 	}
 
 	private Scene savedScene;
