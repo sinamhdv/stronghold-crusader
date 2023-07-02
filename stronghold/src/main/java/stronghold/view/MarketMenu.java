@@ -132,10 +132,6 @@ public class MarketMenu extends Application {
 		GameMenu.getInstance().showSavedScene();
 	}
 
-	public void tradeButtonHandler(MouseEvent mouseEvent) {
-    new TradeMenu().start(LoginMenu.getStage());
- 	}
-
 	// private static void printMenuPrompt() {
 	// 	TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.YELLOW);
 	// 	System.out.print("market> ");
