@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -38,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import stronghold.controller.GameMenuController;
@@ -124,6 +127,8 @@ public class GameMenu extends Application {
 	private final Clipboard clipboard = Clipboard.getSystemClipboard();
 	private final ClipboardContent clipboardContent = new ClipboardContent();
 
+	private Rectangle aboveAll;
+
 	public GameMenu() {
 		game = StrongHold.getCurrentGame();
 		GameMenuController.setGame(game);
@@ -147,6 +152,14 @@ public class GameMenu extends Application {
 		return mainPane;
 	}
 
+	BooleanProperty isControllable = new SimpleBooleanProperty(false);
+	public void setControllable(boolean value) {
+		isControllable.set(value);
+	}
+	public boolean isControllable() {
+		return isControllable.get();
+	}
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		borderPane = FXMLLoader.load(GameMenu.class.getResource("/fxml/GameMenu.fxml"));
@@ -168,6 +181,13 @@ public class GameMenu extends Application {
 		displayFullMap();
 		setupToolBar();
 		addKeyListeners();
+		aboveAll = new Rectangle(0, 0, 10000, 10000);
+		aboveAll.setManaged(false);
+		borderPane.getChildren().add(aboveAll);
+		aboveAll.toFront();
+		isControllable.addListener((observable, oldValue, newValue) -> {
+			aboveAll.setMouseTransparent(newValue.booleanValue());
+		});
 		borderPane.requestFocus();
 	}
 
@@ -190,6 +210,7 @@ public class GameMenu extends Application {
 
 	private void addKeyListeners() {
 		borderPane.setOnKeyPressed(event -> {
+			if (!isControllable()) return;
 			switch (event.getCode()) {
 				case EQUALS:
 					MapScreen.zoomHandler(1.02);
