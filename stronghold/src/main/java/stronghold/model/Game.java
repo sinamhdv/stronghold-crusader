@@ -7,7 +7,7 @@ import stronghold.model.map.Map;
 import stronghold.model.people.Person;
 
 public class Game {
-	private final Map map;
+	private Map map;
 	private final Government[] governments;
 	private int currentPlayerIndex = 0;
 	private int passedTurns = 0;
@@ -25,6 +25,10 @@ public class Game {
 
 	public Map getMap() {
 		return map;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
 	}
 
 	public Government[] getGovernments() {

@@ -43,6 +43,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import stronghold.client.SendRequests;
 import stronghold.controller.GameMenuController;
 import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.Game;
@@ -202,7 +203,7 @@ public class GameMenu extends Application {
 		borderPane.requestFocus();
 	}
 
-	private void displayFullMap() {
+	public void displayFullMap() {
 		for (int i = 0; i < game.getMap().getHeight(); i++) {
 			for (int j = 0; j < game.getMap().getWidth(); j++) {
 				grid.add(MapScreen.getTileRepresentation(i, j), j, i);
@@ -609,6 +610,9 @@ public class GameMenu extends Application {
 		// scrollPane.setVvalue(keep[0] / (double)game.getMap().getHeight());
 		// scrollPane.setHvalue(keep[1] / (double)game.getMap().getWidth());
 		updateToolBarReport();
+
+		setControllable(false);
+		new Thread(SendRequests::waitForTurn).start();
 	}
 
 	private void endGame() throws Exception {

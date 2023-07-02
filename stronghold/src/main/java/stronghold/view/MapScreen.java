@@ -182,4 +182,10 @@ public class MapScreen {
 		}
 		grid.add(getTileRepresentation(x, y), y, x);
 	}
+
+	public static void refreshAll() {
+		GridPane grid = GameMenu.getInstance().getGrid();
+		grid.getChildren().clear();
+		GameMenu.getInstance().displayFullMap();
+	}
 }

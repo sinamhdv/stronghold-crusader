@@ -89,7 +89,8 @@ public class ClientHandler implements Runnable {
 					handleJoinGame(request.getDataList().get(0));
 					break;
 				case SYNC_MAP:
-					receiveGameMap();
+					receiveGameMap(Integer.parseInt(request.getDataList().get(0)),
+						request.getDataList().get(1));
 					break;
 				default:
 					break;
@@ -177,16 +178,13 @@ public class ClientHandler implements Runnable {
 	public void sendGameMap() {
 		PendingGame game = StrongHold.getPendingGameById(currentGameId);
 		String gameData = TransferSerialization.serialize(game.getMap());
-		System.out.println("send map 1");
 		send(new Packet(PacketType.CONTENT_LENGTH, "", Integer.toString(gameData.length())));
-		System.out.println("send map 2");
 		try {
 			sockout.writeBytes(gameData);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("Exception in sending map");
 		}
-		System.out.println("send map 3");
 	}
 
 	public void signalStartGame() {
@@ -195,12 +193,15 @@ public class ClientHandler implements Runnable {
 		send(new Packet(PacketType.RESPONSE, "", jsonData));
 	}
 
-	public void receiveGameMap() {
-		// PendingGame game = StrongHold.getPendingGameById(currentGameId);
-		// Map map = new Gson().fromJson(jsonData, Map.class);
-		// game.setMap(map);
-		// for (User user : game.getPlayers())
-		// 	if (user != this.user)
-		// 		user.getClientHandler().sendGameMap();
+	public void receiveGameMap(int contentLength, String nextPlayer) {
+		try {
+			byte[] bytes = sockin.readNBytes(contentLength);
+			String mapData = new String(bytes);
+			Map map = (Map) TransferSerialization.deserialize(mapData);
+			StrongHold.getPendingGameById(currentGameId).setMap(map);
+			StrongHold.getUserByName(nextPlayer).getClientHandler().sendGameMap();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

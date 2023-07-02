@@ -18,6 +18,7 @@ import stronghold.utils.TransferSerialization;
 import stronghold.view.GameMenu;
 import stronghold.view.GameWaitingRoom;
 import stronghold.view.LoginMenu;
+import stronghold.view.MapScreen;
 
 public class SendRequests {
 	private static String jwt;
@@ -89,7 +90,14 @@ public class SendRequests {
 	}
 
 	public static void sendGameMap() {
-
+		String mapData = TransferSerialization.serialize(StrongHold.getCurrentGame().getMap());
+		ClientMain.send(new Packet(PacketType.SYNC_MAP, jwt, Integer.toString(mapData.length())));
+		try {
+			ClientMain.getSockout().writeBytes(mapData);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("exception in sending map");
+		}
 	}
 
 	public static void waitForGame() {
@@ -100,5 +108,12 @@ public class SendRequests {
 		System.out.println("game started");
 		if (StrongHold.getMyPlayerIndex() == 0)
 			GameMenu.getInstance().setControllable(true);
+	}
+
+	public static void waitForTurn() {
+		Map map = receiveGameMap();
+		StrongHold.getCurrentGame().setMap(map);
+		MapScreen.refreshAll();
+		GameMenu.getInstance().setControllable(true);
 	}
 }
