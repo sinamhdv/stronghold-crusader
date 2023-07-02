@@ -52,7 +52,7 @@ public class MainMenuController {
 		PendingGame game = StrongHold.getPendingGameById(gameId);
 		if (game.getPlayers().size() != game.getMap().getGovernmentsCount()) return;
 		for (User user : game.getPlayers())
-			user.getClientHandler().sendGameMap();
+			user.getClientHandler().signalStartGame();
 	}
 
 	public static void clientStartGame(Map map) {

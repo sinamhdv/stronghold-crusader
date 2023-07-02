@@ -156,6 +156,9 @@ public class ClientHandler implements Runnable {
 			currentGameId = gameId;
 		}
 		send(response);
+		if (message == MainMenuMessage.SUCCESS) {
+			sendGameMap();
+		}
 	}
 
 	private void handleJoinGame(String gameId) {
@@ -167,12 +170,13 @@ public class ClientHandler implements Runnable {
 		if (message == MainMenuMessage.SUCCESS) {
 			currentGameId = gameId;
 			MainMenuController.checkStartGame(gameId);
+			sendGameMap();
 		}
 	}
 
 	public void sendGameMap() {
 		PendingGame game = StrongHold.getPendingGameById(currentGameId);
-		String gameData = TransferSerialization.serialize(game);
+		String gameData = TransferSerialization.serialize(game.getMap());
 		System.out.println("send map 1");
 		send(new Packet(PacketType.CONTENT_LENGTH, "", Integer.toString(gameData.length())));
 		System.out.println("send map 2");
@@ -183,6 +187,12 @@ public class ClientHandler implements Runnable {
 			System.out.println("Exception in sending map");
 		}
 		System.out.println("send map 3");
+	}
+
+	public void signalStartGame() {
+		PendingGame game = StrongHold.getPendingGameById(currentGameId);
+		String jsonData = new Gson().toJson(game.getPlayers());
+		send(new Packet(PacketType.RESPONSE, "", jsonData));
 	}
 
 	public void receiveGameMap() {

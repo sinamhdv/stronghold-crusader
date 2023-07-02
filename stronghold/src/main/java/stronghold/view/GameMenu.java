@@ -183,6 +183,7 @@ public class GameMenu extends Application {
 		addKeyListeners();
 		aboveAll = new Rectangle(0, 0, 10000, 10000);
 		aboveAll.setManaged(false);
+		aboveAll.setFill(Color.rgb(0, 250, 0, 0.3));
 		borderPane.getChildren().add(aboveAll);
 		aboveAll.toFront();
 		isControllable.addListener((observable, oldValue, newValue) -> {

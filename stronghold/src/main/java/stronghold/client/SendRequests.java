@@ -98,5 +98,7 @@ public class SendRequests {
 		for (int i = 0; i < users.length; i++)
 			StrongHold.getCurrentGame().getGovernments()[i].setUser(users[i]);
 		System.out.println("game started");
+		if (StrongHold.getMyPlayerIndex() == 0)
+			GameMenu.getInstance().setControllable(true);
 	}
 }
