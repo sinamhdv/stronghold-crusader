@@ -1,5 +1,6 @@
 package stronghold.model;
 
+import stronghold.server.ClientHandler;
 import stronghold.utils.Cryptography;
 import stronghold.utils.DatabaseManager;
 import stronghold.view.ProfileMenu;
@@ -14,6 +15,8 @@ public class User implements Comparable<User> {
 	private int securityQuestionNumber;
 	private String securityQuestionAnswer;
 	private String avatarURL = ProfileMenu.getAvatarURLByIndex(1);
+
+	private transient ClientHandler clientHandler;
 	
 	public User(String userName, String password, String nickName, String slogan, String email, int highScore,
 			int securityQuestionNumber, String securityQuestionAnswer) {
@@ -88,6 +91,13 @@ public class User implements Comparable<User> {
 	public void setAvatarURL(String avatarURL) {
 		this.avatarURL = avatarURL;
 		DatabaseManager.updateUser(this);
+	}
+
+	public ClientHandler getClientHandler() {
+		return clientHandler;
+	}
+	public void setClientHandler(ClientHandler clientHandler) {
+		this.clientHandler = clientHandler;
 	}
 
 	@Override

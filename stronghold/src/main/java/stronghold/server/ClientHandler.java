@@ -27,6 +27,7 @@ public class ClientHandler implements Runnable {
 	private final DataOutputStream sockout;
 	private User user;
 	private String jwt;
+	private String currentGameId;
 
 	public ClientHandler(Socket socket) throws Exception {
 		this.socket = socket;
@@ -107,6 +108,7 @@ public class ClientHandler implements Runnable {
 				Packet response = new Packet(PacketType.RESPONSE, jwt, message.toString());
 				send(response);
 				user = StrongHold.getUserByName(data.get(0));
+				user.setClientHandler(this);
 			}
 			else {
 				Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
@@ -119,6 +121,7 @@ public class ClientHandler implements Runnable {
 
 	private void handleLogout() {
 		System.out.println("User " + user.getUserName() + " logged out");
+		user.setClientHandler(null);
 		user = null;
 	}
 
@@ -140,7 +143,7 @@ public class ClientHandler implements Runnable {
 
 	private void handleCreateGame(String mapName) {
 		String gameId = MainMenuController.getNewGameId();
-		MainMenuMessage message = MainMenuController.serverStartGame(mapName, user, gameId);
+		MainMenuMessage message = MainMenuController.serverCreateGame(mapName, user, gameId);
 		Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
 		if (message == MainMenuMessage.SUCCESS)
 			response.addData(gameId);
@@ -153,5 +156,11 @@ public class ClientHandler implements Runnable {
 		if (message == MainMenuMessage.SUCCESS)
 			response.addData(Integer.toString(StrongHold.getPendingGameById(gameId).getPlayers().size() - 1));
 		send(response);
+		if (message == MainMenuMessage.SUCCESS)
+			MainMenuController.checkStartGame(gameId);
+	}
+
+	public void sendGameMap() {
+
 	}
 }

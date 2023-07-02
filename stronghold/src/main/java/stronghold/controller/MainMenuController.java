@@ -1,6 +1,7 @@
 package stronghold.controller;
 
 import stronghold.client.SendRequests;
+import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
@@ -15,7 +16,7 @@ public class MainMenuController {
 		SendRequests.requestLogout();
 	}
 
-	public static MainMenuMessage serverStartGame(String mapName, User admin, String gameId) {
+	public static synchronized MainMenuMessage serverCreateGame(String mapName, User admin, String gameId) {
 		if (!DatabaseManager.mapExists(mapName))
 			return MainMenuMessage.MAP_DOESNT_EXIST;
 		Map map = DatabaseManager.loadMapByName(mapName);
@@ -26,9 +27,10 @@ public class MainMenuController {
 		return MainMenuMessage.SUCCESS;
 	}
 
-	public static MainMenuMessage addPlayerToGame(String gameId, User player) {
+	public static synchronized MainMenuMessage addPlayerToGame(String gameId, User player) {
 		PendingGame game = StrongHold.getPendingGameById(gameId);
 		if (game == null) return MainMenuMessage.GAME_NOT_FOUND;
+		if (game.getPlayers().size() == game.getMap().getGovernmentsCount()) return MainMenuMessage.GAME_IS_FULL;
 		game.addPlayer(player);
 		return MainMenuMessage.SUCCESS;
 	}
@@ -43,6 +45,13 @@ public class MainMenuController {
 				return MainMenuMessage.KEEP_NOT_FOUND;
 		}
 		return null;
+	}
+
+	public static void checkStartGame(String gameId) {
+		PendingGame game = StrongHold.getPendingGameById(gameId);
+		if (game.getPlayers().size() != game.getMap().getGovernmentsCount()) return;
+		for (User user : game.getPlayers())
+			user.getClientHandler().sendGameMap();
 	}
 
 	// private static boolean hasRepetitiveName(String[] array) {

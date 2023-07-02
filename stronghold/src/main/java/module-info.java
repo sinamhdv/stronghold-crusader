@@ -14,6 +14,7 @@ module stronghold {
 	exports stronghold.model.people;
 	exports stronghold.model.environment;
 	exports stronghold.model;
+	exports stronghold.server;
 
 	opens stronghold.network to com.google.gson;
 	opens stronghold.model to com.google.gson;
