@@ -6,7 +6,7 @@ import stronghold.model.map.Map;
 
 public class PendingGame {
 	private Map map;
-	private ArrayList<User> players = new ArrayList<>();
+	private final ArrayList<User> players = new ArrayList<>();
 	
 	public PendingGame(Map map, User admin) {
 		this.map = map;
@@ -16,6 +16,10 @@ public class PendingGame {
 	public Map getMap() {
 		return map;
 	}
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
 	public ArrayList<User> getPlayers() {
 		return players;
 	}

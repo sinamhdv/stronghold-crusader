@@ -9,8 +9,7 @@ public enum PacketType {
 
 	CREATE_GAME,
 	JOIN_GAME,
-	SYNC_GET_MAP,
-	SYNC_PUT_MAP,
+	SYNC_MAP,
 
 	RESPONSE,
 	ERROR,

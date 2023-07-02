@@ -17,6 +17,7 @@ import stronghold.controller.messages.SignupAndProfileMenuMessage;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.model.map.Map;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
@@ -85,6 +86,10 @@ public class ClientHandler implements Runnable {
 					break;
 				case JOIN_GAME:
 					handleJoinGame(request.getDataList().get(0));
+					break;
+				case SYNC_MAP:
+					receiveGameMap(request.getDataList().get(0));
+					break;
 				default:
 					break;
 			}
@@ -145,8 +150,10 @@ public class ClientHandler implements Runnable {
 		String gameId = MainMenuController.getNewGameId();
 		MainMenuMessage message = MainMenuController.serverCreateGame(mapName, user, gameId);
 		Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
-		if (message == MainMenuMessage.SUCCESS)
+		if (message == MainMenuMessage.SUCCESS) {
 			response.addData(gameId);
+			currentGameId = gameId;
+		}
 		send(response);
 	}
 
@@ -156,11 +163,23 @@ public class ClientHandler implements Runnable {
 		if (message == MainMenuMessage.SUCCESS)
 			response.addData(Integer.toString(StrongHold.getPendingGameById(gameId).getPlayers().size() - 1));
 		send(response);
-		if (message == MainMenuMessage.SUCCESS)
+		if (message == MainMenuMessage.SUCCESS) {
+			currentGameId = gameId;
 			MainMenuController.checkStartGame(gameId);
+		}
 	}
 
 	public void sendGameMap() {
+		PendingGame game = StrongHold.getPendingGameById(currentGameId);
+		send(new Packet(PacketType.RESPONSE, "", new Gson().toJson(game.getMap())));
+	}
 
+	public void receiveGameMap(String jsonData) {
+		PendingGame game = StrongHold.getPendingGameById(currentGameId);
+		Map map = new Gson().fromJson(jsonData, Map.class);
+		game.setMap(map);
+		for (User user : game.getPlayers())
+			if (user != this.user)
+				user.getClientHandler().sendGameMap();
 	}
 }
