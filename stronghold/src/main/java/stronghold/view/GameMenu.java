@@ -191,6 +191,9 @@ public class GameMenu extends Application {
 		isControllable.addListener((observable, oldValue, newValue) -> {
 			aboveAll.setMouseTransparent(newValue.booleanValue());
 			aboveAll.setOpacity(newValue.booleanValue() ? 0 : 0.2);
+			if (newValue.booleanValue() == true) {
+				MapScreen.refreshAll();
+			}
 		});
 		borderPane.requestFocus();
 	}

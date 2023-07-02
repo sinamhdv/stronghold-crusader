@@ -91,7 +91,8 @@ public class SendRequests {
 
 	public static void sendGameMap() {
 		String mapData = TransferSerialization.serialize(StrongHold.getCurrentGame().getMap());
-		ClientMain.send(new Packet(PacketType.SYNC_MAP, jwt, Integer.toString(mapData.length())));
+		ClientMain.send(new Packet(PacketType.SYNC_MAP, jwt, List.of(Integer.toString(mapData.length()),
+			StrongHold.getCurrentGame().getCurrentPlayer().getUser().getUserName())));
 		try {
 			ClientMain.getSockout().writeBytes(mapData);
 		} catch (Exception ex) {
@@ -116,7 +117,6 @@ public class SendRequests {
 		System.out.println("waiting for turn");
 		Map map = receiveGameMap();
 		StrongHold.getCurrentGame().setMap(map);
-		MapScreen.refreshAll();
 		GameMenu.getInstance().setControllable(true);
 	}
 }
