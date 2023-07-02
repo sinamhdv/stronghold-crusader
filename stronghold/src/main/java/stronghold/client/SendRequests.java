@@ -108,6 +108,8 @@ public class SendRequests {
 		System.out.println("game started");
 		if (StrongHold.getMyPlayerIndex() == 0)
 			GameMenu.getInstance().setControllable(true);
+		else
+			new Thread(SendRequests::waitForTurn).start();
 	}
 
 	public static void waitForTurn() {

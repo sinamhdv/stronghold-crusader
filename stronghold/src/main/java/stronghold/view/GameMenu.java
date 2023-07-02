@@ -184,12 +184,13 @@ public class GameMenu extends Application {
 		addKeyListeners();
 		aboveAll = new Rectangle(0, 0, 10000, 10000);
 		aboveAll.setManaged(false);
-		aboveAll.setFill(Color.rgb(0, 250, 0, 0.3));
+		aboveAll.setFill(Color.rgb(0, 250, 0));
+		aboveAll.setOpacity(0.2);
 		borderPane.getChildren().add(aboveAll);
 		aboveAll.toFront();
 		isControllable.addListener((observable, oldValue, newValue) -> {
 			aboveAll.setMouseTransparent(newValue.booleanValue());
-			aboveAll.setOpacity(newValue.booleanValue() ? 0 : 0.3);
+			aboveAll.setOpacity(newValue.booleanValue() ? 0 : 0.2);
 		});
 		borderPane.requestFocus();
 	}
