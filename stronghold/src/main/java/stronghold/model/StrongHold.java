@@ -10,7 +10,7 @@ public class StrongHold {
 	private static ArrayList<User> users = new ArrayList<>();
 	private static User currentUser;
 	private static Game currentGame;
-	private static HashMap<String, Game> pendingGames = new HashMap<>();
+	private static HashMap<String, PendingGame> pendingGames = new HashMap<>();
 	private static int myPlayerIndex;
 
 	public static User getUserByName(String userName) {
@@ -73,8 +73,12 @@ public class StrongHold {
 		return sortedList;
 	}
 
-	public static void addPendingGame(User admin, Game game) {
-		pendingGames.put(admin.getUserName(), game);
+	public static void addPendingGame(String id, PendingGame game) {
+		pendingGames.put(id, game);
+	}
+
+	public static PendingGame getPendingGameById(String gameId) {
+		return pendingGames.get(gameId);
 	}
 
 	public static int getMyPlayerIndex() {

@@ -60,17 +60,19 @@ public class MainMenu extends Application {
 
 	public void joinGameButtonHandler(MouseEvent event) throws Exception {
 		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setHeaderText("Enter the game ID (admin userame):");
+		dialog.setHeaderText("Enter the game ID:");
 		dialog.initOwner(LoginMenu.getStage());
 		// LoginMenu.getStage().setFullScreen(false);
 		// LoginMenu.getStage().setFullScreen(true);
-		Optional<String> adminName = dialog.showAndWait();
-		if (!adminName.isPresent())
+		Optional<String> gameId = dialog.showAndWait();
+		if (!gameId.isPresent())
 			errorText.setText("Please enter a game ID");
 		else {
-			MainMenuMessage result = SendRequests.joinGame(adminName.get());
-			if (result == MainMenuMessage.SUCCESS)
+			MainMenuMessage result = SendRequests.joinGame(gameId.get());
+			if (result == MainMenuMessage.SUCCESS) {
+				GameWaitingRoom.setGameId(gameId.get());
 				new GameWaitingRoom().start(LoginMenu.getStage());
+			}
 			else
 				errorText.setText(result.getErrorString());
 		}

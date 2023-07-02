@@ -9,9 +9,12 @@ import com.google.gson.Gson;
 
 import javafx.application.Platform;
 import stronghold.controller.LoginMenuController;
+import stronghold.controller.MainMenuController;
 import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
+import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.network.Packet;
@@ -76,6 +79,11 @@ public class ClientHandler implements Runnable {
 				case UPDATE_USER:
 					handleUpdateUser(request.getDataList().get(0));
 					break;
+				case CREATE_GAME:
+					handleCreateGame(request.getDataList().get(0));
+					break;
+				case JOIN_GAME:
+					handleJoinGame(request.getDataList().get(0));
 				default:
 					break;
 			}
@@ -128,5 +136,22 @@ public class ClientHandler implements Runnable {
 			StrongHold.getUsers().remove(StrongHold.getUserByName(user.getUserName()));
 		}
 		StrongHold.addUser(user);
+	}
+
+	private void handleCreateGame(String mapName) {
+		String gameId = MainMenuController.getNewGameId();
+		MainMenuMessage message = MainMenuController.serverStartGame(mapName, user, gameId);
+		Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
+		if (message == MainMenuMessage.SUCCESS)
+			response.addData(gameId);
+		send(response);
+	}
+
+	private void handleJoinGame(String gameId) {
+		MainMenuMessage message = MainMenuController.addPlayerToGame(gameId, user);
+		Packet response = new Packet(PacketType.RESPONSE, "", message.toString());
+		if (message == MainMenuMessage.SUCCESS)
+			response.addData(Integer.toString(StrongHold.getPendingGameById(gameId).getPlayers().size() - 1));
+		send(response);
 	}
 }

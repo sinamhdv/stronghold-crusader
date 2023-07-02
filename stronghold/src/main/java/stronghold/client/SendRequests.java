@@ -11,6 +11,7 @@ import stronghold.model.StrongHold;
 import stronghold.model.User;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
+import stronghold.view.GameWaitingRoom;
 
 public class SendRequests {
 	private static String jwt;
@@ -53,16 +54,21 @@ public class SendRequests {
 		Packet response = ClientMain.receive();
 		MainMenuMessage message = MainMenuMessage.valueOf(response.getDataList().get(0));
 		if (message != MainMenuMessage.SUCCESS) return message;
-		StrongHold.setMyPlayerIndex(Integer.parseInt(response.getDataList().get(1)));
+		StrongHold.setMyPlayerIndex(0);
+		GameWaitingRoom.setGameId(response.getDataList().get(1));
 		return message;
 	}
 
-	public static MainMenuMessage joinGame(String adminName) {
-		ClientMain.send(new Packet(PacketType.JOIN_GAME, jwt, adminName));
+	public static MainMenuMessage joinGame(String gameId) {
+		ClientMain.send(new Packet(PacketType.JOIN_GAME, jwt, gameId));
 		Packet response = ClientMain.receive();
 		MainMenuMessage message = MainMenuMessage.valueOf(response.getDataList().get(0));
 		if (message != MainMenuMessage.SUCCESS) return message;
 		StrongHold.setMyPlayerIndex(Integer.parseInt(response.getDataList().get(1)));
 		return message;
+	}
+
+	public static void waitForGame() {
+		Packet response = ClientMain.receive();
 	}
 }
