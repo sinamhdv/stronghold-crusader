@@ -169,8 +169,8 @@ public class ClientHandler implements Runnable {
 		send(response);
 		if (message == MainMenuMessage.SUCCESS) {
 			currentGameId = gameId;
-			MainMenuController.checkStartGame(gameId);
 			sendGameMap();
+			MainMenuController.checkStartGame(gameId);
 		}
 	}
 

@@ -188,6 +188,7 @@ public class GameMenu extends Application {
 		aboveAll.toFront();
 		isControllable.addListener((observable, oldValue, newValue) -> {
 			aboveAll.setMouseTransparent(newValue.booleanValue());
+			aboveAll.setOpacity(newValue.booleanValue() ? 0 : 0.3);
 		});
 		borderPane.requestFocus();
 	}
