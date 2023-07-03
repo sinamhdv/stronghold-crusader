@@ -153,7 +153,7 @@ public class ChatMenu extends Application {
 		dialog.initOwner(LoginMenu.getStage());
 		Optional<String> content = dialog.showAndWait();
 		if (!content.isPresent()) return;
-		ChatMenuController.editMessage(id, content);
+		ChatMenuController.editMessage(id, content.get());
 	}
 
 	private void runReact(int id, int emojiIndex) {
