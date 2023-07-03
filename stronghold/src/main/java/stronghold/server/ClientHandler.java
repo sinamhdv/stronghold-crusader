@@ -14,10 +14,10 @@ import stronghold.controller.SignupMenuController;
 import stronghold.controller.messages.LoginMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.controller.messages.SignupAndProfileMenuMessage;
+import stronghold.model.Game;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
-import stronghold.model.map.Map;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
@@ -177,7 +177,7 @@ public class ClientHandler implements Runnable {
 
 	public void sendGameMap() {
 		PendingGame game = StrongHold.getPendingGameById(currentGameId);
-		String gameData = TransferSerialization.serialize(game.getMap());
+		String gameData = TransferSerialization.serialize(game.getGame());
 		send(new Packet(PacketType.CONTENT_LENGTH, "", Integer.toString(gameData.length())));
 		try {
 			sockout.writeBytes(gameData);
@@ -198,8 +198,8 @@ public class ClientHandler implements Runnable {
 		try {
 			byte[] bytes = sockin.readNBytes(contentLength);
 			String mapData = new String(bytes);
-			Map map = (Map) TransferSerialization.deserialize(mapData);
-			StrongHold.getPendingGameById(currentGameId).setMap(map);
+			Game map = (Game) TransferSerialization.deserialize(mapData);
+			StrongHold.getPendingGameById(currentGameId).setGame(map);
 			StrongHold.getUserByName(nextPlayer).getClientHandler().sendGameMap();
 		} catch (Exception ex) {
 			ex.printStackTrace();

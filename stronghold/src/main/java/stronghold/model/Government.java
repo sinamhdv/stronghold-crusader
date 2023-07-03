@@ -1,5 +1,6 @@
 package stronghold.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Barracks;
@@ -14,20 +15,20 @@ import stronghold.model.people.Person;
 import stronghold.utils.PopularityFormulas;
 import stronghold.view.GameMenu;
 
-public class Government {
+public class Government implements Serializable {
 	private static final int MAX_POPULARITY = 100;
 	private static final int MIN_POPULARITY = 0;
 
 	private User user;
-	private final ArrayList<Building> buildings = new ArrayList<>();
-	private final int index;
+	private ArrayList<Building> buildings = new ArrayList<>();
+	private int index;
 	private int popularity = 50;
 	private int fearFactor = 0;
 	private int foodRate = 0;
 	private int taxRate = 0;
 	private int gold = 1000;
 	private int wineUsageCycleTurns = 1;
-	private final ArrayList<Person> people = new ArrayList<>();
+	private ArrayList<Person> people = new ArrayList<>();
 	private boolean hasLost = false;
 
 	public Government(User user, int index, Map map) {

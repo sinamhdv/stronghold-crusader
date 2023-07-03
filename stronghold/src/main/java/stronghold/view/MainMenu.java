@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import stronghold.client.SendRequests;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.messages.MainMenuMessage;
+import stronghold.model.Game;
 import stronghold.model.map.Map;
 import stronghold.utils.ViewUtils;
 
@@ -56,7 +57,7 @@ public class MainMenu extends Application {
 			MainMenuMessage result = SendRequests.createGame(mapName.get());
 			if(result == MainMenuMessage.SUCCESS) {
 				showPopup(GameWaitingRoom.gameId);
-				Map map = SendRequests.receiveGameMap();
+				Game map = SendRequests.receiveGameMap();
 				MainMenuController.clientStartGame(map);
 				new GameMenu().start(LoginMenu.getStage());
 				new Thread(SendRequests::waitForGame).start();
@@ -78,7 +79,7 @@ public class MainMenu extends Application {
 		else {
 			MainMenuMessage result = SendRequests.joinGame(gameId.get());
 			if (result == MainMenuMessage.SUCCESS) {
-				Map map = SendRequests.receiveGameMap();
+				Game map = SendRequests.receiveGameMap();
 				MainMenuController.clientStartGame(map);
 				new GameMenu().start(LoginMenu.getStage());
 				new Thread(SendRequests::waitForGame).start();

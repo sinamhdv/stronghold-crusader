@@ -23,7 +23,7 @@ public class MainMenuController {
 		Map map = DatabaseManager.loadMapByName(mapName);
 		MainMenuMessage message = checkKeeps(map);
 		if (message != null) return message;
-		PendingGame game = new PendingGame(map, admin);
+		PendingGame game = new PendingGame(new Game(map, new User[map.getGovernmentsCount()]), admin);
 		StrongHold.addPendingGame(gameId, game);
 		return MainMenuMessage.SUCCESS;
 	}
@@ -31,7 +31,7 @@ public class MainMenuController {
 	public static synchronized MainMenuMessage addPlayerToGame(String gameId, User player) {
 		PendingGame game = StrongHold.getPendingGameById(gameId);
 		if (game == null) return MainMenuMessage.GAME_NOT_FOUND;
-		if (game.getPlayers().size() == game.getMap().getGovernmentsCount()) return MainMenuMessage.GAME_IS_FULL;
+		if (game.getPlayers().size() == game.getGame().getMap().getGovernmentsCount()) return MainMenuMessage.GAME_IS_FULL;
 		game.addPlayer(player);
 		return MainMenuMessage.SUCCESS;
 	}
@@ -50,13 +50,13 @@ public class MainMenuController {
 
 	public static void checkStartGame(String gameId) {
 		PendingGame game = StrongHold.getPendingGameById(gameId);
-		if (game.getPlayers().size() != game.getMap().getGovernmentsCount()) return;
+		if (game.getPlayers().size() != game.getGame().getMap().getGovernmentsCount()) return;
 		for (User user : game.getPlayers())
 			user.getClientHandler().signalStartGame();
 	}
 
-	public static void clientStartGame(Map map) {
-		Game game = new Game(map, new User[map.getGovernmentsCount()]);
+	public static void clientStartGame(Game game) {
+		// Game game = new Game(map, new User[map.getGovernmentsCount()]);
 		game.setCurrentPlayerIndex(StrongHold.getMyPlayerIndex());
 		StrongHold.setCurrentGame(game);
 	}

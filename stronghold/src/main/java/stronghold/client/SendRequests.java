@@ -76,14 +76,16 @@ public class SendRequests {
 		return message;
 	}
 
-	public static Map receiveGameMap() {
+	public static Game receiveGameMap() {
 		Packet contentLength = ClientMain.receive();
 		assert(contentLength.getType() == PacketType.CONTENT_LENGTH);
 		int length = Integer.parseInt(contentLength.getDataList().get(0));
 		try {
 			byte[] bytes = ClientMain.getSockin().readNBytes(length);
 			String gameData = new String(bytes);
-			return (Map) TransferSerialization.deserialize(gameData);
+			Game game = (Game) TransferSerialization.deserialize(gameData);
+			game.setCurrentPlayerIndex(StrongHold.getMyPlayerIndex());
+			return game;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -91,7 +93,7 @@ public class SendRequests {
 	}
 
 	public static void sendGameMap() {
-		String mapData = TransferSerialization.serialize(StrongHold.getCurrentGame().getMap());
+		String mapData = TransferSerialization.serialize(StrongHold.getCurrentGame());
 		ClientMain.send(new Packet(PacketType.SYNC_MAP, jwt, List.of(Integer.toString(mapData.length()),
 			GameMenuController.getNextPlayer().getUser().getUserName())));
 		try {
@@ -116,8 +118,10 @@ public class SendRequests {
 
 	public static void waitForTurn() {
 		System.out.println("waiting for turn");
-		Map map = receiveGameMap();
-		StrongHold.getCurrentGame().setMap(map);
+		Game game = receiveGameMap();
+		StrongHold.setCurrentGame(game);
+		GameMenuController.setGame(game);
+		GameMenu.setGame(game);
 		GameMenu.getInstance().setControllable(true);
 	}
 }

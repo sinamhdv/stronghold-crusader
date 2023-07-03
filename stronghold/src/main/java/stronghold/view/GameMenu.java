@@ -138,6 +138,10 @@ public class GameMenu extends Application {
 		instance = this;
 	}
 
+	public static void setGame(Game game) {
+		GameMenu.game = game;
+	}
+
 	public static GameMenu getInstance() {
 		return instance;
 	}
@@ -638,10 +642,6 @@ public class GameMenu extends Application {
 			return;
 		}
 		else if (message != GameMenuMessage.SUCCESS) return;
-		// set the map view to the next players keep
-		// int[] keep = game.getCurrentPlayer().findKeep();
-		// scrollPane.setVvalue(keep[0] / (double)game.getMap().getHeight());
-		// scrollPane.setHvalue(keep[1] / (double)game.getMap().getWidth());
 		updateToolBarReport();
 
 		setControllable(false);

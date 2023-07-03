@@ -3,22 +3,20 @@ package stronghold.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import stronghold.model.map.Map;
-
 public class PendingGame implements Serializable {
-	private Map map;
+	private Game game;
 	private final ArrayList<User> players = new ArrayList<>();
 	
-	public PendingGame(Map map, User admin) {
-		this.map = map;
+	public PendingGame(Game game, User admin) {
+		this.game = game;
 		this.players.add(admin);
 	}
 
-	public Map getMap() {
-		return map;
+	public Game getGame() {
+		return game;
 	}
-	public void setMap(Map map) {
-		this.map = map;
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	public ArrayList<User> getPlayers() {

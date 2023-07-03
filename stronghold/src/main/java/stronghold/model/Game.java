@@ -1,19 +1,20 @@
 package stronghold.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import stronghold.model.buildings.Building;
 import stronghold.model.map.Map;
 import stronghold.model.people.Person;
 
-public class Game {
+public class Game implements Serializable {
 	private Map map;
-	private final Government[] governments;
+	private Government[] governments;
 	private int currentPlayerIndex = 0;
 	private int passedTurns = 0;
-	private final ArrayList<Person> selectedUnits = new ArrayList<>();
+	private ArrayList<Person> selectedUnits = new ArrayList<>();
 	private Building selectedBuilding = null;
-	private ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
+	private transient ArrayList<TradeRequest> allTradeRequests = new ArrayList<>();
 
 	public Game(Map map, User[] players) {
 		this.map = map;
