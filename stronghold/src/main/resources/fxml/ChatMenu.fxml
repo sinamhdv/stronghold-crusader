@@ -23,6 +23,7 @@
 				<TextField promptText="message" minWidth="200" maxWidth="200" fx:id="messageInput"/>
 				<Button text="send" onMouseClicked="#sendButtonHandler"/>
 			</HBox>
+			<Button text="Back" onMouseClicked="#backButtonHandler"/>
 		</VBox>
 	</center>
 

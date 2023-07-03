@@ -10,14 +10,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import stronghold.client.SendRequests;
 
 public class ChatMenu extends Application {
+	private static ChatMenu instance;
+
 	@FXML
 	private TextField messageInput;
 	@FXML
 	private VBox messagesBox;
 	@FXML
 	private ComboBox<String> chatTypeCombo;
+
+	public ChatMenu() {
+		instance = this;
+	}
+
+	public static ChatMenu getInstance() {
+		return instance;
+	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -30,23 +41,26 @@ public class ChatMenu extends Application {
 
 	@FXML
 	private void initialize() {
-		setupChatTypeCombo();
-	}
-
-	private void setupChatTypeCombo() {
-		chatTypeCombo.getItems().addAll("Public", "Private");
-		chatTypeCombo.getSelectionModel().select(0);
 		chatTypeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			refreshScreen();
+			refreshMessages();
 		});
+		SendRequests.startChat();
 	}
 
-	private void refreshScreen() {
+	private void refreshMessages() {
 		messagesBox.getChildren().clear();
 	}
 
+	public void refreshScreen() {
+
+	}
+
 	public void sendButtonHandler(MouseEvent event) {
-		
 		messageInput.setText("");
+	}
+
+	public void backButtonHandler(MouseEvent event) {
+		SendRequests.endChat();
+		new MainMenu().start(LoginMenu.getStage());
 	}
 }
