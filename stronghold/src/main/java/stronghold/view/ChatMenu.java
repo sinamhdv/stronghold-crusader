@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -7,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -22,9 +25,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import stronghold.client.SendRequests;
 import stronghold.controller.ChatMenuController;
+import stronghold.controller.messages.ChatMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.chat.Message;
 import stronghold.model.chat.Room;
+import stronghold.utils.FormatValidation;
 
 public class ChatMenu extends Application {
 	private static ChatMenu instance;
@@ -43,6 +48,16 @@ public class ChatMenu extends Application {
 	private ComboBox<String> chatTypeCombo;
 	@FXML
 	private Label chatTitleLabel;
+	@FXML
+	private VBox createRoomInputsBox;
+	@FXML
+	private Button createRoomButton;
+	@FXML
+	private TextField roomNameInput;
+	@FXML
+	private TextField membersCountInput;
+
+	private ArrayList<TextField> createRoomInputs;
 
 	public ChatMenu() {
 		instance = this;
@@ -169,5 +184,44 @@ public class ChatMenu extends Application {
 	public void backButtonHandler(MouseEvent event) throws Exception {
 		SendRequests.endChat();
 		new MainMenu().start(LoginMenu.getStage());
+	}
+
+	private void showPopup(String message, AlertType alertType) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(alertType == AlertType.ERROR ? "Error" : "Success");
+		alert.setHeaderText(alertType == AlertType.ERROR ? "Error" : "Success");
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
+
+	public void openCreateRoomInputs(MouseEvent event) {
+		if (!FormatValidation.isNumber(membersCountInput.getText()) ||
+			Integer.parseInt(membersCountInput.getText()) <= 0) {
+			showPopup("invalid members count", AlertType.ERROR);
+			return;
+		}
+		int membersCount = Integer.parseInt(membersCountInput.getText());
+		createRoomInputs.clear();
+		createRoomInputsBox.getChildren().clear();
+		for (int i = 0; i < membersCount; i++) {
+			TextField textField = new TextField();
+			textField.setPromptText("username #" + (i + 1));
+			createRoomInputs.add(textField);
+			createRoomInputsBox.getChildren().add(textField);
+		}
+		createRoomButton.setVisible(true);
+	}
+
+	public void createRoomButtonHandler(MouseEvent event) {
+		String[] members = new String[createRoomInputs.size()];
+		for (int i = 0; i < members.length; i++)
+			members[i] = createRoomInputs.get(i).getText();
+		ChatMenuMessage message = ChatMenuController.createRoom(roomNameInput.getText(), members);
+		showPopup(message.getErrorString(), message == ChatMenuMessage.SUCCESS ? AlertType.INFORMATION : AlertType.ERROR);
+		createRoomButton.setVisible(false);
+		createRoomInputs.clear();
+		createRoomInputsBox.getChildren().clear();
+		roomNameInput.setText("");
+		membersCountInput.setText("");
 	}
 }

@@ -31,12 +31,12 @@
 	<right>
 		<VBox spacing="10" alignment="CENTER">
 			<Label text="Create room"/>
-			<TextField promptText="room name" maxWidth="200"/>
-			<TextField promptText="number of members" maxWidth="200"/>
-			<Button text="OK"/>
-			<VBox>
+			<TextField promptText="room name" maxWidth="200" fx:id="roomNameInput"/>
+			<TextField promptText="number of members" maxWidth="200" fx:id="membersCountInput"/>
+			<Button text="OK" onMouseClicked="#openCreateRoomInputs"/>
+			<VBox fx:id="createRoomInputsBox">
 			</VBox>
-			<Button text="Create" visible="false"/>
+			<Button text="Create" visible="false" onMouseClicked="#createRoomButtonHandler" fx:id="createRoomButton"/>
 		</VBox>
 	</right>
 

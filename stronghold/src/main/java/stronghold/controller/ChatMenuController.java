@@ -1,8 +1,13 @@
 package stronghold.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import stronghold.client.SendRequests;
+import stronghold.controller.messages.ChatMenuMessage;
 import stronghold.model.chat.ChatData;
 import stronghold.model.chat.Message;
+import stronghold.model.chat.Room;
 
 public class ChatMenuController {
 	private static ChatData chatData;
@@ -44,6 +49,20 @@ public class ChatMenuController {
 		Message message = chatData.getMessageById(id);
 		message.setContent(content);
 		SendRequests.sendChatData(chatData);
+	}
+
+	public static ChatMenuMessage createRoom(String name, String[] members) {
+		if (name.length() == 0)
+			return ChatMenuMessage.EMPTY_NAME;
+		name = "@" + name;
+		if (chatData.getRoomByName(name) != null)
+			return ChatMenuMessage.ROOM_ALREADY_EXISTS;
+		for (String member : members)
+			if (!chatData.getUsers().contains(member))
+				return ChatMenuMessage.USERNAME_NOT_FOUND;
+		chatData.getRooms().add(new Room(name, new ArrayList<>(Arrays.asList(members))));
+		SendRequests.sendChatData(chatData);
+		return ChatMenuMessage.SUCCESS;
 	}
 
 	public static void setOnline(String username) {
