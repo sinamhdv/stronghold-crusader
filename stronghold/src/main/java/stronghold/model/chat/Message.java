@@ -3,7 +3,6 @@ package stronghold.model.chat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import stronghold.controller.ChatMenuController;
 import stronghold.model.StrongHold;
 
 public class Message {
@@ -59,11 +58,18 @@ public class Message {
 		this.reactionEmojiURL = reactionEmojiURL;
 	}
 
-	public boolean isMine() {
-		if (receiver.charAt(0) == '@' &&
-			ChatMenuController.getChatData().getRoomByName(receiver).isMember(StrongHold.getCurrentUser().getUserName()))
-				return true;
-		return (receiver.equals(StrongHold.getCurrentUser().getUserName()) ||
-				sender.equals(StrongHold.getCurrentUser().getUserName()));
+	// public boolean isMine() {
+	// 	if (receiver.charAt(0) == '@' &&
+	// 		ChatMenuController.getChatData().getRoomByName(receiver).isMember(StrongHold.getCurrentUser().getUserName()))
+	// 			return true;
+	// 	return (receiver.equals(StrongHold.getCurrentUser().getUserName()) ||
+	// 			sender.equals(StrongHold.getCurrentUser().getUserName()));
+	// }
+
+	public boolean isInChat(String chatName, String username) {
+		if (chatName.charAt(0) == '@')
+			return receiver.equals(chatName);
+		return (receiver.equals(username) && sender.equals(chatName)) ||
+				(receiver.equals(chatName) && sender.equals(username));
 	}
 }

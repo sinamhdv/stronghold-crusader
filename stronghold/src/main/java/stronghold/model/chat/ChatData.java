@@ -27,6 +27,10 @@ public class ChatData {
 		return rooms;
 	}
 
+	public ArrayList<String> getUsers() {
+		return users;
+	}
+
 	public Room getRoomByName(String name) {
 		for (Room room : rooms)
 			if (room.getName().equals(name))

@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stronghold.client.SendRequests;
 import stronghold.controller.ChatMenuController;
+import stronghold.model.StrongHold;
 import stronghold.model.chat.Message;
+import stronghold.model.chat.Room;
 
 public class ChatMenu extends Application {
 	private static ChatMenu instance;
@@ -70,7 +71,7 @@ public class ChatMenu extends Application {
 			chatTitle += " (" + (ChatMenuController.getChatData().isOnline(chatName) ? "online" : "offline") + ")";
 		chatTitleLabel.setText(chatTitle);
 		for (Message message : ChatMenuController.getChatData().getMessages())
-			if (message.isMine())
+			if (message.isInChat(chatName, StrongHold.getCurrentUser().getUserName()))
 				addMessage(message);
 	}
 
@@ -103,15 +104,25 @@ public class ChatMenu extends Application {
 			reactionButton.setGraphic(emoji);
 			box.getChildren().add(reactionButton);
 		}
-		if (message.isMine())
+		if (message.getSender().equals(StrongHold.getCurrentUser().getUserName()))
 			box.setStyle("-fx-background: lightblue;");
 		else
 			box.setStyle("-fx-background: white;");
 		messagesBox.getChildren().add(box);
 	}
 
+	private void refreshChatsList() {
+		for (Room room : ChatMenuController.getChatData().getRooms())
+			if (!chatTypeCombo.getItems().contains(room.getName()))
+				chatTypeCombo.getItems().add(room.getName());
+		for (String username : ChatMenuController.getChatData().getUsers())
+			if (!chatTypeCombo.getItems().contains(username))
+				chatTypeCombo.getItems().add(username);
+	}
+
 	public void refreshScreen() {
 		refreshMessages();
+		refreshChatsList();
 	}
 
 	public void sendButtonHandler(MouseEvent event) {
