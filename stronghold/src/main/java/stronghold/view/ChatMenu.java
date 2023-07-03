@@ -39,6 +39,7 @@ public class ChatMenu extends Application {
 		new Image(ChatMenu.class.getResource("/images/ui/poker.png").toExternalForm()),
 		new Image(ChatMenu.class.getResource("/images/ui/smile.png").toExternalForm())
 	};
+	private static final Image CHECKMARK_IMAGE = new Image(ChatMenu.class.getResource("/images/ui/check.png").toExternalForm());
 
 	@FXML
 	private TextField messageInput;
@@ -125,7 +126,10 @@ public class ChatMenu extends Application {
 			deleteButton.setOnMouseClicked(event -> runDelete(message.getId()));
 			Button editButton = new Button("Edit");
 			editButton.setOnMouseClicked(event -> runEdit(message.getId()));
-			box.getChildren().addAll(deleteButton, editButton);
+			ImageView checkMark = new ImageView(CHECKMARK_IMAGE);
+			checkMark.setFitHeight(10);
+			checkMark.setFitWidth(10);
+			box.getChildren().addAll(checkMark, deleteButton, editButton);
 		}
 		else
 			box.setStyle("-fx-background-color: white;");
