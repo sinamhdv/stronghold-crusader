@@ -98,7 +98,7 @@ public class MainMenu extends Application {
 	}
 
 	public void chatButtonHandler(MouseEvent mouseEvent) throws Exception {
-		System.out.println("chat");
+		new ChatMenu().start(LoginMenu.getStage());
 	}
 
 	public void profileButtonHandler(MouseEvent mouseEvent) throws Exception {
