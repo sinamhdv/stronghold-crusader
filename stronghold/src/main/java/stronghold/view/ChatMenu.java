@@ -59,9 +59,13 @@ public class ChatMenu extends Application {
 		if (chatName.charAt(0) != '@')
 			chatTitle += " (" + (ChatMenuController.getChatData().isOnline(chatName) ? "online" : "offline") + ")";
 		chatTitleLabel.setText(chatTitle);
-		for (Message message : ChatMenuController.getChatData().getMessages()) {
-			if ()
-		}
+		for (Message message : ChatMenuController.getChatData().getMessages())
+			if (message.isMine())
+				addMessage(message);
+	}
+
+	private void addMessage(Message message) {
+		
 	}
 
 	public void refreshScreen() {
