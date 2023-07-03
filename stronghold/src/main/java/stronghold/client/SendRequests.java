@@ -171,4 +171,8 @@ public class SendRequests {
 			System.out.println("Exception in sending chat data");
 		}
 	}
+
+	public static void endChat() {
+		ClientMain.send(new Packet(PacketType.END_CHAT, jwt));
+	}
 }

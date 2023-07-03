@@ -16,6 +16,7 @@
 	<center>
 		<VBox alignment="CENTER" spacing="20">
 			<ComboBox fx:id="chatTypeCombo"/>
+			<Label text="" fx:id="chatTitleLabel"/>
 			<ScrollPane style="-fx-background: blue;" prefWidth="2000" prefHeight="1000">
 				<VBox fx:id="messagesBox" spacing="5"></VBox>
 			</ScrollPane>
