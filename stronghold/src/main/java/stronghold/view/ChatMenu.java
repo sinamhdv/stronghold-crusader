@@ -126,6 +126,8 @@ public class ChatMenu extends Application {
 	}
 
 	public void sendButtonHandler(MouseEvent event) {
+		if (messageInput.getText().length() == 0) return;
+		ChatMenuController.sendMessage(chatTypeCombo.getSelectionModel().getSelectedItem(), messageInput.getText());
 		messageInput.setText("");
 	}
 
