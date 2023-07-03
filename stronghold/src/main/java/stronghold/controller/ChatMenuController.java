@@ -27,4 +27,14 @@ public class ChatMenuController {
 		chatData.getMessages().add(message);
 		SendRequests.sendChatData(chatData);
 	}
+
+	public static void setOnline(String username) {
+		chatData.getRoomByName("@public").getMembers().add(username);
+		if (!chatData.getUsers().contains(username))
+			chatData.getUsers().add(username);
+	}
+
+	public static void setOffline(String username) {
+		chatData.getRoomByName("@public").getMembers().remove(username);
+	}
 }

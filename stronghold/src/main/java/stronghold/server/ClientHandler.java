@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import javafx.application.Platform;
+import stronghold.controller.ChatMenuController;
 import stronghold.controller.LoginMenuController;
 import stronghold.controller.MainMenuController;
 import stronghold.controller.SignupMenuController;
@@ -18,6 +19,7 @@ import stronghold.model.Game;
 import stronghold.model.PendingGame;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.model.chat.ChatData;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
@@ -30,6 +32,7 @@ public class ClientHandler implements Runnable {
 	private User user;
 	private String jwt;
 	private String currentGameId;
+	private boolean isChatting;
 
 	public ClientHandler(Socket socket) throws Exception {
 		this.socket = socket;
@@ -91,6 +94,15 @@ public class ClientHandler implements Runnable {
 				case SYNC_MAP:
 					receiveGameMap(Integer.parseInt(request.getDataList().get(0)),
 						request.getDataList().get(1));
+					break;
+				case START_CHAT:
+					handleStartChat();
+					break;
+				case END_CHAT:
+					handleEndChat();
+					break;
+				case UPDATE_CHAT_DATA:
+					handleUpdateChatData(Integer.parseInt(request.getDataList().get(0)));
 					break;
 				default:
 					break;
@@ -204,5 +216,47 @@ public class ClientHandler implements Runnable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	private void handleStartChat() {
+		isChatting = true;
+		ChatMenuController.setOnline(user.getUserName());
+		broadcastChatData();
+	}
+
+	private void handleEndChat() {
+		isChatting = false;
+		ChatMenuController.setOffline(user.getUserName());
+		send(new Packet(PacketType.END_CHAT, ""));
+		broadcastChatData();
+	}
+
+	private void handleUpdateChatData(int length) {
+		try {
+			byte[] bytes = sockin.readNBytes(length);
+			String data = new String(bytes);
+			ChatData chatData = new Gson().fromJson(data, ChatData.class);
+			ChatMenuController.setChatData(chatData);
+			broadcastChatData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void sendChatData() {
+		String data = new Gson().toJson(ChatMenuController.getChatData());
+		send(new Packet(PacketType.CONTENT_LENGTH, "", Integer.toString(data.length())));
+		try {
+			sockout.writeBytes(data);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Exception in sending chat data");
+		}
+	}
+
+	private void broadcastChatData() {
+		for (User user : StrongHold.getUsers())
+			if (user.getClientHandler() != null && user.getClientHandler().isChatting)
+				user.getClientHandler().sendChatData();
 	}
 }
