@@ -4,11 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stronghold.client.SendRequests;
@@ -17,6 +21,12 @@ import stronghold.model.chat.Message;
 
 public class ChatMenu extends Application {
 	private static ChatMenu instance;
+
+	private static final String[] REACTION_EMOJIES = {
+		ChatMenu.class.getResource("/images/ui/sad.png").toExternalForm(),
+		ChatMenu.class.getResource("/images/ui/poker.png").toExternalForm(),
+		ChatMenu.class.getResource("/images/ui/smile.png").toExternalForm()
+	};
 
 	@FXML
 	private TextField messageInput;
@@ -65,7 +75,39 @@ public class ChatMenu extends Application {
 	}
 
 	private void addMessage(Message message) {
-		
+		Label text = new Label(message.getSender() + "[" + message.getTimestamp() + "]" + message.getContent());
+		ImageView avatar;
+		try {
+			avatar = new ImageView(message.getSenderAvatarURL());
+		} catch (Exception ex) {
+			avatar = new ImageView();
+		}
+		avatar.setFitHeight(20);
+		avatar.setFitWidth(20);
+		ImageView reaction;
+		try {
+			reaction = new ImageView(message.getReactionEmojiURL());
+		} catch (Exception ex) {
+			reaction = new ImageView();
+		}
+		reaction.setFitHeight(20);
+		reaction.setFitWidth(20);
+		Button deleteButton = new Button("Del");
+		Button editButton = new Button("Edit");
+		HBox box = new HBox(5, avatar, text, reaction, deleteButton, editButton);
+		for (String url : REACTION_EMOJIES) {
+			ImageView emoji = new ImageView(url);
+			emoji.setFitHeight(15);
+			emoji.setFitWidth(15);
+			Button reactionButton = new Button();
+			reactionButton.setGraphic(emoji);
+			box.getChildren().add(reactionButton);
+		}
+		if (message.isMine())
+			box.setStyle("-fx-background: lightblue;");
+		else
+			box.setStyle("-fx-background: white;");
+		messagesBox.getChildren().add(box);
 	}
 
 	public void refreshScreen() {
