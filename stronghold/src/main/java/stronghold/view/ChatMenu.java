@@ -66,6 +66,7 @@ public class ChatMenu extends Application {
 	private void refreshMessages() {
 		messagesBox.getChildren().clear();
 		String chatName = chatTypeCombo.getSelectionModel().getSelectedItem();
+		if (chatName == null) return;
 		String chatTitle = chatName;
 		if (chatName.charAt(0) != '@')
 			chatTitle += " (" + (ChatMenuController.getChatData().isOnline(chatName) ? "online" : "offline") + ")";

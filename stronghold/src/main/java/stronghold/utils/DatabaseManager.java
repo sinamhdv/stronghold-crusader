@@ -18,13 +18,16 @@ import com.google.gson.Gson;
 
 import stronghold.Main;
 import stronghold.client.SendRequests;
+import stronghold.controller.ChatMenuController;
 import stronghold.model.StrongHold;
 import stronghold.model.User;
+import stronghold.model.chat.ChatData;
 import stronghold.model.map.Map;
 
 public class DatabaseManager {
 	
 	private static final String USERS_DATABASE_FILENAME = "stronghold/src/main/database/users.json";
+	private static final String CHAT_DATA_FILENAME = "stronghold/src/main/database/chatdata.json";
 	private static final String STAY_LOGGED_IN_FILENAME = "stronghold/src/main/database/stay-logged-in.txt";
 	private static final String MAP_FILES_PATH = "stronghold/src/main/database/maps/";
 
@@ -136,5 +139,16 @@ public class DatabaseManager {
 		for (int i = 0; i < files.length; i++)
 			result[i] = convertFilenameToMapName(files[i].getName());
 		return result;
+	}
+
+	// Chat Data
+	public static void loadChatData() {
+		String json = readAllFromFile(CHAT_DATA_FILENAME);
+		ChatData chatData = (json != null ? new Gson().fromJson(json, ChatData.class) : new ChatData());
+		ChatMenuController.setChatData(chatData);
+	}
+	public static synchronized void saveChatData() {
+		String json = new Gson().toJson(ChatMenuController.getChatData());
+		writeToFile(CHAT_DATA_FILENAME, json);
 	}
 }

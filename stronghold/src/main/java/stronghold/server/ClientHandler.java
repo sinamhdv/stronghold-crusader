@@ -23,6 +23,7 @@ import stronghold.model.chat.ChatData;
 import stronghold.network.Packet;
 import stronghold.network.PacketType;
 import stronghold.utils.Cryptography;
+import stronghold.utils.DatabaseManager;
 import stronghold.utils.TransferSerialization;
 
 public class ClientHandler implements Runnable {
@@ -218,6 +219,7 @@ public class ClientHandler implements Runnable {
 		}
 	}
 
+	// Chat
 	private void handleStartChat() {
 		isChatting = true;
 		ChatMenuController.setOnline(user.getUserName());
@@ -255,6 +257,7 @@ public class ClientHandler implements Runnable {
 	}
 
 	private void broadcastChatData() {
+		DatabaseManager.saveChatData();
 		for (User user : StrongHold.getUsers())
 			if (user.getClientHandler() != null && user.getClientHandler().isChatting)
 				user.getClientHandler().sendChatData();
