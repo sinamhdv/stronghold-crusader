@@ -1,5 +1,7 @@
 package stronghold.view;
 
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,12 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import stronghold.client.SendRequests;
 import stronghold.controller.ChatMenuController;
@@ -79,7 +83,8 @@ public class ChatMenu extends Application {
 	}
 
 	private void addMessage(Message message) {
-		Label text = new Label(message.getSender() + "[" + message.getTimestamp() + "]" + message.getContent());
+		Label text = new Label(message.getSender() + "[" + message.getTimestamp() + "]: " + message.getContent());
+		text.setTextFill(Color.BLACK);
 		ImageView avatar;
 		try {
 			avatar = new ImageView(ChatMenu.class.getResource("/pictures/avatar/" +
@@ -97,22 +102,30 @@ public class ChatMenu extends Application {
 		}
 		reaction.setFitHeight(20);
 		reaction.setFitWidth(20);
-		Button deleteButton = new Button("Del");
-		Button editButton = new Button("Edit");
-		HBox box = new HBox(5, avatar, text, reaction, deleteButton, editButton);
+		HBox box = new HBox(5, avatar, text, reaction);
 		box.setAlignment(Pos.CENTER_LEFT);
+		if (message.getSender().equals(StrongHold.getCurrentUser().getUserName())) {
+			box.setStyle("-fx-background-color: lightblue;");
+			Button deleteButton = new Button("Del");
+			deleteButton.setOnMouseClicked(event -> runDelete(message.getId()));
+			Button editButton = new Button("Edit");
+			editButton.setOnMouseClicked(event -> runEdit(message.getId()));
+			box.getChildren().addAll(deleteButton, editButton);
+		}
+		else
+			box.setStyle("-fx-background-color: white;");
+		int emojiIndex = 0;
 		for (Image emojiImage : REACTION_EMOJIES) {
 			ImageView emoji = new ImageView(emojiImage);
 			emoji.setFitHeight(15);
 			emoji.setFitWidth(15);
 			Button reactionButton = new Button();
+			int tempEmojiIndex = emojiIndex;
+			reactionButton.setOnMouseClicked(event -> runReact(message.getId(), tempEmojiIndex));
 			reactionButton.setGraphic(emoji);
 			box.getChildren().add(reactionButton);
+			emojiIndex++;
 		}
-		if (message.getSender().equals(StrongHold.getCurrentUser().getUserName()))
-			box.setStyle("-fx-background-color: lightblue;");
-		else
-			box.setStyle("-fx-background-color: white;");
 		messagesBox.getChildren().add(box);
 	}
 
@@ -128,6 +141,23 @@ public class ChatMenu extends Application {
 	public void refreshScreen() {
 		refreshMessages();
 		refreshChatsList();
+	}
+
+	private void runDelete(int id) {
+		ChatMenuController.deleteMessage(id);
+	}
+
+	private void runEdit(int id) {
+		TextInputDialog dialog = new TextInputDialog("");
+		dialog.setHeaderText("Enter new content:");
+		dialog.initOwner(LoginMenu.getStage());
+		Optional<String> content = dialog.showAndWait();
+		if (!content.isPresent()) return;
+		ChatMenuController.editMessage(id, content);
+	}
+
+	private void runReact(int id, int emojiIndex) {
+		ChatMenuController.reactMessage(id, emojiIndex);
 	}
 
 	public void sendButtonHandler(MouseEvent event) {

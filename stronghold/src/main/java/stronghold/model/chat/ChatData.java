@@ -41,4 +41,11 @@ public class ChatData {
 	public boolean isOnline(String username) {
 		return getRoomByName("@public").isMember(username);
 	}
+
+	public Message getMessageById(int id) {
+		for (Message message : messages)
+			if (message.getId() == id)
+				return message;
+		return null;
+	}
 }
