@@ -57,7 +57,7 @@ public class ChatMenu extends Application {
 	@FXML
 	private TextField membersCountInput;
 
-	private ArrayList<TextField> createRoomInputs;
+	private ArrayList<TextField> createRoomInputs = new ArrayList<>();
 
 	public ChatMenu() {
 		instance = this;
@@ -146,7 +146,8 @@ public class ChatMenu extends Application {
 
 	private void refreshChatsList() {
 		for (Room room : ChatMenuController.getChatData().getRooms())
-			if (!chatTypeCombo.getItems().contains(room.getName()))
+			if (!chatTypeCombo.getItems().contains(room.getName()) &&
+				room.isMember(StrongHold.getCurrentUser().getUserName()))
 				chatTypeCombo.getItems().add(room.getName());
 		for (String username : ChatMenuController.getChatData().getUsers())
 			if (!chatTypeCombo.getItems().contains(username))
