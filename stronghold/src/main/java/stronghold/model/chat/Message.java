@@ -4,23 +4,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import stronghold.model.StrongHold;
+import stronghold.utils.Miscellaneous;
 
 public class Message {
 	private int id;
 	private String sender;
 	private String receiver;
 	private String timestamp;
-	private String senderAvatarURL;
+	private int senderAvatarIndex;
 	private boolean seen = false;
 	private String content;
-	private String reactionEmojiURL;
+	private int reactionEmojiIndex = -1;
 
 	public Message(int id, String receiver, String content) {
 		this.id = id;
 		this.sender = StrongHold.getCurrentUser().getUserName();
 		this.receiver = receiver;
 		this.timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		this.senderAvatarURL = StrongHold.getCurrentUser().getAvatarURL();
+		this.senderAvatarIndex = Miscellaneous.AvatarURLToIndex(StrongHold.getCurrentUser().getAvatarURL());
 		this.content = content;
 	}
 
@@ -36,8 +37,8 @@ public class Message {
 	public String getTimestamp() {
 		return timestamp;
 	}
-	public String getSenderAvatarURL() {
-		return senderAvatarURL;
+	public int getSenderAvatarIndex() {
+		return senderAvatarIndex;
 	}
 	public boolean isSeen() {
 		return seen;
@@ -51,11 +52,11 @@ public class Message {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getReactionEmojiURL() {
-		return reactionEmojiURL;
+	public int getReactionEmojiIndex() {
+		return reactionEmojiIndex;
 	}
-	public void setReactionEmojiURL(String reactionEmojiURL) {
-		this.reactionEmojiURL = reactionEmojiURL;
+	public void setReactionEmojiIndex(int reactionEmojiIndex) {
+		this.reactionEmojiIndex = reactionEmojiIndex;
 	}
 
 	// public boolean isMine() {

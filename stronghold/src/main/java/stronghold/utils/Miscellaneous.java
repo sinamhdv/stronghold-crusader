@@ -1,5 +1,6 @@
 package stronghold.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -29,5 +30,13 @@ public class Miscellaneous {
 
 	public static boolean checkCoordinatesOnMap(Map map, int x, int y) {
 		return (x >= 0 && y >= 0 && x < map.getGrid().length && y < map.getGrid()[0].length);
+	}
+
+	public static int AvatarURLToIndex(String url) {
+		try {
+			return Integer.parseInt(new File(url.substring(5)).getName().split("\\.")[0]);
+		} catch (Exception ex) {
+			return 1;
+		}
 	}
 }

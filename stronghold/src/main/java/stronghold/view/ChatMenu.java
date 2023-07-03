@@ -3,11 +3,13 @@ package stronghold.view;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -23,10 +25,10 @@ import stronghold.model.chat.Room;
 public class ChatMenu extends Application {
 	private static ChatMenu instance;
 
-	private static final String[] REACTION_EMOJIES = {
-		ChatMenu.class.getResource("/images/ui/sad.png").toExternalForm(),
-		ChatMenu.class.getResource("/images/ui/poker.png").toExternalForm(),
-		ChatMenu.class.getResource("/images/ui/smile.png").toExternalForm()
+	private static final Image[] REACTION_EMOJIES = {
+		new Image(ChatMenu.class.getResource("/images/ui/sad.png").toExternalForm()),
+		new Image(ChatMenu.class.getResource("/images/ui/poker.png").toExternalForm()),
+		new Image(ChatMenu.class.getResource("/images/ui/smile.png").toExternalForm())
 	};
 
 	@FXML
@@ -80,7 +82,8 @@ public class ChatMenu extends Application {
 		Label text = new Label(message.getSender() + "[" + message.getTimestamp() + "]" + message.getContent());
 		ImageView avatar;
 		try {
-			avatar = new ImageView(message.getSenderAvatarURL());
+			avatar = new ImageView(ChatMenu.class.getResource("/pictures/avatar/" +
+				message.getSenderAvatarIndex() + ".png").toExternalForm());
 		} catch (Exception ex) {
 			avatar = new ImageView();
 		}
@@ -88,7 +91,7 @@ public class ChatMenu extends Application {
 		avatar.setFitWidth(20);
 		ImageView reaction;
 		try {
-			reaction = new ImageView(message.getReactionEmojiURL());
+			reaction = new ImageView(REACTION_EMOJIES[message.getReactionEmojiIndex()]);
 		} catch (Exception ex) {
 			reaction = new ImageView();
 		}
@@ -97,8 +100,9 @@ public class ChatMenu extends Application {
 		Button deleteButton = new Button("Del");
 		Button editButton = new Button("Edit");
 		HBox box = new HBox(5, avatar, text, reaction, deleteButton, editButton);
-		for (String url : REACTION_EMOJIES) {
-			ImageView emoji = new ImageView(url);
+		box.setAlignment(Pos.CENTER_LEFT);
+		for (Image emojiImage : REACTION_EMOJIES) {
+			ImageView emoji = new ImageView(emojiImage);
 			emoji.setFitHeight(15);
 			emoji.setFitWidth(15);
 			Button reactionButton = new Button();
@@ -106,9 +110,9 @@ public class ChatMenu extends Application {
 			box.getChildren().add(reactionButton);
 		}
 		if (message.getSender().equals(StrongHold.getCurrentUser().getUserName()))
-			box.setStyle("-fx-background: lightblue;");
+			box.setStyle("-fx-background-color: lightblue;");
 		else
-			box.setStyle("-fx-background: white;");
+			box.setStyle("-fx-background-color: white;");
 		messagesBox.getChildren().add(box);
 	}
 
