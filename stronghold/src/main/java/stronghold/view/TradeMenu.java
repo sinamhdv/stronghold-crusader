@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
 import stronghold.controller.TradeMenuController;
 import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.*;
+import stronghold.utils.FormatValidation;
 import stronghold.utils.ViewUtils;
 
 public class TradeMenu extends Application {
@@ -43,9 +45,9 @@ public class TradeMenu extends Application {
 	public void start(Stage stage) throws IOException {
 		Pane pane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
 		pane.setPrefSize(800, 600);
-		Image image = new Image(getClass().getResource("/pictures/background/EV0qurmWkAIvqfu.jpeg").toExternalForm());
-		Background background = new Background(ViewUtils.setBackGround(image));
-		pane.setBackground(background);
+		// Image image = new Image(getClass().getResource("/pictures/background/EV0qurmWkAIvqfu.jpeg").toExternalForm());
+		// Background background = new Background(ViewUtils.setBackGround(image));
+		// pane.setBackground(background);
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
 		stage.setFullScreen(true);
@@ -54,8 +56,6 @@ public class TradeMenu extends Application {
 
 	@FXML
 	public void initialize() {
-		nodes.add(creating);
-		nodes.add(view);
 		creating.setOnMouseClicked(event -> {
 			handleCreatingMenu();
 		});
@@ -64,16 +64,15 @@ public class TradeMenu extends Application {
 		});
 
 	}
-
 	
 	private void handleViewMenu() {
 		cleanScreen();
 		VBox vBox = new VBox();
 		nodes.add(vBox);
-		Label label1 = new Label("Submitted request");
+		Button label1 = new Button("Submitted request");
 		label1.setOnMouseClicked(event -> {
 			handleSubmittedRequest();});
-		Label label2 = new Label("Received Request");
+		Button label2 = new Button("Received Request");
 		label2.setOnMouseClicked(event -> {
 			handleReceivedRequest();});
 		vBox.getChildren().add(label2);
@@ -87,23 +86,12 @@ public class TradeMenu extends Application {
 		vBox.setSpacing(40);
 		nodes.add(vBox);
 		Game currentGame = StrongHold.getCurrentGame();
-		Government currentGovernment = currentGame.getCurrentPlayer();
 		for(TradeRequest trade: currentGame.getAllTrades()) {
-			if(trade.getReceiverIndex() == currentGame.getGovernmentIndex(currentGovernment)) {
+			if(trade.getReceiverIndex() == StrongHold.getCurrentGame().getCurrentPlayerIndex()) {
 				HBox hBox = new HBox();
 				hBox.setSpacing(40);
-				Text state = new Text(trade.getState().getStateString());
-				Text reciver = new Text(currentGame.getGovernments()[trade.getReceiverIndex()].getUser().getUserName());
-				Text resourceType = new Text(trade.getResourceType().getName());
-				Text amount = new Text(trade.getAmount() +"");
-				Text messege = new Text(trade.getMessage());
-				Text id = new Text(trade.getId() +"");
-				hBox.getChildren().add(state);
-				hBox.getChildren().add(reciver);
-				hBox.getChildren().add(resourceType);
-				hBox.getChildren().add(amount);
-				hBox.getChildren().add(messege);
-				hBox.getChildren().add(id);
+				Text info = new Text(trade.toString());
+				hBox.getChildren().add(info);
 				if (trade.getState() == TradeRequestState.PENDING) {
 					Button accept = new Button("Accept");
 					accept.setOnMouseClicked(event -> {
@@ -119,25 +107,34 @@ public class TradeMenu extends Application {
 				vBox.getChildren().add(hBox);
 			}
 		}
+		Button backButton = new Button("Back");
+		backButton.setOnMouseClicked(event -> backToFirstScreen());
+		vBox.getChildren().add(backButton);
 		mainPane.getChildren().add(vBox);
+	}
+
+	private void showPopup(String message, AlertType alertType) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(alertType.name());
+		alert.setHeaderText(alertType.name());
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	private void handleReject(TradeRequest trade) {
 		TradeMenuMessage error = TradeMenuController.tradeReject(trade.getId());
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Error");
-		alert.setHeaderText("Reject error");
-		alert.setContentText(error.getErrorMessage());
-		alert.showAndWait();
+		if (error == TradeMenuMessage.SUCCESSFUL_REJECT)
+			showPopup(error.getErrorMessage(), AlertType.INFORMATION);
+		else
+			showPopup(error.getErrorMessage(), AlertType.ERROR);
 	}
 
 	private void acceptHandler(TradeRequest trade) {
 		TradeMenuMessage error = TradeMenuController.tradeAccept(trade.getId());
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle("Error");
-		alert.setHeaderText("Accept error");
-		alert.setContentText(error.getErrorMessage());
-		alert.showAndWait();
+		if (error == TradeMenuMessage.SUCCESSFUL_ACCEPT)
+			showPopup(error.getErrorMessage(), AlertType.INFORMATION);
+		else
+			showPopup(error.getErrorMessage(), AlertType.ERROR);
 	}
 
 
@@ -170,16 +167,17 @@ public class TradeMenu extends Application {
 		nodes.add(vBox);
 		HBox hBox = new HBox();
 		hBox.setSpacing(30);
-		nodes.add(hBox);
-		ImageView minecIcon = new ImageView(getClass().getResource("/pictures/trade/blackCross.png").toExternalForm());
-		minecIcon.setFitWidth(30);
-		minecIcon.setFitHeight(30);
-		Text Number = new Text(amount[0] + "");
-		minecIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		// nodes.add(hBox);
+		ImageView minusIcon = new ImageView(getClass().getResource("/pictures/trade/blackCross.png").toExternalForm());
+		minusIcon.setFitWidth(30);
+		minusIcon.setFitHeight(30);
+		Text number = new Text(amount[0] + "");
+		minusIcon.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				if (amount[0] == 0) return;
 				amount[0]--;
-				Number.setText(Integer.toString(amount[0]));
+				number.setText(Integer.toString(amount[0]));
 			}
 		});
 		ImageView plusIcon = new ImageView(getClass().getResource("/pictures/trade/plus.png").toExternalForm());
@@ -189,27 +187,27 @@ public class TradeMenu extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				amount[0]++;
-				Number.setText(Integer.toString(amount[0]));
+				number.setText(Integer.toString(amount[0]));
 			}
 		});
 		hBox.getChildren().add(plusIcon);
-		hBox.getChildren().add(Number);
-		hBox.getChildren().add(minecIcon);
+		hBox.getChildren().add(number);
+		hBox.getChildren().add(minusIcon);
 		vBox.getChildren().add(hBox);
 		Button donate = new Button("Donate");
 		donate.setOnMouseClicked(event -> {
-			handleFinallPage(resourceType, amount[0], reciver);
+			handleFinallPage(resourceType, amount[0], reciver, true);
 		});
 		Button request = new Button("Request");
 		request.setOnMouseClicked(event -> {
-			handleFinallPage(resourceType, amount[0], reciver);
+			handleFinallPage(resourceType, amount[0], reciver, false);
 		});
 		vBox.getChildren().add(donate);
 		vBox.getChildren().add(request);
 		mainPane.getChildren().add(vBox);
 	}
 
-	private void handleFinallPage(ResourceType resourceType, int amount, Government reciver) {
+	private void handleFinallPage(ResourceType resourceType, int amount, Government reciver, boolean isDonate) {
 		cleanScreen();
 		VBox vBox = new VBox();
 		TextField textField = new TextField("Trade Message");
@@ -218,28 +216,28 @@ public class TradeMenu extends Application {
 		submit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-			TradeMenuMessage error = TradeMenuController.tradeRequest(resourceType.getName(), amount, Integer.parseInt(price.getText()), textField.getText(), StrongHold.getCurrentGame().getGovernmentIndex(reciver));
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("submit error");
-				alert.setContentText(error.getErrorMessage());
-				alert.showAndWait();
+				if (!isDonate && !FormatValidation.isNumber(price.getText())) {
+					showPopup("Invalid price", AlertType.ERROR);
+					return;
+				}
+				TradeMenuMessage error = TradeMenuController.tradeRequest(
+					resourceType.getName(),
+					amount,
+					(isDonate ? 0 : Integer.parseInt(price.getText())),
+					textField.getText(),
+					StrongHold.getCurrentGame().getGovernmentIndex(reciver)
+				);
+				if (error == TradeMenuMessage.SUCCESSFUL_REQUEST)
+					showPopup(error.getErrorMessage(), AlertType.INFORMATION);
+				else
+					showPopup(error.getErrorMessage(), AlertType.ERROR);
 			}
 		});
-		Button button =new Button("back first");
-		button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				cleanScreen();
-				creating.setVisible(true);
-				creating.setManaged(true);
-				view.setVisible(true);
-				view.setManaged(true);
-			}
-		});
+		Button button = new Button("Back to first");
+		button.setOnMouseClicked(event -> backToFirstScreen());
 		vBox.getChildren().add(button);
 		vBox.getChildren().add(textField);
-		vBox.getChildren().add(price);
+		if (!isDonate) vBox.getChildren().add(price);
 		vBox.getChildren().add(submit);
 		nodes.add(vBox);
 		mainPane.getChildren().add(vBox);
@@ -251,28 +249,19 @@ public class TradeMenu extends Application {
 		vBox.setSpacing(40);
 		nodes.add(vBox);
 		Game currentGame = StrongHold.getCurrentGame();
-		Government currentGovernment = currentGame.getCurrentPlayer();
 		for(TradeRequest trade: currentGame.getAllTrades()) {
-			if(trade.getSenderIndex() == currentGame.getGovernmentIndex(currentGovernment)) {
+			if(trade.getSenderIndex() == StrongHold.getCurrentGame().getCurrentPlayerIndex()) {
 				HBox hBox = new HBox();
 				hBox.setSpacing(40);
-				Text state = new Text(trade.getState().getStateString());
-				Text reciver = new Text(currentGame.getGovernments()[trade.getReceiverIndex()].getUser().getUserName());
-				Text resourceType = new Text(trade.getResourceType().getName());
-				Text amount = new Text(trade.getAmount() +"");
-				Text messege = new Text(trade.getMessage());
-				Text id = new Text(trade.getId() +"");
-				hBox.getChildren().add(state);
-				hBox.getChildren().add(reciver);
-				hBox.getChildren().add(resourceType);
-				hBox.getChildren().add(amount);
-				hBox.getChildren().add(messege);
-				hBox.getChildren().add(id);
+				Text info = new Text(trade.toString());
+				hBox.getChildren().add(info);
 				vBox.getChildren().add(hBox);
 			}
 		}
+		Button backButton = new Button("Back");
+		backButton.setOnMouseClicked(event -> backToFirstScreen());
+		vBox.getChildren().add(backButton);
 		mainPane.getChildren().add(vBox);
-
 	}
 
 	private void handleCreatingMenu() {
@@ -295,18 +284,28 @@ public class TradeMenu extends Application {
 				hBox.getChildren().add(userName);
 				hBox.getChildren().add(popularity);
 				hBox.getChildren().add(gold);
-				nodes.add(hBox);
+				// nodes.add(hBox);
 				vBox.getChildren().add(hBox);
 			}
 		}
 		mainPane.getChildren().add(vBox);
 	}
 
-	public void cleanScreen() {
-		for (Node node : nodes) {
-			node.setVisible(false);
-			node.setManaged(false);
-		}
+	private void cleanScreen() {
+		creating.setVisible(false);
+		creating.setManaged(false);
+		view.setVisible(false);
+		view.setManaged(false);
+		for (Node node : nodes)
+			mainPane.getChildren().remove(node);
+		nodes.clear();
 	}
 
+	private void backToFirstScreen() {
+		cleanScreen();
+		creating.setVisible(true);
+		creating.setManaged(true);
+		view.setVisible(true);
+		view.setManaged(true);
+	}
 }

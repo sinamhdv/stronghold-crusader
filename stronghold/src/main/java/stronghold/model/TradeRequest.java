@@ -70,7 +70,9 @@ public class TradeRequest {
 
 	@Override
 	public String toString() {
-		String result = id + ") [" + senderIndex + " -> " + receiverIndex + "]: ";
+		String result = id + ") [" +
+		StrongHold.getCurrentGame().getGovernments()[senderIndex].getUser().getUserName() + " -> " +
+		StrongHold.getCurrentGame().getGovernments()[receiverIndex].getUser().getUserName() + "]: ";
 		result += "resource=" + resourceType.getName() + ", amount=" + amount + ", price=" + price;
 		result += ", status=" + state + ", message=" + message;
 		return result;
