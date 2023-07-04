@@ -6,5 +6,6 @@ stronghold/target/
 TODO1.md
 TODO2.md
 stronghold/src/main/database/users.json
+stronghold/src/main/database/users.db
 stronghold/src/main/database/stay-logged-in.txt
 stronghold/src/main/database/chatdata.json

@@ -5,6 +5,7 @@ module stronghold {
 	requires transitive com.google.gson;
 	requires transitive org.apache.commons.io;
 	requires transitive org.apache.commons.codec;
+	requires transitive java.sql;
 
 	exports stronghold;
 	exports stronghold.view;

@@ -9,8 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 
@@ -30,6 +35,7 @@ public class DatabaseManager {
 	private static final String CHAT_DATA_FILENAME = "stronghold/src/main/database/chatdata.json";
 	private static final String STAY_LOGGED_IN_FILENAME = "stronghold/src/main/database/stay-logged-in.txt";
 	private static final String MAP_FILES_PATH = "stronghold/src/main/database/maps/";
+	private static final String SQLITE_DATABASE_PATH = "stronghold/src/main/database/users.db";
 
 	// File Operations
 	static void writeToFile(String filename, String content) {
@@ -84,20 +90,64 @@ public class DatabaseManager {
 	}
 
 	// User Management
+	private static Connection databaseConnection;
+	private static void setupDatabase() {
+		try {
+			databaseConnection = DriverManager.getConnection("jdbc:sqlite:" + SQLITE_DATABASE_PATH);
+			Statement statement = databaseConnection.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS users(username text PRIMARY KEY, json text);");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
 	public static void loadUsers() {
-		String jsonData = readAllFromFile(USERS_DATABASE_FILENAME);
-		User[] usersArray = (jsonData == null ? new User[0] : new Gson().fromJson(jsonData, User[].class));
-		StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
+		try {
+			setupDatabase();
+			Statement statement = databaseConnection.createStatement();
+			ResultSet result = statement.executeQuery("SELECT * FROM users");
+			ArrayList<User> users = new ArrayList<>();
+			while (result.next())
+				users.add(new Gson().fromJson(result.getString("json"), User.class));
+			StrongHold.setUsers(users);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+		// String jsonData = readAllFromFile(USERS_DATABASE_FILENAME);
+		// User[] usersArray = (jsonData == null ? new User[0] : new Gson().fromJson(jsonData, User[].class));
+		// StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
 	}
 	public static synchronized void updateUser(User user) {
-		if (Main.isServerMode())
-			saveUsers();
+		if (Main.isServerMode()) {
+			// saveUsers();
+			try {
+				PreparedStatement statement = databaseConnection.prepareStatement(
+					"SELECT * FROM users WHERE username = ?");
+				statement.setString(1, user.getUserName());
+				if (!statement.executeQuery().next()) {
+					PreparedStatement insertStatement = databaseConnection.prepareStatement(
+						"INSERT INTO users(username, json) VALUES(?, ?)");
+					insertStatement.setString(1, user.getUserName());
+					insertStatement.setString(2, new Gson().toJson(user));
+					insertStatement.executeUpdate();
+				}
+				else {
+					PreparedStatement updateStatement = databaseConnection.prepareStatement(
+						"UPDATE users SET json = ? WHERE username = ?");
+					updateStatement.setString(1, new Gson().toJson(user));
+					updateStatement.setString(2, user.getUserName());
+					updateStatement.executeUpdate();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
 		else
 			SendRequests.requestUpdateUser();
 	}
 	private static synchronized void saveUsers() {
-		String jsonData = new Gson().toJson(StrongHold.getUsers());
-		writeToFile(USERS_DATABASE_FILENAME, jsonData);
+		// String jsonData = new Gson().toJson(StrongHold.getUsers());
+		// writeToFile(USERS_DATABASE_FILENAME, jsonData);
 	}
 
 	// Auto-login
