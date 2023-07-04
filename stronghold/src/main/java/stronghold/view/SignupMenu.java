@@ -130,9 +130,19 @@ public class SignupMenu extends Application {
 		);
 		if (message != SignupAndProfileMenuMessage.SUCCESS) {
 			errorText.setText(message.getErrorString());
+			showPopup(message.getErrorString(), AlertType.ERROR);
 			return;
 		}
+		showPopup(message.getErrorString(), AlertType.INFORMATION);
 		new LoginMenu().start(LoginMenu.getStage());
+	}
+
+	public static void showPopup(String message, AlertType alertType) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(alertType.name());
+		alert.setHeaderText(alertType.name());
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	public void randomizePasswordButtonHandler(MouseEvent mouseEvent) {
