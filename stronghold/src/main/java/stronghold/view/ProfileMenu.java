@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -99,7 +100,8 @@ public class ProfileMenu extends Application {
 
 	// Scoreboard
 	@FXML
-	private  TableView<User> scoreBoard;
+	private TableView<User> scoreBoard;
+	private int scoreboardEndIndex = 10;
 
 	private VBox[] tabs = new VBox[8];
 
@@ -205,6 +207,9 @@ public class ProfileMenu extends Application {
 		tabs[index].setManaged(true);
 		if (index == 0) { // update profile info
 			initProfileInfo();
+		}
+		else if (index == 7) {
+			setupScoreboardScrollBar();
 		}
 	}
 
@@ -333,8 +338,7 @@ public class ProfileMenu extends Application {
 	}
 
 	public  void showScoreBoard() {
-		final int[] startIndex = {0};
-		final int[] endIndex = {0};
+		scoreBoard.setFixedCellSize(60);
 		ObservableList<User> users = FXCollections.observableArrayList(StrongHold.sortPerson());
 		TableColumn<User, String> nameColumn = new TableColumn<>("Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
@@ -344,18 +348,22 @@ public class ProfileMenu extends Application {
 		TableColumn<User, Integer> scoreColumn = new TableColumn<>("High Score");
 		scoreColumn.setCellValueFactory(new PropertyValueFactory<>("highScore"));
 		scoreBoard.getColumns().addAll(nameColumn, scoreColumn, rankColumn);
-		scoreBoard.setOnScroll(event -> {
-			if (event.getDeltaY() > 0 && endIndex[0] < users.size()) {
-				startIndex[0] = endIndex[0];
-				endIndex[0] = Math.min(endIndex[0] + 10, users.size());
-				scoreBoard.getItems().addAll(users.subList(startIndex[0], endIndex[0]));
-			}
-			else if (event.getDeltaY() < 0 && startIndex[0] > 0) {
-				endIndex[0] = startIndex[0];
-				startIndex[0] = Math.max(startIndex[0] - 10, 0);
-				scoreBoard.getItems().addAll(0, users.subList(startIndex[0], endIndex[0]));
-			}
-		});
+		for (int i = 0; i < 10 && i < users.size(); i++)
+			scoreBoard.getItems().add(users.get(i));
 	}
 
+	private int loadMoreToScoreboard() {
+		ObservableList<User> users = FXCollections.observableArrayList(StrongHold.sortPerson());
+		for (int i = scoreboardEndIndex; i - scoreboardEndIndex < 5 && i < users.size(); i++)
+			scoreBoard.getItems().add(users.get(i));
+		return 5;
+	}
+
+	private void setupScoreboardScrollBar() {
+		ScrollBar scrollBar = (ScrollBar) scoreBoard.lookup(".scroll-bar:vertical");
+		scrollBar.valueProperty().addListener((observable, oldValue, newValue) -> {
+			if ((1 - newValue.doubleValue()) < 1e-3)
+				scoreboardEndIndex += loadMoreToScoreboard();
+		});
+	}
 }
