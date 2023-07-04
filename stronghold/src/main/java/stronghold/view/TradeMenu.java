@@ -34,13 +34,16 @@ public class TradeMenu extends Application {
 	private ArrayList<Node> nodes = new ArrayList<>();
 
 	@FXML
-	Label creating;
+	private Label creating;
 
 	@FXML
-	Label view;
+	private Label view;
 
 	@FXML
-	Pane mainPane;
+	private Pane mainPane;
+
+	@FXML
+	private VBox mainScreen;
 
 	public void start(Stage stage) throws IOException {
 		Pane pane = FXMLLoader.load(getClass().getResource("/fxml/TradeMenu.fxml"));
@@ -62,7 +65,6 @@ public class TradeMenu extends Application {
 		view.setOnMouseClicked(event -> {
 			handleViewMenu();
 		});
-
 	}
 	
 	private void handleViewMenu() {
@@ -123,16 +125,20 @@ public class TradeMenu extends Application {
 
 	private void handleReject(TradeRequest trade) {
 		TradeMenuMessage error = TradeMenuController.tradeReject(trade.getId());
-		if (error == TradeMenuMessage.SUCCESSFUL_REJECT)
+		if (error == TradeMenuMessage.SUCCESSFUL_REJECT) {
 			showPopup(error.getErrorMessage(), AlertType.INFORMATION);
+			handleReceivedRequest();
+		}
 		else
 			showPopup(error.getErrorMessage(), AlertType.ERROR);
 	}
 
 	private void acceptHandler(TradeRequest trade) {
 		TradeMenuMessage error = TradeMenuController.tradeAccept(trade.getId());
-		if (error == TradeMenuMessage.SUCCESSFUL_ACCEPT)
+		if (error == TradeMenuMessage.SUCCESSFUL_ACCEPT) {
 			showPopup(error.getErrorMessage(), AlertType.INFORMATION);
+			handleReceivedRequest();
+		}
 		else
 			showPopup(error.getErrorMessage(), AlertType.ERROR);
 	}
@@ -292,10 +298,8 @@ public class TradeMenu extends Application {
 	}
 
 	private void cleanScreen() {
-		creating.setVisible(false);
-		creating.setManaged(false);
-		view.setVisible(false);
-		view.setManaged(false);
+		mainScreen.setVisible(false);
+		mainScreen.setManaged(false);
 		for (Node node : nodes)
 			mainPane.getChildren().remove(node);
 		nodes.clear();
@@ -303,9 +307,11 @@ public class TradeMenu extends Application {
 
 	private void backToFirstScreen() {
 		cleanScreen();
-		creating.setVisible(true);
-		creating.setManaged(true);
-		view.setVisible(true);
-		view.setManaged(true);
+		mainScreen.setVisible(true);
+		mainScreen.setManaged(true);
+	}
+
+	public void backToMarket(MouseEvent event) throws Exception {
+		new MarketMenu().start(LoginMenu.getStage());
 	}
 }

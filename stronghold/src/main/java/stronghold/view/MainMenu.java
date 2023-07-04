@@ -43,8 +43,8 @@ public class MainMenu extends Application {
 		TextInputDialog dialog = new TextInputDialog("");
 		dialog.setHeaderText("Enter your mapname:");
 		dialog.initOwner(LoginMenu.getStage());
-		LoginMenu.getStage().setFullScreen(false);
-		LoginMenu.getStage().setFullScreen(true);
+		// LoginMenu.getStage().setFullScreen(false);
+		// LoginMenu.getStage().setFullScreen(true);
 		Optional<String> mapName = dialog.showAndWait();
 		if (!mapName.isPresent())
 			errorText.setText("Please enter a mapname");
@@ -120,8 +120,8 @@ public class MainMenu extends Application {
 			TextInputDialog dialog = new TextInputDialog("");
 			dialog.setHeaderText("Enter your username " + (i+1)+" :");
 			dialog.initOwner(LoginMenu.getStage());
-			LoginMenu.getStage().setFullScreen(false);
-			LoginMenu.getStage().setFullScreen(true);
+			// LoginMenu.getStage().setFullScreen(false);
+			// LoginMenu.getStage().setFullScreen(true);
 			Optional<String> userName = dialog.showAndWait();
 			if (!userName.isPresent())
 				usernames[i] = "";
