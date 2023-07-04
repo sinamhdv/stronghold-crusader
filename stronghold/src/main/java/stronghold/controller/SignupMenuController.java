@@ -9,6 +9,10 @@ import stronghold.utils.FormatValidation;
 import stronghold.utils.Miscellaneous;
 
 public class SignupMenuController {
+	public static final String[] RANDOM_SLOGANS = {"benazam", "sag bargh nemikhone",
+		"mekaniki dad bezan lastiketo bad bezan",
+		"nahayt havafaza sakht moshak ba kaghaza", "randaton mikonm"};
+
 	public static SignupAndProfileMenuMessage signup(String username, String nickName, String password,
 			String email, String slogan, int securityQuestionIndex, String securityQuestionAnswer) {
 		SignupAndProfileMenuMessage message = signUpFactorsError(username, nickName, password, email, slogan,
@@ -64,10 +68,8 @@ public class SignupMenuController {
 	}
 
 	public static String generateRandomSlogan() {
-		final String[] randomSlogans = { "benazam", "sag bargh nemikhone", "mekaniki dad bezan lastiketo bad bezan",
-				"nahayt havafaza sakht moshak ba kaghaza", "randaton mikonm" };
 		Random random = new Random();
-		return randomSlogans[random.nextInt(randomSlogans.length)];
+		return RANDOM_SLOGANS[random.nextInt(RANDOM_SLOGANS.length)];
 	}
 
 	public static String suggestUsername(String repetitiousUserName) {

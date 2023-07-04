@@ -1,5 +1,6 @@
 package stronghold.view;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -49,6 +50,8 @@ public class SignupMenu extends Application {
 	@FXML
 	private Button randomizeSloganButton;
 	@FXML
+	private ComboBox<String> famousSloganCombo;
+	@FXML
 	private Label errorText;
 	@FXML
 	private ComboBox<String> securityQuestionsComboBox;
@@ -75,6 +78,14 @@ public class SignupMenu extends Application {
 		addUsernameErrorsListener(usernameTextField, usernameErrorText);
 		PasswordResetMenu.addPasswordStrengthListener(passwordStrengthErrorText, passwordMaskedField);
 		setupSecurityQuestionsComboBox(securityQuestionsComboBox);
+		setupFamousSloganCombo();
+	}
+
+	private void setupFamousSloganCombo() {
+		famousSloganCombo.getItems().addAll(Arrays.asList(SignupMenuController.RANDOM_SLOGANS));
+		famousSloganCombo.getSelectionModel().selectedItemProperty().addListener((observale, oldItem, newItem) -> {
+			sloganTextField.setText(newItem);
+		});
 	}
 
 	public static void setupSloganInputFields(CheckBox sloganCheckBox, TextField sloganTextField, Button randomizeButton) {
