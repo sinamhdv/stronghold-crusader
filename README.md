@@ -1,13 +1,2 @@
-# پروژه‌ی برنامه‌سازی پیشرفته
-لطفا نام و نام‌خانوادگی و شماره‌ی دانشجووی اعضای گروه خود را این‌جا وارد کنید:
-
-شماره‌ی تیم: `14`
-
-نام عضو اول: `سینا مهدوی`
-شماره دانشجویی عضو اول: `401106588`
-
-نام عضو دوم: `مبینا کوچک نیا`
-شماره دانشجویی عضو دوم: `401106396`
-
-نام عضو سوم: `پوریا عرفانزاده`
-شماره دانشجویی عضو سوم: `401011180`
+# Stronghold Crusader
+A graphical multiplayer game developed in Java similar to the popular game Stronghold Crusader as SUT Advanced Programming course project.
