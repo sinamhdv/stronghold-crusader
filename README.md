@@ -58,3 +58,7 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 <img src="screenshots/market_menu.png" alt="market_menu" width="800">
 
 *Market Menu*
+
+<img src="screenshots/cli_map.png" alt="cli_map" width="800">
+
+*CLI Map*
