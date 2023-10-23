@@ -1,7 +1,6 @@
 package stronghold.controller;
 
 import stronghold.client.SendRequests;
-import stronghold.controller.messages.GameMenuMessage;
 import stronghold.controller.messages.MainMenuMessage;
 import stronghold.model.Game;
 import stronghold.model.PendingGame;
@@ -56,16 +55,7 @@ public class MainMenuController {
 	}
 
 	public static void clientStartGame(Game game) {
-		// Game game = new Game(map, new User[map.getGovernmentsCount()]);
 		game.setCurrentPlayerIndex(StrongHold.getMyPlayerIndex());
 		StrongHold.setCurrentGame(game);
 	}
-
-	// private static boolean hasRepetitiveName(String[] array) {
-	// 	for (int i = 0; i < array.length; i++)
-	// 		for (int j = i + 1; j < array.length; j++)
-	// 			if (array[i].equals(array[j]))
-	// 				return true;
-	// 	return false;
-	// }
 }

@@ -2,6 +2,8 @@
 # a script to test the program with input text files in testcases folder
 # also used to build maps automatically
 
+# run_command must be updated with VSCode run command after building the project
+
 run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_1q5g9b3oxxxwqlhcic6xq60m3.argfile -m stronghold/stronghold.view.LoginMenu'
 inputs_count=3
 

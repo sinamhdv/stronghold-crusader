@@ -1,7 +1,6 @@
 package stronghold.view;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -131,32 +130,4 @@ public class MarketMenu extends Application {
 	public void backHandler(MouseEvent event) throws Exception {
 		GameMenu.getInstance().showSavedScene();
 	}
-
-	// private static void printMenuPrompt() {
-	// 	TerminalColor.setColor(TerminalColor.BLACK, TerminalColor.YELLOW);
-	// 	System.out.print("market> ");
-	// 	TerminalColor.resetColor();
-	// }
-
-	// public static void showPriceList() {
-	// 	Government currnetPlayer = StrongHold.getCurrentGame().getCurrentPlayer();
-	// 	System.out.println("ITEM\t\t\tBUYPRICE\t\tSELLPRICE\t\tYOURASSET");
-	// 	for (ResourceType resource : ResourceType.values()) {
-	// 		if (!resource.isTradable()) continue;
-	// 		int asset = currnetPlayer.getResourceCount(resource);
-	// 		System.out.println(resource.getName() + "\t\t\t" + resource.getBuyPrice() + "\t\t" + resource.getSellprice()
-	// 				+ "\t\t" + asset);
-	// 	}
-	// }
-
-	// public static void runBuyItem(HashMap<String, String> matcher) {
-	// 	System.out.println(
-	// 			MarketMenuController.buyItem(matcher.get("itemName"), Integer.parseInt(matcher.get("amount")))
-	// 					.getErrorString());
-	// }
-
-	// public static void runSellItem(HashMap<String, String> matcher) {
-	// 	System.out.println(MarketMenuController
-	// 			.sellItem(matcher.get("itemName"), Integer.parseInt(matcher.get("amount"))).getErrorString());
-	// }
 }

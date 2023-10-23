@@ -20,7 +20,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		GenerateConfig.run();
 		launch(args);
-		// MapManagementMenu.run(); Platform.exit();
+		// MapManagementMenu.run(); Platform.exit();	// uncomment to enable CLI for map designer
 	}
 
 	@Override

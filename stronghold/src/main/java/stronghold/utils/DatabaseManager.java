@@ -31,7 +31,6 @@ import stronghold.model.map.Map;
 
 public class DatabaseManager {
 	
-	private static final String USERS_DATABASE_FILENAME = "stronghold/src/main/database/users.json";
 	private static final String CHAT_DATA_FILENAME = "stronghold/src/main/database/chatdata.json";
 	private static final String STAY_LOGGED_IN_FILENAME = "stronghold/src/main/database/stay-logged-in.txt";
 	private static final String MAP_FILES_PATH = "stronghold/src/main/database/maps/";
@@ -112,14 +111,9 @@ public class DatabaseManager {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-
-		// String jsonData = readAllFromFile(USERS_DATABASE_FILENAME);
-		// User[] usersArray = (jsonData == null ? new User[0] : new Gson().fromJson(jsonData, User[].class));
-		// StrongHold.setUsers(new ArrayList<>(Arrays.asList(usersArray)));
 	}
 	public static synchronized void updateUser(User user) {
 		if (Main.isServerMode()) {
-			// saveUsers();
 			try {
 				PreparedStatement statement = databaseConnection.prepareStatement(
 					"SELECT * FROM users WHERE username = ?");
@@ -144,10 +138,6 @@ public class DatabaseManager {
 		}
 		else
 			SendRequests.requestUpdateUser();
-	}
-	private static synchronized void saveUsers() {
-		// String jsonData = new Gson().toJson(StrongHold.getUsers());
-		// writeToFile(USERS_DATABASE_FILENAME, jsonData);
 	}
 
 	// Auto-login

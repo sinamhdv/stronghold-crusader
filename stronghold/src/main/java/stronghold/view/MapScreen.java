@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import stronghold.controller.GameMenuController;
-import stronghold.controller.messages.GameMenuMessage;
 import stronghold.model.StrongHold;
 import stronghold.model.buildings.Building;
 import stronghold.model.buildings.DefensiveStructure;
@@ -175,7 +174,7 @@ public class MapScreen {
 	public static void refreshMapCell(int x, int y) {
 		GridPane grid = GameMenu.getInstance().getGrid();
 		for (Node node : grid.getChildren()) {
-			if (!(node instanceof Group)) continue;	// XXX: all map grid children of type Group must be grid cells
+			if (!(node instanceof Group)) continue;	// all map grid children of type Group must be grid cells
 			if (GridPane.getRowIndex(node) != x || GridPane.getColumnIndex(node) != y) continue;
 			grid.getChildren().remove(node);
 			break;
