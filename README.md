@@ -12,6 +12,7 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 - Turn-based multiplayer game with client/server architecture
 	- Multiple clients playing with a central server managing the game
 	- Synchronizing updates to the game map and status
+- Using JWT for authentication
 - Chat mode
 	- Private/public/group chat
 	- Message editing/deletion
@@ -37,3 +38,23 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 - Using BFS for path-finding of troops along with a cache of previously calculated paths to speed things up
 
 ## Screenshots
+
+<img src="screenshots/troop_commands.png" alt="troop_commands" width="800">
+
+*Troop Commands*
+
+<img src="screenshots/game_screen.png" alt="game_screen" width="800">
+
+*Game Screen*
+
+<img src="screenshots/government_settings.png" alt="government_settings" width="800">
+
+*Government Settings*
+
+<img src="screenshots/chat.png" alt="chat" width="800">
+
+*Chat Screen*
+
+<img src="screenshots/market_menu.png" alt="market_menu" width="800">
+
+*Market Menu*
