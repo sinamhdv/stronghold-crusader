@@ -22,7 +22,7 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 - Scoreboard
 
 ## [V2.0.0](https://github.com/sinamhdv/stronghold-crusader/tree/main) Features
-- GUI for the game (See `controls.md` for an explanation of game controls)
+- GUI for the game using JavaFX
 - Maintaining CLI interface for map designer to be able to script the creation of new maps using `build_maps.sh` faster
 - Profile customization menu
 - Ability to copy/paste buildings on the map
@@ -34,7 +34,7 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 	- fights
 	- market, and trading resources between players
 - Map management and designer to create and edit custom maps
-- Advanced and robust command parsing package (`stronghold.view.parser`) to parse input commands (See `commands.md` for an explanation of commands)
+- Advanced and robust command parsing package (`stronghold.view.parser`) to parse input commands
 - Using BFS for path-finding of troops along with a cache of previously calculated paths to speed things up
 
 ## Screenshots
