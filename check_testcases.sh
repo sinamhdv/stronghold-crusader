@@ -1,6 +1,8 @@
 #!/bin/bash
 # a script to test the program with input text files in testcases folder
 
+# run_command should be updated with VSCode run command after building the project
+
 run_command='/usr/bin/env /usr/lib/jvm/java-19-openjdk-amd64/bin/java @/tmp/cp_2l06s9ma3j6g78ajfi0yk4l92.argfile stronghold.Main'
 inputs_count=3
 
