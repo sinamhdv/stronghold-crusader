@@ -48,7 +48,7 @@ public class LoginMenu extends Application {
 		DatabaseManager.loadUsers();
 		GenerateConfig.run();
 		launch(args);
-		// MapManagementMenu.run(); Platform.exit();
+		// MapManagementMenu.run(); Platform.exit();	// uncomment for cli map generation
 	}
 
 	@Override

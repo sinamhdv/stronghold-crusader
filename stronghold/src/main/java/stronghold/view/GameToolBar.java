@@ -31,7 +31,7 @@ public class GameToolBar {
 		});
 	}
 
-	static void clearMainPane() {	// XXX: the main pane shouldn't have other random HBox children
+	static void clearMainPane() {	// the main pane shouldn't have other random HBox children
 		for (Node node : GameMenu.getInstance().getMainPane().getChildren()) {
 			if (!(node instanceof HBox)) continue;
 			node.setVisible(false);

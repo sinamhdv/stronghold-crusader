@@ -15,10 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -28,7 +26,6 @@ import stronghold.controller.TradeMenuController;
 import stronghold.controller.messages.TradeMenuMessage;
 import stronghold.model.*;
 import stronghold.utils.FormatValidation;
-import stronghold.utils.ViewUtils;
 
 public class TradeMenu extends Application {
 	private ArrayList<Node> nodes = new ArrayList<>();
