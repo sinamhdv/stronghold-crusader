@@ -1,14 +1,14 @@
 # Stronghold Crusader
 
-**Multiplayer version (v3.0.0) [HERE](https://github.com/sinamhdv/stronghold-crusader/tree/network)**
+**Multiplayer version (v3.0.0) [HERE](https://github.com/sinamhdv/stronghold-crusader/tree/main)**
 
-**Graphical version (v2.0.0) [HERE](https://github.com/sinamhdv/stronghold-crusader/tree/main)**
+**Single-player GUI version (v2.0.0) [HERE](https://github.com/sinamhdv/stronghold-crusader/tree/gui)**
 
 **CLI version (v1.0.0) [HERE](https://github.com/sinamhdv/stronghold-crusader/tree/cli)**
 
-A graphical multiplayer game developed in Java similar to the popular game Stronghold Crusader.
+A multiplayer GUI strategy game developed in Java similar to the popular game Stronghold Crusader.
 
-## [V3.0.0](https://github.com/sinamhdv/stronghold-crusader/tree/network) Features
+## [V3.0.0](https://github.com/sinamhdv/stronghold-crusader/tree/main) Features
 - Turn-based multiplayer game with client/server architecture
 	- Multiple clients playing with a central server managing the game
 	- Synchronizing updates to the game map and status
@@ -21,7 +21,7 @@ A graphical multiplayer game developed in Java similar to the popular game Stron
 - User account database (using SQLite)
 - Scoreboard
 
-## [V2.0.0](https://github.com/sinamhdv/stronghold-crusader/tree/main) Features
+## [V2.0.0](https://github.com/sinamhdv/stronghold-crusader/tree/gui) Features
 - GUI for the game using JavaFX
 - Maintaining CLI interface for map designer to be able to script the creation of new maps using `build_maps.sh` faster
 - Profile customization menu
